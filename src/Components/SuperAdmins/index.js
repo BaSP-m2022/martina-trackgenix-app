@@ -9,7 +9,7 @@ function SuperAdmins() {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
       const data = await response.json();
-      saveSAdmins(data);
+      saveSAdmins(data.data);
     } catch (error) {
       console.error(error);
     }
@@ -19,9 +19,12 @@ function SuperAdmins() {
     <section className={styles.container}>
       <h2>SuperAdmins</h2>
       <div>
-        {sAdmins.data.map((superAd) => {
+        {sAdmins.map((superAd) => {
           return <div key={superAd._id}>{superAd.firstName}</div>;
         })}
+      </div>
+      <div>
+        <a href="/super-admins/form">Add SuperAdmis</a>
       </div>
     </section>
   );
