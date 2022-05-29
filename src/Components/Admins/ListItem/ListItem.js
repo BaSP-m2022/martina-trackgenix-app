@@ -2,8 +2,8 @@
 import styles from './listItem.module.css';
 
 const ListItem = ({ listItem, deleteItem }) => {
-  const handleDelete = (id) => {
-    deleteItem(id);
+  const handleDelete = (_id) => {
+    deleteItem(_id);
   };
   return (
     <tr className={styles.rows}>

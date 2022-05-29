@@ -15,8 +15,18 @@ const Admins = () => {
     }
   }, []);
 
-  const deleteItem = (id) => {
-    setList(list.filter((listItem) => listItem._id !== id));
+  const deleteItem = async (_id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
+        method: 'DELETE'
+      });
+      console.log('response', response);
+      alert('delete successfully');
+    } catch (error) {
+      console.error(error);
+    }
+
+    setList(list.filter((listItem) => listItem._id !== _id));
   };
 
   return (
