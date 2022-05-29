@@ -1,0 +1,30 @@
+import React from 'react';
+import ListContent from '../ListContent/ListContent';
+import styles from './ListBody.module.css';
+
+const ListBody = ({ employees, deleteItem }) => {
+  return (
+    <div className={styles.body}>
+      <table>
+        <thead>
+          <tr>
+            <th id="id">ID</th>
+            <th id="first_name">Name</th>
+            <th id="last_name">Last name</th>
+            <th id="email">Email</th>
+            <th id="phone">Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map((employee) => (
+            <ListContent key={employee._id} listContent={employee} deleteItem={deleteItem} />
+          ))}
+        </tbody>
+      </table>
+      <button>
+        <a href="/employees/form">add new employee</a>
+      </button>
+    </div>
+  );
+};
+export default ListBody;
