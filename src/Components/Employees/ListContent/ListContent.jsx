@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import ModalDelete from '../ModalDelete/ModalDelete';
+import React from 'react';
+import styles from './ListContent.module.css';
 
-const ListContent = ({ listContent, deleteItem }) => {
-  const [showModal, setShowModal] = useState(false);
+const ListContent = (props) => {
+  const { listContent, deleteItem, lookModal } = props;
+
   const onClick = () => {
     const options = {
       method: 'DELETE',
@@ -10,6 +11,7 @@ const ListContent = ({ listContent, deleteItem }) => {
         'Content-type': 'application/json'
       }
     };
+
     const url = `${process.env.REACT_APP_API_URL}/employees/${listContent._id}`;
     fetch(url, options).then(async (response) => {
       if (
@@ -21,16 +23,14 @@ const ListContent = ({ listContent, deleteItem }) => {
         const { message } = await response.json();
         throw new Error(message);
       }
+      lookModal();
+
       return deleteItem(listContent._id);
     });
-    setShowModal(true);
   };
-  const closeModal = () => {
-    setShowModal(false);
-  };
+
   return (
-    <tr>
-      <ModalDelete title={'delete succssesfully'} show={showModal} closeModal={closeModal} />
+    <tr className={styles.content}>
       <td>{listContent._id}</td>
       <td>{listContent.first_name}</td>
       <td>{listContent.last_name}</td>

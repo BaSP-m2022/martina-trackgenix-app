@@ -2,7 +2,9 @@ import React from 'react';
 import ListContent from '../ListContent/ListContent';
 import styles from './ListBody.module.css';
 
-const ListBody = ({ employees, deleteItem }) => {
+const ListBody = (props) => {
+  const { employees, deleteItem, lookModal } = props;
+
   return (
     <div className={styles.body}>
       <table>
@@ -17,14 +19,20 @@ const ListBody = ({ employees, deleteItem }) => {
         </thead>
         <tbody>
           {employees.map((employee) => (
-            <ListContent key={employee._id} listContent={employee} deleteItem={deleteItem} />
+            <ListContent
+              key={employee._id}
+              listContent={employee}
+              deleteItem={deleteItem}
+              lookModal={lookModal}
+            />
           ))}
         </tbody>
       </table>
-      <button>
-        <a href="/employees/form">add new employee</a>
+      <button className={styles.newEm}>
+        <a href="/employees/form">ADD NEW</a>
       </button>
     </div>
   );
 };
+
 export default ListBody;
