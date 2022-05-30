@@ -5,3 +5,9 @@
     align-items: center;
     text-align: center;
   }
+
+  th {
+    width: 200px;
+    height: 50px;
+    background-color: #EA3354;
+  }
