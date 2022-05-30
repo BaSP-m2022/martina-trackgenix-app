@@ -3,17 +3,17 @@ import styles from './editSAdmin.module.css';
 import Modal from '../Modals/modal';
 import ModalError from '../Modals/modalError';
 
-const EditSAdmin = ({ superAdmin }) => {
-  console.log(superAdmin);
+const EditSAdmin = ({ previewSuperAdmin }) => {
+  console.log(previewSuperAdmin);
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
 
   const [editSAdmin, setEditSAdmin] = useState({
-    firstName: superAdmin.firstName,
-    lastName: superAdmin.lastName,
-    email: superAdmin.email,
-    password: superAdmin.password,
-    active: superAdmin.active
+    firstName: previewSuperAdmin.firstName,
+    lastName: previewSuperAdmin.lastName,
+    email: previewSuperAdmin.email,
+    password: previewSuperAdmin.password,
+    active: previewSuperAdmin.active
   });
 
   const onChange = (e) => {

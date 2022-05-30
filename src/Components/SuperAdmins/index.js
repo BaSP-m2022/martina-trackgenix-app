@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
-import EditSAdmin from './FormEdit/EditSAdmin';
+// import EditSAdmin from './FormEdit/EditSAdmin';
+import ListSAdmin from './ListSAdmins/ListSAdmins';
 
 const SuperAdmins = () => {
   const [sAdmins, saveSAdmins] = useState([]);
@@ -15,14 +16,14 @@ const SuperAdmins = () => {
     }
   }, []);
 
+  const deleteItem = (_id) => {
+    saveSAdmins([...sAdmins.filter((listItem) => listItem._id !== _id)]);
+  };
+
   return (
     <section className={styles.container}>
+      <ListSAdmin list={sAdmins} setList={saveSAdmins} deleteItem={deleteItem} />
       <h2>SuperAdmins</h2>
-      <div>
-        {sAdmins.map((superAd) => (
-          <EditSAdmin key={superAd._id} superAdmin={superAd} />
-        ))}
-      </div>
       <div>
         <a href="/super-admins/form">Add SuperAdmis</a>
       </div>

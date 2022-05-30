@@ -1,11 +1,15 @@
 .container{
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: auto;
     background-color: rgba(0,0,0,0.5);
 }
 
