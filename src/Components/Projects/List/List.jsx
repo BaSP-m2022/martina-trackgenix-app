@@ -2,21 +2,18 @@ import React, { useState } from 'react';
 import ListItem from '../ListItem/ListItem';
 import styles from './list.module.css';
 import Modal from '../Modal/Modal';
-import ModalError from '../Modal/ModalError';
 
 const List = ({ list, deleteItem }) => {
   const [showModal, setShowModal] = useState(false);
-  const [showModalError, setShowModalError] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
 
   const closeModal = () => {
     setShowModal(false);
-    setShowModalError(false);
   };
 
   return (
     <section className={styles.container}>
-      <Modal title={'Project deleted successfully'} show={showModal} closeModal={closeModal} />
-      <ModalError title={'There was an error'} show={showModalError} closeModal={closeModal} />
+      <Modal title={titleModal} show={showModal} closeModal={closeModal} />
       <table>
         <thead>
           <tr>
@@ -34,7 +31,7 @@ const List = ({ list, deleteItem }) => {
                 listItem={item}
                 deleteItem={deleteItem}
                 setShowModal={setShowModal}
-                setShowModalError={setShowModalError}
+                setTitleModal={setTitleModal}
               />
             );
           })}
