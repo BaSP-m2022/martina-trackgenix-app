@@ -13,17 +13,6 @@ const Employees = () => {
       });
   }, []);
 
-  // const addItem = ({ firstName, lastName, phone, email, password, active }) => {
-  //   const NewItem = {
-  //     firstName,
-  //     lastName,
-  //     phone,
-  //     email,
-  //     password,
-  //     active
-  //   };
-  // };
-
   return (
     <section className={styles.container}>
       <h2>Employees</h2>

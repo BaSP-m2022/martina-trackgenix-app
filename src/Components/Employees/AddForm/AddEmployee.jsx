@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import styles from './AddEmployee.module.css';
+import Modal from '../Modals/Modal';
+import ModalError from '../Modals/Modal';
 
 const AddEmployee = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showModalError, setShowModalError] = useState(false);
+  let errorMessage = ''; //I will use this var to send the error message to the modal
+
   const [userInput, setUserInput] = useState({
     firstName: '',
     lastName: '',
@@ -43,11 +49,24 @@ const AddEmployee = () => {
 
     fetch(url, postEmployee)
       .then((response) => response.json())
-      .then((data) => console.log('data:', data));
+      .then((jsonResponse) => {
+        if (jsonResponse.success) {
+          setShowModal(true);
+        } else {
+          setShowModalError(true);
+        }
+      });
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setShowModalError(false);
   };
 
   return (
     <div className={styles.container}>
+      <Modal msg={'Employee added successfully'} show={showModal} closeModal={closeModal} />
+      <ModalError msg={`Error: ${errorMessage}`} show={showModalError} closeModal={closeModal} />
       <div>
         <h2>Add new Employee</h2>
       </div>
