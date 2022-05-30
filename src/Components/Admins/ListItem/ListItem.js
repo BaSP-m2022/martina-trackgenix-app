@@ -1,10 +1,20 @@
-// import react from 'react';
+// import React, { useState } from 'react';
 import styles from './listItem.module.css';
 
-const ListItem = ({ listItem, deleteItem }) => {
-  const handleDelete = (_id) => {
-    deleteItem(_id);
+const ListItem = ({ listItem, setShowModal, setShowModalError }) => {
+  const handleDelete = async (_id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
+        method: 'DELETE'
+      });
+      setShowModal(true);
+      console.log('response', response);
+    } catch (error) {
+      console.error(error);
+      setShowModalError(true);
+    }
   };
+
   return (
     <tr className={styles.rows}>
       <td>{listItem._id}</td>
