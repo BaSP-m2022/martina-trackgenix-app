@@ -6,17 +6,7 @@ import styles from './employees.module.css';
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
 
-  const [showModal, setShowModal] = useState(false);
-
-  const closeModal = () => {
-    console.log(showModal);
-    setShowModal(false);
-  };
-
-  const lookModal = () => {
-    console.log(showModal);
-    setShowModal(true);
-  };
+  const [showModal, setShowModal] = useState();
 
   // API REQUEST TO GET DATA
   useEffect(() => {
@@ -35,14 +25,14 @@ const Employees = () => {
   return (
     <section className={styles.container}>
       <h2>Employees</h2>
-      {showModal ? (
-        <ModalDelete title={'delete succssesfully'} show={showModal} closeModal={closeModal} />
-      ) : null}
+      {showModal && (
+        <ModalDelete title={'Delete successfully'} show={showModal} setShowModal={setShowModal} />
+      )}
       <ListBody
         employees={employees}
         setEmployees={setEmployees}
         deleteItem={deleteItem}
-        lookModal={lookModal}
+        setShowModal={setShowModal}
       />
     </section>
   );

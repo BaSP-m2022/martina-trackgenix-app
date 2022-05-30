@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './ListContent.module.css';
 
-const ListContent = (props) => {
-  const { listContent, deleteItem, lookModal } = props;
-
+const ListContent = ({ listContent, deleteItem, setShowModal }) => {
   const onClick = () => {
     const options = {
       method: 'DELETE',
@@ -23,8 +21,7 @@ const ListContent = (props) => {
         const { message } = await response.json();
         throw new Error(message);
       }
-      lookModal();
-
+      setShowModal(true);
       return deleteItem(listContent._id);
     });
   };
@@ -37,8 +34,10 @@ const ListContent = (props) => {
       <td>{listContent.email}</td>
       <td>{listContent.phone}</td>
       <td>
-        <button onClick={onClick}>x</button>
-        <button>Edit</button>
+        <button onClick={onClick} className={styles.butX}>
+          x
+        </button>
+        <button className={styles.butEdit}>Edit</button>
       </td>
     </tr>
   );

@@ -20,6 +20,7 @@ body thead {
 body thead th {
     text-align: start;
 }
+
 .newEm{
     display: flex;
     background-color: #AACE9B;
@@ -29,6 +30,7 @@ body thead th {
     Height:37.63px;
     border-radius:4px;
 }
+
 .newEm a{
     align-self: center;
     width: 100%;

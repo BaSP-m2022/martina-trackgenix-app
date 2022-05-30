@@ -2,9 +2,7 @@ import React from 'react';
 import ListContent from '../ListContent/ListContent';
 import styles from './ListBody.module.css';
 
-const ListBody = (props) => {
-  const { employees, deleteItem, lookModal } = props;
-
+const ListBody = ({ employees, deleteItem, setShowModal }) => {
   return (
     <div className={styles.body}>
       <table>
@@ -23,7 +21,7 @@ const ListBody = (props) => {
               key={employee._id}
               listContent={employee}
               deleteItem={deleteItem}
-              lookModal={lookModal}
+              setShowModal={setShowModal}
             />
           ))}
         </tbody>
