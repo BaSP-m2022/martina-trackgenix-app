@@ -11,5 +11,4 @@ const ModalError = (props) => {
     </div>
   );
 };
-
 export default ModalError;
