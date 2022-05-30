@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ListItem from '../ListItem/ListItem';
 import styles from './list.module.css';
-import Modal from '../Modal/modal';
-import ModalError from '../Modal/modalError';
+import Modal from '../Modal/Modal';
+import ModalError from '../Modal/ModalError';
 
 const List = ({ list, deleteItem }) => {
   const [showModal, setShowModal] = useState(false);
