@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
-// import EditSAdmin from './FormEdit/EditSAdmin';
 import ListSAdmin from './ListSAdmins/ListSAdmins';
+import AddSAdmin from './FormAdd/AddSAdmin';
 
 const SuperAdmins = () => {
   const [sAdmins, saveSAdmins] = useState([]);
+  const [showFormAdd, setShowFormAdd] = useState(false);
 
   useEffect(async () => {
     try {
@@ -20,13 +21,18 @@ const SuperAdmins = () => {
     saveSAdmins([...sAdmins.filter((listItem) => listItem._id !== _id)]);
   };
 
+  const closeForm = () => {
+    setShowFormAdd(false);
+  };
+  const onClick = () => {
+    setShowFormAdd(true);
+  };
   return (
     <section className={styles.container}>
+      <AddSAdmin show={showFormAdd} closeForm={closeForm} />
+      <h2>SuperAdmins List</h2>
       <ListSAdmin list={sAdmins} setList={saveSAdmins} deleteItem={deleteItem} />
-      <h2>SuperAdmins</h2>
-      <div>
-        <a href="/super-admins/form">Add SuperAdmis</a>
-      </div>
+      <button onClick={onClick}>Add Super Admin</button>
     </section>
   );
 };

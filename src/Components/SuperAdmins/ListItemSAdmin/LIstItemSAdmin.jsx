@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './listItemSAdmin.module.css';
 import EditSAdmin from '../FormEdit/EditSAdmin';
 
 const ListItemSAdmin = ({ listItem, deleteItem, setShowModal }) => {
+  const [showFormEdit, setShowFormEdit] = useState(false);
   const onClick = () => {
     const options = {
       method: 'DELETE',
@@ -25,24 +27,33 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal }) => {
       return deleteItem(listItem._id);
     });
   };
-
-  const editItem = (listItem) => {
-    return <EditSAdmin previewSuperAdmin={listItem} />;
+  const closeForm = () => {
+    setShowFormEdit(false);
   };
+  const openForm = () => {
+    setShowFormEdit(true);
+  };
+
   return (
-    <tr>
+    <tr className={styles.container}>
       <td>{listItem._id}</td>
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
       <td>{listItem.email}</td>
       <td>{listItem.password}</td>
-      <td>{listItem.active}</td>
+      <td>{listItem.active.toString()}</td>
       <td>
         <button onClick={onClick}>X</button>
       </td>
       <td>
-        <a href={`/super-admins/form-edit?id=${listItem._id}`} key={listItem._id}>
-          <button onClick={editItem(listItem)}>Edit</button>
+        <EditSAdmin
+          key={listItem._id}
+          show={showFormEdit}
+          closeForm={closeForm}
+          previewSuperAdmin={listItem}
+        />
+        <a>
+          <button onClick={openForm}>Edit</button>
         </a>
       </td>
     </tr>

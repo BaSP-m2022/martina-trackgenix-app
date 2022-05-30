@@ -12,15 +12,18 @@
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
 }
-
 .modal{
-    width: 200px;
-    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    height: 15%;
     background-color: white;
     border-radius: 5px;
-    text-align: center;
-}
+    font-weight: 900;
 
+}
 .container button{
     padding: 5px;
     margin-right: 11%;
