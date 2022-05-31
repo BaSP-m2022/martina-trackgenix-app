@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styles from './addItem.module.css';
 
-const AddItem = ({ show, setShowModal, setShowTitle }) => {
+const AddItem = ({ show, closeForm, setShowModal, setShowTitle }) => {
   if (!show) {
     return null;
   }
@@ -32,7 +32,7 @@ const AddItem = ({ show, setShowModal, setShowTitle }) => {
     });
   };
 
-  const postAdmin = {
+  const options = {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
@@ -49,8 +49,8 @@ const AddItem = ({ show, setShowModal, setShowTitle }) => {
 
   const url = `${process.env.REACT_APP_API_URL}/admins`;
 
-  fetch(url, postAdmin).then((response) => {
-    if (response.status !== 200 && response.status !== 201) {
+  fetch(url, options).then((response) => {
+    if (response.status !== 201 && response.status !== 200) {
       return response.json().then(({ message }) => {
         setShowModal(true);
         setShowTitle(message);
@@ -63,33 +63,41 @@ const AddItem = ({ show, setShowModal, setShowTitle }) => {
 
   return (
     <div className={styles.container}>
-      <div>
-        <h2>Add new admin</h2>
-      </div>
       <form onSubmit={onSubmit}>
+        <h2>Add new admin</h2>
         <div>
           <label>First name</label>
-          <input type="text" name="firstName" value={userInput.firstName} onChange={onChange} />
+          <input
+            type="text"
+            name="firstName"
+            value={userInput.firstName}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
           <label>Last name</label>
-          <input type="text" name="lastName" value={userInput.lastName} onChange={onChange} />
+          <input type="text" name="lastName" value={userInput.lastName} onChange={onChange}></input>
         </div>
         <div>
           <label>Phone</label>
-          <input type="text" name="phone" value={userInput.phone} onChange={onChange} />
+          <input type="text" name="phone" value={userInput.phone} onChange={onChange}></input>
         </div>
         <div>
           <label>Email</label>
-          <input type="text" name="email" value={userInput.email} onChange={onChange} />
+          <input type="text" name="email" value={userInput.email} onChange={onChange}></input>
         </div>
         <div>
           <label>Password</label>
-          <input type="password" name="password" value={userInput.password} onChange={onChange} />
+          <input
+            type="password"
+            name="password"
+            value={userInput.password}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
           <label>Active</label>
-          <input type="text" name="active" value={userInput.active} onChange={onChange} />
+          <input type="text" name="active" value={userInput.active} onChange={onChange}></input>
         </div>
         <div>
           <input
@@ -98,9 +106,12 @@ const AddItem = ({ show, setShowModal, setShowTitle }) => {
             onSubmit={() => {
               setShowModal(true);
             }}
-          />
+          ></input>
         </div>
       </form>
+      <div>
+        <button onClick={closeForm}>Close</button>
+      </div>
     </div>
   );
 };

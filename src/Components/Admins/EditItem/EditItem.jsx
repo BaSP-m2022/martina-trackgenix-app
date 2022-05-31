@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import styles from './editItem.module.css';
 
-const EditItem = ({ editItem, adminId }) => {
-  const [userInput, setUserInput] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    active: ''
+const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, setShowTitle }) => {
+  if (!show) {
+    return null;
+  }
+
+  const [editAdmin, setEditAdmin] = useState({
+    firstName: previewAdmin.firstName,
+    lastName: previewAdmin.lastName,
+    email: previewAdmin.email,
+    password: previewAdmin.password,
+    active: previewAdmin.active
   });
 
   const onChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+    setEditAdmin({ ...editAdmin, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    editItem(userInput);
-    setUserInput({
+    setEditAdmin({
       firstName: '',
       lastName: '',
       phone: '',
@@ -26,67 +28,91 @@ const EditItem = ({ editItem, adminId }) => {
       password: '',
       active: ''
     });
-  };
 
-  const puttingAdmin = () => {
-    const putAdmin = {
+    const AdminId = previewAdmin._id;
+
+    const options = {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: userInput.firstName,
-        lastName: userInput.lastName,
-        phone: userInput.phone,
-        email: userInput.email,
-        password: userInput.password,
-        active: userInput.active
+        firstName: editAdmin.firstName,
+        lastName: editAdmin.lastName,
+        phone: editAdmin.phone,
+        email: editAdmin.email,
+        password: editAdmin.password,
+        active: editAdmin.active
       })
     };
+    const url = `${process.env.REACT_APP_API_URL}/admins/${AdminId}`;
 
-    const url = `${process.env.REACT_APP_API_URL}/admins/${adminId}`;
-
-    fetch(url, putAdmin)
-      .then((response) => response.json())
-      .then((data) => console.log('data:', data));
+    fetch(url, options).then((response) => {
+      if (response.status !== 200 && response.status !== 201) {
+        return response.json().then(({ message }) => {
+          setShowModal(true);
+          setShowTitle(message);
+          throw new Error(message);
+        });
+      }
+      setShowTitle('Super Admin Successfully');
+      setShowModal(true);
+      return response.json();
+    });
   };
 
   return (
     <div className={styles.container}>
-      <div>
-        <h2>Edit admin</h2>
-      </div>
       <form onSubmit={onSubmit}>
+        <h2>Form</h2>
         <div>
-          <label>First name</label>
-          <input type="text" name="firstName" value={userInput.firstName} onChange={onChange} />
+          <label>Name</label>
+          <input
+            type="text"
+            name="firstName"
+            value={editAdmin.firstName}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
-          <label>Last name</label>
-          <input type="text" name="lastName" value={userInput.lastName} onChange={onChange} />
+          <label>Last Name</label>
+          <input type="text" name="lastName" value={editAdmin.lastName} onChange={onChange}></input>
         </div>
         <div>
           <label>Phone</label>
-          <input type="text" name="phone" value={userInput.phone} onChange={onChange} />
+          <input type="text" name="phone" value={editAdmin.phone} onChange={onChange}></input>
         </div>
         <div>
           <label>Email</label>
-          <input type="text" name="email" value={userInput.email} onChange={onChange} />
+          <input type="text" name="email" value={editAdmin.email} onChange={onChange}></input>
         </div>
         <div>
           <label>Password</label>
-          <input type="password" name="password" value={userInput.password} onChange={onChange} />
+          <input
+            type="password"
+            name="password"
+            value={editAdmin.password}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
           <label>Active</label>
-          <input type="text" name="active" value={userInput.active} onChange={onChange} />
+          <input type="text" name="active" value={editAdmin.active} onChange={onChange}></input>
         </div>
         <div>
-          <input type="submit" value="Submit" onClick={puttingAdmin} />
+          <input
+            type="submit"
+            value="Confirm"
+            onSubmit={() => {
+              setShowModal(true);
+            }}
+          ></input>
+        </div>
+        <div>
+          <button onClick={closeForm}>Close</button>
         </div>
       </form>
     </div>
   );
 };
-
-export default EditItem;
+export default EditAdmin;
