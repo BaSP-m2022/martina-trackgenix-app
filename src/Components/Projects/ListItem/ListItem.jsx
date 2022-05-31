@@ -4,12 +4,11 @@ import styles from './listItem.module.css';
 const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
   const handleDelete = async (_id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
         method: 'DELETE'
       });
       setShowModal(true);
       setTitleModal('Admin deleted successfully');
-      console.log('response', response);
     } catch (error) {
       setShowModal(true);
       setTitleModal(error.msg);
