@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './listSAdmins.module.css';
 import ListItemSAdmin from '../ListItemSAdmin/LIstItemSAdmin';
-import Modal from '../Modals/modal';
 
-const ListSAdmin = ({ list, deleteItem }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [showTitle, setShowTitle] = useState('');
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
+const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle }) => {
   return (
     <div className={styles.container}>
-      <Modal title={showTitle} show={showModal} closeModal={closeModal} />
       <table>
         <thead>
           <th id="id">ID</th>

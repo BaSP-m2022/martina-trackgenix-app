@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import styles from './editSAdmin.module.css';
-import Modal from '../Modals/modal';
 
-const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
+const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowTitle }) => {
   if (!show) {
     return null;
   }
-  const [showModal, setShowModal] = useState(false);
-  const [showTitle, setShowTitle] = useState('');
 
   const [editSAdmin, setEditSAdmin] = useState({
     firstName: previewSuperAdmin.firstName,
@@ -51,7 +48,6 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
     fetch(url, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
-          setEditSAdmin(true);
           setShowModal(true);
           setShowTitle(message);
           throw new Error(message);
@@ -63,13 +59,8 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
     });
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className={styles.container}>
-      <Modal title={showTitle} show={showModal} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
         <h2>Form</h2>
         <div>

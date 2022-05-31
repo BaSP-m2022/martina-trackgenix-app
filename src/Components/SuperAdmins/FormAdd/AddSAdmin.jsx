@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import Modal from '../Modals/modal';
 import styles from './addSAdmin.module.css';
 
-const AddSAdmin = ({ show, closeForm }) => {
+const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle }) => {
   if (!show) {
     return null;
   }
-
-  const [showModal, setShowModal] = useState(false);
-  const [showTitle, setShowTitle] = useState('');
 
   const [userInput, setUserInput] = useState({
     firstName: '',
@@ -52,6 +48,7 @@ const AddSAdmin = ({ show, closeForm }) => {
         return response.json().then(({ message }) => {
           setShowModal(true);
           setShowTitle(message);
+          throw new Error(message);
         });
       }
       setShowTitle('Super Admin Created');
@@ -60,13 +57,8 @@ const AddSAdmin = ({ show, closeForm }) => {
     });
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className={styles.container}>
-      <Modal title={showTitle} show={showModal} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
         <h2>Add SuperAdmin</h2>
         <div>

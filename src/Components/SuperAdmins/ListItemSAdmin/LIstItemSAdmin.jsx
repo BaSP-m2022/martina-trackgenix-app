@@ -4,6 +4,7 @@ import EditSAdmin from '../FormEdit/EditSAdmin';
 
 const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
+
   const onClick = () => {
     const options = {
       method: 'DELETE',
@@ -11,6 +12,7 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
         'Content-type': 'application/json'
       }
     };
+
     const url = `${process.env.REACT_APP_API_URL}/super-admins/${listItem._id}`;
     fetch(url, options).then((response) => {
       if (
@@ -21,6 +23,7 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
       ) {
         return response.json().then(({ message }) => {
           setShowTitle(message);
+          setShowModal(true);
           throw new Error(message);
         });
       }
@@ -53,6 +56,8 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
           show={showFormEdit}
           closeForm={closeForm}
           previewSuperAdmin={listItem}
+          setShowModal={setShowModal}
+          setShowTitle={setShowTitle}
         />
         <a>
           <button onClick={openForm}>&#9998;</button>

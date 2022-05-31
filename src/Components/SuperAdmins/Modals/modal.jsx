@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './modal.module.css';
 
-const Modal = ({ show, title, closeModal }) => {
-  if (!show) {
+const Modal = ({ showModal, showTitle, setShowModal }) => {
+  if (!showModal) {
     return null;
   }
   return (
     <div className={styles.container}>
-      <div className={styles.modal}>{title}</div>
+      <div className={styles.modal}>{showTitle}</div>
       <a href="/super-admins">
-        <button onClick={closeModal}>Close</button>
+        <button onClick={() => setShowModal(false)}>Close</button>
       </a>
     </div>
   );
