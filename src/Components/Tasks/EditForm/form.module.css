@@ -10,7 +10,7 @@
   left: 0;
   top: 0;
   overflow: auto;
-  background-color: rgba(0,0,0,0.5);
+  background-color: #0000;
 }
 
 .container h2{
@@ -40,7 +40,7 @@
   padding: 10px 15px;
   margin-right: 10px;
   background-color: #AACE9B;
-  border: black solid 1px;
+  border: #0000 solid 1px;
   border-radius: 5px;
   color: #373867;
   margin-left: 10px;
