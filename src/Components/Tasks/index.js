@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
+import AddForm from './AddForm/index';
 
 function Tasks() {
   const [tasks, saveTasks] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(async () => {
     try {
@@ -14,9 +16,19 @@ function Tasks() {
     }
   }, []);
 
+  const closeForm = () => {
+    setShowForm(false);
+  };
+
+  const onClick = () => {
+    setShowForm(true);
+  };
+
   return (
     <section className={styles.container}>
+      <AddForm show={showForm} closeForm={closeForm} />
       <div>
+        <h2>Tasks</h2>
         {tasks.map((task) => {
           return (
             <a key={task._id}>
@@ -25,9 +37,7 @@ function Tasks() {
             </a>
           );
         })}
-        <a href="/tasks/form">
-          <button type="button">Create a new task</button>
-        </a>
+        <button onClick={onClick}>Create a new task</button>
       </div>
     </section>
   );

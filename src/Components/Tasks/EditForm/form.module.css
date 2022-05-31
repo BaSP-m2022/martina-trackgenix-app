@@ -1,4 +1,4 @@
-.container{
+.container {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -27,8 +27,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 23%;
-  height: 34%;
+  width: 35%;
+  height: 80%;
   background-color: #fff;
   margin-left: 5%;
   border-radius: 10px;
@@ -36,39 +36,23 @@
 }
 
 .container input[type="submit"]{
+  margin-left: 20px;
   padding: 10px 15px;
   margin-right: 10px;
-  background-color: #EA3354;
+  background-color: #AACE9B;
   border: black solid 1px;
   border-radius: 5px;
   color: #373867;
+  margin-left: 10px;
   box-shadow: 3px 3px 10px
 }
 
 .container input[type="submit"]:hover{
-  background-color: #b45858;
+  background-color: #37781c;
   color: #fff;
   transition-duration: 0,4s;
 }
 .container input[type="submit"]:active{
-  background-color: #b45858;
-  transform: translateY(4px);
-}
-.container button{
-  padding: 10px 15px;
-  margin-left: 85px;
-  background-color: #EA3354;
-  border: black solid 1px;
-  border-radius: 5px;
-  color: #373867;
-  box-shadow: 3px 3px 10px
-}
-.container button:hover{
-  background-color: #b45858;
-  color: #fff;
-  transition-duration: 0,4s;
-}
-.container button:active{
-  background-color: #EA3354;
+  background-color: #265213;
   transform: translateY(4px);
 }

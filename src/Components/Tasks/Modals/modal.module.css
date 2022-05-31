@@ -1,23 +1,31 @@
 .container{
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: auto;
     background-color: rgba(0,0,0,0.5);
 }
-
 .modal{
-    width: 200px;
-    height: 100px;
-    margin-top: 600px;
-    background-color: white;
-    border-radius: 5px;
-    text-align: center;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 23%;
+    height: 34%;
+    background-color: #fff;
+    margin-left: 5%;
+    border-radius: 10px;
+    gap: 15px
 
+}
 .container button{
     padding: 5px;
+    margin-right: 11%;
 }

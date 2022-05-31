@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import Modal from '../Modals/index.js';
-import ModalError from '../Modals/error.js';
+import Modal from '../Modals/index';
+import ModalError from '../Modals/error';
 import styles from './form.module.css';
 
-function form() {
+const Add = (props) => {
+  if (!props.show) {
+    return null;
+  }
   const [showModal, setShowModal] = useState(false);
   const [showModalError, setShowModalError] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -53,7 +56,7 @@ function form() {
       <ModalError title={'There was an error'} show={showModalError} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
         <div>
-          <label>Description</label>
+          <h2>Task Description</h2>
           <input
             type="text"
             name="description"
@@ -72,8 +75,11 @@ function form() {
           />
         </div>
       </form>
+      <div>
+        <button onClick={props.closeForm}>Close</button>
+      </div>
     </div>
   );
-}
+};
 
-export default form;
+export default Add;
