@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import styles from './AddEmployee.module.css';
+import styles from './EditForm.module.css';
 
-const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
+const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal }) => {
   if (!show) {
     return null;
   }
 
   const [userInput, setUserInput] = useState({
-    first_name: '',
-    last_name: '',
-    phone: '',
-    email: '',
-    password: '',
-    active: ''
+    first_name: previewEmployee.first_name,
+    last_name: previewEmployee.last_name,
+    phone: previewEmployee.phone,
+    email: previewEmployee.email,
+    password: previewEmployee.password,
+    active: previewEmployee.active
   });
 
   const onChange = (e) => {
@@ -30,8 +30,11 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
       active: ''
     });
 
-    const postEmployee = {
-      method: 'POST',
+    const EmployeeId = previewEmployee._id;
+    console.log(previewEmployee._id);
+
+    const putEmployee = {
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json'
       },
@@ -44,17 +47,16 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
         active: userInput.active
       })
     };
-    const url = `${process.env.REACT_APP_API_URL}/employees`;
 
-    fetch(url, postEmployee)
+    const url = `${process.env.REACT_APP_API_URL}/employees/${EmployeeId}`;
+
+    fetch(url, putEmployee)
       .then((response) => response.json())
       .then((jsonResponse) => {
         if (jsonResponse.success) {
           setShowModal(true);
-          setShowTitle('Employee successfully added');
         } else {
           setShowModal(true);
-          setShowTitle('Error');
         }
       });
   };
@@ -62,7 +64,7 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
-        <h2>Add new Employee</h2>
+        <h2>Edit employee</h2>
         <div>
           <label>First name</label>
           <input
@@ -103,7 +105,7 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
           <input type="text" name="active" value={userInput.active} onChange={onChange}></input>
         </div>
         <div className={styles.submitButton}>
-          <input type="submit" value="Submit"></input>
+          <input type="submit" value="Confirm changes"></input>
         </div>
         <button onClick={closeForm}>x</button>
       </form>
@@ -111,4 +113,4 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
   );
 };
 
-export default AddEmployee;
+export default EditEmployee;

@@ -26,9 +26,6 @@ const ListBody = ({ employees, deleteItem, setShowModal }) => {
           ))}
         </tbody>
       </table>
-      <button className={styles.newEm}>
-        <a href="/employees/form">ADD NEW</a>
-      </button>
     </div>
   );
 };

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ListContent.module.css';
+import EditEmployee from '../EditForm/EditForm';
 
-const ListContent = ({ listContent, deleteItem, setShowModal }) => {
+const ListContent = ({ listContent, deleteItem, setShowModal, setShowTitle }) => {
+  const [showFormEdit, setShowFormEdit] = useState(false);
+
   const onClick = () => {
     const options = {
       method: 'DELETE',
@@ -26,18 +29,36 @@ const ListContent = ({ listContent, deleteItem, setShowModal }) => {
     });
   };
 
+  const closeForm = () => {
+    setShowFormEdit(false);
+  };
+
+  const openForm = () => {
+    setShowFormEdit(true);
+  };
+
   return (
     <tr className={styles.content}>
       <td>{listContent._id}</td>
       <td>{listContent.first_name}</td>
       <td>{listContent.last_name}</td>
-      <td>{listContent.email}</td>
       <td>{listContent.phone}</td>
+      <td>{listContent.email}</td>
       <td>
+        <EditEmployee
+          key={listContent._id}
+          show={showFormEdit}
+          closeForm={closeForm}
+          previewEmployee={listContent}
+          setShowModal={setShowModal}
+          setShowTitle={setShowTitle}
+        />
         <button onClick={onClick} className={styles.butX}>
           x
         </button>
-        <button className={styles.butEdit}>Edit</button>
+        <button onClick={openForm} className={styles.butEdit}>
+          Edit
+        </button>
       </td>
     </tr>
   );
