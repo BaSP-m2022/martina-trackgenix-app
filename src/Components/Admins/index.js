@@ -15,15 +15,10 @@ const Admins = () => {
     }
   }, []);
 
-  // unnecessary
-  const deleteItem = async (_id) => {
-    setList(list.filter((listItem) => listItem._id !== _id));
-  };
-
   return (
     <section className={styles.container}>
       <h2>Admins</h2>
-      <List list={list} setList={setList} deleteItem={deleteItem} />
+      <List list={list} setList={setList} />
     </section>
   );
 };
