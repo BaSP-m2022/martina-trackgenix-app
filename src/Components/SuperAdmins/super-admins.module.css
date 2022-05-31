@@ -12,8 +12,8 @@
   border: black solid 1px;
   border-radius: 5px;
   color: #373867;
-  margin-left: 50px;
-  margin-bottom: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   box-shadow: 3px 3px 10px
 }
 .container button:hover{

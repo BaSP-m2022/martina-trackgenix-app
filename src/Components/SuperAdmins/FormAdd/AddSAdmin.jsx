@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import Modal from '../Modals/modal';
-import ModalError from '../Modals/modalError';
 import styles from './addSAdmin.module.css';
 
-const AddSAdmin = (props) => {
-  if (!props.show) {
+const AddSAdmin = ({ show, closeForm }) => {
+  if (!show) {
     return null;
   }
+
   const [showModal, setShowModal] = useState(false);
-  const [showModalError, setShowModalError] = useState(false);
+  const [showTitle, setShowTitle] = useState('');
 
   const [userInput, setUserInput] = useState({
     firstName: '',
@@ -50,10 +50,11 @@ const AddSAdmin = (props) => {
     fetch(url, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
-          setShowModalError(true);
-          throw new Error(message);
+          setShowModal(true);
+          setShowTitle(message);
         });
       }
+      setShowTitle('Super Admin Created');
       setShowModal(true);
       return response.json();
     });
@@ -61,12 +62,11 @@ const AddSAdmin = (props) => {
 
   const closeModal = () => {
     setShowModal(false);
-    setShowModalError(false);
   };
+
   return (
     <div className={styles.container}>
-      <Modal title={'SuperAdmin Created successfully'} show={showModal} closeModal={closeModal} />
-      <ModalError title={'There was an error'} show={showModalError} closeModal={closeModal} />
+      <Modal title={showTitle} show={showModal} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
         <h2>Add SuperAdmin</h2>
         <div>
@@ -108,10 +108,10 @@ const AddSAdmin = (props) => {
             }}
           ></input>
         </div>
+        <div>
+          <button onClick={closeForm}>Close</button>
+        </div>
       </form>
-      <div>
-        <button onClick={props.closeForm}>Close</button>
-      </div>
     </div>
   );
 };

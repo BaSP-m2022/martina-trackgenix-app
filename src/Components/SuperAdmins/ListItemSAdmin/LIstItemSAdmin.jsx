@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './listItemSAdmin.module.css';
 import EditSAdmin from '../FormEdit/EditSAdmin';
 
-const ListItemSAdmin = ({ listItem, deleteItem, setShowModal }) => {
+const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const onClick = () => {
     const options = {
@@ -20,9 +20,11 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal }) => {
         response.status !== 304
       ) {
         return response.json().then(({ message }) => {
+          setShowTitle(message);
           throw new Error(message);
         });
       }
+      setShowTitle('Super Admin deleted successfully');
       setShowModal(true);
       return deleteItem(listItem._id);
     });
@@ -53,7 +55,7 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal }) => {
           previewSuperAdmin={listItem}
         />
         <a>
-          <button onClick={openForm}>Edit</button>
+          <button onClick={openForm}>&#9998;</button>
         </a>
       </td>
     </tr>

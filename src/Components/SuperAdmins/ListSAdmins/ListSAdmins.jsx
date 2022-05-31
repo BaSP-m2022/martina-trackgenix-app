@@ -5,14 +5,14 @@ import Modal from '../Modals/modal';
 
 const ListSAdmin = ({ list, deleteItem }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const [showTitle, setShowTitle] = useState('');
   const closeModal = () => {
     setShowModal(false);
   };
 
   return (
     <div className={styles.container}>
-      <Modal title={'SuperAdmin deleted successfully'} show={showModal} closeModal={closeModal} />
+      <Modal title={showTitle} show={showModal} closeModal={closeModal} />
       <table>
         <thead>
           <th id="id">ID</th>
@@ -29,6 +29,7 @@ const ListSAdmin = ({ list, deleteItem }) => {
               listItem={item}
               deleteItem={deleteItem}
               setShowModal={setShowModal}
+              setShowTitle={setShowTitle}
             />
           ))}
         </tbody>

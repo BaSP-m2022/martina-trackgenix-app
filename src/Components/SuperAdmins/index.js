@@ -32,7 +32,7 @@ const SuperAdmins = () => {
       <AddSAdmin show={showFormAdd} closeForm={closeForm} />
       <h2>SuperAdmins List</h2>
       <ListSAdmin list={sAdmins} setList={saveSAdmins} deleteItem={deleteItem} />
-      <button onClick={onClick}>Add Super Admin</button>
+      <button onClick={onClick}>+ Add Super Admin</button>
     </section>
   );
 };

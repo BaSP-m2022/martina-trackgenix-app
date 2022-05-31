@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import styles from './editSAdmin.module.css';
 import Modal from '../Modals/modal';
-import ModalError from '../Modals/modalError';
 
 const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
   if (!show) {
     return null;
   }
   const [showModal, setShowModal] = useState(false);
-  const [showModalError, setShowModalError] = useState(false);
+  const [showTitle, setShowTitle] = useState('');
 
   const [editSAdmin, setEditSAdmin] = useState({
     firstName: previewSuperAdmin.firstName,
@@ -53,9 +52,12 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
           setEditSAdmin(true);
+          setShowModal(true);
+          setShowTitle(message);
           throw new Error(message);
         });
       }
+      setShowTitle('Super Admin Successfully');
       setShowModal(true);
       return response.json();
     });
@@ -63,15 +65,13 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
 
   const closeModal = () => {
     setShowModal(false);
-    setShowModalError(false);
   };
 
   return (
     <div className={styles.container}>
-      <Modal title={'SuperAdmin updated successfully'} show={showModal} closeModal={closeModal} />
-      <ModalError title={'There was an error'} show={showModalError} closeModal={closeModal} />
-      <h2>Form</h2>
+      <Modal title={showTitle} show={showModal} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
+        <h2>Form</h2>
         <div>
           <label>Name</label>
           <input
@@ -116,10 +116,10 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin }) => {
             }}
           ></input>
         </div>
+        <div>
+          <button onClick={closeForm}>Close</button>
+        </div>
       </form>
-      <div>
-        <button onClick={closeForm}>Close</button>
-      </div>
     </div>
   );
 };
