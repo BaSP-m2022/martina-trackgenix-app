@@ -1,9 +1,9 @@
-import styles from './tasks.module.css';
+import style from './tasks.module.css';
 import List from './List';
 
 function Tasks() {
   return (
-    <section className={styles.container}>
+    <section className={style.container}>
       <List />
     </section>
   );
