@@ -1,0 +1,33 @@
+.container{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.button{
+  background-color: #AACE9B;
+  border-color: #AACE9B;
+  Width:90px;
+  Height:38px;
+  border-radius:4px;
+}
