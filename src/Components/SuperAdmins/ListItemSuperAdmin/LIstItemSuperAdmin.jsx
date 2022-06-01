@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './listItemSAdmin.module.css';
-import EditSuperAdmin from '../FormEdit/EditSAdmin';
+import EditSuperAdmin from '../FormEdit/EditSuperAdmin';
 
 const ListItemSuperAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle, editItem }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);

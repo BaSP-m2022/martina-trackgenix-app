@@ -8,3 +8,7 @@
 .container th{
   padding-left: 50px;
 }
+
+.container table{
+  border-collapse: collapse;
+}

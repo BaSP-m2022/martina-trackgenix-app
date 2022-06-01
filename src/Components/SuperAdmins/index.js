@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
-import AddSuperAdmin from './FormAdd/AddSAdmin';
+import AddSuperAdmin from './FormAdd/AddSuperAdmin';
 import Modal from './Modals/modal';
 
 const SuperAdmins = () => {
@@ -9,12 +9,14 @@ const SuperAdmins = () => {
   const [showFormAdd, setShowFormAdd] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
       const data = await response.json();
       saveSuperAdmins(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -59,7 +61,11 @@ const SuperAdmins = () => {
     setShowFormAdd(true);
   };
 
-  return (
+  return loading ? (
+    <section className={styles.containerLoading}>
+      <div className={styles.loader}></div>
+    </section>
+  ) : (
     <section className={styles.container}>
       <AddSuperAdmin
         addItem={addItem}

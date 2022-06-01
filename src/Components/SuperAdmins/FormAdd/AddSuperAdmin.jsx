@@ -1,63 +1,59 @@
 import React, { useState } from 'react';
-import styles from './editSAdmin.module.css';
+import styles from './addSAdmin.module.css';
 
-const EditSuperAdmin = ({
-  show,
-  closeForm,
-  previewSuperAdmin,
-  setShowModal,
-  setShowTitle,
-  editItem
-}) => {
+const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
   if (!show) {
     return null;
   }
 
-  const [editSAdmin, setEditSAdmin] = useState({
-    _id: previewSuperAdmin._id,
-    firstName: previewSuperAdmin.firstName,
-    lastName: previewSuperAdmin.lastName,
-    email: previewSuperAdmin.email,
-    password: previewSuperAdmin.password,
-    active: previewSuperAdmin.active
+  const [userInput, setUserInput] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    active: ''
   });
 
   const onChange = (e) => {
-    setEditSAdmin({ ...editSAdmin, [e.target.name]: e.target.value });
+    setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const SAdminId = previewSuperAdmin._id;
+    setUserInput({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      active: ''
+    });
 
     const options = {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: editSAdmin.firstName,
-        lastName: editSAdmin.lastName,
-        email: editSAdmin.email,
-        password: editSAdmin.password,
-        active: editSAdmin.active
+        firstName: userInput.firstName,
+        lastName: userInput.lastName,
+        email: userInput.email,
+        password: userInput.password,
+        active: userInput.active
       })
     };
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/super-admins/${SAdminId}`,
-        options
-      );
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, options);
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
         setShowTitle(data.message);
       }
-      editItem(editSAdmin);
-      setShowTitle('Super Admin updated successfully');
+      addItem(data.data);
+      setShowTitle('Super Admin Created');
       setShowModal(true);
+      closeForm();
     } catch (error) {
       console.error(error);
     }
@@ -66,41 +62,40 @@ const EditSuperAdmin = ({
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
-        <h2>Form</h2>
+        <h2>Add SuperAdmin</h2>
         <div>
           <label>Name</label>
           <input
             type="text"
             name="firstName"
-            value={editSAdmin.firstName}
+            value={userInput.firstName}
             onChange={onChange}
           ></input>
         </div>
         <div>
           <label>Last Name</label>
-          <input
-            type="text"
-            name="lastName"
-            value={editSAdmin.lastName}
-            onChange={onChange}
-          ></input>
+          <input type="text" name="lastName" value={userInput.lastName} onChange={onChange}></input>
         </div>
         <div>
           <label>Email</label>
-          <input type="text" name="email" value={editSAdmin.email} onChange={onChange}></input>
+          <input type="text" name="email" value={userInput.email} onChange={onChange}></input>
         </div>
         <div>
           <label>Password</label>
           <input
             type="password"
             name="password"
-            value={editSAdmin.password}
+            value={userInput.password}
             onChange={onChange}
           ></input>
         </div>
         <div>
           <label>Active</label>
-          <input type="text" name="active" value={editSAdmin.active} onChange={onChange}></input>
+          {/* <input type="text" name="active" value={userInput.active} onChange={onChange}></input> */}
+          <select name="active" value={userInput.active} onChange={onChange}>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
         </div>
         <div>
           <input
@@ -118,4 +113,5 @@ const EditSuperAdmin = ({
     </div>
   );
 };
-export default EditSuperAdmin;
+
+export default AddSuperAdmin;
