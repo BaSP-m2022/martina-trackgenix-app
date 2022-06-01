@@ -10,13 +10,13 @@
     left: 0;
     top: 0;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5);
+    background-color: #00000080;
 }
 
 .modal{
     width: 200px;
     height: 100px;
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 5px;
     text-align: center;
     display: flex;

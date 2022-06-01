@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './listItem.module.css';
 
-const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
+const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem }) => {
   const handleDelete = async (_id) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
@@ -9,6 +9,7 @@ const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
       });
       setShowModal(true);
       setTitleModal('Admin deleted successfully');
+      deleteItem(_id);
     } catch (error) {
       setShowModal(true);
       setTitleModal(error.msg);
@@ -21,6 +22,8 @@ const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
       <td>{listItem._id}</td>
       <td>{listItem.project_name}</td>
       <td>{listItem.client}</td>
+      <td>{listItem.start_date.toString().slice(0, 10)}</td>
+      <td>{listItem.finish_date.toString().slice(0, 10)}</td>
       <td>{listItem.active.toString()}</td>
       <td>
         <button>Edit</button>
