@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './addSAdmin.module.css';
 
-const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle }) => {
+const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
   if (!show) {
     return null;
   }
@@ -18,8 +18,9 @@ const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle }) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+
     setUserInput({
       firstName: '',
       lastName: '',
@@ -41,20 +42,20 @@ const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle }) => {
         active: userInput.active
       })
     };
-    const url = `${process.env.REACT_APP_API_URL}/super-admins`;
 
-    fetch(url, options).then((response) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, options);
+      const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          setShowModal(true);
-          setShowTitle(message);
-          throw new Error(message);
-        });
+        setShowModal(true);
+        setShowTitle(data.message);
       }
       setShowTitle('Super Admin Created');
       setShowModal(true);
-      return response.json();
-    });
+      addItem(data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

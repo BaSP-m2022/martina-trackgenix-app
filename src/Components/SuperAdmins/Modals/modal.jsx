@@ -8,9 +8,7 @@ const Modal = ({ showModal, showTitle, setShowModal }) => {
   return (
     <div className={styles.container}>
       <div className={styles.modal}>{showTitle}</div>
-      <a href="/super-admins">
-        <button onClick={() => setShowModal(false)}>Close</button>
-      </a>
+      <button onClick={() => setShowModal(false)}>Close</button>
     </div>
   );
 };

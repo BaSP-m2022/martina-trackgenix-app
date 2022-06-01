@@ -18,8 +18,9 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowT
     setEditSAdmin({ ...editSAdmin, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+
     setEditSAdmin({
       firstName: '',
       lastName: '',
@@ -43,20 +44,22 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowT
         active: editSAdmin.active
       })
     };
-    const url = `${process.env.REACT_APP_API_URL}/super-admins/${SAdminId}`;
 
-    fetch(url, options).then((response) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/super-admins/${SAdminId}`,
+        options
+      );
+      const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          setShowModal(true);
-          setShowTitle(message);
-          throw new Error(message);
-        });
+        setShowModal(true);
+        setShowTitle(data.message);
       }
-      setShowTitle('Super Admin Successfully');
+      setShowTitle('Super Admin updated successfully');
       setShowModal(true);
-      return response.json();
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

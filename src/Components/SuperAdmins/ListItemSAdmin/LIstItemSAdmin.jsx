@@ -22,8 +22,6 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
         response.status !== 304
       ) {
         return response.json().then(({ message }) => {
-          setShowTitle(message);
-          setShowModal(true);
           throw new Error(message);
         });
       }
