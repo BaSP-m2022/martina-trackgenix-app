@@ -25,6 +25,7 @@ const ListContent = ({ listContent, deleteItem, setShowModal, setShowTitle }) =>
         throw new Error(message);
       }
       setShowModal(true);
+      setShowTitle('Employee deleted successfully');
       return deleteItem(listContent._id);
     });
   };

@@ -21,14 +21,6 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee 
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setUserInput({
-      first_name: '',
-      last_name: '',
-      phone: '',
-      email: '',
-      password: '',
-      active: ''
-    });
 
     const postEmployee = {
       method: 'POST',
@@ -48,10 +40,9 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, postEmployee);
       const res = await response.json();
-      console.log(response);
       if (!response.ok) {
         setShowModal(true);
-        setShowTitle(res.error);
+        setShowTitle(`${res.msg} cannot create employee`);
       } else {
         setShowModal(true);
         setShowTitle(res.message);

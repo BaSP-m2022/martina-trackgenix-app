@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ListBody from './ListBody/ListBody';
-// import ModalDelete from './ModalDelete/ModalDelete';
 import styles from './employees.module.css';
 import Modal from './Modals/Modal';
 import AddEmployee from './AddForm/AddEmployee';
@@ -64,11 +63,11 @@ const Employees = () => {
         setEmployees={setEmployees}
         deleteItem={deleteItem}
         setShowModal={setShowModal}
+        setShowTitle={setShowTitle}
       />
       <button className={styles.addBtn} onClick={onClick}>
         ADD NEW
       </button>
-      <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './EditForm.module.css';
 
-const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal }) => {
+const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal, setShowTitle }) => {
   if (!show) {
     return null;
   }
@@ -31,7 +31,6 @@ const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal }) => {
     });
 
     const EmployeeId = previewEmployee._id;
-    console.log(previewEmployee._id);
 
     const putEmployee = {
       method: 'PUT',
@@ -54,8 +53,11 @@ const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal }) => {
       .then((response) => response.json())
       .then((jsonResponse) => {
         if (jsonResponse.success) {
+          console.log(jsonResponse);
+          setShowTitle(jsonResponse.msg);
           setShowModal(true);
         } else {
+          setShowTitle(jsonResponse.msg);
           setShowModal(true);
         }
       });
@@ -107,7 +109,9 @@ const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal }) => {
         <div className={styles.submitButton}>
           <input type="submit" value="Confirm changes"></input>
         </div>
-        <button onClick={closeForm}>x</button>
+        <button onClick={closeForm}>
+          <a href="/employees">x</a>
+        </button>
       </form>
     </div>
   );
