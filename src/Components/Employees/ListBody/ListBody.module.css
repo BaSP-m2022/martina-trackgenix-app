@@ -20,21 +20,3 @@ body thead {
 body thead th {
     text-align: start;
 }
-
-.newEm{
-    display: flex;
-    background-color: #AACE9B;
-    align-items: flex-start;
-    border-color: #AACE9B;
-    Width:260px;
-    Height:37.63px;
-    border-radius:4px;
-}
-
-.newEm a{
-    align-self: center;
-    width: 100%;
-    text-decoration: none;
-    color: black;
-    font-size: 15px;
-}

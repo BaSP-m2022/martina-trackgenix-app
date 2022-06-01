@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './AddEmployee.module.css';
 
-const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
+const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee }) => {
   if (!show) {
     return null;
   }
@@ -19,7 +19,7 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setUserInput({
       first_name: '',
@@ -44,19 +44,22 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle }) => {
         active: userInput.active
       })
     };
-    const url = `${process.env.REACT_APP_API_URL}/employees`;
 
-    fetch(url, postEmployee)
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        if (jsonResponse.success) {
-          setShowModal(true);
-          setShowTitle('Employee successfully added');
-        } else {
-          setShowModal(true);
-          setShowTitle('Error');
-        }
-      });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, postEmployee);
+      const res = await response.json();
+      console.log(response);
+      if (!response.ok) {
+        setShowModal(true);
+        setShowTitle(res.error);
+      } else {
+        setShowModal(true);
+        setShowTitle(res.message);
+        newEmployee(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

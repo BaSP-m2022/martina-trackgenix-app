@@ -8,9 +8,7 @@ const Modal = ({ showModal, title, setShowModal }) => {
     <div className={styles.container}>
       <div className={styles.modal}>
         <p>{title}</p>
-        <a href="/employees">
-          <button onClick={() => setShowModal(false)}>x</button>
-        </a>
+        <button onClick={() => setShowModal(false)}>x</button>
       </div>
     </div>
   );
