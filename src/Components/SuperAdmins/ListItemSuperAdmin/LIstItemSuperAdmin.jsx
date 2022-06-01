@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styles from './listItemSAdmin.module.css';
-import EditSAdmin from '../FormEdit/EditSAdmin';
+import EditSuperAdmin from '../FormEdit/EditSAdmin';
 
-const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) => {
+const ListItemSuperAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle, editItem }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
 
   const onClick = () => {
@@ -14,6 +14,7 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
     };
 
     const url = `${process.env.REACT_APP_API_URL}/super-admins/${listItem._id}`;
+
     fetch(url, options).then((response) => {
       if (
         response.status !== 200 &&
@@ -30,9 +31,11 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
       return deleteItem(listItem._id);
     });
   };
+
   const closeForm = () => {
     setShowFormEdit(false);
   };
+
   const openForm = () => {
     setShowFormEdit(true);
   };
@@ -49,13 +52,14 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
         <button onClick={onClick}>X</button>
       </td>
       <td>
-        <EditSAdmin
+        <EditSuperAdmin
           key={listItem._id}
           show={showFormEdit}
           closeForm={closeForm}
           previewSuperAdmin={listItem}
           setShowModal={setShowModal}
           setShowTitle={setShowTitle}
+          editItem={editItem}
         />
         <a>
           <button onClick={openForm}>&#9998;</button>
@@ -65,4 +69,4 @@ const ListItemSAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle }) =>
   );
 };
 
-export default ListItemSAdmin;
+export default ListItemSuperAdmin;

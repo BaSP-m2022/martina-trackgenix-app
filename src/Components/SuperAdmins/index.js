@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
-import ListSAdmin from './ListSAdmins/ListSAdmins';
-import AddSAdmin from './FormAdd/AddSAdmin';
+import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
+import AddSuperAdmin from './FormAdd/AddSAdmin';
 import Modal from './Modals/modal';
 
 const SuperAdmins = () => {
@@ -10,7 +10,7 @@ const SuperAdmins = () => {
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
 
-  useEffect(async () => {
+  const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
       const data = await response.json();
@@ -18,6 +18,10 @@ const SuperAdmins = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const deleteItem = (_id) => {
@@ -36,16 +40,28 @@ const SuperAdmins = () => {
     saveSuperAdmins([...superAdmins, newItem]);
   };
 
+  const editItem = (data) => {
+    const superAdminUpdated = superAdmins.map((superAdmin) => {
+      if (superAdmin._id === data._id) {
+        return data;
+      } else {
+        return superAdmin;
+      }
+    });
+    saveSuperAdmins(superAdminUpdated);
+  };
+
   const closeForm = () => {
     setShowFormAdd(false);
   };
+
   const onClick = () => {
     setShowFormAdd(true);
   };
 
   return (
     <section className={styles.container}>
-      <AddSAdmin
+      <AddSuperAdmin
         addItem={addItem}
         show={showFormAdd}
         closeForm={closeForm}
@@ -53,12 +69,13 @@ const SuperAdmins = () => {
         setShowTitle={setShowTitle}
       />
       <h2>SuperAdmins List</h2>
-      <ListSAdmin
+      <ListSuperAdmin
         list={superAdmins}
         setList={saveSuperAdmins}
         deleteItem={deleteItem}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
+        editItem={editItem}
       />
       <button onClick={onClick}>+ Add Super Admin</button>
       <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />

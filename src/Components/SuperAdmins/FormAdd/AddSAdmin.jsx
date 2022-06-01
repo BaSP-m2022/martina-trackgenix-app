@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './addSAdmin.module.css';
 
-const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
+const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
   if (!show) {
     return null;
   }
@@ -109,4 +109,4 @@ const AddSAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => 
   );
 };
 
-export default AddSAdmin;
+export default AddSuperAdmin;

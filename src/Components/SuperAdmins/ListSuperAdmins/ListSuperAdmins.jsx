@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './listSAdmins.module.css';
-import ListItemSAdmin from '../ListItemSAdmin/LIstItemSAdmin';
+import ListItemSuperAdmin from '../ListItemSuperAdmin/LIstItemSuperAdmin';
 
-const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle }) => {
+const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem }) => {
   return (
     <div className={styles.container}>
       <table>
@@ -16,12 +16,13 @@ const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle }) => {
         </thead>
         <tbody>
           {list.map((item) => (
-            <ListItemSAdmin
+            <ListItemSuperAdmin
               key={item._id}
               listItem={item}
               deleteItem={deleteItem}
               setShowModal={setShowModal}
               setShowTitle={setShowTitle}
+              editItem={editItem}
             />
           ))}
         </tbody>

@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import styles from './editSAdmin.module.css';
 
-const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowTitle }) => {
+const EditSuperAdmin = ({
+  show,
+  closeForm,
+  previewSuperAdmin,
+  setShowModal,
+  setShowTitle,
+  editItem
+}) => {
   if (!show) {
     return null;
   }
 
   const [editSAdmin, setEditSAdmin] = useState({
+    _id: previewSuperAdmin._id,
     firstName: previewSuperAdmin.firstName,
     lastName: previewSuperAdmin.lastName,
     email: previewSuperAdmin.email,
@@ -20,14 +28,6 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowT
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    setEditSAdmin({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      active: ''
-    });
 
     const SAdminId = previewSuperAdmin._id;
 
@@ -55,6 +55,7 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowT
         setShowModal(true);
         setShowTitle(data.message);
       }
+      editItem(editSAdmin);
       setShowTitle('Super Admin updated successfully');
       setShowModal(true);
     } catch (error) {
@@ -117,4 +118,4 @@ const EditSAdmin = ({ show, closeForm, previewSuperAdmin, setShowModal, setShowT
     </div>
   );
 };
-export default EditSAdmin;
+export default EditSuperAdmin;
