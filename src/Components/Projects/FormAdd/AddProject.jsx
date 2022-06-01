@@ -110,37 +110,35 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
           <select name="id" onChange={onChangeEmployee}>
             {listEmployees.map((employee) => (
               <option key={employee._id} value={employee._id}>
-                {employee._id}
+                {employee._id}-{employee.first_name}
               </option>
             ))}
           </select>
         </div>
         <div>
           <label>ROLE Employee</label>
-          <input list="role" name="role" value={employees.role} onChange={onChangeEmployee}></input>
-          <datalist id="role">
-            <option value="DEV"></option>
-            <option value="PM"></option>
-            <option value="QA"></option>
-            <option value="TL"></option>
-          </datalist>
+          <select name="role" value={employees.role} onChange={onChangeEmployee}>
+            <option value="DEV">DEV</option>
+            <option value="PM">PM</option>
+            <option value="QA">QA</option>
+            <option value="TL">TL</option>
+          </select>
         </div>
         <div>
           <label>RATE Employee</label>
-          <input type="text" name="rate" value={employees.rate} onChange={onChangeEmployee}></input>
+          <input
+            type="number"
+            name="rate"
+            value={employees.rate}
+            onChange={onChangeEmployee}
+          ></input>
         </div>
         <div>
           <label>Active</label>
-          <input
-            list="data"
-            name="active"
-            value={active}
-            onChange={(e) => setActive(e.target.value)}
-          ></input>
-          <datalist id="data">
-            <option value="true"></option>
-            <option value="false"></option>
-          </datalist>
+          <select name="active" value={active} onChange={(e) => setActive(e.target.value)}>
+            <option value="true">TRUE</option>
+            <option value="false">FALSE</option>
+          </select>
         </div>
         <div>
           <input type="submit" value="Confirm" onSubmit={onSubmit}></input>

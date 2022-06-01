@@ -24,7 +24,7 @@
   align-items: center;
   width: 35%;
   height: 80%;
-  background-color: #F0F4F9;
+  background-color: #f0f4f9;
   border-radius: 10px;
   gap: 15px;
 }
@@ -35,7 +35,7 @@
   text-align: center;
 }
 
-.container input{
+.container input, select{
   width: 220px;
   padding: 5px;
   margin-top: 5px;
