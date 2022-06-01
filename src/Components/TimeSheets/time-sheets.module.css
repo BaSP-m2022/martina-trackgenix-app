@@ -1,6 +1,21 @@
 .container {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #37781c;
+  width: 100px;
+  height: 37.63px;
+  border-radius:4px;
+}
+
+.addButton:hover {
+  background-color: #AACE9B;
 }
