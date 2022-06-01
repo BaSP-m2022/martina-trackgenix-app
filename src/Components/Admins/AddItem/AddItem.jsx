@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styles from './addItem.module.css';
 
-const AddItem = ({ show, closeForm, setShowModal, setShowTitle }) => {
+const AddItem = ({ show, closeForm, setShowModal }) => {
   if (!show) {
     return null;
   }
@@ -22,44 +22,33 @@ const AddItem = ({ show, closeForm, setShowModal, setShowTitle }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setUserInput({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      password: '',
-      active: ''
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: userInput.firstName,
+        lastName: userInput.lastName,
+        phone: userInput.phone,
+        email: userInput.email,
+        password: userInput.password,
+        active: userInput.active
+      })
+    };
+
+    const url = `${process.env.REACT_APP_API_URL}/admins`;
+
+    fetch(url, options).then((response) => {
+      if (response.status !== 201 && response.status !== 200) {
+        return response.json().then(({ message }) => {
+          alert(message);
+        });
+      }
+      alert('Admin added');
+      return response.json();
     });
   };
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      firstName: userInput.firstName,
-      lastName: userInput.lastName,
-      phone: userInput.phone,
-      email: userInput.email,
-      password: userInput.password,
-      active: userInput.active
-    })
-  };
-
-  const url = `${process.env.REACT_APP_API_URL}/admins`;
-
-  fetch(url, options).then((response) => {
-    if (response.status !== 201 && response.status !== 200) {
-      return response.json().then(({ message }) => {
-        setShowModal(true);
-        setShowTitle(message);
-      });
-    }
-    setShowTitle('Admin Created');
-    setShowModal(true);
-    return response.json();
-  });
 
   return (
     <div className={styles.container}>

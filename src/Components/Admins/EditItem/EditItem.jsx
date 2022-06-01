@@ -1,7 +1,8 @@
+// by JAVI
 import React, { useState } from 'react';
 import styles from './editItem.module.css';
 
-const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, setShowTitle }) => {
+const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal }) => {
   if (!show) {
     return null;
   }
@@ -9,6 +10,7 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, setShowTitle }
   const [editAdmin, setEditAdmin] = useState({
     firstName: previewAdmin.firstName,
     lastName: previewAdmin.lastName,
+    phone: previewAdmin.phone,
     email: previewAdmin.email,
     password: previewAdmin.password,
     active: previewAdmin.active
@@ -20,17 +22,6 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, setShowTitle }
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setEditAdmin({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      password: '',
-      active: ''
-    });
-
-    const AdminId = previewAdmin._id;
-
     const options = {
       method: 'PUT',
       headers: {
@@ -45,26 +36,26 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, setShowTitle }
         active: editAdmin.active
       })
     };
+
     const url = `${process.env.REACT_APP_API_URL}/admins/${AdminId}`;
 
     fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201) {
+      if (response.status !== 201 && response.status !== 200) {
         return response.json().then(({ message }) => {
-          setShowModal(true);
-          setShowTitle(message);
-          throw new Error(message);
+          alert(message);
         });
       }
-      setShowTitle('Super Admin Successfully');
-      setShowModal(true);
+      alert('Admin edited');
       return response.json();
     });
   };
 
+  const AdminId = previewAdmin._id;
+
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
-        <h2>Form</h2>
+        <h2>Edit admin</h2>
         <div>
           <label>Name</label>
           <input
@@ -115,4 +106,5 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, setShowTitle }
     </div>
   );
 };
+
 export default EditAdmin;

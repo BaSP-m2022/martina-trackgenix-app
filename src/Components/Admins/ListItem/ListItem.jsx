@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './listItem.module.css';
+import EditItem from '../EditItem/EditItem';
 
-const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
+const ListItem = ({ listItem, setShowModal, setTitleModal, setShowTitle }) => {
+  const [showFormEdit, setShowFormEdit] = useState(false);
+
   const handleDelete = async (_id) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
@@ -16,6 +19,13 @@ const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
     }
   };
 
+  const closeForm = () => {
+    setShowFormEdit(false);
+  };
+  const openForm = () => {
+    setShowFormEdit(true);
+  };
+
   return (
     <tr className={styles.rows}>
       <td>{listItem._id}</td>
@@ -24,7 +34,15 @@ const ListItem = ({ listItem, setShowModal, setTitleModal }) => {
       <td>{listItem.phone}</td>
       <td>{listItem.email}</td>
       <td>
-        <button>Edit</button>
+        <EditItem
+          key={listItem._id}
+          show={showFormEdit}
+          closeForm={closeForm}
+          previewAdmin={listItem}
+          setShowModal={setShowModal}
+          setShowTitle={setShowTitle}
+        />
+        <button onClick={openForm}>Edit</button>
       </td>
       <td>
         <button onClick={() => handleDelete(listItem._id)}>X</button>

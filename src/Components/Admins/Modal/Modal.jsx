@@ -9,9 +9,7 @@ const Modal = ({ title, closeModal, show }) => {
   return (
     <div className={styles.container}>
       <div className={styles.modal}>{title}</div>
-      <a href="/admins">
-        <button onClick={closeModal}>Close</button>
-      </a>
+      <button onClick={closeModal}>Close</button>
     </div>
   );
 };
