@@ -30,22 +30,4 @@ const TimeSheets = () => {
   );
 };
 
-// useEffect(async () => {
-//    try {
-//      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`);
-//      const data = await response.json();
-//      setList(data.data);
-//    } catch (error) {
-//      console.error(error);
-//    }
-//  }, []);
-
-//  return (
-//    <section className={styles.container}>
-//      <h2>Time-Sheets</h2>
-//      <List list={list} setList={setList} />
-//    </section>
-//  );
-//};
-
 export default TimeSheets;

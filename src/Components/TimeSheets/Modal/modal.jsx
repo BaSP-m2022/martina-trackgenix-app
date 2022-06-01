@@ -12,20 +12,4 @@ const Modal = ({ title, setShowModal }) => {
   );
 };
 
-
-//  const Modal = ({ title, closeModal, show }) => {
-//    if (!show) {
-//      return null;
-//    }
-
-//  return (
-//    <div className={styles.container}>
-//      <div className={styles.modal}>{title}</div>
-//      <a href="/time-sheets">
-//        <button onClick={closeModal}>Close</button>
-//      </a>
-//    </div>
-//  );
-//};
-
 export default Modal;
