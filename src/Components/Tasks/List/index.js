@@ -1,34 +1,13 @@
+import React from 'react';
 import style from '../tasks.module.css';
-import { useEffect, useState } from 'react';
 import Row from '../row';
-import Btn from './Button';
 
-function List() {
-  const [listTask, setListTask] = useState([]);
-  useEffect(() => {
-    fetch('http://localhost:4000/tasks')
-      .then((response) => response.json())
-      .then((response) => {
-        setListTask(response.data);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
-  const handleDelete = async (id) => {
-    const resp = confirm('Are you sure you want to delete it?');
-    if (resp) {
-      await fetch(`http://localhost:4000/tasks/${id}`, {
-        method: 'DELETE'
-      }).then(() => {
-        alert('succesfully delete');
-      });
-      setListTask(listTask.filter((task) => task._id !== id));
-    }
-  };
+const List = (props) => {
+  const { listTask, handleDelete } = props;
   return (
     <div className={style.container}>
       <a href="http://localhost:3000/tasks">
-        <Btn color="green" text="add/edit" />
+        <button>Add/Edit</button>
       </a>
       <table>
         <thead>
@@ -43,5 +22,5 @@ function List() {
       </table>
     </div>
   );
-}
+};
 export default List;
