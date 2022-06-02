@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
+    margin: 0;
 }
 .container th{
   padding-left: 50px;

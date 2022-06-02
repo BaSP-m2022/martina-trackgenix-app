@@ -13,6 +13,8 @@ const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem }) 
           <th id="email">Email</th>
           <th id="password">Password</th>
           <th id="active">Active</th>
+          <th id="delete">Delete Super Admin</th>
+          <th id="edit">Edit Super Admin</th>
         </thead>
         <tbody>
           {list.map((item) => (

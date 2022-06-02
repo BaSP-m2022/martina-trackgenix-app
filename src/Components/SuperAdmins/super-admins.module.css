@@ -1,10 +1,14 @@
+body{
+  margin: 0;
+}
+
 .container {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 97%;
 }
 .container button{
   padding: 10px 15px;
@@ -16,6 +20,7 @@
   margin-bottom: 10px;
   box-shadow: 3px 3px 10px
 }
+
 .container button:hover{
   background-color: rgb(55, 120, 28);
   color: rgb(0, 0, 0);

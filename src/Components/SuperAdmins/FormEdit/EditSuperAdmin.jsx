@@ -102,6 +102,7 @@ const EditSuperAdmin = ({
         <div>
           <label>Active</label>
           <select name="active" value={editSuperAdmins.active} onChange={onChange}>
+            <option></option>
             <option value="true">True</option>
             <option value="false">False</option>
           </select>

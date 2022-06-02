@@ -91,8 +91,8 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem })
         </div>
         <div>
           <label>Active</label>
-          {/* <input type="text" name="active" value={userInput.active} onChange={onChange}></input> */}
           <select name="active" value={userInput.active} onChange={onChange}>
+            <option></option>
             <option value="true">True</option>
             <option value="false">False</option>
           </select>

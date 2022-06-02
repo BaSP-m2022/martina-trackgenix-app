@@ -8,8 +8,10 @@ const Modal = ({ showModal, showTitle, setShowModal }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.modal}>{showTitle}</div>
-      <button onClick={() => setShowModal(false)}>Close</button>
+      <div className={styles.modal}>
+        {showTitle}
+        <button onClick={() => setShowModal(false)}>Close</button>
+      </div>
     </div>
   );
 };
