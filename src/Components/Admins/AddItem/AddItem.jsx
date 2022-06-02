@@ -97,10 +97,10 @@ const AddItem = ({ show, closeForm, setShowModal }) => {
             }}
           ></input>
         </div>
+        <div>
+          <button onClick={closeForm}>Close</button>
+        </div>
       </form>
-      <div>
-        <button onClick={closeForm}>Close</button>
-      </div>
     </div>
   );
 };

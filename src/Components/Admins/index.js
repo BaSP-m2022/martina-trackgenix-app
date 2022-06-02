@@ -10,7 +10,7 @@ const Admins = () => {
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
 
-  useEffect(async () => {
+  const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
       const data = await response.json();
@@ -18,6 +18,10 @@ const Admins = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const closeForm = () => {
@@ -38,7 +42,9 @@ const Admins = () => {
         setShowTitle={setShowTitle}
       />
       <List list={list} setList={setList} />
-      <button onClick={onClick}>Add new admin</button>
+      <button onClick={onClick} className={styles.addButton}>
+        Add new admin
+      </button>
       <ModalJavi showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
