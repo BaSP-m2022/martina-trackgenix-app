@@ -47,6 +47,7 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee 
         setShowModal(true);
         setShowTitle(res.message);
         newEmployee(res.data);
+        closeForm(true);
       }
     } catch (error) {
       console.error(error);
@@ -93,8 +94,12 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee 
           ></input>
         </div>
         <div>
-          <label>Active</label>
-          <input type="text" name="active" value={userInput.active} onChange={onChange}></input>
+          <label>Status</label>
+          <select name="active" value={userInput.active} onChange={onChange}>
+            <option value="">Select status</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
         </div>
         <div className={styles.submitButton}>
           <input type="submit" value="Submit"></input>

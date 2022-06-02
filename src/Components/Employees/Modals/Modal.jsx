@@ -5,6 +5,7 @@ const Modal = ({ showModal, title, setShowModal }) => {
   if (!showModal) {
     return null;
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.modal}>

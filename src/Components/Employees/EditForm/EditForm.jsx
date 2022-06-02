@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import styles from './EditForm.module.css';
 
-const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal, setShowTitle }) => {
+const EditEmployee = ({
+  show,
+  closeForm,
+  previewEmployee,
+  setShowModal,
+  setShowTitle,
+  editEmployee
+}) => {
   if (!show) {
     return null;
   }
 
   const [userInput, setUserInput] = useState({
+    _id: previewEmployee._id,
     first_name: previewEmployee.first_name,
     last_name: previewEmployee.last_name,
     phone: previewEmployee.phone,
@@ -19,16 +27,8 @@ const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal, setShowT
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setUserInput({
-      first_name: '',
-      last_name: '',
-      phone: '',
-      email: '',
-      password: '',
-      active: ''
-    });
 
     const EmployeeId = previewEmployee._id;
 
@@ -47,20 +47,23 @@ const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal, setShowT
       })
     };
 
-    const url = `${process.env.REACT_APP_API_URL}/employees/${EmployeeId}`;
-
-    fetch(url, putEmployee)
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        if (jsonResponse.success) {
-          console.log(jsonResponse);
-          setShowTitle(jsonResponse.msg);
-          setShowModal(true);
-        } else {
-          setShowTitle(jsonResponse.msg);
-          setShowModal(true);
-        }
-      });
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/employees/${EmployeeId}`,
+        putEmployee
+      );
+      const res = await response.json();
+      if (!response.ok) {
+        setShowModal(true);
+        setShowTitle(`${res.msg} cannot create employee`);
+      } else {
+        console.log('HOLIS;', userInput);
+        closeForm(true);
+        editEmployee(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -103,15 +106,17 @@ const EditEmployee = ({ show, closeForm, previewEmployee, setShowModal, setShowT
           ></input>
         </div>
         <div>
-          <label>Active</label>
-          <input type="text" name="active" value={userInput.active} onChange={onChange}></input>
+          <label>Status</label>
+          <select name="active" value={userInput.active} onChange={onChange}>
+            <option value="">Select status</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
         </div>
         <div className={styles.submitButton}>
           <input type="submit" value="Confirm changes"></input>
         </div>
-        <button onClick={closeForm}>
-          <a href="/employees">x</a>
-        </button>
+        <button onClick={closeForm}>x</button>
       </form>
     </div>
   );
