@@ -1,4 +1,4 @@
-.container{
+.container {
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -13,7 +13,7 @@
     background-color: #00000080;
 }
 
-.modal{
+.modal {
     width: 200px;
     height: 100px;
     background-color: #ffffff;
@@ -24,7 +24,7 @@
     align-items: center;
 }
 
-.container button{
+.container button {
     padding: 5px;
     margin-right: 11%;
 }

@@ -35,7 +35,7 @@
   text-align: center;
 }
 
-.container input, select{
+.container input, select {
   width: 220px;
   padding: 5px;
   margin-top: 5px;
@@ -63,9 +63,11 @@
   color: #c9c7c7;
   transition-duration: 0, 4s;
 }
+
 .container input[type='submit']:active {
   transform: translateY(4px);
 }
+
 .container button {
   width: 100px;
   padding: 10px 15px;
@@ -77,11 +79,13 @@
   height: 700;
   box-shadow: 3px 3px 10px;
 }
+
 .container button:hover {
   background-color: #EA3354;
   color: #c9c7c7;
   transition-duration: 0, 4s;
 }
+
 .container button:active {
   transform: translateY(4px);
 }

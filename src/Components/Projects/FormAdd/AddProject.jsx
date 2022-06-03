@@ -10,7 +10,7 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
   const [startDate, setStartDate] = useState('');
   const [finishDate, setFinishDate] = useState('');
   const [client, setClient] = useState('');
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState(false);
   const [employees, setEmployees] = useState({
     id: '',
     role: '',
@@ -121,11 +121,11 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         </div>
         <div>
           <label>ROLE Employee</label>
-          <select name="role" value={employees.role} onChange={onChangeEmployee}>
-            <option value="DEV">DEV</option>
-            <option value="PM">PM</option>
-            <option value="QA">QA</option>
-            <option value="TL">TL</option>
+          <select name="role" onChange={onChangeEmployee}>
+            <option value={employees.role['DEV']}>DEV</option>
+            <option value={employees.role['PM']}>PM</option>
+            <option value={employees.role['QA']}>QA</option>
+            <option value={employees.role['TL']}>TL</option>
           </select>
         </div>
         <div>
@@ -139,9 +139,9 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         </div>
         <div>
           <label>Active</label>
-          <select name="active" value={active} onChange={(e) => setActive(e.target.value)}>
-            <option value="true">TRUE</option>
-            <option value="false">FALSE</option>
+          <select name="active" onChange={(e) => setActive(e.target.value)}>
+            <option value={active['true']}>TRUE</option>
+            <option value={active['false']}>FALSE</option>
           </select>
         </div>
         <div>
