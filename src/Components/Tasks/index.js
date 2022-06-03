@@ -3,30 +3,34 @@ import style from './tasks.module.css';
 import List from './List';
 
 const Tasks = () => {
-  const [listTask, setListTask] = useState([]);
+  const [tasks, saveTasks] = useState([]);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      const data = await response.json();
+      saveTasks(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    fetch('http://localhost:4000/tasks')
-      .then((response) => response.json())
-      .then((response) => {
-        setListTask(response.data);
-      })
-      .catch((err) => console.error(err));
+    fetchData();
   }, []);
 
   const handleDelete = async (id) => {
     const resp = confirm('Are you sure you want to delete it?');
     if (resp) {
-      await fetch(`http://localhost:4000/tasks/${id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'DELETE'
       }).then(() => {
         alert('succesfully delete');
       });
-      setListTask(listTask.filter((task) => task._id !== id));
+      saveTasks(tasks.filter((task) => task._id !== id));
     }
   };
   return (
     <section className={style.container}>
-      <List handleDelete={handleDelete} listTask={listTask} />
+      <List handleDelete={handleDelete} listTask={tasks} />
     </section>
   );
 };
