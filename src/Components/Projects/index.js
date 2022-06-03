@@ -50,6 +50,7 @@ const Projects = () => {
         return project;
       }
     });
+    console.log('projectsUpdated', projectsUpdated);
     setList(projectsUpdated);
   };
 

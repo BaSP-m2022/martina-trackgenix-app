@@ -25,8 +25,8 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem 
       <td>{listItem._id}</td>
       <td>{listItem.project_name}</td>
       <td>{listItem.client}</td>
-      <td>{listItem.start_date}</td>
-      <td>{listItem.finish_date}</td>
+      <td>{listItem.start_date.toString().slice(0, 10)}</td>
+      <td>{listItem.finish_date.toString().slice(0, 10)}</td>
       <td>{listItem.active.toString()}</td>
       <td>
         <button onClick={() => handleDelete(listItem._id)}>X</button>

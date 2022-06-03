@@ -18,11 +18,6 @@ const EditProject = ({
   const [finishDate, setFinishDate] = useState(previewProject.finish_date);
   const [client, setClient] = useState(previewProject.client);
   const [active, setActive] = useState(previewProject.active);
-  // const [employees, setEmployees] = useState({
-  //   _id: previewProject.employees[0]._id,
-  //   role: previewProject.employees[0].role,
-  //   rate: previewProject.employees[0].rate
-  // });
   const [employeeId, setEmployeeId] = useState(previewProject.employees[0]._id);
   const [employeeRole, setEmployeeRole] = useState(previewProject.employees[0].role);
   const [employeeRate, setEmployeeRate] = useState(previewProject.employees[0].rate);
@@ -41,29 +36,10 @@ const EditProject = ({
     fetchEmployees();
   }, []);
 
-  // const onChangeEmployee = (e) => {
-  //   setEmployees({ ...employees, [e.target.name]: e.target.value });
-  // };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
     const projectId = previewProject._id;
-    const projectEdited = {
-      _id: projectId,
-      projectName,
-      startDate,
-      finishDate,
-      client,
-      active,
-      employees: [
-        {
-          id: employeeId,
-          role: employeeRole,
-          rate: employeeRate
-        }
-      ]
-    };
 
     const options = {
       method: 'PUT',
@@ -96,7 +72,7 @@ const EditProject = ({
         setShowModal(true);
         setTitleModal(data.message);
       }
-      editItem(projectEdited);
+      editItem(data.data);
       setTitleModal('Super Admin updated successfully');
       setShowModal(true);
       setShowFormEdit(false);
@@ -149,7 +125,7 @@ const EditProject = ({
           <label>Select Employee</label>
           <select name="_id" onChange={(e) => setEmployeeId(e.target.value)}>
             {listEmployees.map((employee) => (
-              <option key={employee._id} value={employee._id}>
+              <option key={employee._id} value={employeeId}>
                 {employee._id}-{employee.first_name}
               </option>
             ))}
@@ -157,21 +133,17 @@ const EditProject = ({
         </div>
         <div>
           <label>ROLE Employee</label>
-          <select
-            name="role"
-            value={employeeRole}
-            onChange={(e) => setEmployeeRole(e.target.value)}
-          >
-            <option value="DEV">DEV</option>
-            <option value="PM">PM</option>
-            <option value="QA">QA</option>
-            <option value="TL">TL</option>
+          <select name="role" onChange={(e) => setEmployeeRole(e.target.value)}>
+            <option value={employeeRole['DEV']}>DEV</option>
+            <option value={employeeRole['PM']}>PM</option>
+            <option value={employeeRole['QA']}>QA</option>
+            <option value={employeeRole['TL']}>TL</option>
           </select>
         </div>
         <div>
           <label>RATE Employee</label>
           <input
-            type="text"
+            type="num"
             name="rate"
             value={employeeRate}
             onChange={(e) => setEmployeeRate(e.target.value)}
@@ -179,9 +151,9 @@ const EditProject = ({
         </div>
         <div>
           <label>Active</label>
-          <select name="active" value={active} onChange={(e) => setActive(e.target.value)}>
-            <option value="true">TRUE</option>
-            <option value="false">FALSE</option>
+          <select name="active" onChange={(e) => setActive(e.target.value)}>
+            <option value={active['true']}>true</option>
+            <option value={active['false']}>false</option>
           </select>
         </div>
         <div>
