@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ListContent.module.css';
+import EditEmployee from '../EditForm/EditForm';
+const ListContent = ({ listContent, deleteItem, setShowModal, setShowTitle, editEmployee }) => {
+  const [showFormEdit, setShowFormEdit] = useState(false);
 
-const ListContent = ({ listContent, deleteItem, setShowModal }) => {
   const onClick = () => {
-    const options = {
+    const deleteEmployee = {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json'
@@ -11,7 +13,7 @@ const ListContent = ({ listContent, deleteItem, setShowModal }) => {
     };
 
     const url = `${process.env.REACT_APP_API_URL}/employees/${listContent._id}`;
-    fetch(url, options).then(async (response) => {
+    fetch(url, deleteEmployee).then(async (response) => {
       if (
         response.status !== 200 &&
         response.status !== 201 &&
@@ -22,8 +24,17 @@ const ListContent = ({ listContent, deleteItem, setShowModal }) => {
         throw new Error(message);
       }
       setShowModal(true);
+      setShowTitle('Employee deleted successfully');
       return deleteItem(listContent._id);
     });
+  };
+
+  const closeForm = () => {
+    setShowFormEdit(false);
+  };
+
+  const openForm = () => {
+    setShowFormEdit(true);
   };
 
   return (
@@ -31,13 +42,25 @@ const ListContent = ({ listContent, deleteItem, setShowModal }) => {
       <td>{listContent._id}</td>
       <td>{listContent.first_name}</td>
       <td>{listContent.last_name}</td>
-      <td>{listContent.email}</td>
       <td>{listContent.phone}</td>
+      <td>{listContent.email}</td>
+      <td>{listContent.active}</td>
       <td>
+        <EditEmployee
+          key={listContent._id}
+          show={showFormEdit}
+          closeForm={closeForm}
+          previewEmployee={listContent}
+          setShowModal={setShowModal}
+          setShowTitle={setShowTitle}
+          editEmployee={editEmployee}
+        />
         <button onClick={onClick} className={styles.butX}>
           x
         </button>
-        <button className={styles.butEdit}>Edit</button>
+        <button onClick={openForm} className={styles.butEdit}>
+          Edit
+        </button>
       </td>
     </tr>
   );

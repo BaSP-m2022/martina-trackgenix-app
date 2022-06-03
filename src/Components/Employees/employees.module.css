@@ -5,3 +5,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #37781c;
+  width: 100px;
+  height: 37.63px;
+  border-radius:4px;
+}
+
+.addBtn:hover {
+  background-color: #AACE9B;
+}
