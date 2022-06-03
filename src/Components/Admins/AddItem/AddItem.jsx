@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styles from './addItem.module.css';
 
-const AddItem = ({ show, closeForm, setShowModal }) => {
+const AddItem = ({ show, closeForm, setShowModal, addItem }) => {
   if (!show) {
     return null;
   }
@@ -20,7 +20,7 @@ const AddItem = ({ show, closeForm, setShowModal }) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const options = {
       method: 'POST',
@@ -39,15 +39,19 @@ const AddItem = ({ show, closeForm, setShowModal }) => {
 
     const url = `${process.env.REACT_APP_API_URL}/admins`;
 
-    fetch(url, options).then((response) => {
+    try {
+      const response = await fetch(url, options);
+      const res = await response.json();
       if (response.status !== 201 && response.status !== 200) {
-        return response.json().then(({ message }) => {
-          alert(message);
-        });
+        alert(res.message);
+      } else {
+        alert(res.message);
+        addItem(res.data);
+        closeForm();
       }
-      alert('Admin added');
-      return response.json();
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

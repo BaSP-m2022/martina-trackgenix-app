@@ -7,7 +7,6 @@ import AddItem from './AddItem/AddItem';
 const Admins = () => {
   const [list, setList] = useState([]);
   const [showFormAdd, setShowFormAdd] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
 
   const fetchData = async () => {
@@ -24,6 +23,34 @@ const Admins = () => {
     fetchData();
   }, []);
 
+  const deleteItem = (id) => {
+    setList([...list.filter((listItem) => listItem.id !== id)]);
+  };
+
+  const addItem = ({ _id, firstName, lastName, phone, email, password, active }) => {
+    const newItem = {
+      _id,
+      firstName,
+      lastName,
+      phone,
+      email,
+      password,
+      active
+    };
+    setList([...list, newItem]);
+  };
+
+  const editItem = (data) => {
+    const adminUpd = list.map((admin) => {
+      if (admin._id === data._id) {
+        return data;
+      } else {
+        return admin;
+      }
+    });
+    setList(adminUpd);
+  };
+
   const closeForm = () => {
     setShowFormAdd(false);
   };
@@ -36,16 +63,16 @@ const Admins = () => {
     <section className={styles.container}>
       <h2>Admins</h2>
       <AddItem
+        addItem={addItem}
         show={showFormAdd}
         closeForm={closeForm}
-        setShowModal={setShowModal}
         setShowTitle={setShowTitle}
       />
-      <List list={list} setList={setList} />
+      <List list={list} setList={setList} deleteItem={deleteItem} editItem={editItem} />
       <button onClick={onClick} className={styles.addButton}>
         Add new admin
       </button>
-      <ModalJavi showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
+      <ModalJavi showTitle={showTitle} />
     </section>
   );
 };

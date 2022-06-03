@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './listItem.module.css';
 import EditItem from '../EditItem/EditItem';
 
-const ListItem = ({ listItem, setShowModal, setTitleModal, setShowTitle }) => {
+const ListItem = ({ listItem, setShowModal, setTitleModal, setShowTitle, editItem }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
 
   const handleDelete = async (_id) => {
@@ -37,10 +37,12 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, setShowTitle }) => {
         <EditItem
           key={listItem._id}
           show={showFormEdit}
+          setShowFormEdit={setShowFormEdit}
           closeForm={closeForm}
           previewAdmin={listItem}
           setShowModal={setShowModal}
           setShowTitle={setShowTitle}
+          editItem={editItem}
         />
         <button onClick={openForm}>Edit</button>
       </td>

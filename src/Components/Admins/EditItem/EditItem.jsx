@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import styles from './editItem.module.css';
 
-const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal }) => {
+const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, editItem }) => {
   if (!show) {
     return null;
   }
 
   const [editAdmin, setEditAdmin] = useState({
+    _id: previewAdmin._id,
     firstName: previewAdmin.firstName,
     lastName: previewAdmin.lastName,
     phone: previewAdmin.phone,
@@ -20,7 +21,7 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal }) => {
     setEditAdmin({ ...editAdmin, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const options = {
       method: 'PUT',
@@ -37,20 +38,23 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal }) => {
       })
     };
 
+    const AdminId = previewAdmin._id;
     const url = `${process.env.REACT_APP_API_URL}/admins/${AdminId}`;
 
-    fetch(url, options).then((response) => {
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
       if (response.status !== 201 && response.status !== 200) {
-        return response.json().then(({ message }) => {
-          alert(message);
-        });
+        alert(data.message);
+      } else {
+        alert(data.message);
+        editItem(editAdmin);
+        closeForm();
       }
-      alert('Admin edited');
-      return response.json();
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  const AdminId = previewAdmin._id;
 
   return (
     <div className={styles.container}>
