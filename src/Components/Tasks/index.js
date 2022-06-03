@@ -50,14 +50,6 @@ function Tasks() {
       />
       <div>
         <h2>Tasks</h2>
-        {tasks.map((task) => {
-          return (
-            <a key={task._id}>
-              {task._id}
-              {task.description}
-            </a>
-          );
-        })}
         <button onClick={onClick}>Create a new task</button>
         <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
       </div>

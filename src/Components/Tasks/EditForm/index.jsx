@@ -22,7 +22,7 @@ const EditTask = ({
     setEditTask({ ...editTask, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const taskId = previewTask._id;
@@ -38,10 +38,7 @@ const EditTask = ({
     };
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/tasks/${taskId}`,
-        options
-      );
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`,options);
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
