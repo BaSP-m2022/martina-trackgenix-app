@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import styles from './form.module.css';
 
-const EditTask = ({
-  show,
-  closeForm,
-  previewTask,
-  setShowModal,
-  setShowTitle,
-  editItem
-}) => {
+const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, editItem }) => {
   if (!show) {
     return null;
   }
@@ -38,13 +31,13 @@ const EditTask = ({
     };
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`,options);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, options);
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
         setShowTitle(data.message);
       }
-      editItem(editSuperAdmins);
+      editItem(editTask);
       setShowTitle('Task updated successfully');
       setShowModal(true);
       closeForm();
@@ -84,4 +77,3 @@ const EditTask = ({
 };
 
 export default EditTask;
-

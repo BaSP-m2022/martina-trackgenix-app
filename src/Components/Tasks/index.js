@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Add from './AddForm/index';
 import Modal from './Modals/index';
+import List from './List';
 
 function Tasks() {
   const [tasks, saveTasks] = useState([]);
@@ -18,11 +19,20 @@ function Tasks() {
       console.error(error);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
-
+  const handleDelete = async (id) => {
+    const resp = confirm('Are you sure you want to delete it?');
+    if (resp) {
+      await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+        method: 'DELETE'
+      }).then(() => {
+        alert('succesfully delete');
+      });
+      saveTasks(tasks.filter((task) => task._id !== id));
+    }
+  };
   const addItem = ({ _id, description }) => {
     const newItem = {
       _id,
@@ -38,9 +48,10 @@ function Tasks() {
   const onClick = () => {
     setShowForm(true);
   };
-
   return (
     <section className={styles.container}>
+      <h2>Tasks</h2>
+      <List handleDelete={handleDelete} listTask={tasks} />
       <Add
         addItem={addItem}
         show={showForm}
@@ -49,7 +60,6 @@ function Tasks() {
         setShowTitle={setShowTitle}
       />
       <div>
-        <h2>Tasks</h2>
         <button onClick={onClick}>Create a new task</button>
         <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
       </div>
