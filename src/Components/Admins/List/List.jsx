@@ -3,7 +3,7 @@ import ListItem from '../ListItem/ListItem';
 import styles from './list.module.css';
 import Modal from '../Modal/Modal';
 
-const List = ({ list, deleteItem }) => {
+const List = ({ list, deleteItem, editItem }) => {
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
 
@@ -33,6 +33,7 @@ const List = ({ list, deleteItem }) => {
                 deleteItem={deleteItem}
                 setShowModal={setShowModal}
                 setTitleModal={setTitleModal}
+                editItem={editItem}
               />
             );
           })}
