@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import style from './tasks.module.css';
+import styles from './tasks.module.css';
+import Add from './AddForm/index';
+import Modal from './Modals/index';
 import List from './List';
 
-const Tasks = () => {
+function Tasks() {
   const [tasks, saveTasks] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showTitle, setShowTitle] = useState('');
+
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
@@ -16,7 +22,6 @@ const Tasks = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   const handleDelete = async (id) => {
     const resp = confirm('Are you sure you want to delete it?');
     if (resp) {
@@ -28,11 +33,38 @@ const Tasks = () => {
       saveTasks(tasks.filter((task) => task._id !== id));
     }
   };
+  const addItem = ({ _id, description }) => {
+    const newItem = {
+      _id,
+      description
+    };
+    saveTasks([...tasks, newItem]);
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+  };
+
+  const onClick = () => {
+    setShowForm(true);
+  };
   return (
-    <section className={style.container}>
+    <section className={styles.container}>
+      <h2>Tasks</h2>
       <List handleDelete={handleDelete} listTask={tasks} />
+      <Add
+        addItem={addItem}
+        show={showForm}
+        closeForm={closeForm}
+        setShowModal={setShowModal}
+        setShowTitle={setShowTitle}
+      />
+      <div>
+        <button onClick={onClick}>Create a new task</button>
+        <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
+      </div>
     </section>
   );
-};
+}
 
 export default Tasks;
