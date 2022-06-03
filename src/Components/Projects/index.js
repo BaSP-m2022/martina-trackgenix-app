@@ -10,14 +10,19 @@ const Projects = () => {
   const [titleModal, setTitleModal] = useState('');
   const [showFormAdd, setShowFormAdd] = useState(false);
 
-  useEffect(async () => {
+  const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       setList(data.data);
+      console.log(data.data);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const deleteItem = (_id) => {
@@ -36,6 +41,18 @@ const Projects = () => {
     setList([...list, newItem]);
   };
 
+  const editItem = (data) => {
+    console.log('data recibida en edit index', data);
+    const projectsUpdated = list.map((project) => {
+      if (project._id === data._id) {
+        return data;
+      } else {
+        return project;
+      }
+    });
+    setList(projectsUpdated);
+  };
+
   return (
     <section className={styles.container}>
       <h2>Projects</h2>
@@ -45,6 +62,7 @@ const Projects = () => {
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
         deleteItem={deleteItem}
+        editItem={editItem}
       />
       <button onClick={() => setShowFormAdd(true)}>+ Add Project</button>
       <AddProject

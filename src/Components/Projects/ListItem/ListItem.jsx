@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './listItem.module.css';
+import EditProject from '../FormEdit/EditProject';
 
-const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem }) => {
+const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem }) => {
+  const [showFormEdit, setShowFormEdit] = useState(false);
+
   const handleDelete = async (_id) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
         method: 'DELETE'
       });
       setShowModal(true);
-      setTitleModal('Admin deleted successfully');
+      setTitleModal('Project deleted successfully');
       deleteItem(_id);
     } catch (error) {
       setShowModal(true);
@@ -22,14 +25,23 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem }) => {
       <td>{listItem._id}</td>
       <td>{listItem.project_name}</td>
       <td>{listItem.client}</td>
-      <td>{listItem.start_date.toString().slice(0, 10)}</td>
-      <td>{listItem.finish_date.toString().slice(0, 10)}</td>
+      <td>{listItem.start_date}</td>
+      <td>{listItem.finish_date}</td>
       <td>{listItem.active.toString()}</td>
       <td>
-        <button>Edit</button>
+        <button onClick={() => handleDelete(listItem._id)}>X</button>
       </td>
       <td>
-        <button onClick={() => handleDelete(listItem._id)}>X</button>
+        <EditProject
+          key={listItem._id}
+          showFormEdit={showFormEdit}
+          setShowFormEdit={setShowFormEdit}
+          previewProject={listItem}
+          setShowModal={setShowModal}
+          setTitleModal={setTitleModal}
+          editItem={editItem}
+        />
+        <button onClick={() => setShowFormEdit(true)}>&#9998;</button>
       </td>
     </tr>
   );

@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import styles from './addProject.module.css';
+import styles from './editProject.module.css';
 
-const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, addItem }) => {
-  if (!showFormAdd) {
+const EditProject = ({
+  showFormEdit,
+  setShowFormEdit,
+  previewProject,
+  setShowModal,
+  setTitleModal,
+  editItem
+}) => {
+  if (!showFormEdit) {
     return null;
   }
   const [listEmployees, setListEmployees] = useState([]);
-  const [projectName, setProjectName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [finishDate, setFinishDate] = useState('');
-  const [client, setClient] = useState('');
-  const [active, setActive] = useState('');
-  const [employees, setEmployees] = useState({
-    id: '',
-    role: '',
-    rate: ''
-  });
+  const [projectName, setProjectName] = useState(previewProject.project_name);
+  const [startDate, setStartDate] = useState(previewProject.start_date);
+  const [finishDate, setFinishDate] = useState(previewProject.finish_date);
+  const [client, setClient] = useState(previewProject.client);
+  const [active, setActive] = useState(previewProject.active);
+  // const [employees, setEmployees] = useState({
+  //   _id: previewProject.employees[0]._id,
+  //   role: previewProject.employees[0].role,
+  //   rate: previewProject.employees[0].rate
+  // });
+  const [employeeId, setEmployeeId] = useState(previewProject.employees[0]._id);
+  const [employeeRole, setEmployeeRole] = useState(previewProject.employees[0].role);
+  const [employeeRate, setEmployeeRate] = useState(previewProject.employees[0].rate);
 
   const fetchEmployees = async () => {
     try {
@@ -31,15 +41,32 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
     fetchEmployees();
   }, []);
 
-  const onChangeEmployee = (e) => {
-    setEmployees({ ...employees, [e.target.name]: e.target.value });
-  };
+  // const onChangeEmployee = (e) => {
+  //   setEmployees({ ...employees, [e.target.name]: e.target.value });
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const projectId = previewProject._id;
+    const projectEdited = {
+      _id: projectId,
+      projectName,
+      startDate,
+      finishDate,
+      client,
+      active,
+      employees: [
+        {
+          id: employeeId,
+          role: employeeRole,
+          rate: employeeRate
+        }
+      ]
+    };
+
     const options = {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json'
       },
@@ -49,21 +76,30 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         finish_date: finishDate,
         client: client,
         active: active,
-        employees: [employees]
+        employees: [
+          {
+            id: employeeId,
+            role: employeeRole,
+            rate: employeeRate
+          }
+        ]
       })
     };
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, options);
-      const res = await response.json();
-      if (response.status !== 201) {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/projects/${projectId}`,
+        options
+      );
+      const data = await response.json();
+      if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
-        setTitleModal(res.error);
-      } else {
-        setShowModal(true);
-        setTitleModal(res.message);
-        addItem(res.data);
-        setShowFormAdd(false);
+        setTitleModal(data.message);
       }
+      editItem(projectEdited);
+      setTitleModal('Super Admin updated successfully');
+      setShowModal(true);
+      setShowFormEdit(false);
     } catch (error) {
       console.error(error);
     }
@@ -87,7 +123,7 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
           <input
             type="date"
             name="startDate"
-            value={startDate}
+            value={startDate.toString().slice(0, 10)}
             onChange={(e) => setStartDate(e.target.value)}
           ></input>
         </div>
@@ -96,7 +132,7 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
           <input
             type="date"
             name="finishDate"
-            value={finishDate}
+            value={finishDate.toString().slice(0, 10)}
             onChange={(e) => setFinishDate(e.target.value)}
           ></input>
         </div>
@@ -111,7 +147,7 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         </div>
         <div>
           <label>Select Employee</label>
-          <select name="id" onChange={onChangeEmployee}>
+          <select name="_id" onChange={(e) => setEmployeeId(e.target.value)}>
             {listEmployees.map((employee) => (
               <option key={employee._id} value={employee._id}>
                 {employee._id}-{employee.first_name}
@@ -121,7 +157,11 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         </div>
         <div>
           <label>ROLE Employee</label>
-          <select name="role" value={employees.role} onChange={onChangeEmployee}>
+          <select
+            name="role"
+            value={employeeRole}
+            onChange={(e) => setEmployeeRole(e.target.value)}
+          >
             <option value="DEV">DEV</option>
             <option value="PM">PM</option>
             <option value="QA">QA</option>
@@ -131,10 +171,10 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         <div>
           <label>RATE Employee</label>
           <input
-            type="number"
+            type="text"
             name="rate"
-            value={employees.rate}
-            onChange={onChangeEmployee}
+            value={employeeRate}
+            onChange={(e) => setEmployeeRate(e.target.value)}
           ></input>
         </div>
         <div>
@@ -148,11 +188,10 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
           <input type="submit" value="Confirm" onSubmit={onSubmit}></input>
         </div>
         <div>
-          <button onClick={() => setShowFormAdd(false)}>Close</button>
+          <button onClick={() => setShowFormEdit(false)}>Close</button>
         </div>
       </form>
     </div>
   );
 };
-
-export default AddProject;
+export default EditProject;
