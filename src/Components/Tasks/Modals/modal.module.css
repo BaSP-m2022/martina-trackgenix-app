@@ -10,22 +10,21 @@
     left: 0;
     top: 0;
     overflow: auto;
-    background-color: #0000;
+    background-color: rgba(0,0,0,0.5);
 }
 .modal{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 23%;
-    height: 34%;
-    background-color: #fff;
-    margin-left: 5%;
-    border-radius: 10px;
-    gap: 15px
+    text-align: center;
+    width: 15%;
+    height: 15%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    font-weight: 900;
 
 }
 .container button{
     padding: 5px;
-    margin-right: 11%;
 }

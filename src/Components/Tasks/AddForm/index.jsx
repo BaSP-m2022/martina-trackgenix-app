@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import Modal from '../Modals/index';
-import ModalError from '../Modals/error';
 import styles from './form.module.css';
 
-const Add = (props) => {
-  if (!props.show) {
+const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
+  if (!show) {
     return null;
   }
-  const [showModal, setShowModal] = useState(false);
-  const [showModalError, setShowModalError] = useState(false);
+
   const [userInput, setUserInput] = useState({
     description: ''
   });
@@ -17,7 +14,7 @@ const Add = (props) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setUserInput({
       description: ''
@@ -32,28 +29,25 @@ const Add = (props) => {
         description: userInput.description
       })
     };
-    const url = `${process.env.REACT_APP_API_URL}/tasks`;
 
-    fetch(url, option).then((response) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, option);
+      const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          setShowModalError(true);
-          throw new Error(message);
-        });
+        setShowModal(true);
+        setShowTitle(data.message);
       }
+      addItem(data.data);
+      setShowTitle('Task Created');
       setShowModal(true);
-      return response.json();
-    });
+      closeForm();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-    setShowModalError(false);
-  };
   return (
     <div className={styles.container}>
-      <Modal title={'task created successfully'} show={showModal} closeModal={closeModal} />
-      <ModalError title={'There was an error'} show={showModalError} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
         <div>
           <h2>Task Description</h2>
@@ -74,10 +68,10 @@ const Add = (props) => {
             }}
           />
         </div>
+        <div>
+          <button onClick={closeForm}>Close</button>
+        </div>
       </form>
-      <div>
-        <button onClick={props.closeForm}>Close</button>
-      </div>
     </div>
   );
 };

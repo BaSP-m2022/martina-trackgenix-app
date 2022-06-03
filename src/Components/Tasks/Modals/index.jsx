@@ -1,15 +1,17 @@
+import React from 'react';
 import styles from './modal.module.css';
 
-const Modal = (props) => {
-  if (!props.show) {
+const Modal = ({ showModal, showTitle, setShowModal }) => {
+  if (!showModal) {
     return null;
   }
+
   return (
     <div className={styles.container}>
-      <div className={styles.modal}>{props.title}</div>
-      <a href="/tasks">
-        <button onClick={props.closeModal}>Close</button>
-      </a>
+      <div className={styles.modal}>
+        {showTitle}
+        <button onClick={() => setShowModal(false)}>Close</button>
+      </div>
     </div>
   );
 };
