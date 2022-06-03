@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
-import ListItem from '../ListItem/ListTimeSheet';
+import React from 'react';
+import ListTimeSheet from '../ListItem/ListTimeSheet';
 import styles from './list.module.css';
-import Modal from '../Modal/Modal';
 
-const List = ({ list, deleteItem }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState('');
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
+const List = ({ list, setShowModal, setTitleModal, deleteItem }) => {
   return (
     <section className={styles.container}>
-      <Modal title={titleModal} show={showModal} closeModal={closeModal} />
       <table>
         <thead>
           <tr>
@@ -28,7 +19,7 @@ const List = ({ list, deleteItem }) => {
         <tbody>
           {list.map((item) => {
             return (
-              <ListItem
+              <ListTimeSheet
                 key={item._id}
                 listItem={item}
                 deleteItem={deleteItem}
