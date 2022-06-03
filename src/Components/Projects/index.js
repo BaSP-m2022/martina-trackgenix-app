@@ -15,7 +15,6 @@ const Projects = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       setList(data.data);
-      console.log(data.data);
     } catch (error) {
       console.error(error);
     }
@@ -42,7 +41,6 @@ const Projects = () => {
   };
 
   const editItem = (data) => {
-    console.log('data recibida en edit index', data);
     const projectsUpdated = list.map((project) => {
       if (project._id === data._id) {
         return data;
@@ -50,7 +48,6 @@ const Projects = () => {
         return project;
       }
     });
-    console.log('projectsUpdated', projectsUpdated);
     setList(projectsUpdated);
   };
 
