@@ -7,7 +7,7 @@ const Modal = ({ titleModal, showModal, setShowModal }) => {
   }
 
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.container}>
       <div className={styles.modal}>{titleModal}</div>
       <button onClick={() => setShowModal(false)} className={styles.button}>
         Close
