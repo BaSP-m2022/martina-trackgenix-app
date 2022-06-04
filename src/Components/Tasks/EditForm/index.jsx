@@ -5,7 +5,7 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
   if (!show) {
     return null;
   }
-  console.log('data: ', previewTask);
+
   const [editTask, setEditTask] = useState({
     _id: previewTask._id,
     description: previewTask.description

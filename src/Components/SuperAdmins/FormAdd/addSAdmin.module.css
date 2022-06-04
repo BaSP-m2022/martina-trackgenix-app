@@ -50,10 +50,12 @@
   color: rgb(255, 255, 255);
   transition-duration: 0,4s;
 }
+
 .container input[type="submit"]:active{
   background-color: rgb(38, 82, 19);
   transform: translateY(4px);
 }
+
 .container button{
   padding: 10px 15px;
   background-color: rgb(170, 206, 155);
@@ -62,11 +64,13 @@
   color: rgb(55, 56, 103);
   box-shadow: 3px 3px 10px
 }
+
 .container button:hover{
   background-color: rgb(55, 120, 28);
   color: rgb(255, 255, 255);
   transition-duration: 0,4s;
 }
+
 .container button:active{
   background-color: rgb(38, 82, 19);
   transform: translateY(4px);
