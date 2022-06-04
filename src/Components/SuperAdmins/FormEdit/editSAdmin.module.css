@@ -52,6 +52,7 @@
   color: rgb(255,255,255);
   transition-duration: 0,4s;
 }
+
 .container input[type="submit"]:active{
   background-color: rgb(38, 82, 19);
   transform: translateY(4px);

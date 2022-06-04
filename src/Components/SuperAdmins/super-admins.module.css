@@ -10,6 +10,7 @@ body{
   align-items: center;
   width: 97%;
 }
+
 .container button{
   padding: 10px 15px;
   background-color: rgb(170, 206, 155);
@@ -26,6 +27,7 @@ body{
   color: rgb(0, 0, 0);
   transition-duration: 0,4s;
 }
+
 .container button:active{
   background-color: rgb(38, 82, 19);
   transform: translateY(4px);

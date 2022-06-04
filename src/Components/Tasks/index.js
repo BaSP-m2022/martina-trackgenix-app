@@ -33,12 +33,24 @@ function Tasks() {
       saveTasks(tasks.filter((task) => task._id !== id));
     }
   };
+
   const addItem = ({ _id, description }) => {
     const newItem = {
       _id,
       description
     };
     saveTasks([...tasks, newItem]);
+  };
+
+  const editItem = (data) => {
+    const taskUpdated = tasks.map((task) => {
+      if (task._id === data._id) {
+        return data;
+      } else {
+        return task;
+      }
+    });
+    saveTasks(taskUpdated);
   };
 
   const closeForm = () => {
@@ -48,10 +60,17 @@ function Tasks() {
   const onClick = () => {
     setShowForm(true);
   };
+
   return (
     <section className={styles.container}>
       <h2>Tasks</h2>
-      <List handleDelete={handleDelete} listTask={tasks} />
+      <List
+        handleDelete={handleDelete}
+        listTask={tasks}
+        setShowModal={setShowModal}
+        setShowTitle={setShowTitle}
+        editItem={editItem}
+      />
       <Add
         addItem={addItem}
         show={showForm}

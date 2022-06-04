@@ -50,10 +50,12 @@
   color: #fff;
   transition-duration: 0,4s;
 }
+
 .container input[type="submit"]:active{
   background-color: #b45858;
   transform: translateY(4px);
 }
+
 .container button{
   padding: 10px 15px;
   margin-left: -6px;
@@ -63,11 +65,13 @@
   color: #373867;
   box-shadow: 3px 3px 10px
 }
+
 .container button:hover{
   background-color: #b45858;
   color: #fff;
   transition-duration: 0,4s;
 }
+
 .container button:active{
   background-color: #EA3354;
   transform: translateY(4px);
