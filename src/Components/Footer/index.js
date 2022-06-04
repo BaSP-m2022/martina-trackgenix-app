@@ -5,9 +5,6 @@ function Footer() {
   return (
     <footer className={styles.container}>
       <div className={styles.main}>
-        <div className={styles.appName}>
-          Track<span>GENIX</span>
-        </div>
         <ul className={styles.rutes}>
           <li>
             <Link to="/admins">Admins</Link>
@@ -28,6 +25,9 @@ function Footer() {
             <Link to="/tasks">Tasks</Link>
           </li>
         </ul>
+        <div className={styles.appName}>
+          Track<span>GENIX</span>
+        </div>
       </div>
       <div className={styles.license}>
         <div className={styles.copyright}>Copyright © 2021 Radium Rocket</div>
