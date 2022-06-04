@@ -40,6 +40,24 @@ const TimeSheets = () => {
     setList([...list, NewTimeSheet]);
   };
 
+  const editTimeSheet = (body) => {
+    const UpdatedTimeSheet = list.map((item) => {
+      if (item._id === body._id) {
+        return body;
+      } else {
+        return item;
+      }
+    });
+    setList(UpdatedTimeSheet);
+  };
+
+  const closeForm = () => {
+    showFormAdd(false);
+  };
+  const onClick = () => {
+    showFormAdd(true);
+  };
+
   return (
     <section className={styles.container}>
       <h2>Time-Sheets</h2>
@@ -49,14 +67,19 @@ const TimeSheets = () => {
         deleteItem={deleteItem}
         setTitleModal={setTitleModal}
         setShowModal={setShowModal}
+        editTimeSheet={editTimeSheet}
       />
       <AddTimeSheet
         showFormAdd={showFormAdd}
         setShowModal={setShowModal}
         newTimeSheet={newTimeSheet}
         setTitleModal={setTitleModal}
+        closeForm={closeForm}
       />
-      <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} />
+      <button onClick={onClick} className={styles.addButton}>
+        Add 
+      </button>
+      <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} editTimeSheet={editTimeSheet} />
     </section>
   );
 };
