@@ -1,19 +1,29 @@
 import React from 'react';
-import style from '../tasks.module.css';
+import style from './list.module.css';
 import Row from '../row';
 
-const List = ({ listTask, handleDelete }) => {
+const List = ({ listTask, handleDelete, setShowModal, setShowTitle, editItem }) => {
   return (
     <div className={style.container}>
       <table>
         <thead>
-          <tr>
-            <th> Id </th> <th> Description </th>
-          </tr>
+          <th>Id</th>
+          <th>Description</th>
+          <th>Delete</th>
+          <th>Edit</th>
         </thead>
-        {listTask.map((task) => (
-          <Row key={task.id} task={task} deleteTask={handleDelete} />
-        ))}
+        <tbody>
+          {listTask.map((task) => (
+            <Row
+              key={task._id}
+              task={task}
+              deleteTask={handleDelete}
+              setShowModal={setShowModal}
+              setShowTitle={setShowTitle}
+              editItem={editItem}
+            />
+          ))}
+        </tbody>
       </table>
     </div>
   );

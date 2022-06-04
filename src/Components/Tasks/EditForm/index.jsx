@@ -5,7 +5,7 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
   if (!show) {
     return null;
   }
-
+  console.log('data: ', previewTask);
   const [editTask, setEditTask] = useState({
     _id: previewTask._id,
     description: previewTask.description
@@ -35,12 +35,13 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
-        setShowTitle(data.message);
+        setShowTitle(data.data);
+      } else {
+        editItem(editTask);
+        setShowTitle('Task updated successfully');
+        setShowModal(true);
+        closeForm();
       }
-      editItem(editTask);
-      setShowTitle('Task updated successfully');
-      setShowModal(true);
-      closeForm();
     } catch (error) {
       console.error(error);
     }
@@ -51,13 +52,7 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
       <form onSubmit={onSubmit}>
         <div>
           <h2>Task Description</h2>
-          <input
-            type="text"
-            name="description"
-            placeholder="new-description"
-            value={editTask.description}
-            onChange={onChange}
-          />
+          <input type="text" name="description" value={editTask.description} onChange={onChange} />
         </div>
         <div>
           <input
@@ -68,10 +63,10 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
             }}
           />
         </div>
+        <div>
+          <button onClick={closeForm}>Close</button>
+        </div>
       </form>
-      <div>
-        <button onClick={closeForm}>Close</button>
-      </div>
     </div>
   );
 };
