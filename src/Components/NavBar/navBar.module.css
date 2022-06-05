@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     min-height: 100px;
-    background-color: #19284C;
+    background-color: #373867;
 }
 
 .homeContainer {
@@ -14,7 +14,7 @@
     text-decoration: none;
     font-size: 2rem;
     font-weight: bold;
-    color: #fff
+    color: #AACE9B
 }
 
 .rutes {
@@ -30,11 +30,11 @@
     font-weight: 600;
     text-decoration: none;
     text-transform: capitalize;
-    color: #fff;
+    color: #AACE9B;
 }
 
 .rutes > li > a:hover {
-    color: #9b9b9b;
+    color: #619e48;
 }
 
 .rutes > li > a:active {
