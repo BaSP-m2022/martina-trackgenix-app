@@ -78,7 +78,7 @@ function Tasks() {
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
       />
-      <div>
+      <div className={styles.newTask}>
         <button onClick={onClick}>Create a new task</button>
         <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
       </div>
