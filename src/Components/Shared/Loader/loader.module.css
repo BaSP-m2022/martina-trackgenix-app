@@ -1,0 +1,36 @@
+.loaderShade {
+  position: absolute;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #00000080;
+}
+
+.preloaderContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.preloader {
+  width: 70px;
+  height: 70px;
+  border: 12px solid #F3F3F3;
+  border-radius: 50%;
+  border-top: 12px solid #AACE9B;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

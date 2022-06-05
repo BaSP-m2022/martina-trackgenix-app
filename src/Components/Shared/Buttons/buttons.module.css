@@ -1,0 +1,44 @@
+.button {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #aace9b;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px #00000026;
+  transition: 250ms;
+}
+
+.button .text {
+  color: #373867;
+  font-weight: bold;
+  text-align: center;
+}
+
+.button:hover {
+  background: #8db17d;
+}
+
+.button:hover .text {
+    font-weight: bolder;
+}
+
+.button:focus {
+  background: #3738671a;
+}
+
+.button:focus .text {
+  color: #37386766;
+}
+
+.button:active {
+  background: #373867;
+  transform: translateY(3px);
+}
+
+.button:active .text {
+  color: #aace9b;
+}

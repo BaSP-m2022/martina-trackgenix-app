@@ -1,0 +1,22 @@
+.body {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    width: 100%;
+    justify-content: center;
+}
+
+body table {
+    width: 100%;
+    margin: 20px;
+}
+
+body thead {
+    color: black;
+    margin-left: 0;
+    justify-content: start;
+}
+
+body thead th {
+    text-align: start;
+}
