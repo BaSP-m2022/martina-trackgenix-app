@@ -14,7 +14,7 @@ import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
 
 function Layout() {
-  const routes = [
+  const arrayRoute = [
     { path: '/admins', name: 'Admins' },
     { path: '/super-admins', name: 'Super-admins' },
     { path: '/employees', name: 'Employees' },
@@ -25,7 +25,7 @@ function Layout() {
   return (
     <div className={styles.container}>
       <Header />
-      <NavBar props={routes} />
+      <NavBar props={arrayRoute} />
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/admins" component={Admins} />
@@ -38,7 +38,7 @@ function Layout() {
           <Redirect to="/home" />
         </Route>
       </Switch>
-      <Footer />
+      <Footer props={arrayRoute} />
     </div>
   );
 }
