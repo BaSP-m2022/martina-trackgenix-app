@@ -5,7 +5,7 @@
   align-items: center;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: #00000080;
   z-index: 4;
 }
 
@@ -17,7 +17,7 @@
   width: 200px;
   height: 150px;
   padding: 6px 10px;
-  background: rgb(220, 220, 220);
+  background: #dcdcdc;
   border-radius: 5px;
 }
 
