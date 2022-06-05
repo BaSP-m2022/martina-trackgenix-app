@@ -23,14 +23,6 @@ const Input = ({ children, type, name, value, onChange, identification, valueOpt
       </div>
     );
   }
-  if (identification === 'radio') {
-    return (
-      <div className={styles.container}>
-        {children}
-        <input type={type} name={name} value={value} onChange={onChange}></input>
-      </div>
-    );
-  }
 };
 
 export default Input;
