@@ -9,14 +9,14 @@
     top: 0;
     left: 0;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5);
+    background-color: #00000080;
 }
 
 .billboard {
     display: flex;
     flex-direction: column;
     text-align: left;
-    background-color: rgb(255, 255, 255);
+    background-color: #ffffff;
     border-radius: 5px;
     min-width: 350px;
     min-height: 150px;
@@ -26,7 +26,7 @@
 .btnX {
     align-self: end;
     border-radius: 5px;
-    background-color: white;
+    background-color: #ffffff;
     border: none;
     margin-top: 0px;
     padding-right: 8px;
