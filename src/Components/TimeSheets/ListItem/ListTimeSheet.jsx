@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './listTimeSheet.module.css';
+import EditTimeSheet from './Edit/EditTimeSheet';
 
-const ListTimeSheet = ({ listItem, setShowModal, setTitleModal, deleteItem }) => {
+const ListTimeSheet = ({ listItem, setShowModal, setTitleModal, deleteItem, editTimeSheet }) => {
+  const [showFormEdit, setShowFormEdit] = useState(false);
   const handleDelete = async (_id) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
@@ -17,6 +19,14 @@ const ListTimeSheet = ({ listItem, setShowModal, setTitleModal, deleteItem }) =>
     }
   };
 
+  const closeForm = () => {
+    setShowFormEdit(false);
+  };
+
+  const openForm = () => {
+    setShowFormEdit(true);
+  };
+
   return (
     <tr className={styles.rows}>
       <td>{listItem._id}</td>
@@ -26,7 +36,19 @@ const ListTimeSheet = ({ listItem, setShowModal, setTitleModal, deleteItem }) =>
       <td>{listItem.hs_worked}</td>
       <td>{listItem.timesheetDate}</td>
       <td>
-        <button>Edit</button>
+        <EditTimeSheet
+          key={listItem._id}
+          show={showFormEdit}
+          setShowFormEdit={setShowFormEdit}
+          closeForm={closeForm}
+          previewTimeSheet={listItem}
+          setShowModal={setShowModal}
+          setTitleModal={setTitleModal}
+          updatedTimeSheet={editTimeSheet}
+        />
+      </td>
+      <td>
+        <button onClick={openForm}>Edit</button>
       </td>
       <td>
         <button onClick={() => handleDelete(listItem._id)}>x</button>
