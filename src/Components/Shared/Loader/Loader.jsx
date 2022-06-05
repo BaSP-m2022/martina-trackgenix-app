@@ -7,8 +7,10 @@ const Loader = ({ show }) => {
   }
 
   return (
-    <div className={styles.preloaderContainer}>
-      <div className={styles.preloader}></div>;
+    <div className={styles.loaderShade}>
+      <div className={styles.preloaderContainer}>
+        <div className={styles.preloader}></div>;
+      </div>
     </div>
   );
 };

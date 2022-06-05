@@ -1,3 +1,13 @@
+.loaderShade {
+  position: absolute;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #00000080;
+}
+
 .preloaderContainer {
   display: flex;
   flex-direction: column;
@@ -6,13 +16,13 @@
 }
 
 .preloader {
-  width: 120px;
-  height: 120px;
-  border: 16px solid #AACE9B;
+  width: 70px;
+  height: 70px;
+  border: 12px solid #F3F3F3;
   border-radius: 50%;
-  border-top: 16px solid #37781c;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
+  border-top: 12px solid #AACE9B;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 @-webkit-keyframes spin {
