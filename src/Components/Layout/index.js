@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Header from '../Header/index';
+import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import SuperAdmins from '../SuperAdmins/index';
@@ -16,6 +17,7 @@ function Layout() {
   return (
     <div className={styles.container}>
       <Header />
+      <NavBar />
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/admins" component={Admins} />

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styles from './header.module.css';
 
 function Header() {
@@ -28,33 +27,6 @@ function Header() {
           </a>
         </div>
       </div>
-      <nav className={styles.navbar}>
-        <Link to="/home">
-          <div className={styles.appName}>
-            Track<span>GENIX</span>
-          </div>
-        </Link>
-        <ul className={styles.rutes}>
-          <li>
-            <Link to="/admins">Admins</Link>
-          </li>
-          <li>
-            <Link to="/super-admins">Super Admins</Link>
-          </li>
-          <li>
-            <Link to="/employees">Employees</Link>
-          </li>
-          <li>
-            <Link to="/projects">Projects</Link>
-          </li>
-          <li>
-            <Link to="/time-sheets">Timesheets</Link>
-          </li>
-          <li>
-            <Link to="/tasks">Tasks</Link>
-          </li>
-        </ul>
-      </nav>
     </header>
   );
 }
