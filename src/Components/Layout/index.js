@@ -13,6 +13,14 @@ import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
 
 function Layout() {
+  const arrayRoute = [
+    { path: '/admins', name: 'Admins' },
+    { path: '/super-admins', name: 'Super-admins' },
+    { path: '/employees', name: 'Employees' },
+    { path: '/projects', name: 'Projects' },
+    { path: '/time-sheets', name: 'Time-sheets' },
+    { path: '/tasks', name: 'Tasks' }
+  ];
   return (
     <div className={styles.container}>
       <Header />
@@ -28,7 +36,7 @@ function Layout() {
           <Redirect to="/home" />
         </Route>
       </Switch>
-      <Footer />
+      <Footer props={arrayRoute} />
     </div>
   );
 }
