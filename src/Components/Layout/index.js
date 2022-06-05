@@ -36,7 +36,7 @@ function Layout() {
           <Redirect to="/home" />
         </Route>
       </Switch>
-      <Footer props={arrayRoute}></Footer>
+      <Footer props={arrayRoute} />
     </div>
   );
 }
