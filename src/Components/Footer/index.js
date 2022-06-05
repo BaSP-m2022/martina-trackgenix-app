@@ -1,29 +1,18 @@
 import { Link } from 'react-router-dom';
 import styles from './footer.module.css';
 
-function Footer() {
+const Footer = ({ props }) => {
   return (
     <footer className={styles.container}>
       <div className={styles.main}>
         <ul className={styles.rutes}>
-          <li>
-            <Link to="/admins">Admins</Link>
-          </li>
-          <li>
-            <Link to="/super-admins">Super Admins</Link>
-          </li>
-          <li>
-            <Link to="/employees">Employees</Link>
-          </li>
-          <li>
-            <Link to="/projects">Projects</Link>
-          </li>
-          <li>
-            <Link to="/time-sheets">Timesheets</Link>
-          </li>
-          <li>
-            <Link to="/tasks">Tasks</Link>
-          </li>
+          {props.map((route) => {
+            return (
+              <li key={route.name}>
+                <Link to={route.path}>{route.name}</Link>
+              </li>
+            );
+          })}
         </ul>
         <div className={styles.appName}>
           Track<span>GENIX</span>
@@ -54,6 +43,6 @@ function Footer() {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

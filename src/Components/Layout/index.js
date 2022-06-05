@@ -28,7 +28,16 @@ function Layout() {
           <Redirect to="/home" />
         </Route>
       </Switch>
-      <Footer />
+      <Footer
+        props={[
+          { path: '/admins', name: 'Admins' },
+          { path: '/super-admins', name: 'Super-admins' },
+          { path: '/employees', name: 'Employees' },
+          { path: '/projects', name: 'Projects' },
+          { path: '/time-sheets', name: 'Time-sheets' },
+          { path: '/tasks', name: 'Tasks' }
+        ]}
+      ></Footer>
     </div>
   );
 }

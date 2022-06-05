@@ -37,6 +37,10 @@
   color: #AACE9B;
 }
 
+.rutes > li > a:hover {
+  color: #619e48;
+}
+
 .license {
   display: flex;
   justify-content: space-between;
