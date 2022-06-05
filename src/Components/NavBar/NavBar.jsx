@@ -1,31 +1,20 @@
 import { Link } from 'react-router-dom';
 import styles from './navBar.module.css';
 
-const NavBar = () => {
+const NavBar = ({ props }) => {
   return (
     <nav className={styles.navbar}>
       <Link to="/home" className={styles.homeContainer}>
         <p className={styles.appName}>TrackGENIX</p>
       </Link>
       <ul className={styles.rutes}>
-        <li>
-          <Link to="/admins">Admins</Link>
-        </li>
-        <li>
-          <Link to="/super-admins">Super Admins</Link>
-        </li>
-        <li>
-          <Link to="/employees">Employees</Link>
-        </li>
-        <li>
-          <Link to="/projects">Projects</Link>
-        </li>
-        <li>
-          <Link to="/time-sheets">Timesheets</Link>
-        </li>
-        <li>
-          <Link to="/tasks">Tasks</Link>
-        </li>
+        {props.map((route) => {
+          return (
+            <li key={route.name}>
+              <Link to={route.path}>{route.name}</Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

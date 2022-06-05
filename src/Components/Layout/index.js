@@ -14,10 +14,18 @@ import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
 
 function Layout() {
+  const routes = [
+    { path: '/admins', name: 'Admins' },
+    { path: '/super-admins', name: 'Super-admins' },
+    { path: '/employees', name: 'Employees' },
+    { path: '/projects', name: 'Projects' },
+    { path: '/time-sheets', name: 'Time-sheets' },
+    { path: '/tasks', name: 'Tasks' }
+  ];
   return (
     <div className={styles.container}>
       <Header />
-      <NavBar />
+      <NavBar props={routes} />
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/admins" component={Admins} />
