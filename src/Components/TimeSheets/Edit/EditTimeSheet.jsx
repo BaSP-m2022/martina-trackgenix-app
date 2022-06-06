@@ -87,7 +87,6 @@ const EditTimeSheet = ({
         setShowModal(true);
         setTitleModal(`${res.msg}. The time-sheet can not be created`);
       } else {
-        console.log(userInput);
         setTitleModal(res.message);
         closeForm(true);
         updatedTimeSheet(res.data);
