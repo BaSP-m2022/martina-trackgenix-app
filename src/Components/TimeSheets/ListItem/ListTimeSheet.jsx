@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './listTimeSheet.module.css';
-import EditTimeSheet from './Edit/EditTimeSheet';
+import EditTimeSheet from '../Edit/EditTimeSheet';
 
 const ListTimeSheet = ({ listItem, setShowModal, setTitleModal, deleteItem, editTimeSheet }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);

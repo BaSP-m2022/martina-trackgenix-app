@@ -8,7 +8,7 @@ const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
-  const [showFormAdd] = useState(false);
+  const [showFormAdd, setShowFormAdd] = useState(false);
 
   const listTS = async () => {
     try {
@@ -52,10 +52,10 @@ const TimeSheets = () => {
   };
 
   const closeForm = () => {
-    showFormAdd(false);
+    setShowFormAdd(false);
   };
   const onClick = () => {
-    showFormAdd(true);
+    setShowFormAdd(true);
   };
 
   return (
@@ -70,7 +70,7 @@ const TimeSheets = () => {
         editTimeSheet={editTimeSheet}
       />
       <AddTimeSheet
-        showFormAdd={showFormAdd}
+        show={showFormAdd}
         setShowModal={setShowModal}
         newTimeSheet={newTimeSheet}
         setTitleModal={setTitleModal}
