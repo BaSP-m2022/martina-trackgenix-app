@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './listSAdmins.module.css';
 import ListItemSuperAdmin from '../ListItemSuperAdmin/LIstItemSuperAdmin';
 
-const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem }) => {
+const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem, setLoading }) => {
   return (
     <div className={styles.container}>
       <table>
@@ -25,6 +25,7 @@ const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem }) 
               setShowModal={setShowModal}
               setShowTitle={setShowTitle}
               editItem={editItem}
+              setLoading={setLoading}
             />
           ))}
         </tbody>

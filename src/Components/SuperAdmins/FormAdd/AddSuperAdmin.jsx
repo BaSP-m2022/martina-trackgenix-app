@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './addSAdmin.module.css';
 
-const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
+const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, setLoading }) => {
   if (!show) {
     return null;
   }
@@ -20,6 +20,8 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem })
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     setUserInput({
       firstName: '',
@@ -49,11 +51,14 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem })
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
         setShowTitle(data.message);
+        setLoading(false);
+      } else {
+        addItem(data.data);
+        setShowTitle('Super Admin Created');
+        setShowModal(true);
+        closeForm();
+        setLoading(false);
       }
-      addItem(data.data);
-      setShowTitle('Super Admin Created');
-      setShowModal(true);
-      closeForm();
     } catch (error) {
       console.error(error);
     }

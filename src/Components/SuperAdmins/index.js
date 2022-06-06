@@ -3,6 +3,7 @@ import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
 import AddSuperAdmin from './FormAdd/AddSuperAdmin';
 import Modal from './Modals/modal';
+import Loader from '../Shared/Loader/Loader';
 
 const SuperAdmins = () => {
   const [superAdmins, saveSuperAdmins] = useState([]);
@@ -62,9 +63,7 @@ const SuperAdmins = () => {
   };
 
   return loading ? (
-    <section className={styles.containerLoading}>
-      <div className={styles.loader}></div>
-    </section>
+    <Loader show={true} />
   ) : (
     <section className={styles.container}>
       <AddSuperAdmin
@@ -73,6 +72,7 @@ const SuperAdmins = () => {
         closeForm={closeForm}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
+        setLoading={setLoading}
       />
       <h2>SuperAdmins List</h2>
       <ListSuperAdmin
@@ -82,8 +82,10 @@ const SuperAdmins = () => {
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         editItem={editItem}
+        setLoading={setLoading}
       />
       <button onClick={onClick}>+ Add Super Admin</button>
+      <Loader show={loading} />
       <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
     </section>
   );

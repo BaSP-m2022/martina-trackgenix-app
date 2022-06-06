@@ -2,10 +2,19 @@ import React, { useState } from 'react';
 import styles from './listItemSAdmin.module.css';
 import EditSuperAdmin from '../FormEdit/EditSuperAdmin';
 
-const ListItemSuperAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle, editItem }) => {
+const ListItemSuperAdmin = ({
+  listItem,
+  deleteItem,
+  setShowModal,
+  setShowTitle,
+  editItem,
+  setLoading
+}) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
 
   const onClick = () => {
+    setLoading(true);
+
     const options = {
       method: 'DELETE',
       headers: {
@@ -22,12 +31,14 @@ const ListItemSuperAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle, 
         response.status !== 204 &&
         response.status !== 304
       ) {
+        setLoading(false);
         return response.json().then(({ message }) => {
           throw new Error(message);
         });
       }
       setShowTitle('Super Admin deleted successfully');
       setShowModal(true);
+      setLoading(false);
       return deleteItem(listItem._id);
     });
   };
@@ -60,6 +71,7 @@ const ListItemSuperAdmin = ({ listItem, deleteItem, setShowModal, setShowTitle, 
           setShowModal={setShowModal}
           setShowTitle={setShowTitle}
           editItem={editItem}
+          setLoading={setLoading}
         />
         <a>
           <button onClick={openForm}>&#9998;</button>

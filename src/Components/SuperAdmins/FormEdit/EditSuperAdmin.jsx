@@ -7,7 +7,8 @@ const EditSuperAdmin = ({
   previewSuperAdmin,
   setShowModal,
   setShowTitle,
-  editItem
+  editItem,
+  setLoading
 }) => {
   if (!show) {
     return null;
@@ -28,6 +29,8 @@ const EditSuperAdmin = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const SuperAdminsId = previewSuperAdmin._id;
 
@@ -54,11 +57,14 @@ const EditSuperAdmin = ({
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
         setShowTitle(data.message);
+        setLoading(false);
+      } else {
+        editItem(editSuperAdmins);
+        setShowTitle('Super Admin updated successfully');
+        setShowModal(true);
+        closeForm();
+        setLoading(false);
       }
-      editItem(editSuperAdmins);
-      setShowTitle('Super Admin updated successfully');
-      setShowModal(true);
-      closeForm();
     } catch (error) {
       console.error(error);
     }

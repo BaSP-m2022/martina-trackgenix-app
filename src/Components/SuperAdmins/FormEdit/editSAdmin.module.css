@@ -10,7 +10,7 @@
   left: 0;
   top: 0;
   overflow: auto;
-  background-color: rgba(0,0,0,0.5);
+  background-color: #00000080;
 }
 
 .container h2{
@@ -29,7 +29,7 @@
   align-items: center;
   width: 35%;
   height: 80%;
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   margin-left: 5%;
   border-radius: 10px;
   gap: 15px
@@ -39,21 +39,21 @@
   margin-left: 20px;
   padding: 10px 15px;
   margin-right: 10px;
-  background-color: rgb(170, 206, 155);
-  border: rgb(0,0,0) solid 1px;
+  background-color: #aace9b;
+  border: #000000 solid 1px;
   border-radius: 5px;
-  color: rgb(55, 56, 103);
+  color: #373867;
   margin-left: 10px;
   box-shadow: 3px 3px 10px
 }
 
 .container input[type="submit"]:hover{
-  background-color: rgb(55, 120, 28);
-  color: rgb(255,255,255);
+  background-color: #37781c;
+  color: #ffffff;
   transition-duration: 0,4s;
 }
 
 .container input[type="submit"]:active{
-  background-color: rgb(38, 82, 19);
+  background-color: #265213;
   transform: translateY(4px);
 }
