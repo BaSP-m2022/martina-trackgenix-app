@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './editTimeSheet.module.css';
 
 const EditTimeSheet = ({
@@ -16,9 +16,9 @@ const EditTimeSheet = ({
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
-  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employees[0]._id);
-  const [projectId, setProjectId] = useState(previewTimeSheet.projects[0]._id);
-  const [taskId, setTaskId] = useState(previewTimeSheet.tasks[0]._id);
+  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employees._id);
+  const [projectId, setProjectId] = useState(previewTimeSheet.projects._id);
+  const [taskId, setTaskId] = useState(previewTimeSheet.tasks._id);
   const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
   const [date, setDate] = useState(previewTimeSheet.date);
 
@@ -103,8 +103,7 @@ const EditTimeSheet = ({
         <h2>Edit time-sheet</h2>
         <div>
           <label>Select Employee</label>
-          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}>
-            <option value="">Select Employee</option>
+          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}
             {listEmployees.map((employee) => (
               <option key={employee._id} value={employee._id}>
                 {employee._id}-{employee.first_name}
@@ -115,7 +114,6 @@ const EditTimeSheet = ({
         <div>
           <label>Select Project</label>
           <select name="project" onChange={(e) => setProjectId(e.target.value)}>
-            <option value="">Select Project</option>
             {listProjects.map((project) => (
               <option key={project._id} value={project._id}>
                 {project._id}-{project.project_name}
@@ -125,7 +123,6 @@ const EditTimeSheet = ({
         </div>
         <div>
           <select name="task" onChange={(e) => setTaskId(e.target.value)}>
-            <option value="">Task</option>
             {listTasks.map((task) => (
               <option key={task._id} value={task._id}>
                 {task._id}-{task.description}
