@@ -103,7 +103,7 @@ const EditTimeSheet = ({
         <h2>Edit time-sheet</h2>
         <div>
           <label>Select Employee</label>
-          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}
+          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}>
             {listEmployees.map((employee) => (
               <option key={employee._id} value={employee._id}>
                 {employee._id}-{employee.first_name}
