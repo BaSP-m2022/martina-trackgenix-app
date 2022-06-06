@@ -4,12 +4,12 @@
   align-items: center;
   padding: 0 5%;
   height: 50px;
-  background-color: #EA3354;
+  background-color: #AACE9B;
 }
 
 .brand {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .socialIcon {
@@ -18,10 +18,6 @@
 
 @media screen and (min-width: 750px) {
   .container {
-    padding: 0 20%;
-  }
-
-  .navbar {
     padding: 0 20%;
   }
 }
