@@ -1,29 +1,28 @@
 import React from 'react';
 import styles from './input.module.css';
 
-const Input = ({ children, type, name, value, onChange, identification, valueOptions }) => {
-  if (identification === 'input') {
-    return (
-      <div className={styles.container}>
-        <label>{children}</label>
-        <input type={type} name={name} value={value} onChange={onChange}></input>
-      </div>
-    );
-  }
-  if (identification === 'select') {
-    return (
-      <div className={styles.container}>
-        <label>{children}</label>
-        <select name={name} onChange={onChange}>
-          {valueOptions.map((item) => (
-            <option key={item._id} value={value}>
-              {item._id}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  }
+const Input = ({ type, name, value, onChange, valueOptions, label }) => {
+  return (
+    <>
+      {type === 'select' ? (
+        <div className={styles.container}>
+          <label>{label}</label>
+          <select name={name} onChange={onChange}>
+            {valueOptions.map((item) => (
+              <option key={item._id} value={value}>
+                {item._id}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : (
+        <div className={styles.container}>
+          <label>{label}</label>
+          <input type={type} name={name} value={value} onChange={onChange}></input>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Input;
