@@ -1,4 +1,8 @@
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
 import Header from '../Header/index';
+import NavBar from '../NavBar/NavBar';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import SuperAdmins from '../SuperAdmins/index';
@@ -10,35 +14,31 @@ import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
 
 function Layout() {
-  let currentScreen = <Home />;
-  switch (window.location.pathname) {
-    case '/admins':
-      currentScreen = <Admins />;
-      break;
-    case '/super-admins':
-      currentScreen = <SuperAdmins />;
-      break;
-    case '/employees':
-      currentScreen = <Employees />;
-      break;
-    case '/projects':
-      currentScreen = <Projects />;
-      break;
-    case '/time-sheets':
-      currentScreen = <TimeSheets />;
-      break;
-    case '/tasks':
-      currentScreen = <Tasks />;
-      break;
-    default:
-      break;
-  }
-
+  const arrayRoute = [
+    { path: '/admins', name: 'Admins' },
+    { path: '/super-admins', name: 'Super-admins' },
+    { path: '/employees', name: 'Employees' },
+    { path: '/projects', name: 'Projects' },
+    { path: '/time-sheets', name: 'Time-sheets' },
+    { path: '/tasks', name: 'Tasks' }
+  ];
   return (
     <div className={styles.container}>
       <Header />
-      {currentScreen}
-      <Footer />
+      <NavBar props={arrayRoute} />
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/admins" component={Admins} />
+        <Route path="/super-admins" component={SuperAdmins} />
+        <Route path="/employees" component={Employees} />
+        <Route path="/projects" component={Projects} />
+        <Route path="/time-sheets" component={TimeSheets} />
+        <Route path="/tasks" component={Tasks} />
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+      </Switch>
+      <Footer props={arrayRoute} />
     </div>
   );
 }

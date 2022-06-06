@@ -1,16 +1,8 @@
 import React from 'react';
 import ListTimeSheet from '../ListItem/ListTimeSheet';
 import styles from './list.module.css';
-//import Modal from '../Modal/Modal';
 
 const List = ({ list, setShowModal, setTitleModal, deleteItem }) => {
-  //const [showModal, setShowModal] = useState(false);
-  //const [titleModal, setTitleModal] = useState('');
-
-  //const closeModal = () => {
-  //  setShowModal(false);
-  //};
-
   return (
     <section className={styles.container}>
       <table>

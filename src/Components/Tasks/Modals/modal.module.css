@@ -1,29 +1,32 @@
-.conteiner {
-    position: absolute;
+.container{
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: auto;
     background-color: rgba(0,0,0,0.5);
 }
 
-.modal {    
+.modal{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    width: 200px;
-    height: 100px;
-    background-color: white;
+    width: 15%;
+    height: 15%;
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
+    font-weight: 900;
+
 }
 
-.butMo {
-    background-color: #AACE9B;
-    border-color: #AACE9B;
-    Width:90px;
-    Height:38px;
-    border-radius:4px;
+.container button{
+    padding: 5px;
 }

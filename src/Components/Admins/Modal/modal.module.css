@@ -16,7 +16,7 @@
 .modal{
     width: 200px;
     height: 100px;
-    background-color: white;
+    background-color: rgba(255,255,255,1);
     border-radius: 5px;
     text-align: center;
     display: flex;
@@ -27,4 +27,5 @@
 .container button{
     padding: 5px;
     margin-right: 11%;
+    cursor: pointer;
 }

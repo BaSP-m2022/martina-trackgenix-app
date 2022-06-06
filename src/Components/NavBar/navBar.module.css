@@ -1,0 +1,48 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100px;
+    background-color: #373867;
+}
+
+.homeContainer {
+    align-self: center;
+}
+
+.appName {
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #AACE9B
+}
+
+.rutes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    list-style-type: none;
+}
+
+.rutes > li > a {
+    margin-left: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #AACE9B;
+}
+
+.rutes > li > a:hover {
+    color: #619e48;
+}
+
+.rutes > li > a:active {
+    border-bottom: 1px solid #fff;
+}
+
+@media screen and (min-width: 750px) {
+    .navbar {
+      padding: 0 20%;
+    }
+  }

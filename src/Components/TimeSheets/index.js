@@ -8,14 +8,18 @@ const TimeSheets = () => {
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
 
-  useEffect(async () => {
+  const listTS = async () => {
     try {
-      const response = await fetch('${process.env.REACT_APP_API_URL}/time-sheets');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`);
       const data = await response.json();
       setList(data.data);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  useEffect(() => {
+    listTS();
   }, []);
 
   const deleteItem = (_id) => {
