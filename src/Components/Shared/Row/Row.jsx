@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './row.module.css';
 
 const Row = ({ data, headers, deleteItem, editItem, children }) => {
-  console.log('data recibida en row', data);
-  console.log('headers recibida en row', headers);
   return (
     <tr className={styles.tr} key={data._id}>
       {headers.map((header, index) => {
