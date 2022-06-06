@@ -135,7 +135,7 @@ const EditTimeSheet = ({
           <input
             type="number"
             name="hs_worked"
-            value={userInput.hs_worked}
+            value={hsWorked}
             onChange={(e) => setHSWorked(e.target.value)}
           ></input>
         </div>
@@ -144,7 +144,7 @@ const EditTimeSheet = ({
           <input
             type="date"
             name="timesheetDate"
-            value={userInput.timesheetDate}
+            value={date}
             onChange={(e) => setDate(e.target.value)}
           ></input>
         </div>
