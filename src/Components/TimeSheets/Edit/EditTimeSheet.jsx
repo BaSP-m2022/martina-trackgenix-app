@@ -13,18 +13,56 @@ const EditTimeSheet = ({
     return null;
   }
 
-  const [userInput, setUserInput] = useState({
-    _id: previewTimeSheet._id,
-    employee: previewTimeSheet.employee.first_name,
-    project: previewTimeSheet.project.project_name,
-    task: previewTimeSheet.task.description,
-    hs_worked: previewTimeSheet.hs_worked,
-    timesheetDate: previewTimeSheet.timesheetDate
-  });
+  const [listEmployees, setListEmployees] = useState([]);
+  const [listProjects, setListProjects] = useState([]);
+  const [listTasks, setListTasks] = useState([]);
+  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employees[0]._id);
+  const [projectId, setProjectId] = useState(previewTimeSheet.projects[0]._id);
+  const [taskId, setTaskId] = useState(previewTimeSheet.tasks[0]._id);
+  const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
+  const [date, setDate] = useState(previewTimeSheet.date);
 
-  const onChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const data = await response.json();
+      setListEmployees(...listEmployees, data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
+      const data = await response.json();
+      setListProjects(...listProjects, data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      const data = await response.json();
+      setListTasks(...listTasks, data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -32,11 +70,11 @@ const EditTimeSheet = ({
     const putTS = {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
-      employee: userInput.employee.first_name,
-      project: userInput.project.project_name,
-      task: userInput.task.description,
-      hs_worked: userInput.hs_worked,
-      timesheetDate: userInput.timesheetDate
+      employee: employeeId,
+      project: projectId,
+      task: taskId,
+      hs_worked: hsWorked,
+      timesheetDate: date
     };
 
     try {
@@ -50,6 +88,7 @@ const EditTimeSheet = ({
         setTitleModal(`${res.msg}. The time-sheet can not be created`);
       } else {
         console.log(userInput);
+        setTitleModal(res.message);
         closeForm(true);
         updatedTimeSheet(res.data);
       }
@@ -63,16 +102,36 @@ const EditTimeSheet = ({
       <form onSubmit={onSubmit}>
         <h2>Edit time-sheet</h2>
         <div>
-          <label>Employee</label>
-          <input type="text" name="employee" value={userInput.employee} onChange={onChange}></input>
+          <label>Select Employee</label>
+          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}>
+            <option value="">Select Employee</option>
+            {listEmployees.map((employee) => (
+              <option key={employee._id} value={employee._id}>
+                {employee._id}-{employee.first_name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
-          <label>Project</label>
-          <input type="text" name="project" value={userInput.project} onChange={onChange}></input>
+          <label>Select Project</label>
+          <select name="project" onChange={(e) => setProjectId(e.target.value)}>
+            <option value="">Select Project</option>
+            {listProjects.map((project) => (
+              <option key={project._id} value={project._id}>
+                {project._id}-{project.project_name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
-          <label>Task</label>
-          <input type="text" name="task" value={userInput.task} onChange={onChange}></input>
+          <select name="task" onChange={(e) => setTaskId(e.target.value)}>
+            <option value="">Task</option>
+            {listTasks.map((task) => (
+              <option key={task._id} value={task._id}>
+                {task._id}-{task.description}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label>HOURS WORKED</label>
@@ -80,7 +139,7 @@ const EditTimeSheet = ({
             type="number"
             name="hs_worked"
             value={userInput.hs_worked}
-            onChange={onChange}
+            onChange={(e) => setHSWorked(e.target.value)}
           ></input>
         </div>
         <div>
@@ -89,7 +148,7 @@ const EditTimeSheet = ({
             type="date"
             name="timesheetDate"
             value={userInput.timesheetDate}
-            onChange={onChange}
+            onChange={(e) => setDate(e.target.value)}
           ></input>
         </div>
         <div>
