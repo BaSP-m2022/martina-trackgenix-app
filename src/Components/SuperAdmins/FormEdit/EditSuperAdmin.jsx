@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './editSAdmin.module.css';
 import Button from '../../Shared/Buttons/Buttons';
+import Input from '../../Shared/Field/Input';
+import RadioButton from '../../Shared/Field/RadioButton';
 
 const EditSuperAdmin = ({
   show,
@@ -75,45 +77,35 @@ const EditSuperAdmin = ({
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
         <h2>Form</h2>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="firstName"
-            value={editSuperAdmins.firstName}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input
-            type="text"
-            name="lastName"
-            value={editSuperAdmins.lastName}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Email</label>
-          <input type="text" name="email" value={editSuperAdmins.email} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={editSuperAdmins.password}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Active</label>
-          <select name="active" value={editSuperAdmins.active} onChange={onChange}>
-            <option></option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
+        <Input
+          type={'text'}
+          name={'firstName'}
+          value={editSuperAdmins.firstName}
+          onChange={onChange}
+          label={'Name'}
+        />
+        <Input
+          type={'text'}
+          name={'lastName'}
+          value={editSuperAdmins.lastName}
+          onChange={onChange}
+          label={'Last Name'}
+        />
+        <Input
+          type={'text'}
+          name={'email'}
+          value={editSuperAdmins.email}
+          onChange={onChange}
+          label={'Email'}
+        />
+        <Input
+          type={'password'}
+          name={'password'}
+          value={editSuperAdmins.password}
+          onChange={onChange}
+          label={'Password'}
+        />
+        <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
         <div>
           <input
             type="submit"
