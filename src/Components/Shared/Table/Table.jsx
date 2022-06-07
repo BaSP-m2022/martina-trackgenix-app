@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './table.module.css';
+import Row from '../Row/Row';
 
-const Table = ({ title, data, headers }) => {
+const Table = ({ title, data, headers, deleteItem, editItem }) => {
+  //deberia estar children tamb
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{title}</h2>
@@ -14,15 +16,13 @@ const Table = ({ title, data, headers }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row) => {
-            return (
-              <tr key={row._id}>
-                {headers.map((header, index) => {
-                  return <td key={index}>{row[header]}</td>;
-                })}
-              </tr>
-            );
-          })}
+          <Row
+            data={data}
+            headers={headers}
+            deleteItem={deleteItem}
+            editItem={editItem}
+            // children={children}
+          />
         </tbody>
       </table>
     </div>
