@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import List from './List/List';
 import AddTimeSheet from './Add/AddTimeSheet';
-// import Modal from './Modal/Modal';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import Modal from '../Shared/Modal/Modal';
@@ -16,7 +15,7 @@ const TimeSheets = () => {
 
   const listTS = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`);
+      const response = await fetch('http://localhost:4000/time-sheet');
       const data = await response.json();
       setList(data.data);
       setLoading(false);

@@ -39,6 +39,8 @@ const AddTimeSheet = ({
     fetchEmployees();
   }, []);
 
+  console.log(listEmployees);
+
   const fetchProjects = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
