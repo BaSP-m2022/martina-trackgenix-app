@@ -4,6 +4,7 @@ import styles from './employees.module.css';
 import Modal from './Modals/Modal';
 import AddEmployee from './AddForm/AddEmployee';
 import Loader from '../Shared/Loader/Loader';
+import Button from '../Shared/Buttons/Buttons';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -89,9 +90,7 @@ const Employees = () => {
         editEmployee={editEmployee}
         setLoading={setLoading}
       />
-      <button className={styles.addBtn} onClick={onClick}>
-        ADD NEW
-      </button>
+      <Button onClick={onClick}>ADD NEW</Button>
       <Loader show={loading} />
     </section>
   );

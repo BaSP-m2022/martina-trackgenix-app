@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
 import styles from './AddEmployee.module.css';
+import Button from '../../Shared/Buttons/Buttons';
+import Input from '../../Shared/Field/Input';
+import RadioButton from '../../Shared/Field/RadioButton';
 
 const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee, setLoading }) => {
   if (!show) {
     return null;
   }
 
-  const [userInput, setUserInput] = useState({
-    first_name: '',
-    last_name: '',
-    phone: '',
-    email: '',
-    password: '',
-    active: ''
-  });
+  // const [userInput, setUserInput] = useState({
+  //   first_name: '',
+  //   last_name: '',
+  //   phone: '',
+  //   email: '',
+  //   password: '',
+  //   active: ''
+  // });
 
-  const onChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  };
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [active, setActive] = useState('');
+
+  // const onChange = (e) => {
+  //   setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -30,12 +40,12 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee,
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        first_name: userInput.first_name,
-        last_name: userInput.last_name,
-        phone: userInput.phone,
-        email: userInput.email,
-        password: userInput.password,
-        active: userInput.active
+        first_name: firstName,
+        last_name: lastName,
+        phone: phone,
+        email: email,
+        password: password,
+        active: active
       })
     };
 
@@ -62,53 +72,51 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee,
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
         <h2>Add new Employee</h2>
-        <div>
-          <label>First name</label>
-          <input
-            type="text"
-            name="first_name"
-            value={userInput.first_name}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Last name</label>
-          <input
-            type="text"
-            name="last_name"
-            value={userInput.last_name}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Phone</label>
-          <input type="number" name="phone" value={userInput.phone} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Email</label>
-          <input type="text" name="email" value={userInput.email} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={userInput.password}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Status</label>
-          <select name="active" value={userInput.active} onChange={onChange}>
-            <option value="">Select status</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
+        <Input
+          type={'text'}
+          name={'firstName'}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          label={'Name'}
+        />
+        <Input
+          type={'text'}
+          name={'lastName'}
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          label={'Last Name'}
+        />
+        <Input
+          type={'text'}
+          name={'phone'}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          label={'Phone'}
+        />
+        <Input
+          type={'text'}
+          name={'email'}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          label={'Email'}
+        />
+        <Input
+          type={'password'}
+          name={'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          label={'Password'}
+        />
+        <RadioButton
+          name={'active'}
+          label={'Active'}
+          value={['true', 'false']}
+          onChange={(e) => setActive(e.target.value)}
+        />
         <div className={styles.submitButton}>
           <input type="submit" value="Submit"></input>
         </div>
-        <button onClick={closeForm}>x</button>
+        <Button onClick={closeForm}>x</Button>
       </form>
     </div>
   );

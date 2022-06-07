@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styles from './EditForm.module.css';
+import Button from '../../Shared/Buttons/Buttons';
+import Input from '../../Shared/Field/Input';
+import RadioButton from '../../Shared/Field/RadioButton';
 
 const EditEmployee = ({
   show,
@@ -74,53 +77,51 @@ const EditEmployee = ({
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
         <h2>Edit employee</h2>
-        <div>
-          <label>First name</label>
-          <input
-            type="text"
-            name="first_name"
-            value={userInput.first_name}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Last name</label>
-          <input
-            type="text"
-            name="last_name"
-            value={userInput.last_name}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Phone</label>
-          <input type="number" name="phone" value={userInput.phone} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Email</label>
-          <input type="text" name="email" value={userInput.email} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={userInput.password}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Status</label>
-          <select name="active" value={userInput.active} onChange={onChange}>
-            <option value="">Select status</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
+        <Input
+          type={'text'}
+          name={'firstName'}
+          value={userInput.firstName}
+          onChange={onChange}
+          label={'Name'}
+        />
+        <Input
+          type={'text'}
+          name={'lastName'}
+          value={userInput.lastName}
+          onChange={onChange}
+          label={'Last Name'}
+        />
+        <Input
+          type={'text'}
+          name={'phone'}
+          value={userInput.phone}
+          onChange={onChange}
+          label={'Phone'}
+        />
+        <Input
+          type={'text'}
+          name={'email'}
+          value={userInput.email}
+          onChange={onChange}
+          label={'Email'}
+        />
+        <Input
+          type={'password'}
+          name={'password'}
+          value={userInput.password}
+          onChange={onChange}
+          label={'Password'}
+        />
+        <RadioButton
+          name={'active'}
+          label={'Active'}
+          value={['true', 'false']}
+          onChange={onChange}
+        />
         <div className={styles.submitButton}>
           <input type="submit" value="Confirm changes"></input>
         </div>
-        <button onClick={closeForm}>x</button>
+        <Button onClick={closeForm}>x</Button>
       </form>
     </div>
   );
