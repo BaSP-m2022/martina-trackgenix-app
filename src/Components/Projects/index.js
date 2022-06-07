@@ -3,18 +3,21 @@ import styles from './projects.module.css';
 import List from './List/List';
 import Modal from './Modal/Modal';
 import AddProject from './FormAdd/AddProject';
+import Loader from '../Shared/Loader/Loader';
 
 const Projects = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
   const [showFormAdd, setShowFormAdd] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       setList(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -51,7 +54,9 @@ const Projects = () => {
     setList(projectsUpdated);
   };
 
-  return (
+  return loading ? (
+    <Loader show={true} />
+  ) : (
     <section className={styles.container}>
       <h2>Projects</h2>
       <List
@@ -61,6 +66,7 @@ const Projects = () => {
         setTitleModal={setTitleModal}
         deleteItem={deleteItem}
         editItem={editItem}
+        setLoading={setLoading}
       />
       <button onClick={() => setShowFormAdd(true)}>+ Add Project</button>
       <AddProject
@@ -69,8 +75,10 @@ const Projects = () => {
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
         addItem={addItem}
+        setLoading={setLoading}
       />
       <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} />
+      <Loader show={loading} />
     </section>
   );
 };

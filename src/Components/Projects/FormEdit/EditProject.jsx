@@ -7,7 +7,8 @@ const EditProject = ({
   previewProject,
   setShowModal,
   setTitleModal,
-  editItem
+  editItem,
+  setLoading
 }) => {
   if (!showFormEdit) {
     return null;
@@ -38,6 +39,8 @@ const EditProject = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const projectId = previewProject._id;
 
@@ -71,11 +74,13 @@ const EditProject = ({
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
         setTitleModal(data.message);
+        setLoading(false);
       }
       editItem(data.data);
       setTitleModal('Super Admin updated successfully');
       setShowModal(true);
       setShowFormEdit(false);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }

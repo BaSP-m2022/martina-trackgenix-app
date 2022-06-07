@@ -2,7 +2,7 @@ import React from 'react';
 import ListItem from '../ListItem/ListItem';
 import styles from './list.module.css';
 
-const List = ({ list, setShowModal, setTitleModal, deleteItem, editItem }) => {
+const List = ({ list, setShowModal, setTitleModal, deleteItem, editItem, setLoading }) => {
   return (
     <section className={styles.container}>
       <table>
@@ -26,6 +26,7 @@ const List = ({ list, setShowModal, setTitleModal, deleteItem, editItem }) => {
                 setTitleModal={setTitleModal}
                 deleteItem={deleteItem}
                 editItem={editItem}
+                setLoading={setLoading}
               />
             );
           })}

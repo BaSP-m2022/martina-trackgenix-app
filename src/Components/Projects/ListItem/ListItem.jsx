@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import styles from './listItem.module.css';
 import EditProject from '../FormEdit/EditProject';
 
-const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem }) => {
+const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem, setLoading }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
 
   const handleDelete = async (_id) => {
+    setLoading(true);
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
         method: 'DELETE'
@@ -13,9 +14,11 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem 
       setShowModal(true);
       setTitleModal('Project deleted successfully');
       deleteItem(_id);
+      setLoading(false);
     } catch (error) {
       setShowModal(true);
       setTitleModal(error.msg);
+      setLoading(false);
       console.error(error);
     }
   };
@@ -40,6 +43,7 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem 
           setShowModal={setShowModal}
           setTitleModal={setTitleModal}
           editItem={editItem}
+          setLoading={setLoading}
         />
         <button onClick={() => setShowFormEdit(true)}>&#9998;</button>
       </td>

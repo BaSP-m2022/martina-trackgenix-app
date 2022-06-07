@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './addProject.module.css';
 
-const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, addItem }) => {
+const AddProject = ({
+  showFormAdd,
+  setShowFormAdd,
+  setShowModal,
+  setTitleModal,
+  addItem,
+  setLoading
+}) => {
   if (!showFormAdd) {
     return null;
   }
@@ -38,6 +45,8 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const options = {
       method: 'POST',
       headers: {
@@ -58,11 +67,13 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
       if (response.status !== 201) {
         setShowModal(true);
         setTitleModal(res.error);
+        setLoading(false);
       } else {
         setShowModal(true);
         setTitleModal(res.message);
         addItem(res.data);
         setShowFormAdd(false);
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
