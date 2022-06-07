@@ -1,9 +1,11 @@
-// by JAVI
 import React, { useState } from 'react';
 import styles from './addItem.module.css';
+import Input from '../../Shared/Field/Input';
+import RadioButton from '../../Shared/Field/RadioButton';
+import Button from '../../Shared/Buttons/Buttons';
 
-const AddItem = ({ show, closeForm, setShowModal, addItem }) => {
-  if (!show) {
+const AddItem = ({ showFormAdd, setShowFormAdd, addItem, setShowModal, setChildrenModal }) => {
+  if (!showFormAdd) {
     return null;
   }
 
@@ -13,7 +15,7 @@ const AddItem = ({ show, closeForm, setShowModal, addItem }) => {
     phone: '',
     email: '',
     password: '',
-    active: ''
+    active: false
   });
 
   const onChange = (e) => {
@@ -43,11 +45,14 @@ const AddItem = ({ show, closeForm, setShowModal, addItem }) => {
       const response = await fetch(url, options);
       const res = await response.json();
       if (response.status !== 201 && response.status !== 200) {
-        alert(res.message);
+        setShowFormAdd(false);
+        setShowModal(true);
+        setChildrenModal(res.message);
       } else {
-        alert(res.message);
+        setShowFormAdd(false);
+        setShowModal(true);
+        setChildrenModal(res.message);
         addItem(res.data);
-        closeForm();
       }
     } catch (error) {
       console.error(error);
@@ -59,50 +64,58 @@ const AddItem = ({ show, closeForm, setShowModal, addItem }) => {
       <form onSubmit={onSubmit}>
         <h2>Add new admin</h2>
         <div>
-          <label>First name</label>
-          <input
+          <Input
             type="text"
             name="firstName"
+            label={'First name'}
             value={userInput.firstName}
             onChange={onChange}
-          ></input>
+          />
         </div>
         <div>
-          <label>Last name</label>
-          <input type="text" name="lastName" value={userInput.lastName} onChange={onChange}></input>
+          <Input
+            type="text"
+            name="lastName"
+            label={'Last name'}
+            value={userInput.lastName}
+            onChange={onChange}
+          />
         </div>
         <div>
-          <label>Phone</label>
-          <input type="text" name="phone" value={userInput.phone} onChange={onChange}></input>
+          <Input
+            type="text"
+            name="phone"
+            label={'Phone'}
+            value={userInput.phone}
+            onChange={onChange}
+          />
         </div>
         <div>
-          <label>Email</label>
-          <input type="text" name="email" value={userInput.email} onChange={onChange}></input>
+          <Input
+            type="email"
+            name="email"
+            label={'Email'}
+            value={userInput.email}
+            onChange={onChange}
+          />
         </div>
         <div>
-          <label>Password</label>
-          <input
+          <Input
             type="password"
             name="password"
+            label={'Password'}
             value={userInput.password}
             onChange={onChange}
-          ></input>
+          />
         </div>
         <div>
-          <label>Active</label>
-          <input type="text" name="active" value={userInput.active} onChange={onChange}></input>
+          <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
         </div>
         <div>
-          <input
-            type="submit"
-            value="Submit"
-            onSubmit={() => {
-              setShowModal(true);
-            }}
-          ></input>
+          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         </div>
         <div>
-          <button onClick={closeForm}>Close</button>
+          <Button onClick={() => setShowFormAdd(false)}>Close</Button>
         </div>
       </form>
     </div>

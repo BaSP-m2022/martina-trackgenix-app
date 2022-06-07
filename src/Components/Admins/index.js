@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './admins.module.css';
 import List from './List/List';
-import ModalJavi from './ModalJavi/ModalJavi';
 import AddItem from './AddItem/AddItem';
+import Modal from '../Shared/Modal/Modal';
+import Button from '../Shared/Buttons/Buttons';
 
 const Admins = () => {
   const [list, setList] = useState([]);
   const [showFormAdd, setShowFormAdd] = useState(false);
-  const [showTitle, setShowTitle] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [childrenModal, setChildrenModal] = useState('');
 
   const fetchData = async () => {
     try {
@@ -23,8 +25,8 @@ const Admins = () => {
     fetchData();
   }, []);
 
-  const deleteItem = (id) => {
-    setList([...list.filter((listItem) => listItem.id !== id)]);
+  const deleteItem = (_id) => {
+    setList([...list.filter((listItem) => listItem._id !== _id)]);
   };
 
   const addItem = ({ _id, firstName, lastName, phone, email, password, active }) => {
@@ -51,28 +53,27 @@ const Admins = () => {
     setList(adminUpd);
   };
 
-  const closeForm = () => {
-    setShowFormAdd(false);
-  };
-
-  const onClick = () => {
-    setShowFormAdd(true);
-  };
-
   return (
     <section className={styles.container}>
       <h2>Admins</h2>
       <AddItem
         addItem={addItem}
-        show={showFormAdd}
-        closeForm={closeForm}
-        setShowTitle={setShowTitle}
+        showFormAdd={showFormAdd}
+        setShowFormAdd={setShowFormAdd}
+        setShowModal={setShowModal}
+        setChildrenModal={setChildrenModal}
       />
-      <List list={list} setList={setList} deleteItem={deleteItem} editItem={editItem} />
-      <button onClick={onClick} className={styles.addButton}>
-        Add new admin
-      </button>
-      <ModalJavi showTitle={showTitle} />
+      <List
+        list={list}
+        deleteItem={deleteItem}
+        editItem={editItem}
+        setShowModal={setShowModal}
+        setChildrenModal={setChildrenModal}
+      />
+      <Button onClick={() => setShowFormAdd(true)}>Add new admin</Button>
+      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+        {childrenModal}
+      </Modal>
     </section>
   );
 };

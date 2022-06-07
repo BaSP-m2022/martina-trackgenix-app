@@ -1,9 +1,18 @@
-// by JAVI
 import React, { useState } from 'react';
 import styles from './editItem.module.css';
+import Input from '../../Shared/Field/Input';
+import RadioButton from '../../Shared/Field/RadioButton';
+import Button from '../../Shared/Buttons/Buttons';
 
-const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, editItem }) => {
-  if (!show) {
+const EditAdmin = ({
+  showFormEdit,
+  setShowFormEdit,
+  setShowModal,
+  setChildrenModal,
+  previewAdmin,
+  editItem
+}) => {
+  if (!showFormEdit) {
     return null;
   }
 
@@ -45,11 +54,14 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, editItem }) =>
       const response = await fetch(url, options);
       const data = await response.json();
       if (response.status !== 201 && response.status !== 200) {
-        alert(data.message);
+        setShowFormEdit(false);
+        setShowModal(true);
+        setChildrenModal(data.message);
       } else {
-        alert(data.message);
-        editItem(editAdmin);
-        closeForm();
+        setShowFormEdit(false);
+        setShowModal(true);
+        setChildrenModal(data.message);
+        editItem(data.data);
       }
     } catch (error) {
       console.error(error);
@@ -61,50 +73,58 @@ const EditAdmin = ({ show, closeForm, previewAdmin, setShowModal, editItem }) =>
       <form onSubmit={onSubmit}>
         <h2>Edit admin</h2>
         <div>
-          <label>Name</label>
-          <input
+          <Input
             type="text"
             name="firstName"
+            label={'First name'}
             value={editAdmin.firstName}
             onChange={onChange}
-          ></input>
+          />
         </div>
         <div>
-          <label>Last Name</label>
-          <input type="text" name="lastName" value={editAdmin.lastName} onChange={onChange}></input>
+          <Input
+            type="text"
+            name="lastName"
+            label={'Last name'}
+            value={editAdmin.lastName}
+            onChange={onChange}
+          />
         </div>
         <div>
-          <label>Phone</label>
-          <input type="text" name="phone" value={editAdmin.phone} onChange={onChange}></input>
+          <Input
+            type="text"
+            name="phone"
+            label={'Phone'}
+            value={editAdmin.phone}
+            onChange={onChange}
+          />
         </div>
         <div>
-          <label>Email</label>
-          <input type="text" name="email" value={editAdmin.email} onChange={onChange}></input>
+          <Input
+            type="email"
+            name="email"
+            label={'Email'}
+            value={editAdmin.email}
+            onChange={onChange}
+          />
         </div>
         <div>
-          <label>Password</label>
-          <input
+          <Input
             type="password"
             name="password"
+            label={'Password'}
             value={editAdmin.password}
             onChange={onChange}
-          ></input>
+          />
         </div>
         <div>
-          <label>Active</label>
-          <input type="text" name="active" value={editAdmin.active} onChange={onChange}></input>
+          <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
         </div>
         <div>
-          <input
-            type="submit"
-            value="Confirm"
-            onSubmit={() => {
-              setShowModal(true);
-            }}
-          ></input>
+          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         </div>
         <div>
-          <button onClick={closeForm}>Close</button>
+          <Button onClick={() => setShowFormEdit(false)}>Close</Button>
         </div>
       </form>
     </div>
