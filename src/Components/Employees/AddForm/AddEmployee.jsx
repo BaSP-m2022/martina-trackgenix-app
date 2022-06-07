@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './AddEmployee.module.css';
 
-const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee }) => {
+const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee, setLoading }) => {
   if (!show) {
     return null;
   }
@@ -21,6 +21,8 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee 
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const postEmployee = {
       method: 'POST',
@@ -43,11 +45,13 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee 
       if (!response.ok) {
         setShowModal(true);
         setShowTitle(`${res.msg} cannot create employee`);
+        setLoading(false);
       } else {
         setShowModal(true);
         setShowTitle(res.message);
         newEmployee(res.data);
         closeForm(true);
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);

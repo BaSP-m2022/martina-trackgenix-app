@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import styles from './ListContent.module.css';
 import EditEmployee from '../EditForm/EditForm';
-const ListContent = ({ listContent, deleteItem, setShowModal, setShowTitle, editEmployee }) => {
+const ListContent = ({
+  listContent,
+  deleteItem,
+  setShowModal,
+  setShowTitle,
+  editEmployee,
+  setLoading
+}) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
 
   const onClick = () => {
+    setLoading(true);
+
     const deleteEmployee = {
       method: 'DELETE',
       headers: {
@@ -20,11 +29,13 @@ const ListContent = ({ listContent, deleteItem, setShowModal, setShowTitle, edit
         response.status !== 204 &&
         response.status !== 304
       ) {
+        setLoading(false);
         const { message } = await response.json();
         throw new Error(message);
       }
       setShowModal(true);
       setShowTitle('Employee deleted successfully');
+      setLoading(false);
       return deleteItem(listContent._id);
     });
   };
@@ -54,6 +65,7 @@ const ListContent = ({ listContent, deleteItem, setShowModal, setShowTitle, edit
           setShowModal={setShowModal}
           setShowTitle={setShowTitle}
           editEmployee={editEmployee}
+          setLoading={setLoading}
         />
         <button onClick={onClick} className={styles.butX}>
           x

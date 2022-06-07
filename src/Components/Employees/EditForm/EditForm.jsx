@@ -7,7 +7,8 @@ const EditEmployee = ({
   previewEmployee,
   setShowModal,
   setShowTitle,
-  editEmployee
+  editEmployee,
+  setLoading
 }) => {
   if (!show) {
     return null;
@@ -29,6 +30,8 @@ const EditEmployee = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const EmployeeId = previewEmployee._id;
 
@@ -56,10 +59,11 @@ const EditEmployee = ({
       if (!response.ok) {
         setShowModal(true);
         setShowTitle(`${res.msg} cannot create employee`);
+        setLoading(false);
       } else {
-        console.log('HOLIS;', userInput);
         closeForm(true);
         editEmployee(res.data);
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);

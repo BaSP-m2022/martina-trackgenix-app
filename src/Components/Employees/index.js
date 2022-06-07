@@ -3,22 +3,30 @@ import ListBody from './ListBody/ListBody';
 import styles from './employees.module.css';
 import Modal from './Modals/Modal';
 import AddEmployee from './AddForm/AddEmployee';
+import Loader from '../Shared/Loader/Loader';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [showFormAdd, setShowFormAdd] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // API REQUEST TO GET DATA
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/employees`)
-      .then((response) => response.json())
-      .then((response) => {
-        setEmployees(response.data);
-      });
-  }, []);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const data = await response.json();
+      setEmployees(data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
   // DELETE ITEM
   const deleteItem = (_id) => {
     setEmployees([...employees.filter((employees) => employees._id !== _id)]);
@@ -58,7 +66,9 @@ const Employees = () => {
     setShowFormAdd(true);
   };
 
-  return (
+  return loading ? (
+    <Loader show={true} />
+  ) : (
     <section className={styles.container}>
       <h2>Employees</h2>
       {showModal && <Modal showModal={showModal} title={showTitle} setShowModal={setShowModal} />}
@@ -68,6 +78,7 @@ const Employees = () => {
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         newEmployee={newEmployee}
+        setLoading={setLoading}
       />
       <ListBody
         employees={employees}
@@ -76,10 +87,12 @@ const Employees = () => {
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         editEmployee={editEmployee}
+        setLoading={setLoading}
       />
       <button className={styles.addBtn} onClick={onClick}>
         ADD NEW
       </button>
+      <Loader show={loading} />
     </section>
   );
 };
