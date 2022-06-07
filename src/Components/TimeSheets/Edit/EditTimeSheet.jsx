@@ -16,9 +16,9 @@ const EditTimeSheet = ({
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
-  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employees._id);
-  const [projectId, setProjectId] = useState(previewTimeSheet.projects._id);
-  const [taskId, setTaskId] = useState(previewTimeSheet.tasks._id);
+  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employee._id);
+  const [projectId, setProjectId] = useState(previewTimeSheet.project._id);
+  const [taskId, setTaskId] = useState(previewTimeSheet.task._id);
   const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
   const [date, setDate] = useState(previewTimeSheet.date);
 

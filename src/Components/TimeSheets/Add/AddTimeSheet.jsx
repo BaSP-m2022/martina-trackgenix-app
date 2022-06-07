@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styles from './addTimeSheet.module.css';
+import Input from '../../Shared/Field/Input';
+import Button from '../../Shared/Buttons/Buttons';
+// import Modal from '../../Shared/Modal/Modal';
 
-const AddTimeSheet = ({ show, closeForm, setShowModal, setTitleModal, newTimeSheet }) => {
+const AddTimeSheet = ({
+  show,
+  closeForm,
+  setShowModal,
+  setTitleModal,
+  newTimeSheet,
+  setLoading
+}) => {
   if (!show) {
     return null;
   }
@@ -59,6 +69,9 @@ const AddTimeSheet = ({ show, closeForm, setShowModal, setTitleModal, newTimeShe
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
     const postTS = {
       method: 'POST',
       headers: {
@@ -78,12 +91,14 @@ const AddTimeSheet = ({ show, closeForm, setShowModal, setTitleModal, newTimeShe
       const res = await response.json();
       if (!response.ok) {
         setShowModal(true);
-        setTitleModal(`${res.msg} 'Error. Can not create time-sheet`);
+        setTitleModal('Error. Can not create time-sheet');
+        setLoading(false);
       } else {
         setShowModal(true);
         setTitleModal(res.message);
         newTimeSheet(res.data);
         closeForm(true);
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -95,37 +110,31 @@ const AddTimeSheet = ({ show, closeForm, setShowModal, setTitleModal, newTimeShe
       <form onSubmit={onSubmit}>
         <h2>Add new Time-sheet</h2>
         <div>
-          <label>Select Employee</label>
-          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}>
-            <option value="">Select Employee</option>
-            {listEmployees.map((employee) => (
-              <option key={employee._id} value={employee._id}>
-                {employee._id}-{employee.first_name}
-              </option>
-            ))}
-          </select>
+          <Input
+            type={'select'}
+            name={'employee'}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            valueOptions={listEmployees}
+            label={'Select an Employee'}
+          ></Input>
         </div>
         <div>
-          <label>Select Project</label>
-          <select name="project" onChange={(e) => setProjectId(e.target.value)}>
-            <option value="">Select Project</option>
-            {listProjects.map((project) => (
-              <option key={project._id} value={project._id}>
-                {project._id}-{project.project_name}
-              </option>
-            ))}
-          </select>
+          <Input
+            type={'select'}
+            name={'project'}
+            onChange={(e) => setProjectId(e.target.value)}
+            valueOptions={listProjects}
+            label={'Select a Project'}
+          ></Input>
         </div>
         <div>
-          <label>Select Task</label>
-          <select name="task" onChange={(e) => setTaskId(e.target.value)}>
-            <option value="">Task</option>
-            {listTasks.map((task) => (
-              <option key={task._id} value={task._id}>
-                {task._id}-{task.description}
-              </option>
-            ))}
-          </select>
+          <Input
+            type={'select'}
+            name={'task'}
+            onChange={(e) => setTaskId(e.target.value)}
+            valueOptions={listTasks}
+            label={'Select a Task'}
+          ></Input>
         </div>
         <div>
           <label>Hours worked</label>
@@ -148,7 +157,7 @@ const AddTimeSheet = ({ show, closeForm, setShowModal, setTitleModal, newTimeShe
         <div className={styles.submitButton}>
           <input type="submit" value="Submit"></input>
         </div>
-        <button onClick={closeForm}>x</button>
+        <Button onClick={closeForm}>x</Button>
       </form>
     </div>
   );

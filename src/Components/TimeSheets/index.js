@@ -2,19 +2,24 @@ import React, { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import List from './List/List';
 import AddTimeSheet from './Add/AddTimeSheet';
-import Modal from './Modal/Modal';
+// import Modal from './Modal/Modal';
+import Button from '../Shared/Buttons/Buttons';
+import Loader from '../Shared/Loader/Loader';
+import Modal from '../Shared/Modal/Modal';
 
 const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
   const [showFormAdd, setShowFormAdd] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const listTS = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`);
       const data = await response.json();
       setList(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -51,40 +56,45 @@ const TimeSheets = () => {
     setList(updatedTimeSheet);
   };
 
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
   const closeForm = () => {
     setShowFormAdd(false);
   };
+
   const onClick = () => {
     setShowFormAdd(true);
   };
 
-  return (
+  return loading ? (
+    <Loader show={true} />
+  ) : (
     <section className={styles.container}>
       <h2>Time-Sheets</h2>
       <List
         list={list}
         setList={setList}
         deleteItem={deleteItem}
-        setTitleModal={setTitleModal}
         setShowModal={setShowModal}
         editTimeSheet={editTimeSheet}
+        setLoading={setLoading}
+        setTitleModal={setTitleModal}
       />
       <AddTimeSheet
         show={showFormAdd}
-        setShowModal={setShowModal}
-        newTimeSheet={newTimeSheet}
-        setTitleModal={setTitleModal}
-        closeForm={closeForm}
-      />
-      <button onClick={onClick} className={styles.addButton}>
-        Add
-      </button>
-      <Modal
-        titleModal={titleModal}
         showModal={showModal}
         setShowModal={setShowModal}
-        editTimeSheet={editTimeSheet}
+        newTimeSheet={newTimeSheet}
+        closeForm={closeForm}
+        setLoading={setLoading}
+        setTitleModal={setTitleModal}
       />
+      <Button onClick={onClick}>Add a TimeSheets</Button>
+      <Modal handleClose={handleClose} isOpen={showModal} title={titleModal}>
+        {titleModal}
+      </Modal>
     </section>
   );
 };
