@@ -11,7 +11,7 @@ body{
   width: 97%;
 }
 
-.container button{
+/* .container button{
   padding: 10px 15px;
   background-color: #aace9b;
   border: #000000 solid 1px;
@@ -31,4 +31,4 @@ body{
 .container button:active{
   background-color: #265213;
   transform: translateY(4px);
-}
+} */

@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import styles from './addSAdmin.module.css';
+import Input from '../../Shared/Field/Input';
+import Button from '../../Shared/Buttons/Buttons';
 
 const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, setLoading }) => {
   if (!show) {
     return null;
   }
 
-  const [userInput, setUserInput] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    active: ''
-  });
+  // const [userInput, setUserInput] = useState({
+  //   firstName: '',
+  //   lastName: '',
+  //   email: '',
+  //   password: '',
+  //   active: ''
+  // });
 
-  const onChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e) => {
+  //   setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  // };
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [active, setActive] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
-
-    setUserInput({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      active: ''
-    });
 
     const options = {
       method: 'POST',
@@ -37,11 +37,11 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: userInput.firstName,
-        lastName: userInput.lastName,
-        email: userInput.email,
-        password: userInput.password,
-        active: userInput.active
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        active: active
       })
     };
 
@@ -68,40 +68,42 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
         <h2>Add SuperAdmin</h2>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="firstName"
-            value={userInput.firstName}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input type="text" name="lastName" value={userInput.lastName} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Email</label>
-          <input type="text" name="email" value={userInput.email} onChange={onChange}></input>
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={userInput.password}
-            onChange={onChange}
-          ></input>
-        </div>
-        <div>
-          <label>Active</label>
-          <select name="active" value={userInput.active} onChange={onChange}>
-            <option></option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
+        <Input
+          type={'text'}
+          name={'firstName'}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          label={'Name'}
+        />
+        <Input
+          type={'text'}
+          name={'lastName'}
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          label={'Last Name'}
+        />
+        <Input
+          type={'text'}
+          name={'email'}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          label={'Email'}
+        />
+        <Input
+          type={'password'}
+          name={'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          label={'Password'}
+        />
+        <Input
+          type={'select'}
+          name={'active'}
+          value={active}
+          onChange={(e) => setActive(e.target.value)}
+          valueOptions={[true, false]}
+          label={'Active'}
+        />
         <div>
           <input
             type="submit"
@@ -112,7 +114,7 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
           ></input>
         </div>
         <div>
-          <button onClick={closeForm}>Close</button>
+          <Button onClick={closeForm}> Close </Button>
         </div>
       </form>
     </div>

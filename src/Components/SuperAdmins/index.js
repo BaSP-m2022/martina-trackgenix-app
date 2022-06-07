@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
 import AddSuperAdmin from './FormAdd/AddSuperAdmin';
-import Modal from './Modals/modal';
+import Modal from '../Shared/Modal/Modal';
 import Loader from '../Shared/Loader/Loader';
+import Button from '../Shared/Buttons/Buttons';
 
 const SuperAdmins = () => {
   const [superAdmins, saveSuperAdmins] = useState([]);
@@ -84,9 +85,16 @@ const SuperAdmins = () => {
         editItem={editItem}
         setLoading={setLoading}
       />
-      <button onClick={onClick}>+ Add Super Admin</button>
+      <Button onClick={onClick}>+ Add Super Admin</Button>
       <Loader show={loading} />
-      <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal(false);
+        }}
+      >
+        <p>{showTitle}</p>
+      </Modal>
     </section>
   );
 };

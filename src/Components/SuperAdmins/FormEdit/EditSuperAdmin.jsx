@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './editSAdmin.module.css';
+import Button from '../../Shared/Buttons/Buttons';
 
 const EditSuperAdmin = ({
   show,
@@ -123,7 +124,7 @@ const EditSuperAdmin = ({
           ></input>
         </div>
         <div>
-          <button onClick={closeForm}>Close</button>
+          <Button onClick={closeForm}> Close </Button>
         </div>
       </form>
     </div>
