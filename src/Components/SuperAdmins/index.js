@@ -85,7 +85,7 @@ const SuperAdmins = () => {
         editItem={editItem}
         setLoading={setLoading}
       />
-      <Button onClick={onClick}>+ Add Super Admin</Button>
+      <Button onClick={onClick}> Add Super Admin</Button>
       <Loader show={loading} />
       <Modal
         isOpen={showModal}

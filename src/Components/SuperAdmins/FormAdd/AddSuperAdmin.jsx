@@ -2,29 +2,24 @@ import React, { useState } from 'react';
 import styles from './addSAdmin.module.css';
 import Input from '../../Shared/Field/Input';
 import Button from '../../Shared/Buttons/Buttons';
+import RadioButton from '../../Shared/Field/RadioButton';
 
 const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, setLoading }) => {
   if (!show) {
     return null;
   }
 
-  // const [userInput, setUserInput] = useState({
-  //   firstName: '',
-  //   lastName: '',
-  //   email: '',
-  //   password: '',
-  //   active: ''
-  // });
+  const [userInput, setUserInput] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    active: ''
+  });
 
-  // const onChange = (e) => {
-  //   setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  // };
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [active, setActive] = useState(false);
+  const onChange = (e) => {
+    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -37,11 +32,11 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        active: active
+        firstName: userInput.firstName,
+        lastName: userInput.lastName,
+        email: userInput.email,
+        password: userInput.password,
+        active: userInput.active
       })
     };
 
@@ -71,39 +66,32 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
         <Input
           type={'text'}
           name={'firstName'}
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={userInput.firstName}
+          onChange={onChange}
           label={'Name'}
         />
         <Input
           type={'text'}
           name={'lastName'}
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={userInput.lastName}
+          onChange={onChange}
           label={'Last Name'}
         />
         <Input
           type={'text'}
           name={'email'}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={userInput.email}
+          onChange={onChange}
           label={'Email'}
         />
         <Input
           type={'password'}
           name={'password'}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={userInput.password}
+          onChange={onChange}
           label={'Password'}
         />
-        <Input
-          type={'select'}
-          name={'active'}
-          value={active}
-          onChange={(e) => setActive(e.target.value)}
-          valueOptions={[true, false]}
-          label={'Active'}
-        />
+        <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
         <div>
           <input
             type="submit"

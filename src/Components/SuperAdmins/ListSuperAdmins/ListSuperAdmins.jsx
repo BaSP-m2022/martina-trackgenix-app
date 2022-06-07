@@ -40,16 +40,13 @@ const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem, se
           <th id="lastName">Last Name</th>
           <th id="email">Email</th>
           <th id="password">Password</th>
-          <th id="active">Active</th>
-          <th id="delete">Delete Super Admin</th>
-          <th id="edit">Edit Super Admin</th>
         </thead>
         <tbody>
           {list.map((item) => (
             <Row
               key={item._id}
               data={item}
-              headers={['_id', 'firstName', 'lastName', 'email', 'password', 'active']}
+              headers={['_id', 'firstName', 'lastName', 'email', 'password']}
               deleteItem={() => handleDelete(item._id)}
               editItem={openForm}
             >
