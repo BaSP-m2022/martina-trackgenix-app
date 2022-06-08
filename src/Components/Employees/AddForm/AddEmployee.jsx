@@ -9,25 +9,12 @@ const AddEmployee = ({ show, closeForm, setShowModal, setShowTitle, newEmployee,
     return null;
   }
 
-  // const [userInput, setUserInput] = useState({
-  //   first_name: '',
-  //   last_name: '',
-  //   phone: '',
-  //   email: '',
-  //   password: '',
-  //   active: ''
-  // });
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [active, setActive] = useState('');
-
-  // const onChange = (e) => {
-  //   setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();

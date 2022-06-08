@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ListBody from './ListBody/ListBody';
 import styles from './employees.module.css';
-import Modal from './Modals/Modal';
 import AddEmployee from './AddForm/AddEmployee';
 import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
+import Modal from '../Shared/Modal/Modal';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -92,6 +92,14 @@ const Employees = () => {
       />
       <Button onClick={onClick}>ADD NEW</Button>
       <Loader show={loading} />
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal(false);
+        }}
+      >
+        <p>{showTitle}</p>
+      </Modal>
     </section>
   );
 };
