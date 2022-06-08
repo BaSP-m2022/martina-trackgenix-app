@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import List from './List/List';
 import Modal from './Modal/Modal';
+// import Row from '../Shared/Row';
+import Button from '../Shared/Buttons';
+// import Field from '../Shared/Field';
 import AddProject from './FormAdd/AddProject';
 
 const Projects = () => {
@@ -62,7 +65,7 @@ const Projects = () => {
         deleteItem={deleteItem}
         editItem={editItem}
       />
-      <button onClick={() => setShowFormAdd(true)}>+ Add Project</button>
+      <Button onClick={() => setShowFormAdd(true)}>+ Add Project</Button>
       <AddProject
         showFormAdd={showFormAdd}
         setShowFormAdd={setShowFormAdd}
