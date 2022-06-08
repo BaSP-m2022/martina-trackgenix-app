@@ -33,6 +33,7 @@ const TimeSheets = () => {
   };
 
   const newTimeSheet = (body) => {
+    console.log(body);
     const NewTimeSheet = {
       _id: body._id,
       employee: body.employee,

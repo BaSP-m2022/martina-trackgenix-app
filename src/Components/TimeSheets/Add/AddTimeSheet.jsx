@@ -39,7 +39,12 @@ const AddTimeSheet = ({
     fetchEmployees();
   }, []);
 
-  console.log(listEmployees);
+  // console.log(listEmployees);
+  // const newListEmployee = listEmployees.map((item) => {
+  //   if (item._id === employeeId) {
+  //     return item.first_name;
+  //   }
+  // });
 
   const fetchProjects = async () => {
     try {
@@ -55,6 +60,13 @@ const AddTimeSheet = ({
     fetchProjects();
   }, []);
 
+  // const newListProjects = listProjects.map((item, index) => {
+  //   return {
+  //     project_name: item.project_name,
+  //     index
+  //   };
+  // });
+
   const fetchTasks = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
@@ -68,6 +80,13 @@ const AddTimeSheet = ({
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  // const newListTask = listTasks.map((item, index) => {
+  //   return {
+  //     description: item.description,
+  //     index
+  //   };
+  // });
 
   const onSubmit = async (e) => {
     e.preventDefault();

@@ -11,6 +11,7 @@ const List = ({ list, setShowModal, setTitleModal, deleteItem, editTimeSheet, se
 
   const handleDelete = async (_id) => {
     setLoading(true);
+
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
         method: 'DELETE'

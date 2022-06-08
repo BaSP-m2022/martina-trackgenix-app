@@ -10,7 +10,7 @@ const Input = ({ type, name, value, onChange, valueOptions, label }) => {
           <select name={name} onChange={onChange}>
             {valueOptions.map((item) => (
               <option key={item._id} value={item._id}>
-                {item._id}
+                {item._id}{' '}
               </option>
             ))}
           </select>
