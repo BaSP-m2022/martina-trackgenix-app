@@ -35,3 +35,18 @@
     background-color: #BEBEBE;
     color: #373867;
   }
+
+  .page p {
+    color: #373867;
+    font-weight: bold;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .buttons > div {
+    margin: 5px;
+  }
+
