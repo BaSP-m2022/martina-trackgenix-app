@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import List from './List/List';
+import AddTimeSheet from './Add/AddTimeSheet';
 import Modal from './Modal/Modal';
 
 const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
+  const [showFormAdd, setShowFormAdd] = useState(false);
 
   const listTS = async () => {
     try {
@@ -26,6 +28,36 @@ const TimeSheets = () => {
     setList([...list.filter((listItem) => listItem._id !== _id)]);
   };
 
+  const newTimeSheet = (body) => {
+    const NewTimeSheet = {
+      _id: body._id,
+      employee: body.employee,
+      project: body.project,
+      task: body.task,
+      hs_worked: body.hs_worked,
+      timesheetDate: body.timesheetDate
+    };
+    setList([...list, NewTimeSheet]);
+  };
+
+  const editTimeSheet = (body) => {
+    const updatedTimeSheet = list.map((item) => {
+      if (item._id === body._id) {
+        return body;
+      } else {
+        return item;
+      }
+    });
+    setList(updatedTimeSheet);
+  };
+
+  const closeForm = () => {
+    setShowFormAdd(false);
+  };
+  const onClick = () => {
+    setShowFormAdd(true);
+  };
+
   return (
     <section className={styles.container}>
       <h2>Time-Sheets</h2>
@@ -35,8 +67,24 @@ const TimeSheets = () => {
         deleteItem={deleteItem}
         setTitleModal={setTitleModal}
         setShowModal={setShowModal}
+        editTimeSheet={editTimeSheet}
       />
-      <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} />
+      <AddTimeSheet
+        show={showFormAdd}
+        setShowModal={setShowModal}
+        newTimeSheet={newTimeSheet}
+        setTitleModal={setTitleModal}
+        closeForm={closeForm}
+      />
+      <button onClick={onClick} className={styles.addButton}>
+        Add
+      </button>
+      <Modal
+        titleModal={titleModal}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        editTimeSheet={editTimeSheet}
+      />
     </section>
   );
 };
