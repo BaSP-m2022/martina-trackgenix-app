@@ -5,15 +5,15 @@ import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 
 const EditSuperAdmin = ({
-  show,
-  closeForm,
+  showFormEdit,
+  setShowFormEdit,
   previewSuperAdmin,
   setShowModal,
   setShowTitle,
   editItem,
   setLoading
 }) => {
-  if (!show) {
+  if (!showFormEdit) {
     return null;
   }
 
@@ -65,7 +65,7 @@ const EditSuperAdmin = ({
         editItem(editSuperAdmins);
         setShowTitle('Super Admin updated successfully');
         setShowModal(true);
-        closeForm();
+        setShowFormEdit(false);
         setLoading(false);
       }
     } catch (error) {
@@ -115,7 +115,7 @@ const EditSuperAdmin = ({
           Confirm
         </Button>
         <div>
-          <Button onClick={closeForm}> Close </Button>
+          <Button onClick={() => setShowFormEdit(false)}> Close </Button>
         </div>
       </form>
     </div>

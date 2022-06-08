@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
 import AddSuperAdmin from './FormAdd/AddSuperAdmin';
+import EditSuperAdmin from './FormEdit/EditSuperAdmin';
 import Modal from '../Shared/Modal/Modal';
 import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
@@ -9,9 +10,17 @@ import Button from '../Shared/Buttons/Buttons';
 const SuperAdmins = () => {
   const [superAdmins, saveSuperAdmins] = useState([]);
   const [showFormAdd, setShowFormAdd] = useState(false);
+  const [showFormEdit, setShowFormEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
   const [loading, setLoading] = useState(true);
+  const [previewSuperAdmin, setPreviewSuperAdmin] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    active: true
+  });
 
   const fetchData = async () => {
     try {
@@ -55,10 +64,6 @@ const SuperAdmins = () => {
     saveSuperAdmins(superAdminUpdated);
   };
 
-  const closeForm = () => {
-    setShowFormAdd(false);
-  };
-
   const onClick = () => {
     setShowFormAdd(true);
   };
@@ -69,8 +74,8 @@ const SuperAdmins = () => {
     <section className={styles.container}>
       <AddSuperAdmin
         addItem={addItem}
-        show={showFormAdd}
-        closeForm={closeForm}
+        showFormAdd={showFormAdd}
+        setShowFormAdd={setShowFormAdd}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         setLoading={setLoading}
@@ -78,8 +83,17 @@ const SuperAdmins = () => {
       <h2>SuperAdmins List</h2>
       <ListSuperAdmin
         list={superAdmins}
-        setList={saveSuperAdmins}
         deleteItem={deleteItem}
+        setShowModal={setShowModal}
+        setShowTitle={setShowTitle}
+        setShowFormEdit={setShowFormEdit}
+        setPreviewSuperAdmin={setPreviewSuperAdmin}
+        setLoading={setLoading}
+      />
+      <EditSuperAdmin
+        showFormEdit={showFormEdit}
+        setShowFormEdit={setShowFormEdit}
+        previewSuperAdmin={previewSuperAdmin}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         editItem={editItem}

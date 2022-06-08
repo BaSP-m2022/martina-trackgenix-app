@@ -11,24 +11,3 @@ body{
   width: 97%;
 }
 
-/* .container button{
-  padding: 10px 15px;
-  background-color: #aace9b;
-  border: #000000 solid 1px;
-  border-radius: 5px;
-  color: #373867;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  box-shadow: 3px 3px 10px
-}
-
-.container button:hover{
-  background-color: #37781c;
-  color: #000000;
-  transition-duration: 0,4s;
-}
-
-.container button:active{
-  background-color: #265213;
-  transform: translateY(4px);
-} */

@@ -4,8 +4,15 @@ import Input from '../../Shared/Field/Input';
 import Button from '../../Shared/Buttons/Buttons';
 import RadioButton from '../../Shared/Field/RadioButton';
 
-const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, setLoading }) => {
-  if (!show) {
+const AddSuperAdmin = ({
+  showFormAdd,
+  setShowFormAdd,
+  setShowModal,
+  setShowTitle,
+  addItem,
+  setLoading
+}) => {
+  if (!showFormAdd) {
     return null;
   }
 
@@ -51,7 +58,7 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
         addItem(data.data);
         setShowTitle('Super Admin Created');
         setShowModal(true);
-        closeForm();
+        setShowFormAdd(false);
         setLoading(false);
       }
     } catch (error) {
@@ -100,7 +107,7 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
           Confirm
         </Button>
         <div>
-          <Button onClick={closeForm}> Close </Button>
+          <Button onClick={() => setShowFormAdd(false)}> Close </Button>
         </div>
       </form>
     </div>
