@@ -5,19 +5,20 @@ import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 
 const EditSuperAdmin = ({
+  action,
   showFormEdit,
   setShowFormEdit,
   previewSuperAdmin,
   setShowModal,
   setShowTitle,
-  editItem,
+  setList,
   setLoading
 }) => {
   if (!showFormEdit) {
     return null;
   }
 
-  const [editSuperAdmins, setEditSuperAdmins] = useState({
+  const [superAdminsInput, setsuperAdminsInput] = useState({
     _id: previewSuperAdmin._id,
     firstName: previewSuperAdmin.firstName,
     lastName: previewSuperAdmin.lastName,
@@ -27,7 +28,7 @@ const EditSuperAdmin = ({
   });
 
   const onChange = (e) => {
-    setEditSuperAdmins({ ...editSuperAdmins, [e.target.name]: e.target.value });
+    setsuperAdminsInput({ ...superAdminsInput, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
@@ -37,24 +38,44 @@ const EditSuperAdmin = ({
 
     const SuperAdminsId = previewSuperAdmin._id;
 
-    const options = {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: editSuperAdmins.firstName,
-        lastName: editSuperAdmins.lastName,
-        email: editSuperAdmins.email,
-        password: editSuperAdmins.password,
-        active: editSuperAdmins.active
-      })
+    const method = () => {
+      if (action === 'add') {
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            firstName: superAdminsInput.firstName,
+            lastName: superAdminsInput.lastName,
+            email: superAdminsInput.email,
+            password: superAdminsInput.password,
+            active: superAdminsInput.active
+          })
+        };
+        return options;
+      } else if (action === 'edit') {
+        const options = {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            firstName: superAdminsInput.firstName,
+            lastName: superAdminsInput.lastName,
+            email: superAdminsInput.email,
+            password: superAdminsInput.password,
+            active: superAdminsInput.active
+          })
+        };
+        return options;
+      }
     };
 
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/super-admins/${SuperAdminsId}`,
-        options
+        method
       );
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
@@ -62,7 +83,7 @@ const EditSuperAdmin = ({
         setShowTitle(data.message);
         setLoading(false);
       } else {
-        editItem(editSuperAdmins);
+        setList(superAdminsInput);
         setShowTitle('Super Admin updated successfully');
         setShowModal(true);
         setShowFormEdit(false);
@@ -76,32 +97,32 @@ const EditSuperAdmin = ({
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
-        <h2>Form</h2>
+        <h2>Form Edit</h2>
         <Input
           type={'text'}
           name={'firstName'}
-          value={editSuperAdmins.firstName}
+          value={superAdminsInput.firstName}
           onChange={onChange}
           label={'Name'}
         />
         <Input
           type={'text'}
           name={'lastName'}
-          value={editSuperAdmins.lastName}
+          value={superAdminsInput.lastName}
           onChange={onChange}
           label={'Last Name'}
         />
         <Input
           type={'text'}
           name={'email'}
-          value={editSuperAdmins.email}
+          value={superAdminsInput.email}
           onChange={onChange}
           label={'Email'}
         />
         <Input
           type={'password'}
           name={'password'}
-          value={editSuperAdmins.password}
+          value={superAdminsInput.password}
           onChange={onChange}
           label={'Password'}
         />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
-import AddSuperAdmin from './FormAdd/AddSuperAdmin';
+// import AddSuperAdmin from './FormAdd/AddSuperAdmin';
 import EditSuperAdmin from './FormEdit/EditSuperAdmin';
 import Modal from '../Shared/Modal/Modal';
 import Loader from '../Shared/Loader/Loader';
@@ -9,7 +9,7 @@ import Button from '../Shared/Buttons/Buttons';
 
 const SuperAdmins = () => {
   const [superAdmins, saveSuperAdmins] = useState([]);
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  // const [showFormAdd, setShowFormAdd] = useState(false);
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
@@ -21,6 +21,7 @@ const SuperAdmins = () => {
     password: '',
     active: true
   });
+  const [action, setAction] = useState('');
 
   const fetchData = async () => {
     try {
@@ -41,17 +42,17 @@ const SuperAdmins = () => {
     saveSuperAdmins([...superAdmins.filter((listItem) => listItem._id !== _id)]);
   };
 
-  const addItem = ({ _id, firstName, lastName, email, password, active }) => {
-    const newItem = {
-      _id,
-      firstName,
-      lastName,
-      email,
-      password,
-      active
-    };
-    saveSuperAdmins([...superAdmins, newItem]);
-  };
+  // const addItem = ({ _id, firstName, lastName, email, password, active }) => {
+  //   const newItem = {
+  //     _id,
+  //     firstName,
+  //     lastName,
+  //     email,
+  //     password,
+  //     active
+  //   };
+  //   saveSuperAdmins([...superAdmins, newItem]);
+  // };
 
   const editItem = (data) => {
     const superAdminUpdated = superAdmins.map((superAdmin) => {
@@ -65,21 +66,22 @@ const SuperAdmins = () => {
   };
 
   const onClick = () => {
-    setShowFormAdd(true);
+    setShowFormEdit(true);
+    setAction('add');
   };
 
   return loading ? (
     <Loader show={true} />
   ) : (
     <section className={styles.container}>
-      <AddSuperAdmin
+      {/* <AddSuperAdmin
         addItem={addItem}
         showFormAdd={showFormAdd}
         setShowFormAdd={setShowFormAdd}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         setLoading={setLoading}
-      />
+      /> */}
       <h2>SuperAdmins List</h2>
       <ListSuperAdmin
         list={superAdmins}
@@ -91,12 +93,13 @@ const SuperAdmins = () => {
         setLoading={setLoading}
       />
       <EditSuperAdmin
+        action={action}
         showFormEdit={showFormEdit}
         setShowFormEdit={setShowFormEdit}
         previewSuperAdmin={previewSuperAdmin}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
-        editItem={editItem}
+        setList={editItem}
         setLoading={setLoading}
       />
       <Button onClick={onClick}> Add Super Admin</Button>
