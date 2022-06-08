@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './listItem.module.css';
 import EditProject from '../FormEdit/EditProject';
+import Button from '../../Shared/Buttons/Buttons';
 
 const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem, setLoading }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
@@ -32,7 +33,13 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem,
       <td>{listItem.finish_date.toString().slice(0, 10)}</td>
       <td>{listItem.active.toString()}</td>
       <td>
-        <button onClick={() => handleDelete(listItem._id)}>X</button>
+        <Button
+          onClick={() => {
+            handleDelete(listItem._id);
+          }}
+        >
+          X
+        </Button>
       </td>
       <td>
         <EditProject
@@ -45,7 +52,13 @@ const ListItem = ({ listItem, setShowModal, setTitleModal, deleteItem, editItem,
           editItem={editItem}
           setLoading={setLoading}
         />
-        <button onClick={() => setShowFormEdit(true)}>&#9998;</button>
+        <Button
+          onClick={() => {
+            setShowFormEdit(true);
+          }}
+        >
+          &#9998;
+        </Button>
       </td>
     </tr>
   );

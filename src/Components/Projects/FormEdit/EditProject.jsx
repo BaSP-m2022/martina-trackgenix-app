@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './editProject.module.css';
+import Button from '../../Shared/Buttons/Buttons';
 
 const EditProject = ({
   showFormEdit,
@@ -165,7 +166,7 @@ const EditProject = ({
           <input type="submit" value="Confirm" onSubmit={onSubmit}></input>
         </div>
         <div>
-          <button onClick={() => setShowFormEdit(false)}>Close</button>
+          <Button onClick={() => setShowFormEdit(false)}>Close</Button>
         </div>
       </form>
     </div>

@@ -4,6 +4,7 @@ import List from './List/List';
 import Modal from '../Shared/Modal/Modal';
 import AddProject from './FormAdd/AddProject';
 import Loader from '../Shared/Loader/Loader';
+import Button from '../Shared/Buttons/Buttons';
 
 const Projects = () => {
   const [list, setList] = useState([]);
@@ -68,7 +69,7 @@ const Projects = () => {
         editItem={editItem}
         setLoading={setLoading}
       />
-      <button onClick={() => setShowFormAdd(true)}>+ Add Project</button>
+      <Button onClick={() => setShowFormAdd(true)}>+ Add Project</Button>
       <AddProject
         showFormAdd={showFormAdd}
         setShowFormAdd={setShowFormAdd}
