@@ -10,7 +10,8 @@ const EditAdmin = ({
   setShowModal,
   setChildrenModal,
   previewAdmin,
-  editItem
+  editItem,
+  setShowLoader
 }) => {
   if (!showFormEdit) {
     return null;
@@ -32,40 +33,44 @@ const EditAdmin = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const options = {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: editAdmin.firstName,
-        lastName: editAdmin.lastName,
-        phone: editAdmin.phone,
-        email: editAdmin.email,
-        password: editAdmin.password,
-        active: editAdmin.active
-      })
-    };
+    setShowLoader(true);
 
-    const AdminId = previewAdmin._id;
-    const url = `${process.env.REACT_APP_API_URL}/admins/${AdminId}`;
+    if (confirm('Are you sure you want to modify the Admin?')) {
+      const options = {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: editAdmin.firstName,
+          lastName: editAdmin.lastName,
+          phone: editAdmin.phone,
+          email: editAdmin.email,
+          password: editAdmin.password,
+          active: editAdmin.active
+        })
+      };
 
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      if (response.status !== 201 && response.status !== 200) {
-        setShowFormEdit(false);
-        setShowModal(true);
-        setChildrenModal(data.message);
-      } else {
-        setShowFormEdit(false);
-        setShowModal(true);
-        setChildrenModal(data.message);
-        editItem(data.data);
+      const AdminId = previewAdmin._id;
+      const url = `${process.env.REACT_APP_API_URL}/admins/${AdminId}`;
+
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        if (response.status !== 201 && response.status !== 200) {
+          setShowModal(true);
+          setChildrenModal(data.message);
+        } else {
+          setShowModal(true);
+          setChildrenModal(data.message);
+          editItem(data.data);
+          setShowFormEdit(false);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
+    setShowLoader(false);
   };
 
   return (

@@ -4,7 +4,14 @@ import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
 
-const AddItem = ({ showFormAdd, setShowFormAdd, addItem, setShowModal, setChildrenModal }) => {
+const AddItem = ({
+  showFormAdd,
+  setShowFormAdd,
+  addItem,
+  setShowModal,
+  setChildrenModal,
+  setShowLoader
+}) => {
   if (!showFormAdd) {
     return null;
   }
@@ -24,6 +31,7 @@ const AddItem = ({ showFormAdd, setShowFormAdd, addItem, setShowModal, setChildr
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setShowLoader(true);
     const options = {
       method: 'POST',
       headers: {
@@ -57,6 +65,7 @@ const AddItem = ({ showFormAdd, setShowFormAdd, addItem, setShowModal, setChildr
     } catch (error) {
       console.error(error);
     }
+    setShowLoader(false);
   };
 
   return (
