@@ -1,7 +1,6 @@
-.container{
+.container {
   position: fixed;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -10,16 +9,7 @@
   left: 0;
   top: 0;
   overflow: auto;
-  background-color: #0000;
-}
-
-.container h2{
-  margin-left: 5%;
-}
-
-.container label{
-  display: flex;
-  flex-direction: column;
+  background-color: #00000080;
 }
 
 .container form {
@@ -27,10 +17,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 23%;
-  height: 26%;
-  background-color: #0A0A0A;
-  margin-left: 5%;
+  width: 25%;
+  height: 35%;
+  background-color: #ffffff;
   border-radius: 10px;
   gap: 15px
 }

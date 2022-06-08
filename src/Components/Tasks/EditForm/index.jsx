@@ -3,7 +3,15 @@ import styles from './form.module.css';
 import Input from '../../Shared/Field/Input';
 import Button from '../../Shared/Buttons/Buttons';
 
-const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, editItem }) => {
+const EditTask = ({
+  show,
+  closeForm,
+  previewTask,
+  setShowModal,
+  setShowTitle,
+  editItem,
+  setLoading
+}) => {
   if (!show) {
     return null;
   }
@@ -19,6 +27,7 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const taskId = previewTask._id;
 
@@ -38,11 +47,13 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
         setShowTitle(data.data);
+        setLoading(false);
       } else {
         editItem(editTask);
         setShowTitle('Task updated successfully');
         setShowModal(true);
         closeForm();
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -57,6 +68,7 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
           <Input
             type={'text'}
             name={'description'}
+            label={'Edit your task:'}
             value={editTask.description}
             onChange={onChange}
           ></Input>

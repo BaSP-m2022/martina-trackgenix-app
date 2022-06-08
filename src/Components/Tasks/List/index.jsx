@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import style from './list.module.css';
 import Row from '../../Shared/Row/Row';
 import EditTask from '../EditForm';
 
-const List = ({ listTask, deleteItem, setShowModal, setShowTitle, editItem }) => {
+const List = ({ listTask, deleteItem, setShowModal, setShowTitle, editItem, setLoading }) => {
   const [showFormEdit, setShowFormEdit] = useState(false);
 
   const handleDelete = async (_id) => {
+    setLoading(true);
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/tasks/${_id}`, {
         method: 'DELETE'
@@ -15,9 +15,11 @@ const List = ({ listTask, deleteItem, setShowModal, setShowTitle, editItem }) =>
       setShowTitle('Task deleted successfully');
       deleteItem(_id);
       closeForm();
+      setLoading(false);
     } catch (error) {
       setShowModal(true);
       setShowTitle(error.msg);
+      setLoading(false);
     }
   };
 
@@ -37,7 +39,7 @@ const List = ({ listTask, deleteItem, setShowModal, setShowTitle, editItem }) =>
   });
 
   return (
-    <div className={style.container}>
+    <div>
       <table>
         <thead>
           <tr>
@@ -52,6 +54,7 @@ const List = ({ listTask, deleteItem, setShowModal, setShowTitle, editItem }) =>
               data={task}
               headers={['_id', 'description']}
               deleteItem={() => handleDelete(task._id)}
+              setLoading={setLoading}
               editItem={openForm}
             >
               <EditTask
@@ -62,6 +65,7 @@ const List = ({ listTask, deleteItem, setShowModal, setShowTitle, editItem }) =>
                 setShowModal={setShowModal}
                 setShowTitle={setShowTitle}
                 editItem={editItem}
+                setLoading={setLoading}
               />
             </Row>
           ))}

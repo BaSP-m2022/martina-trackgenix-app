@@ -1,7 +1,6 @@
 .container {
   position: fixed;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -10,27 +9,17 @@
   left: 0;
   top: 0;
   overflow: auto;
-  background-color: rgba(0,0,0,0.5);
-}
-
-.container h2{
-  margin-left: 5%;
-}
-
-.container label{
-  display: flex;
-  flex-direction: column;
+  background-color: #0000002f;
 }
 
 .container form {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 25%;
-  height: 40%;
-  background-color: rgb(255, 255, 255);
-  margin-left: 5%;
+  height: 35%;
+  background-color: #ffffff;
   border-radius: 10px;
   gap: 15px
 }

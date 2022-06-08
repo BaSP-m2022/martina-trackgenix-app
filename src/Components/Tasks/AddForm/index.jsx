@@ -3,7 +3,7 @@ import styles from './form.module.css';
 import Input from '../../Shared/Field/Input';
 import Button from '../../Shared/Buttons/Buttons';
 
-const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
+const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem, setLoading }) => {
   if (!show) {
     return null;
   }
@@ -18,6 +18,7 @@ const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setUserInput({
       description: ''
     });
@@ -39,11 +40,13 @@ const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
         setShowModal(true);
         closeForm();
         setShowTitle(data.data);
+        setLoading(false);
       } else {
         addItem(data.data);
         setShowTitle(data.message);
         setShowModal(true);
         closeForm();
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -57,7 +60,7 @@ const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
           <h2>Task Description</h2>
           <Input
             type={'text'}
-            label={'Description'}
+            label={'Description:'}
             name={'description'}
             placeholder={'new-description'}
             value={userInput.description}
