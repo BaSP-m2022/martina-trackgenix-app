@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './form.module.css';
+import Input from '../../Shared/Field/Input';
+import Button from '../../Shared/Buttons/Buttons';
 
 const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, editItem }) => {
   if (!show) {
@@ -52,19 +54,28 @@ const EditTask = ({ show, closeForm, previewTask, setShowModal, setShowTitle, ed
       <form onSubmit={onSubmit}>
         <div>
           <h2>Task Description</h2>
-          <input type="text" name="description" value={editTask.description} onChange={onChange} />
+          <Input
+            type={'text'}
+            name={'description'}
+            value={editTask.description}
+            onChange={onChange}
+          ></Input>
         </div>
         <div>
-          <input
-            type="submit"
-            value="create"
+          <Button
+            width={'80px'}
+            height={'30px'}
             onSubmit={() => {
               setShowModal(true);
             }}
-          />
+          >
+            Create
+          </Button>
         </div>
         <div>
-          <button onClick={closeForm}>Close</button>
+          <Button onClick={closeForm} width={'80px'} height={'30px'}>
+            Close
+          </Button>
         </div>
       </form>
     </div>
