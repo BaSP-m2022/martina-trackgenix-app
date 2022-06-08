@@ -10,6 +10,7 @@
     left: 0;
     overflow: auto;
     background-color: #00000080;
+    z-index: 99;
 }
 
 .billboard {

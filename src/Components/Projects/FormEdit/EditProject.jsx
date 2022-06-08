@@ -73,11 +73,11 @@ const EditProject = ({
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
-        setTitleModal(data.message);
+        setTitleModal(data.error);
         setLoading(false);
       }
       editItem(data.data);
-      setTitleModal('Super Admin updated successfully');
+      setTitleModal('Project updated successfully');
       setShowModal(true);
       setShowFormEdit(false);
       setLoading(false);

@@ -70,7 +70,7 @@ const AddProject = ({
         setLoading(false);
       } else {
         setShowModal(true);
-        setTitleModal(res.message);
+        setTitleModal('Project created successfully');
         addItem(res.data);
         setShowFormAdd(false);
         setLoading(false);

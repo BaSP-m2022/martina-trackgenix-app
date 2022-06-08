@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import List from './List/List';
-import Modal from './Modal/Modal';
+import Modal from '../Shared/Modal/Modal';
 import AddProject from './FormAdd/AddProject';
 import Loader from '../Shared/Loader/Loader';
 
@@ -77,7 +77,15 @@ const Projects = () => {
         addItem={addItem}
         setLoading={setLoading}
       />
-      <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} />
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal(false);
+        }}
+        title={titleModal}
+      >
+        {titleModal}
+      </Modal>
       <Loader show={loading} />
     </section>
   );
