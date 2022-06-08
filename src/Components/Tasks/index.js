@@ -28,16 +28,8 @@ function Tasks() {
     fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
-    const resp = confirm('Are you sure you want to delete it?');
-    if (resp) {
-      await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'DELETE'
-      }).then(() => {
-        alert('succesfully delete');
-      });
-      saveTasks(tasks.filter((task) => task._id !== id));
-    }
+  const deleteItem = (_id) => {
+    saveTasks([...tasks.filter((task) => task._id !== _id)]);
   };
 
   const addItem = ({ _id, description }) => {
@@ -77,7 +69,7 @@ function Tasks() {
     <section className={styles.container}>
       <h2>Tasks</h2>
       <List
-        handleDelete={handleDelete}
+        deleteItem={deleteItem}
         listTask={tasks}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}

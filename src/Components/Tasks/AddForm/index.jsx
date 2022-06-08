@@ -37,12 +37,14 @@ const Add = ({ show, closeForm, setShowModal, setShowTitle, addItem }) => {
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
         setShowModal(true);
+        closeForm();
+        setShowTitle(data.data);
+      } else {
+        addItem(data.data);
         setShowTitle(data.message);
+        setShowModal(true);
+        closeForm();
       }
-      addItem(data.data);
-      setShowTitle('Task Created');
-      setShowModal(true);
-      closeForm();
     } catch (error) {
       console.error(error);
     }
