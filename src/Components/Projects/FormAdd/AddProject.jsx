@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './addProject.module.css';
+import Input from '../../Shared/Field/Input';
+import RadioButton from '../../Shared/Field/RadioButton';
+import Button from '../../Shared/Buttons/Buttons';
 
 const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, addItem }) => {
   if (!showFormAdd) {
@@ -73,83 +76,63 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
     <div className={styles.container}>
       <form id="addForm" onSubmit={onSubmit}>
         <h2>Add Project</h2>
-        <div>
-          <label>Project Name</label>
-          <input
-            type="text"
-            name="projectName"
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Start Date</label>
-          <input
-            type="date"
-            name="startDate"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Finish Date</label>
-          <input
-            type="date"
-            name="finishDate"
-            value={finishDate}
-            onChange={(e) => setFinishDate(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Client</label>
-          <input
-            type="text"
-            name="client"
-            value={client}
-            onChange={(e) => setClient(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label>Select Employee</label>
-          <select name="id" onChange={onChangeEmployee}>
-            {listEmployees.map((employee) => (
-              <option key={employee._id} value={employee._id}>
-                {employee._id}-{employee.first_name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>ROLE Employee</label>
-          <select name="role" onChange={onChangeEmployee}>
-            <option value={employees.role['DEV']}>DEV</option>
-            <option value={employees.role['PM']}>PM</option>
-            <option value={employees.role['QA']}>QA</option>
-            <option value={employees.role['TL']}>TL</option>
-          </select>
-        </div>
-        <div>
-          <label>RATE Employee</label>
-          <input
-            type="number"
-            name="rate"
-            value={employees.rate}
-            onChange={onChangeEmployee}
-          ></input>
-        </div>
-        <div>
-          <label>Active</label>
-          <select name="active" onChange={(e) => setActive(e.target.value)}>
-            <option value={active['true']}>TRUE</option>
-            <option value={active['false']}>FALSE</option>
-          </select>
-        </div>
-        <div>
-          <input type="submit" value="Confirm" onSubmit={onSubmit}></input>
-        </div>
-        <div>
-          <button onClick={() => setShowFormAdd(false)}>Close</button>
-        </div>
+        <Input
+          type={'text'}
+          name={'projectName'}
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          label={'Project Name'}
+        ></Input>
+        <Input
+          type={'date'}
+          name={'startDate'}
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          label={'Start Date'}
+        ></Input>
+        <Input
+          type={'date'}
+          name={'finishDate'}
+          value={finishDate}
+          onChange={(e) => setFinishDate(e.target.value)}
+          label={'Finish Date'}
+        ></Input>
+        <Input
+          type={'text'}
+          name={'client'}
+          value={client}
+          onChange={(e) => setClient(e.target.value)}
+          label={'Client'}
+        ></Input>
+        <Input
+          type={'select'}
+          name={'id'}
+          valueOptions={listEmployees}
+          onChange={onChangeEmployee}
+          label="Select Employee"
+        ></Input>
+        <Input
+          type={'select'}
+          name={'role'}
+          onChange={onChangeEmployee}
+          label={'Role Employee'}
+          valueOptions={['QA', 'PM', 'DEV', 'TL']}
+        ></Input>
+        <Input
+          type={'number'}
+          name={'rate'}
+          value={employees.rate}
+          onChange={onChangeEmployee}
+          label="RATE Employee"
+        ></Input>
+        <RadioButton
+          name={'Active'}
+          onChange={(e) => setActive(e.target.value)}
+          label={'Active'}
+          value={[true, false]}
+        ></RadioButton>
+        <Button onClick={(e) => onSubmit(e)}>Submit</Button>
+        <Button onClick={() => setShowFormAdd(false)}>Close</Button>
       </form>
     </div>
   );
