@@ -92,15 +92,13 @@ const AddSuperAdmin = ({ show, closeForm, setShowModal, setShowTitle, addItem, s
           label={'Password'}
         />
         <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
-        <div>
-          <input
-            type="submit"
-            value="Confirm"
-            onSubmit={() => {
-              setShowModal(true);
-            }}
-          ></input>
-        </div>
+        <Button
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          Confirm
+        </Button>
         <div>
           <Button onClick={closeForm}> Close </Button>
         </div>
