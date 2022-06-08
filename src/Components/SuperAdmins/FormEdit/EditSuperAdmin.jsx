@@ -5,20 +5,19 @@ import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 
 const EditSuperAdmin = ({
-  action,
   showFormEdit,
   setShowFormEdit,
   previewSuperAdmin,
   setShowModal,
   setShowTitle,
-  setList,
+  editItem,
   setLoading
 }) => {
   if (!showFormEdit) {
     return null;
   }
 
-  const [superAdminsInput, setsuperAdminsInput] = useState({
+  const [editSuperAdmins, setEditSuperAdmins] = useState({
     _id: previewSuperAdmin._id,
     firstName: previewSuperAdmin.firstName,
     lastName: previewSuperAdmin.lastName,
@@ -28,7 +27,7 @@ const EditSuperAdmin = ({
   });
 
   const onChange = (e) => {
-    setsuperAdminsInput({ ...superAdminsInput, [e.target.name]: e.target.value });
+    setEditSuperAdmins({ ...editSuperAdmins, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
@@ -38,44 +37,24 @@ const EditSuperAdmin = ({
 
     const SuperAdminsId = previewSuperAdmin._id;
 
-    const method = () => {
-      if (action === 'add') {
-        const options = {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName: superAdminsInput.firstName,
-            lastName: superAdminsInput.lastName,
-            email: superAdminsInput.email,
-            password: superAdminsInput.password,
-            active: superAdminsInput.active
-          })
-        };
-        return options;
-      } else if (action === 'edit') {
-        const options = {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName: superAdminsInput.firstName,
-            lastName: superAdminsInput.lastName,
-            email: superAdminsInput.email,
-            password: superAdminsInput.password,
-            active: superAdminsInput.active
-          })
-        };
-        return options;
-      }
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: editSuperAdmins.firstName,
+        lastName: editSuperAdmins.lastName,
+        email: editSuperAdmins.email,
+        password: editSuperAdmins.password,
+        active: editSuperAdmins.active
+      })
     };
 
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/super-admins/${SuperAdminsId}`,
-        method
+        options
       );
       const data = await response.json();
       if (response.status !== 200 && response.status !== 201) {
@@ -83,7 +62,7 @@ const EditSuperAdmin = ({
         setShowTitle(data.message);
         setLoading(false);
       } else {
-        setList(superAdminsInput);
+        editItem(editSuperAdmins);
         setShowTitle('Super Admin updated successfully');
         setShowModal(true);
         setShowFormEdit(false);
@@ -101,28 +80,28 @@ const EditSuperAdmin = ({
         <Input
           type={'text'}
           name={'firstName'}
-          value={superAdminsInput.firstName}
+          value={editSuperAdmins.firstName}
           onChange={onChange}
           label={'Name'}
         />
         <Input
           type={'text'}
           name={'lastName'}
-          value={superAdminsInput.lastName}
+          value={editSuperAdmins.lastName}
           onChange={onChange}
           label={'Last Name'}
         />
         <Input
           type={'text'}
           name={'email'}
-          value={superAdminsInput.email}
+          value={editSuperAdmins.email}
           onChange={onChange}
           label={'Email'}
         />
         <Input
           type={'password'}
           name={'password'}
-          value={superAdminsInput.password}
+          value={editSuperAdmins.password}
           onChange={onChange}
           label={'Password'}
         />
