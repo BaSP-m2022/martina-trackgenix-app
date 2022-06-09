@@ -4,6 +4,7 @@ import Row from '../Row/Row';
 import Button from '../Buttons/Buttons';
 
 const Table = ({ title, data, headers, deleteItem, editItem }) => {
+  console.log(data);
   const [indexPage, setIndexPage] = useState(1);
   const show = data.slice(10 * (indexPage - 1), 10 * indexPage);
   const nextPage = () => {
@@ -29,11 +30,11 @@ const Table = ({ title, data, headers, deleteItem, editItem }) => {
           </tr>
         </thead>
         <tbody>
-          {show.map((index) => {
+          {show.map((item) => {
             return (
               <Row
-                key={index}
-                data={data}
+                key={item._id}
+                data={item}
                 headers={headers}
                 deleteItem={deleteItem}
                 editItem={editItem}
