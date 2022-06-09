@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
-import Add from './AddForm/index';
+import FormTasks from './Form/Form';
 import List from './List';
 import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
@@ -12,6 +12,11 @@ function Tasks() {
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
   const [loading, setLoading] = useState(true);
+  const [previewTask, setPreviewTask] = useState({
+    _id: '',
+    description: ''
+  });
+  const [method, setMethod] = useState('');
 
   const fetchData = async () => {
     try {
@@ -51,11 +56,8 @@ function Tasks() {
     saveTasks(taskUpdated);
   };
 
-  const closeForm = () => {
-    setShowForm(false);
-  };
-
-  const onClick = () => {
+  const openForm = () => {
+    setMethod('POST');
     setShowForm(true);
   };
 
@@ -73,19 +75,27 @@ function Tasks() {
         listTask={tasks}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
+        setShowForm={setShowForm}
         editItem={editItem}
         setLoading={setLoading}
+        setPreviewTask={setPreviewTask}
+        setMethod={setMethod}
       />
-      <Add
+      <FormTasks
         addItem={addItem}
-        show={showForm}
-        closeForm={closeForm}
+        editItem={editItem}
+        showForm={showForm}
+        setShowForm={setShowForm}
+        closeForm={openForm}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         setLoading={setLoading}
+        previewTask={previewTask}
+        setPreviewTask={setPreviewTask}
+        method={method}
       />
       <div>
-        <Button onClick={onClick}>Create a new task</Button>
+        <Button onClick={openForm}>Create a new task</Button>
         <Modal handleClose={handleClose} isOpen={showModal} title={showTitle}>
           {showTitle}
         </Modal>
