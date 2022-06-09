@@ -34,7 +34,7 @@ const AddSuperAdmin = ({
     setLoading(true);
 
     const options = {
-      method: 'POST',
+      method: '',
       headers: {
         'Content-type': 'application/json'
       },

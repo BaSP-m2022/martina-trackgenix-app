@@ -7,9 +7,10 @@ const ListSAdmin = ({
   deleteItem,
   setShowModal,
   setShowTitle,
-  setShowFormEdit,
-  setPreviewSuperAdmin,
-  setLoading
+  setShowForm,
+  setPreviousSuperAdmin,
+  setLoading,
+  setMethod
 }) => {
   const handleDelete = async (_id) => {
     setLoading(true);
@@ -30,8 +31,9 @@ const ListSAdmin = ({
   };
 
   const handleEdit = (superAdmin) => {
-    setPreviewSuperAdmin(superAdmin);
-    setShowFormEdit(true);
+    setPreviousSuperAdmin(superAdmin);
+    setShowForm(true);
+    setMethod('PUT');
   };
   return (
     <div className={styles.container}>
