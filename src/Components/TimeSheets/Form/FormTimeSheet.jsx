@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import styles from './editTimeSheet.module.css';
-import Input from '../../Shared/Field/Input';
+import styles from './FormTimeSheet.module.css';
 import Button from '../../Shared/Buttons/Buttons';
+import Input from '../../Shared/Field/Input';
 
-const EditTimeSheet = ({
-  showFormEdit,
-  setShowFormEdit,
-  previewTimeSheet,
+const FormTimeSheet = ({
+  addItem,
+  showForm,
+  setShowForm,
   setShowModal,
   setChildrenModal,
-  editItem
-  // setLoading
+  setLoading,
+  editItem,
+  previewTimeSheet,
+  setPreviewTimeSheet,
+  method
 }) => {
-  if (!showFormEdit) {
+  if (!showForm) {
     return null;
   }
 
@@ -24,6 +27,7 @@ const EditTimeSheet = ({
   const [taskId, setTaskId] = useState(previewTimeSheet.task._id);
   const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
   const [date, setDate] = useState(previewTimeSheet.date);
+  const TimeSheetId = previewTimeSheet._id;
 
   const fetchEmployees = async () => {
     try {
@@ -38,6 +42,7 @@ const EditTimeSheet = ({
   useEffect(() => {
     fetchEmployees();
   }, []);
+
   const employeeName = listEmployees.map((item) => {
     if (item._id == employeeId) {
       return item.first_name;
@@ -63,6 +68,7 @@ const EditTimeSheet = ({
       return item.project_name;
     }
   });
+
   const fetchTasks = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
@@ -82,59 +88,86 @@ const EditTimeSheet = ({
       return item.description;
     }
   });
+
+  const cleanFields = () => {
+    setPreviewTimeSheet({
+      _id: '',
+      employee: '',
+      hs_worked: '',
+      task: '',
+      project: '',
+      timesheetDate: ''
+    });
+  };
+
+  const fetchData = async (url, methodFunction) => {
+    const options = {
+      method: method,
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        employee: employeeId,
+        project: projectId,
+        task: taskId,
+        hs_worked: hsWorked,
+        timesheetDate: date
+      })
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const res = await response.json();
+      const newBody = {
+        _id: res.data._id,
+        employee: {
+          _id: res.data.employee,
+          first_name: employeeName
+        },
+        project: {
+          _id: res.data.project,
+          project_name: projectName
+        },
+        task: {
+          _id: res.data.task,
+          description: taskDescription
+        },
+        hs_worked: res.data.hs_worked,
+        timesheetDate: res.data.timesheetDate
+      };
+      if (response.status !== 201 && response.status !== 200) {
+        setShowForm(false);
+        setShowModal(true);
+        setChildrenModal(res.message);
+      } else {
+        setShowForm(false);
+        setShowModal(true);
+        setChildrenModal(res.message);
+        methodFunction(newBody);
+        cleanFields();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    if (confirm('Are you sure you want to modify the Time-Sheet?')) {
-      const options = {
-        method: 'PUT',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          employee: employeeId,
-          project: projectId,
-          task: taskId,
-          hs_worked: hsWorked,
-          timesheetDate: date
-        })
-      };
-      const TimeSheetId = previewTimeSheet._id;
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/time-sheet/${TimeSheetId}`,
-          options
-        );
-        const res = await response.json();
-        const newBody = {
-          _id: res.data._id,
-          employee: {
-            _id: res.data.employee,
-            first_name: employeeName
-          },
-          project: {
-            _id: res.data.project,
-            project_name: projectName
-          },
-          task: {
-            _id: res.data.task,
-            description: taskDescription
-          },
-          hs_worked: res.data.hs_worked,
-          timesheetDate: res.data.timesheetDate
-        };
-        if (!response.ok) {
-          setShowModal(true);
-          setChildrenModal(`${res.msg}. The time-sheet can not be created`);
-          setShowFormEdit(false);
-        } else {
-          setShowModal(true);
-          setChildrenModal(res.message);
-          setShowFormEdit(false);
-          editItem(newBody);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    if (!TimeSheetId) {
+      const url = `${process.env.REACT_APP_API_URL}/time-sheet`;
+      fetchData(url, addItem);
+    } else {
+      const url = `${process.env.REACT_APP_API_URL}/time-sheet/${TimeSheetId}`;
+      fetchData(url, editItem);
     }
+  };
+
+  const closeForm = () => {
+    cleanFields();
+    setShowForm(false);
   };
 
   return (
@@ -186,13 +219,13 @@ const EditTimeSheet = ({
             label={'DATE'}
           ></Input>
         </div>
-        <div>
+        <div className={styles.button}>
           <Button onClick={(e) => onSubmit(e)}>Submit</Button>
+          <Button onClick={closeForm}>Close</Button>
         </div>
-        <Button onClick={() => setShowFormEdit(false)}>Cancel</Button>
       </form>
     </div>
   );
 };
 
-export default EditTimeSheet;
+export default FormTimeSheet;

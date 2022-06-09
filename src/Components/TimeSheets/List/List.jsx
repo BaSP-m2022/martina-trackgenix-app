@@ -5,7 +5,8 @@ import Row from '../../Shared/Row/Row';
 const List = ({
   list,
   setShowModal,
-  setShowFormEdit,
+  setShowForm,
+  setMethod,
   deleteItem,
   setLoading,
   setChildrenModal,
@@ -32,7 +33,8 @@ const List = ({
 
   const handleEdit = (timesheet) => {
     setPreviewTimeSheet(timesheet);
-    setShowFormEdit(true);
+    setMethod('PUT');
+    setShowForm(true);
   };
 
   const newList = list.map((item) => {

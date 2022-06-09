@@ -1,4 +1,4 @@
-.container{
+.container {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -12,32 +12,24 @@
   overflow: auto;
   background-color: #00000080;
 }
-
 .container form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 15px 25px;
-  width: 30%;
-  background: #DDDDDD;
+  background-color: #fff;
   border-radius: 10px;
+  gap: 15px;
 }
-
-.container h2 {
-  margin: auto;
-  width: 100%;
-  text-align: center;
-}
-
-.container form div {
-  display: flex;
-  flex-direction: column;
+.container input {
   padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #efefef80;
 }
-
-.container form div input {
-  height: 22px;
-  border: 1px solid #999999;
-  border-radius: 2px;
+.button {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 15px;
 }

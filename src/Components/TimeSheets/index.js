@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import List from './List/List';
-import AddTimeSheet from './Add/AddTimeSheet';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import Modal from '../Shared/Modal/Modal';
-import EditTimeSheet from './Edit/EditTimeSheet';
+import FormTimeSheet from './Form/FormTimeSheet';
 
 const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
-  const [showFormAdd, setShowFormAdd] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showFormEdit, setShowFormEdit] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [previewTimeSheet, setPreviewTimeSheet] = useState({
     _id: '',
     employee: '',
@@ -22,10 +20,11 @@ const TimeSheets = () => {
     project: '',
     timesheetDate: ''
   });
+  const [method, setMethod] = useState('');
 
   const listTS = async () => {
     try {
-      const response = await fetch('http://localhost:4000/time-sheet');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`);
       const data = await response.json();
       setList(data.data);
       setLoading(false);
@@ -43,7 +42,6 @@ const TimeSheets = () => {
   };
 
   const newItem = (body) => {
-    console.log(body);
     const NewTimeSheet = {
       _id: body._id,
       employee: body.employee,
@@ -66,6 +64,11 @@ const TimeSheets = () => {
     setList(updatedTimeSheet);
   };
 
+  const openForm = () => {
+    setMethod('POST');
+    setShowForm(true);
+  };
+
   return loading ? (
     <Loader show={true} />
   ) : (
@@ -75,30 +78,25 @@ const TimeSheets = () => {
         list={list}
         deleteItem={deleteItem}
         setShowModal={setShowModal}
-        setShowFormEdit={setShowFormEdit}
         setLoading={setLoading}
         setChildrenModal={setChildrenModal}
         setPreviewTimeSheet={setPreviewTimeSheet}
+        setShowForm={setShowForm}
+        setMethod={setMethod}
       />
-      <AddTimeSheet
-        showFormAdd={showFormAdd}
-        setShowFormAdd={setShowFormAdd}
-        showModal={showModal}
+      <FormTimeSheet
+        addItem={newItem}
+        showForm={showForm}
+        setShowForm={setShowForm}
         setShowModal={setShowModal}
-        newItem={newItem}
+        setChildrenModal={setChildrenModal}
         setLoading={setLoading}
-        setChildrenModal={setChildrenModal}
-      />
-      <EditTimeSheet
         editItem={editItem}
-        showFormEdit={showFormEdit}
-        setShowFormEdit={setShowFormEdit}
-        setShowModal={setShowModal}
-        setChildrenModal={setChildrenModal}
         previewTimeSheet={previewTimeSheet}
         setPreviewTimeSheet={setPreviewTimeSheet}
+        method={method}
       />
-      <Button onClick={() => setShowFormAdd(true)}>Add a TimeSheets</Button>
+      <Button onClick={openForm}>Add a TimeSheets</Button>
       <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
         {childrenModal}
       </Modal>
