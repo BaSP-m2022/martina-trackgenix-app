@@ -5,13 +5,23 @@ import AddTimeSheet from './Add/AddTimeSheet';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import Modal from '../Shared/Modal/Modal';
+import EditTimeSheet from './Edit/EditTimeSheet';
 
 const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState('');
+  const [childrenModal, setChildrenModal] = useState('');
   const [showFormAdd, setShowFormAdd] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showFormEdit, setShowFormEdit] = useState(false);
+  const [previewTimeSheet, setPreviewTimeSheet] = useState({
+    _id: '',
+    employee: '',
+    hs_worked: '',
+    task: '',
+    project: '',
+    timesheetDate: ''
+  });
 
   const listTS = async () => {
     try {
@@ -32,7 +42,7 @@ const TimeSheets = () => {
     setList([...list.filter((listItem) => listItem._id !== _id)]);
   };
 
-  const newTimeSheet = (body) => {
+  const newItem = (body) => {
     console.log(body);
     const NewTimeSheet = {
       _id: body._id,
@@ -45,7 +55,7 @@ const TimeSheets = () => {
     setList([...list, NewTimeSheet]);
   };
 
-  const editTimeSheet = (body) => {
+  const editItem = (body) => {
     const updatedTimeSheet = list.map((item) => {
       if (item._id === body._id) {
         return body;
@@ -56,18 +66,6 @@ const TimeSheets = () => {
     setList(updatedTimeSheet);
   };
 
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
-  const closeForm = () => {
-    setShowFormAdd(false);
-  };
-
-  const onClick = () => {
-    setShowFormAdd(true);
-  };
-
   return loading ? (
     <Loader show={true} />
   ) : (
@@ -75,25 +73,34 @@ const TimeSheets = () => {
       <h2>Time-Sheets</h2>
       <List
         list={list}
-        setList={setList}
         deleteItem={deleteItem}
         setShowModal={setShowModal}
-        editTimeSheet={editTimeSheet}
+        setShowFormEdit={setShowFormEdit}
         setLoading={setLoading}
-        setTitleModal={setTitleModal}
+        setChildrenModal={setChildrenModal}
+        setPreviewTimeSheet={setPreviewTimeSheet}
       />
       <AddTimeSheet
-        show={showFormAdd}
+        showFormAdd={showFormAdd}
+        setShowFormAdd={setShowFormAdd}
         showModal={showModal}
         setShowModal={setShowModal}
-        newTimeSheet={newTimeSheet}
-        closeForm={closeForm}
+        newItem={newItem}
         setLoading={setLoading}
-        setTitleModal={setTitleModal}
+        setChildrenModal={setChildrenModal}
       />
-      <Button onClick={onClick}>Add a TimeSheets</Button>
-      <Modal handleClose={handleClose} isOpen={showModal} title={titleModal}>
-        {titleModal}
+      <EditTimeSheet
+        editItem={editItem}
+        showFormEdit={showFormEdit}
+        setShowFormEdit={setShowFormEdit}
+        setShowModal={setShowModal}
+        setChildrenModal={setChildrenModal}
+        previewTimeSheet={previewTimeSheet}
+        setPreviewTimeSheet={setPreviewTimeSheet}
+      />
+      <Button onClick={() => setShowFormAdd(true)}>Add a TimeSheets</Button>
+      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+        {childrenModal}
       </Modal>
     </section>
   );

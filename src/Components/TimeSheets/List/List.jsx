@@ -1,40 +1,37 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
-import EditTimeSheet from '../Edit/EditTimeSheet';
-import Modal from '../../Shared/Modal/Modal';
-import Button from '../../Shared/Buttons/Buttons';
 
-const List = ({ list, setShowModal, setTitleModal, deleteItem, editTimeSheet, setLoading }) => {
-  const [showFormEdit, setShowFormEdit] = useState(false);
-  const [modalConfirm, setModalConfirm] = useState(false);
-
+const List = ({
+  list,
+  setShowModal,
+  setShowFormEdit,
+  deleteItem,
+  setLoading,
+  setChildrenModal,
+  setPreviewTimeSheet
+}) => {
   const handleDelete = async (_id) => {
     setLoading(true);
-
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
-        method: 'DELETE'
-      });
-      setShowModal(true);
-      setModalConfirm(false);
-      setTitleModal('Time-sheet deleted successfully');
-      deleteItem(_id);
-      setLoading(false);
-    } catch (error) {
-      setShowModal(true);
-      setModalConfirm(false);
-      setTitleModal(error.msg);
-      setLoading(false);
-      console.error(error);
+    if (confirm('Are you sure you want to delete this Time-Sheet?')) {
+      try {
+        await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
+          method: 'DELETE'
+        });
+        setShowModal(true);
+        setChildrenModal('Time-sheet deleted successfully');
+        deleteItem(_id);
+      } catch (error) {
+        setShowModal(true);
+        setChildrenModal(error.msg);
+        console.error(error);
+      }
     }
+    setLoading(false);
   };
 
-  const closeForm = () => {
-    setShowFormEdit(false);
-  };
-
-  const openForm = () => {
+  const handleEdit = (timesheet) => {
+    setPreviewTimeSheet(timesheet);
     setShowFormEdit(true);
   };
 
@@ -71,30 +68,9 @@ const List = ({ list, setShowModal, setTitleModal, deleteItem, editTimeSheet, se
                 key={item._id}
                 data={item}
                 headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-                deleteItem={() => setModalConfirm(true)}
-                editItem={() => setShowFormEdit(true)}
-                openForm={openForm}
-              >
-                <Modal isOpen={modalConfirm} handleClose={() => setModalConfirm(false)}>
-                  Are you sure you want to delete this Time-Sheet?
-                  <div>
-                    <Button onClick={() => handleDelete(item._id)}>Confirm</Button>
-                  </div>
-                  <div>
-                    <Button onClick={() => setModalConfirm(false)}>Cancel</Button>
-                  </div>
-                </Modal>
-                <EditTimeSheet
-                  key={item._id}
-                  show={showFormEdit}
-                  setShowFormEdit={setShowFormEdit}
-                  closeForm={closeForm}
-                  previewTimeSheet={item}
-                  setShowModal={setShowModal}
-                  setTitleModal={setTitleModal}
-                  updatedTimeSheet={editTimeSheet}
-                />
-              </Row>
+                deleteItem={() => handleDelete(item._id)}
+                editItem={() => handleEdit(item)}
+              ></Row>
             );
           })}
         </tbody>

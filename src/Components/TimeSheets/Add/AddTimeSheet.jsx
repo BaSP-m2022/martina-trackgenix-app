@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styles from './addTimeSheet.module.css';
 import Input from '../../Shared/Field/Input';
 import Button from '../../Shared/Buttons/Buttons';
-// import Modal from '../../Shared/Modal/Modal';
 
 const AddTimeSheet = ({
-  show,
-  closeForm,
+  showFormAdd,
+  setShowFormAdd,
   setShowModal,
-  setTitleModal,
-  newTimeSheet,
+  setChildrenModal,
+  newItem,
   setLoading
 }) => {
-  if (!show) {
+  if (!showFormAdd) {
     return null;
   }
 
@@ -39,12 +38,11 @@ const AddTimeSheet = ({
     fetchEmployees();
   }, []);
 
-  // console.log(listEmployees);
-  // const newListEmployee = listEmployees.map((item) => {
-  //   if (item._id === employeeId) {
-  //     return item.first_name;
-  //   }
-  // });
+  const employeeName = listEmployees.map((item) => {
+    if (item._id == employeeId) {
+      return item.first_name;
+    }
+  });
 
   const fetchProjects = async () => {
     try {
@@ -60,12 +58,11 @@ const AddTimeSheet = ({
     fetchProjects();
   }, []);
 
-  // const newListProjects = listProjects.map((item, index) => {
-  //   return {
-  //     project_name: item.project_name,
-  //     index
-  //   };
-  // });
+  const projectName = listProjects.map((item) => {
+    if (item._id == projectId) {
+      return item.project_name;
+    }
+  });
 
   const fetchTasks = async () => {
     try {
@@ -81,12 +78,11 @@ const AddTimeSheet = ({
     fetchTasks();
   }, []);
 
-  // const newListTask = listTasks.map((item, index) => {
-  //   return {
-  //     description: item.description,
-  //     index
-  //   };
-  // });
+  const taskDescription = listTasks.map((item) => {
+    if (item._id == taskId) {
+      return item.description;
+    }
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -110,20 +106,37 @@ const AddTimeSheet = ({
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`, postTS);
       const res = await response.json();
+      const newBody = {
+        _id: res.data._id,
+        employee: {
+          _id: res.data.employee,
+          first_name: employeeName
+        },
+        project: {
+          _id: res.data.project,
+          project_name: projectName
+        },
+        task: {
+          _id: res.data.task,
+          description: taskDescription
+        },
+        hs_worked: res.data.hs_worked,
+        timesheetDate: res.data.timesheetDate
+      };
       if (!response.ok) {
         setShowModal(true);
-        setTitleModal('Error. Can not create time-sheet');
-        setLoading(false);
+        setChildrenModal('Error. Can not create time-sheet');
+        setShowFormAdd(false);
       } else {
         setShowModal(true);
-        setTitleModal(res.message);
-        newTimeSheet(res.data);
-        closeForm(true);
-        setLoading(false);
+        setChildrenModal(res.message);
+        newItem(newBody);
+        setShowFormAdd(false);
       }
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   return (
@@ -158,27 +171,29 @@ const AddTimeSheet = ({
           ></Input>
         </div>
         <div>
-          <label>Hours worked</label>
-          <input
+          <Input
             type="number"
             name="hs_worked"
             value={hsWorked}
             onChange={(e) => setHSWorked(e.target.value)}
-          ></input>
+            label={'Worked Hours'}
+          ></Input>
         </div>
         <div>
-          <label>Date</label>
-          <input
+          <Input
             type="date"
             name="timesheetDate"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-          ></input>
+            label={'DATE'}
+          ></Input>
         </div>
-        <div className={styles.submitButton}>
-          <input type="submit" value="Submit"></input>
+        <div>
+          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         </div>
-        <Button onClick={closeForm}>x</Button>
+        <div>
+          <Button onClick={() => setShowFormAdd(false)}>x</Button>
+        </div>
       </form>
     </div>
   );

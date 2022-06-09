@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styles from './editTimeSheet.module.css';
+import Input from '../../Shared/Field/Input';
+import Button from '../../Shared/Buttons/Buttons';
 
 const EditTimeSheet = ({
-  show,
-  closeForm,
+  showFormEdit,
+  setShowFormEdit,
   previewTimeSheet,
   setShowModal,
-  setTitleModal,
-  updatedTimeSheet
+  setChildrenModal,
+  editItem
+  // setLoading
 }) => {
-  if (!show) {
+  if (!showFormEdit) {
     return null;
   }
 
@@ -35,6 +38,11 @@ const EditTimeSheet = ({
   useEffect(() => {
     fetchEmployees();
   }, []);
+  const employeeName = listEmployees.map((item) => {
+    if (item._id == employeeId) {
+      return item.first_name;
+    }
+  });
 
   const fetchProjects = async () => {
     try {
@@ -50,6 +58,11 @@ const EditTimeSheet = ({
     fetchProjects();
   }, []);
 
+  const projectName = listProjects.map((item) => {
+    if (item._id == projectId) {
+      return item.project_name;
+    }
+  });
   const fetchTasks = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
@@ -64,35 +77,63 @@ const EditTimeSheet = ({
     fetchTasks();
   }, []);
 
+  const taskDescription = listTasks.map((item) => {
+    if (item._id == taskId) {
+      return item.description;
+    }
+  });
   const onSubmit = async (e) => {
     e.preventDefault();
-    const TimeSheetId = previewTimeSheet._id;
-    const putTS = {
-      method: 'PUT',
-      headers: { 'Content-type': 'application/json' },
-      employee: employeeId,
-      project: projectId,
-      task: taskId,
-      hs_worked: hsWorked,
-      timesheetDate: date
-    };
 
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/time-sheet/${TimeSheetId}`,
-        putTS
-      );
-      const res = await response.json();
-      if (!response.ok) {
-        setShowModal(true);
-        setTitleModal(`${res.msg}. The time-sheet can not be created`);
-      } else {
-        setTitleModal(res.message);
-        closeForm(true);
-        updatedTimeSheet(res.data);
+    if (confirm('Are you sure you want to modify the Time-Sheet?')) {
+      const options = {
+        method: 'PUT',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          employee: employeeId,
+          project: projectId,
+          task: taskId,
+          hs_worked: hsWorked,
+          timesheetDate: date
+        })
+      };
+      const TimeSheetId = previewTimeSheet._id;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/time-sheet/${TimeSheetId}`,
+          options
+        );
+        const res = await response.json();
+        const newBody = {
+          _id: res.data._id,
+          employee: {
+            _id: res.data.employee,
+            first_name: employeeName
+          },
+          project: {
+            _id: res.data.project,
+            project_name: projectName
+          },
+          task: {
+            _id: res.data.task,
+            description: taskDescription
+          },
+          hs_worked: res.data.hs_worked,
+          timesheetDate: res.data.timesheetDate
+        };
+        if (!response.ok) {
+          setShowModal(true);
+          setChildrenModal(`${res.msg}. The time-sheet can not be created`);
+          setShowFormEdit(false);
+        } else {
+          setShowModal(true);
+          setChildrenModal(res.message);
+          setShowFormEdit(false);
+          editItem(newBody);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -101,62 +142,54 @@ const EditTimeSheet = ({
       <form onSubmit={onSubmit}>
         <h2>Edit time-sheet</h2>
         <div>
-          <label>Select Employee</label>
-          <select name="employee" onChange={(e) => setEmployeeId(e.target.value)}>
-            {listEmployees.map((employee) => (
-              <option key={employee._id} value={employee._id}>
-                {employee._id}-{employee.first_name}
-              </option>
-            ))}
-          </select>
+          <Input
+            type={'select'}
+            name={'employee'}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            valueOptions={listEmployees}
+            label={'Select an Employee'}
+          ></Input>
         </div>
         <div>
-          <label>Select Project</label>
-          <select name="project" onChange={(e) => setProjectId(e.target.value)}>
-            {listProjects.map((project) => (
-              <option key={project._id} value={project._id}>
-                {project._id}-{project.project_name}
-              </option>
-            ))}
-          </select>
+          <Input
+            type={'select'}
+            name={'project'}
+            onChange={(e) => setProjectId(e.target.value)}
+            valueOptions={listProjects}
+            label={'Select a Project'}
+          ></Input>
         </div>
         <div>
-          <select name="task" onChange={(e) => setTaskId(e.target.value)}>
-            {listTasks.map((task) => (
-              <option key={task._id} value={task._id}>
-                {task._id}-{task.description}
-              </option>
-            ))}
-          </select>
+          <Input
+            type={'select'}
+            name={'task'}
+            onChange={(e) => setTaskId(e.target.value)}
+            valueOptions={listTasks}
+            label={'Select a Task'}
+          ></Input>
         </div>
         <div>
-          <label>HOURS WORKED</label>
-          <input
+          <Input
             type="number"
             name="hs_worked"
             value={hsWorked}
             onChange={(e) => setHSWorked(e.target.value)}
-          ></input>
+            label={'Worked Hours'}
+          ></Input>
         </div>
         <div>
-          <label>DATE</label>
-          <input
+          <Input
             type="date"
             name="timesheetDate"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-          ></input>
+            label={'DATE'}
+          ></Input>
         </div>
         <div>
-          <input
-            type="submit"
-            value="Confirm changes"
-            onSubmit={() => {
-              setShowModal(true);
-            }}
-          ></input>
+          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         </div>
-        <button onClick={closeForm}>x</button>
+        <Button onClick={() => setShowFormEdit(false)}>Cancel</Button>
       </form>
     </div>
   );
