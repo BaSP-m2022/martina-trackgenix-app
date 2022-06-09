@@ -59,7 +59,6 @@ const Projects = () => {
     <Loader show={true} />
   ) : (
     <section className={styles.container}>
-      <h2>Projects</h2>
       <List
         list={list}
         setList={setList}
