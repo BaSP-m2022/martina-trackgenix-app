@@ -3,7 +3,7 @@ import styles from './table.module.css';
 import Row from '../Row/Row';
 import Button from '../Buttons/Buttons';
 
-const Table = ({ title, data, headers, deleteItem, editItem }) => {
+const Table = ({ title, data, headersName, headers, deleteItem, editItem }) => {
   console.log(data);
   const [indexPage, setIndexPage] = useState(1);
   const show = data.slice(10 * (indexPage - 1), 10 * indexPage);
@@ -24,8 +24,8 @@ const Table = ({ title, data, headers, deleteItem, editItem }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            {headers.map((header, index) => {
-              return <th key={index}>{header}</th>;
+            {headersName.map((headersName, index) => {
+              return <th key={index}>{headersName}</th>;
             })}
           </tr>
         </thead>
