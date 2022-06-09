@@ -1,7 +1,5 @@
 .container {
   position: fixed;
-  top: 0px;
-  left: 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,32 +35,4 @@
   height: 22px;
   border: 1px solid #999999;
   border-radius: 2px;
-}
-
-.submitButton {
-  margin: auto;
-  width: 40%;
-  height: 24px;
-  border: 2px solid #37781c;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.submitButton input:hover {
-  background: #AACE9B;
-  transition-duration: 0,4s;
-}
-
-.container form button {
-  position: relative;
-  order: -1;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  border-radius: 50%;
-}
-
-.container form button:hover {
-  border: 1px solid #d40b0b;
-  color: #d40b0b;
 }
