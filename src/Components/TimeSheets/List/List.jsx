@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
-import Row from '../../Shared/Row/Row';
+// import Row from '../../Shared/Row/Row';
+import Table from '../../Shared/Table/Table';
 
 const List = ({
   list,
@@ -50,33 +51,23 @@ const List = ({
 
   return (
     <section className={styles.container}>
-      <table>
-        <thead>
-          <tr>
-            <th id="_id">ID</th>
-            <th id="employee">EMPLOYEE</th>
-            <th id="hs_worked">HOURS WORKED</th>
-            <th id="project">PROJECT</th>
-            <th id="task">TASK</th>
-            <th id="timesheetDate">DATE</th>
-            <th id="edit">EDIT</th>
-            <th id="delete">DELETE</th>
-          </tr>
-        </thead>
-        <tbody>
-          {newList.map((item) => {
-            return (
-              <Row
-                key={item._id}
-                data={item}
-                headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-                deleteItem={() => handleDelete(item._id)}
-                editItem={() => handleEdit(item)}
-              ></Row>
-            );
-          })}
-        </tbody>
-      </table>
+      <Table
+        title={'TimeSheets'}
+        data={newList}
+        headersColumns={[
+          'ID',
+          'Employee',
+          'Worked Hours',
+          'Projects',
+          'Tasks',
+          'Date',
+          'Edit',
+          'Delete'
+        ]}
+        headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
+        deleteItem={handleDelete}
+        editItem={handleEdit}
+      ></Table>
     </section>
   );
 };
