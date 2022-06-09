@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './list.module.css';
-// import Row from '../../Shared/Row/Row';
 import Table from '../../Shared/Table/Table';
 
 const List = ({
