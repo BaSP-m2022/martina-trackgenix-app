@@ -18,8 +18,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 50px;
     background-color: #fff;
-    padding: 30px;
     border-radius: 10px;
     gap: 15px;
   }
