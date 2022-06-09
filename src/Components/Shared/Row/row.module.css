@@ -4,11 +4,11 @@ table th {
     background-color: #AACE9B;
     color: #373867;
   }
-  
+
   .tr:hover {
     background-color: #aace9bb7;
   }
-  
+
   .tr td {
     text-align: center;
     padding: 10px;
