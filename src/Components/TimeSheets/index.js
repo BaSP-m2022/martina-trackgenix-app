@@ -42,7 +42,7 @@ const TimeSheets = () => {
   };
 
   const newItem = (body) => {
-    const NewTimeSheet = {
+    const newTimeSheet = {
       _id: body._id,
       employee: body.employee,
       project: body.project,
@@ -50,7 +50,7 @@ const TimeSheets = () => {
       hs_worked: body.hs_worked,
       timesheetDate: body.timesheetDate
     };
-    setList([...list, NewTimeSheet]);
+    setList([...list, newTimeSheet]);
   };
 
   const editItem = (body) => {
