@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './row.module.css';
+import Button from '../Buttons/Buttons';
 
 const Row = ({ data, headers, deleteItem, editItem }) => {
   return (
@@ -11,7 +12,9 @@ const Row = ({ data, headers, deleteItem, editItem }) => {
         <button onClick={editItem}>&#9998;</button>
       </td>
       <td>
-        <button onClick={deleteItem}>X</button>
+        <Button onClick={deleteItem} width={'55px'}>
+          X
+        </Button>
       </td>
     </tr>
   );
