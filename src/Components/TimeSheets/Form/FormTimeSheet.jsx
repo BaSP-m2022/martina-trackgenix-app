@@ -27,7 +27,7 @@ const FormTimeSheet = ({
   const [taskId, setTaskId] = useState(previewTimeSheet.task._id);
   const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
   const [date, setDate] = useState(previewTimeSheet.date);
-  const TimeSheetId = previewTimeSheet._id;
+  const timeSheetId = previewTimeSheet._id;
 
   const fetchEmployees = async () => {
     try {
@@ -156,11 +156,11 @@ const FormTimeSheet = ({
     e.preventDefault();
     setLoading(true);
 
-    if (!TimeSheetId) {
+    if (!timeSheetId) {
       const url = `${process.env.REACT_APP_API_URL}/time-sheet`;
       fetchData(url, addItem);
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/time-sheet/${TimeSheetId}`;
+      const url = `${process.env.REACT_APP_API_URL}/time-sheet/${timeSheetId}`;
       fetchData(url, editItem);
     }
   };
