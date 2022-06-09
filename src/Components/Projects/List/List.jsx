@@ -6,8 +6,8 @@ const List = ({ list, deleteItem, editItem }) => {
     <Table
       title={'Projects'}
       data={list}
-      headersName={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date', 'Status']}
-      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date', 'active']}
+      headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
+      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={deleteItem}
       editItem={editItem}
     />

@@ -3,10 +3,9 @@ import styles from './table.module.css';
 import Row from '../Row/Row';
 import Button from '../Buttons/Buttons';
 
-const Table = ({ title, data, headersName, headers, deleteItem, editItem }) => {
-  console.log(data);
+const Table = ({ title, data, headersColumns, headers, deleteItem, editItem }) => {
   const [indexPage, setIndexPage] = useState(1);
-  const show = data.slice(10 * (indexPage - 1), 10 * indexPage);
+  const pageItems = data.slice(10 * (indexPage - 1), 10 * indexPage);
   const nextPage = () => {
     if (data.length / 10 >= indexPage) {
       setIndexPage(indexPage + 1);
@@ -24,13 +23,13 @@ const Table = ({ title, data, headersName, headers, deleteItem, editItem }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            {headersName.map((headersName, index) => {
-              return <th key={index}>{headersName}</th>;
+            {headersColumns.map((headersColumns, index) => {
+              return <th key={index}>{headersColumns}</th>;
             })}
           </tr>
         </thead>
         <tbody>
-          {show.map((item) => {
+          {pageItems.map((item) => {
             return (
               <Row
                 key={item._id}
