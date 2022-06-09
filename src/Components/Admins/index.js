@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styles from './admins.module.css';
 import List from './List/List';
-import AddItem from './AddItem/AddItem';
-import EditItem from './EditItem/EditItem';
+import AdminForm from './Form/AdminForm';
 import Modal from '../Shared/Modal/Modal';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 
 const Admins = () => {
   const [list, setList] = useState([]);
-  const [showLoader, setShowLoader] = useState(true);
-  const [showFormAdd, setShowFormAdd] = useState(false);
-  const [showFormEdit, setShowFormEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
-  const [previewAdmin, setPreviewAdmin] = useState({
+  const [previousAdmin, setPreviousAdmin] = useState({
+    _id: '',
     firstName: '',
     lastName: '',
     phone: '',
@@ -22,13 +21,14 @@ const Admins = () => {
     password: '',
     active: false
   });
+  const [method, setMethod] = useState('');
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
       const data = await response.json();
       setList(data.data);
-      setShowLoader(false);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -66,41 +66,47 @@ const Admins = () => {
     setList(adminUpd);
   };
 
+  const openForm = () => {
+    setMethod('POST');
+    setShowForm(true);
+  };
+
   return (
-    <section className={styles.container}>
-      <h2>Admins</h2>
-      <Loader show={showLoader} />
-      <AddItem
-        addItem={addItem}
-        showFormAdd={showFormAdd}
-        setShowFormAdd={setShowFormAdd}
-        setShowModal={setShowModal}
-        setChildrenModal={setChildrenModal}
-        setShowLoader={setShowLoader}
-      />
-      <List
-        deleteItem={deleteItem}
-        list={list}
-        setPreviewAdmin={setPreviewAdmin}
-        setShowFormEdit={setShowFormEdit}
-        setShowModal={setShowModal}
-        setChildrenModal={setChildrenModal}
-        setShowLoader={setShowLoader}
-      />
-      <EditItem
-        editItem={editItem}
-        previewAdmin={previewAdmin}
-        showFormEdit={showFormEdit}
-        setShowFormEdit={setShowFormEdit}
-        setShowModal={setShowModal}
-        setChildrenModal={setChildrenModal}
-        setShowLoader={setShowLoader}
-      />
-      <Button onClick={() => setShowFormAdd(true)}>Add new admin</Button>
-      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-        {childrenModal}
-      </Modal>
-    </section>
+    <>
+      {isLoading ? (
+        <Loader show={isLoading} />
+      ) : (
+        <section className={styles.container}>
+          <h2>Admins</h2>
+          <AdminForm
+            addItem={addItem}
+            showForm={showForm}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            setIsLoading={setIsLoading}
+            editItem={editItem}
+            previousAdmin={previousAdmin}
+            setPreviousAdmin={setPreviousAdmin}
+            method={method}
+          />
+          <List
+            deleteItem={deleteItem}
+            list={list}
+            setPreviousAdmin={setPreviousAdmin}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            setIsLoading={setIsLoading}
+            setMethod={setMethod}
+          />
+          <Button onClick={openForm}>Add New Admin</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+            {childrenModal}
+          </Modal>
+        </section>
+      )}
+    </>
   );
 };
 

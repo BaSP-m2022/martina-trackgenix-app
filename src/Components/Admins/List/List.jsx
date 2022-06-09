@@ -7,12 +7,13 @@ const List = ({
   deleteItem,
   setShowModal,
   setChildrenModal,
-  setShowLoader,
-  setShowFormEdit,
-  setPreviewAdmin
+  setIsLoading,
+  setShowForm,
+  setPreviousAdmin,
+  setMethod
 }) => {
   const handleDelete = async (_id) => {
-    setShowLoader(true);
+    setIsLoading(true);
     if (confirm('Are you sure you want to remove the Admin?')) {
       try {
         await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
@@ -27,12 +28,13 @@ const List = ({
         console.error(error);
       }
     }
-    setShowLoader(false);
+    setIsLoading(false);
   };
 
   const handleEdit = (admin) => {
-    setPreviewAdmin(admin);
-    setShowFormEdit(true);
+    setMethod('PUT');
+    setPreviousAdmin(admin);
+    setShowForm(true);
   };
 
   return (

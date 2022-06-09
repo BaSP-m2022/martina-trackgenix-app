@@ -1,39 +1,46 @@
 import React, { useState } from 'react';
-import styles from './addItem.module.css';
+import styles from './adminForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
 
-const AddItem = ({
-  showFormAdd,
-  setShowFormAdd,
+const AdminForm = ({
+  showForm,
+  setShowForm,
   addItem,
   setShowModal,
   setChildrenModal,
-  setShowLoader
+  setIsLoading,
+  previousAdmin,
+  setPreviousAdmin,
+  method,
+  editItem
 }) => {
-  if (!showFormAdd) {
+  if (!showForm) {
     return null;
   }
 
-  const [userInput, setUserInput] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    active: false
-  });
+  const [userInput, setUserInput] = useState(previousAdmin);
+
+  const cleanFields = () => {
+    setPreviousAdmin({
+      id: '',
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      password: '',
+      active: false
+    });
+  };
 
   const onChange = (e) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setShowLoader(true);
+  const fetchData = async (url, methodFunction) => {
     const options = {
-      method: 'POST',
+      method: method,
       headers: {
         'Content-type': 'application/json'
       },
@@ -47,25 +54,42 @@ const AddItem = ({
       })
     };
 
-    const url = `${process.env.REACT_APP_API_URL}/admins`;
-
     try {
       const response = await fetch(url, options);
       const res = await response.json();
       if (response.status !== 201 && response.status !== 200) {
-        setShowFormAdd(false);
+        setShowForm(false);
         setShowModal(true);
         setChildrenModal(res.message);
       } else {
-        setShowFormAdd(false);
+        setShowForm(false);
         setShowModal(true);
         setChildrenModal(res.message);
-        addItem(res.data);
+        methodFunction(res.data);
+        cleanFields();
       }
     } catch (error) {
       console.error(error);
     }
-    setShowLoader(false);
+    setIsLoading(false);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (!userInput._id) {
+      const url = `${process.env.REACT_APP_API_URL}/admins`;
+      fetchData(url, addItem);
+    } else {
+      const url = `${process.env.REACT_APP_API_URL}/admins/${userInput._id}`;
+      fetchData(url, editItem);
+    }
+  };
+
+  const closeForm = () => {
+    cleanFields();
+    setShowForm(false);
   };
 
   return (
@@ -120,15 +144,13 @@ const AddItem = ({
         <div>
           <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
         </div>
-        <div>
+        <div className={styles.button}>
           <Button onClick={(e) => onSubmit(e)}>Submit</Button>
-        </div>
-        <div>
-          <Button onClick={() => setShowFormAdd(false)}>Close</Button>
+          <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
     </div>
   );
 };
 
-export default AddItem;
+export default AdminForm;
