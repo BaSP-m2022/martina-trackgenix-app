@@ -59,14 +59,14 @@ const Employees = () => {
   // PUT EMPLOYEE
 
   const editItem = (data) => {
-    const EmpnUpd = list.map((employee) => {
+    const empnUpd = list.map((employee) => {
       if (employee._id === data._id) {
         return data;
       } else {
         return employee;
       }
     });
-    setList(EmpnUpd);
+    setList(empnUpd);
   };
 
   const openForm = () => {
