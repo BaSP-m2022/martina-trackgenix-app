@@ -74,7 +74,6 @@ const SuperAdmins = () => {
     <Loader show={true} />
   ) : (
     <section className={styles.container}>
-      <h2>SuperAdmins List</h2>
       <ListSuperAdmin
         list={superAdmins}
         deleteItem={deleteItem}
@@ -98,7 +97,6 @@ const SuperAdmins = () => {
         method={method}
       />
       <Button onClick={onClick}> Add Super Admin</Button>
-      <Loader show={loading} />
       <Modal
         isOpen={showModal}
         handleClose={() => {
