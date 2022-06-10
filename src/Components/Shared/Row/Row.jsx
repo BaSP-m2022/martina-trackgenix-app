@@ -9,7 +9,9 @@ const Row = ({ data, headers, deleteItem, editItem }) => {
         return <td key={index}>{data[header]}</td>;
       })}
       <td>
-        <Button onClick={editItem}>&#9998;</Button>
+        <Button onClick={editItem} width={'55px'}>
+          &#9998;
+        </Button>
       </td>
       <td>
         <Button onClick={deleteItem} width={'55px'}>
