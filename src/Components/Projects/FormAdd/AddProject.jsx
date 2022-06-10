@@ -3,6 +3,7 @@ import styles from './addProject.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
+import Dropdown from '../Dropdown/index';
 
 const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, addItem }) => {
   if (!showFormAdd) {
@@ -71,6 +72,9 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
       console.error(error);
     }
   };
+  const valueChange = (e) => {
+    return setEmployeeRole(e.target.value);
+  };
   return (
     <div className={styles.container}>
       <form id="addForm" onSubmit={onSubmit}>
@@ -110,13 +114,14 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
           onChange={(e) => setEmployeeId(e.target.value)}
           label="Select Employee"
         ></Input>
-        <Input
-          type={'select'}
-          name={'role'}
-          onChange={(e) => setEmployeeRole(e.target.value)}
-          label={'Role Employee'}
-          valueOptions={['DEV', 'QA', 'TL', 'PM']}
-        ></Input>
+        <div>
+          <Dropdown title="role" value={employeeRole} onChange={valueChange}>
+            <option value="DEV">DEV</option>
+            <option value="QA">QA</option>
+            <option value="TL">TL</option>
+            <option value="PM">PM</option>
+          </Dropdown>
+        </div>
         <Input
           type={'number'}
           name={'rate'}
