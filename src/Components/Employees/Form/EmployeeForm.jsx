@@ -60,11 +60,11 @@ const EmployeeForm = ({
       if (response.status !== 201 && response.status !== 200) {
         setShowForm(false);
         setShowModal(true);
-        setChildrenModal(res.message);
+        setChildrenModal('The employee is added to the list');
       } else {
         setShowForm(false);
         setShowModal(true);
-        setChildrenModal(res.message);
+        setChildrenModal('The employee is added to the list');
         methodFunction(res.data);
         cleanFields();
       }
@@ -101,7 +101,7 @@ const EmployeeForm = ({
             type={'text'}
             name={'first_name'}
             value={userInput.first_name}
-            onChange={onchange}
+            onChange={onChange}
             label={'Name'}
           />
         </div>

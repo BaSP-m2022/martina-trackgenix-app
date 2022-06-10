@@ -103,7 +103,7 @@ const Employees = () => {
             setIsLoading={setIsLoading}
             setMethod={setMethod}
           />
-          <Button onClick={openForm}>Add New Admin</Button>
+          <Button onClick={openForm}>Add New Employee</Button>
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>
