@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import List from './List/List';
-import AddTimeSheet from './Add/AddTimeSheet';
-import Modal from './Modal/Modal';
+import Button from '../Shared/Buttons/Buttons';
+import Loader from '../Shared/Loader/Loader';
+import Modal from '../Shared/Modal/Modal';
+import FormTimeSheet from './Form/FormTimeSheet';
 
 const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState('');
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [childrenModal, setChildrenModal] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [previousTimeSheet, setPreviousTimeSheet] = useState({
+    _id: '',
+    employee: '',
+    hs_worked: 0,
+    task: '',
+    project: '',
+    timesheetDate: ''
+  });
+  const [method, setMethod] = useState('');
 
   const listTS = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`);
       const data = await response.json();
       setList(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -28,8 +41,8 @@ const TimeSheets = () => {
     setList([...list.filter((listItem) => listItem._id !== _id)]);
   };
 
-  const newTimeSheet = (body) => {
-    const NewTimeSheet = {
+  const newItem = (body) => {
+    const newTimeSheet = {
       _id: body._id,
       employee: body.employee,
       project: body.project,
@@ -37,10 +50,10 @@ const TimeSheets = () => {
       hs_worked: body.hs_worked,
       timesheetDate: body.timesheetDate
     };
-    setList([...list, NewTimeSheet]);
+    setList([...list, newTimeSheet]);
   };
 
-  const editTimeSheet = (body) => {
+  const editItem = (body) => {
     const updatedTimeSheet = list.map((item) => {
       if (item._id === body._id) {
         return body;
@@ -51,40 +64,41 @@ const TimeSheets = () => {
     setList(updatedTimeSheet);
   };
 
-  const closeForm = () => {
-    setShowFormAdd(false);
-  };
-  const onClick = () => {
-    setShowFormAdd(true);
+  const openForm = () => {
+    setMethod('POST');
+    setShowForm(true);
   };
 
-  return (
+  return loading ? (
+    <Loader show={true} />
+  ) : (
     <section className={styles.container}>
-      <h2>Time-Sheets</h2>
       <List
         list={list}
-        setList={setList}
         deleteItem={deleteItem}
-        setTitleModal={setTitleModal}
         setShowModal={setShowModal}
-        editTimeSheet={editTimeSheet}
+        setLoading={setLoading}
+        setChildrenModal={setChildrenModal}
+        setPreviousTimeSheet={setPreviousTimeSheet}
+        setShowForm={setShowForm}
+        setMethod={setMethod}
       />
-      <AddTimeSheet
-        show={showFormAdd}
+      <FormTimeSheet
+        addItem={newItem}
+        showForm={showForm}
+        setShowForm={setShowForm}
         setShowModal={setShowModal}
-        newTimeSheet={newTimeSheet}
-        setTitleModal={setTitleModal}
-        closeForm={closeForm}
+        setChildrenModal={setChildrenModal}
+        setLoading={setLoading}
+        editItem={editItem}
+        previousTimeSheet={previousTimeSheet}
+        setPreviousTimeSheet={setPreviousTimeSheet}
+        method={method}
       />
-      <button onClick={onClick} className={styles.addButton}>
-        Add
-      </button>
-      <Modal
-        titleModal={titleModal}
-        showModal={showModal}
-        setShowModal={setShowModal}
-        editTimeSheet={editTimeSheet}
-      />
+      <Button onClick={openForm}>Add a TimeSheets</Button>
+      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+        {childrenModal}
+      </Modal>
     </section>
   );
 };

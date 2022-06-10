@@ -1,4 +1,4 @@
-.container{
+.container {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -12,22 +12,24 @@
   overflow: auto;
   background-color: #00000080;
 }
-
-.modal{
+.container form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
-  width: 200px;
-  height: 100px;
-  background-color: white;
-  border-radius: 5px;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  gap: 15px;
 }
-
-.button{
-  background-color: #AACE9B;
-  border-color: #AACE9B;
-  Width:90px;
-  Height:38px;
-  border-radius:4px;
+.container input {
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #efefef80;
+}
+.button {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 15px;
 }
