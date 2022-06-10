@@ -1,29 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import styles from './addProject.module.css';
+import styles from './projectForm.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 
-const AddProject = ({
-  showFormAdd,
-  setShowFormAdd,
+const ProjectForm = ({
+  showForm,
+  setShowForm,
+  previousProject,
+  setPreviousProject,
   setShowModal,
   setTitleModal,
   addItem,
-  setLoading
+  editItem,
+  setLoading,
+  method
 }) => {
-  if (!showFormAdd) {
+  if (!showForm) {
     return null;
   }
+
   const [listEmployees, setListEmployees] = useState([]);
-  const [projectName, setProjectName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [finishDate, setFinishDate] = useState('');
-  const [client, setClient] = useState('');
-  const [active, setActive] = useState(false);
+  const [projectName, setProjectName] = useState(previousProject.project_name);
+  const [startDate, setStartDate] = useState(previousProject.start_date);
+  const [finishDate, setFinishDate] = useState(previousProject.finish_date);
+  const [client, setClient] = useState(previousProject.client);
+  const [active, setActive] = useState(previousProject.active);
   const [employees, setEmployees] = useState({
-    id: '',
+    _id: '',
     role: '',
     rate: ''
   });
+
+  const cleanFields = () => {
+    setPreviousProject({
+      _id: '',
+      project_name: '',
+      client: '',
+      start_date: '',
+      finish_date: '',
+      active: ''
+    });
+  };
 
   const fetchEmployees = async () => {
     try {
@@ -43,48 +59,67 @@ const AddProject = ({
     setEmployees({ ...employees, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    setLoading(true);
-
+  const fetchProjects = async (url, methodFunction) => {
     const options = {
-      method: 'POST',
+      method: method,
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
         project_name: projectName,
+        client: client,
         start_date: startDate,
         finish_date: finishDate,
-        client: client,
-        active: active,
-        employees: [employees]
+        active: active
       })
     };
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, options);
+      const response = await fetch(url, options);
       const res = await response.json();
-      if (response.status !== 201) {
+      if (response.status !== 201 && response.status !== 200) {
+        setShowForm(false);
         setShowModal(true);
-        setTitleModal(res.error);
-        setLoading(false);
+        setTitleModal(res.message);
       } else {
+        setShowForm(false);
         setShowModal(true);
-        setTitleModal('Project created successfully');
-        addItem(res.data);
-        setShowFormAdd(false);
-        setLoading(false);
+        setTitleModal(res.message);
+        methodFunction(res.data);
+        cleanFields();
       }
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!previousProject._id) {
+      const url = `${process.env.REACT_APP_API_URL}/projects`;
+      fetchProjects(url, addItem);
+    } else {
+      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject._id}`;
+      fetchProjects(url, editItem);
+    }
+  };
+
+  const closeForm = () => {
+    cleanFields();
+    setShowForm(false);
   };
 
   return (
     <div className={styles.container}>
-      <form id="addForm" onSubmit={onSubmit}>
-        <h2>Add Project</h2>
+      <form onSubmit={onSubmit}>
+        <h2>Project Form</h2>
         <div>
           <label>Project Name</label>
           <input
@@ -157,14 +192,18 @@ const AddProject = ({
           </select>
         </div>
         <div>
-          <input type="submit" value="Confirm" onSubmit={onSubmit}></input>
-        </div>
-        <div>
-          <Button onClick={() => setShowFormAdd(false)}>Close</Button>
+          <Button
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            Submit
+          </Button>
+          <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
     </div>
   );
 };
 
-export default AddProject;
+export default ProjectForm;

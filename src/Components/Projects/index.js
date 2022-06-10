@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import List from './List/List';
+import ProjectForm from './Form/ProjectForm';
 import Modal from '../Shared/Modal/Modal';
-import AddProject from './FormAdd/AddProject';
 import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
 
@@ -10,8 +10,17 @@ const Projects = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [method, setMethod] = useState('');
+  const [previousProject, setPreviousProject] = useState({
+    _id: '',
+    project_name: '',
+    client: '',
+    start_date: '',
+    finish_date: '',
+    active: ''
+  });
 
   const fetchData = async () => {
     try {
@@ -55,28 +64,38 @@ const Projects = () => {
     setList(projectsUpdated);
   };
 
+  const onClick = () => {
+    setShowForm(true);
+    setMethod('POST');
+  };
+
   return loading ? (
     <Loader show={true} />
   ) : (
     <section className={styles.container}>
       <List
         list={list}
-        setList={setList}
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
         deleteItem={deleteItem}
-        editItem={editItem}
+        setShowForm={setShowForm}
+        setPreviousProject={setPreviousProject}
         setLoading={setLoading}
+        setMethod={setMethod}
       />
-      <Button onClick={() => setShowFormAdd(true)}>+ Add Project</Button>
-      <AddProject
-        showFormAdd={showFormAdd}
-        setShowFormAdd={setShowFormAdd}
+      <ProjectForm
+        showForm={showForm}
+        setShowForm={setShowForm}
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
+        previousProject={previousProject}
+        setPreviousProject={setPreviousProject}
         addItem={addItem}
+        editItem={editItem}
         setLoading={setLoading}
+        method={method}
       />
+      <Button onClick={onClick}>+ Add Project</Button>
       <Modal
         isOpen={showModal}
         handleClose={() => {
@@ -86,7 +105,6 @@ const Projects = () => {
       >
         {titleModal}
       </Modal>
-      <Loader show={loading} />
     </section>
   );
 };
