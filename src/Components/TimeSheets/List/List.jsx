@@ -10,7 +10,7 @@ const List = ({
   deleteItem,
   setLoading,
   setChildrenModal,
-  setPreviewTimeSheet
+  setPreviousTimeSheet
 }) => {
   const handleDelete = async (_id) => {
     setLoading(true);
@@ -31,12 +31,8 @@ const List = ({
     setLoading(false);
   };
 
-  const previewData = list.map((item) => item);
-  console.log(previewData);
-
   const handleEdit = (timesheet) => {
-    console.log('timesheet', timesheet);
-    setPreviewTimeSheet(timesheet);
+    setPreviousTimeSheet(timesheet);
     setMethod('PUT');
     setShowForm(true);
   };

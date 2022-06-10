@@ -12,7 +12,7 @@ const TimeSheets = () => {
   const [childrenModal, setChildrenModal] = useState('');
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [previewTimeSheet, setPreviewTimeSheet] = useState({
+  const [previousTimeSheet, setPreviousTimeSheet] = useState({
     _id: '',
     employee: '',
     hs_worked: 0,
@@ -79,7 +79,7 @@ const TimeSheets = () => {
         setShowModal={setShowModal}
         setLoading={setLoading}
         setChildrenModal={setChildrenModal}
-        setPreviewTimeSheet={setPreviewTimeSheet}
+        setPreviousTimeSheet={setPreviousTimeSheet}
         setShowForm={setShowForm}
         setMethod={setMethod}
       />
@@ -91,8 +91,8 @@ const TimeSheets = () => {
         setChildrenModal={setChildrenModal}
         setLoading={setLoading}
         editItem={editItem}
-        previewTimeSheet={previewTimeSheet}
-        setPreviewTimeSheet={setPreviewTimeSheet}
+        previousTimeSheet={previousTimeSheet}
+        setPreviousTimeSheet={setPreviousTimeSheet}
         method={method}
       />
       <Button onClick={openForm}>Add a TimeSheets</Button>

@@ -11,23 +11,22 @@ const FormTimeSheet = ({
   setChildrenModal,
   setLoading,
   editItem,
-  previewTimeSheet,
-  setPreviewTimeSheet,
+  previousTimeSheet,
+  setPreviousTimeSheet,
   method
 }) => {
   if (!showForm) {
     return null;
   }
-  console.log('previous timesheet', previewTimeSheet);
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
-  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employee);
-  const [projectId, setProjectId] = useState(previewTimeSheet.project);
-  const [taskId, setTaskId] = useState(previewTimeSheet.task);
-  const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
-  const [date, setDate] = useState(previewTimeSheet.date);
-  const timeSheetId = previewTimeSheet._id;
+  const [employee, setEmployee] = useState(previousTimeSheet.employee);
+  const [project, setProject] = useState(previousTimeSheet.project);
+  const [task, setTask] = useState(previousTimeSheet.task);
+  const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
+  const [date, setDate] = useState(previousTimeSheet.date);
+  const timeSheetId = previousTimeSheet._id;
 
   const fetchEmployees = async () => {
     try {
@@ -44,7 +43,7 @@ const FormTimeSheet = ({
   }, []);
 
   const employeeName = listEmployees.map((item) => {
-    if (item._id == employeeId) {
+    if (item._id == employee) {
       return item.first_name;
     }
   });
@@ -64,7 +63,7 @@ const FormTimeSheet = ({
   }, []);
 
   const projectName = listProjects.map((item) => {
-    if (item._id == projectId) {
+    if (item._id == project) {
       return item.project_name;
     }
   });
@@ -84,13 +83,13 @@ const FormTimeSheet = ({
   }, []);
 
   const taskDescription = listTasks.map((item) => {
-    if (item._id == taskId) {
+    if (item._id == task) {
       return item.description;
     }
   });
 
   const cleanFields = () => {
-    setPreviewTimeSheet({
+    setPreviousTimeSheet({
       _id: '',
       employee: '',
       hs_worked: 0,
@@ -107,9 +106,9 @@ const FormTimeSheet = ({
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        employee: employeeId,
-        project: projectId,
-        task: taskId,
+        employee: employee,
+        project: project,
+        task: task,
         hs_worked: hsWorked,
         timesheetDate: date
       })
@@ -177,10 +176,10 @@ const FormTimeSheet = ({
         <div>
           <Input
             type={'select'}
-            // name={'employee'}
-            onChange={(e) => setEmployeeId(e.target.value)}
+            name={'employee'}
+            onChange={(e) => setEmployee(e.target.value)}
             valueOptions={listEmployees}
-            value={employeeId}
+            value={employee}
             label={'Select an Employee'}
           ></Input>
         </div>
@@ -188,19 +187,20 @@ const FormTimeSheet = ({
           <Input
             type={'select'}
             name={'project'}
-            onChange={(e) => setProjectId(e.target.value)}
+            onChange={(e) => setProject(e.target.value)}
             valueOptions={listProjects}
             label={'Select a Project'}
-            value={projectId}
+            value={project}
           ></Input>
         </div>
         <div>
           <Input
             type={'select'}
             name={'task'}
-            onChange={(e) => setTaskId(e.target.value)}
+            onChange={(e) => setTask(e.target.value)}
             valueOptions={listTasks}
             label={'Select a Task'}
+            value={task}
           ></Input>
         </div>
         <div>
