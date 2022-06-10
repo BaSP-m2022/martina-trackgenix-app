@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import List from './List/List';
 import Modal from './Modal/Modal';
+// import Row from '../Shared/Row';
+import Button from '../Shared/Buttons/Buttons';
+// import Field from '../Shared/Field';
 import AddProject from './FormAdd/AddProject';
 
 const Projects = () => {
@@ -51,6 +54,10 @@ const Projects = () => {
     setList(projectsUpdated);
   };
 
+  const onClick = () => {
+    setShowFormAdd(true);
+  };
+
   return (
     <section className={styles.container}>
       <h2>Projects</h2>
@@ -62,7 +69,7 @@ const Projects = () => {
         deleteItem={deleteItem}
         editItem={editItem}
       />
-      <button onClick={() => setShowFormAdd(true)}>+ Add Project</button>
+      <Button onClick={onClick}>+ Add Project</Button>
       <AddProject
         showFormAdd={showFormAdd}
         setShowFormAdd={setShowFormAdd}

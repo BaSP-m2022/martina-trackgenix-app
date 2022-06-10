@@ -1,8 +1,40 @@
 import React from 'react';
 import styles from './listSAdmins.module.css';
-import ListItemSuperAdmin from '../ListItemSuperAdmin/LIstItemSuperAdmin';
+import Row from '../../Shared/Row/Row';
 
-const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem }) => {
+const ListSAdmin = ({
+  list,
+  deleteItem,
+  setShowModal,
+  setShowTitle,
+  setShowForm,
+  setPreviousSuperAdmin,
+  setLoading,
+  setMethod
+}) => {
+  const handleDelete = async (_id) => {
+    setLoading(true);
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
+        method: 'DELETE'
+      });
+      setShowModal(true);
+      setShowTitle('Super Admin deleted successfully');
+      setLoading(false);
+      deleteItem(_id);
+    } catch (error) {
+      setShowModal(true);
+      setShowTitle(error.msg);
+      setLoading(false);
+      console.error(error);
+    }
+  };
+
+  const handleEdit = (superAdmin) => {
+    setPreviousSuperAdmin(superAdmin);
+    setShowForm(true);
+    setMethod('PUT');
+  };
   return (
     <div className={styles.container}>
       <table>
@@ -12,20 +44,16 @@ const ListSAdmin = ({ list, deleteItem, setShowModal, setShowTitle, editItem }) 
           <th id="lastName">Last Name</th>
           <th id="email">Email</th>
           <th id="password">Password</th>
-          <th id="active">Active</th>
-          <th id="delete">Delete Super Admin</th>
-          <th id="edit">Edit Super Admin</th>
         </thead>
         <tbody>
           {list.map((item) => (
-            <ListItemSuperAdmin
+            <Row
               key={item._id}
-              listItem={item}
-              deleteItem={deleteItem}
-              setShowModal={setShowModal}
-              setShowTitle={setShowTitle}
-              editItem={editItem}
-            />
+              data={item}
+              headers={['_id', 'firstName', 'lastName', 'email', 'password']}
+              deleteItem={() => handleDelete(item._id)}
+              editItem={() => handleEdit(item)}
+            ></Row>
           ))}
         </tbody>
       </table>

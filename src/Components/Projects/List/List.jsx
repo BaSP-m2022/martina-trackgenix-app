@@ -1,8 +1,9 @@
 import React from 'react';
-import ListItem from '../ListItem/ListItem';
+// import ListItem from '../ListItem/ListItem';
+import Row from '../../Shared/Row/Row';
 import styles from './list.module.css';
 
-const List = ({ list, setShowModal, setTitleModal, deleteItem, editItem }) => {
+const List = ({ list, deleteItem, editItem }) => {
   return (
     <section className={styles.container}>
       <table>
@@ -13,17 +14,15 @@ const List = ({ list, setShowModal, setTitleModal, deleteItem, editItem }) => {
             <th id="client">Client</th>
             <th id="start_date">Start Date</th>
             <th id="finish_date">Finish Date</th>
-            <th id="active">Active</th>
           </tr>
         </thead>
         <tbody>
           {list.map((item) => {
             return (
-              <ListItem
+              <Row
                 key={item._id}
-                listItem={item}
-                setShowModal={setShowModal}
-                setTitleModal={setTitleModal}
+                data={item}
+                headers={['_id', 'project_name', 'client', 'start_date', 'finish_date', 'active']}
                 deleteItem={deleteItem}
                 editItem={editItem}
               />

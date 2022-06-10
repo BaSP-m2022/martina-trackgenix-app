@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styles from './footer.module.css';
 
 const Footer = ({ props }) => {
@@ -45,4 +45,4 @@ const Footer = ({ props }) => {
   );
 };
 
-export default Footer;
+export default withRouter(Footer);
