@@ -96,14 +96,10 @@ const FormTasks = ({
           ></Input>
         </div>
         <div>
-          <Button width={'80px'} height={'30px'} onClick={(e) => onSubmit(e)}>
-            Submit
-          </Button>
+          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         </div>
         <div>
-          <Button onClick={closeForm} width={'80px'} height={'30px'}>
-            Close
-          </Button>
+          <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
     </div>

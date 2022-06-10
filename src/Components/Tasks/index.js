@@ -86,7 +86,6 @@ function Tasks() {
         editItem={editItem}
         showForm={showForm}
         setShowForm={setShowForm}
-        closeForm={openForm}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
         setLoading={setLoading}
@@ -99,7 +98,6 @@ function Tasks() {
         <Modal handleClose={handleClose} isOpen={showModal} title={showTitle}>
           {showTitle}
         </Modal>
-        <Loader show={loading} />
       </div>
     </section>
   );
