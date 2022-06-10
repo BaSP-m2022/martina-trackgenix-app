@@ -14,13 +14,22 @@ const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState('');
   const [previousProject, setPreviousProject] = useState({
-    _id: '',
+    id: '',
     project_name: '',
-    client: '',
     start_date: '',
     finish_date: '',
-    active: ''
+    client: '',
+    active: '',
+    employees: [
+      {
+        role: '',
+        rate: '0',
+        id: ''
+      }
+    ]
   });
+
+  console.log(previousProject);
 
   const fetchData = async () => {
     try {
@@ -37,25 +46,26 @@ const Projects = () => {
     fetchData();
   }, []);
 
-  const deleteItem = (_id) => {
-    setList([...list.filter((listItem) => listItem._id !== _id)]);
+  const deleteItem = (id) => {
+    setList([...list.filter((listItem) => listItem.id !== id)]);
   };
 
-  const addItem = ({ _id, project_name, start_date, finish_date, client, active }) => {
+  const addItem = ({ id, project_name, start_date, finish_date, client, active, employees }) => {
     const newItem = {
-      _id,
+      id,
       project_name,
       start_date,
       finish_date,
       client,
-      active
+      active,
+      employees
     };
     setList([...list, newItem]);
   };
 
   const editItem = (data) => {
     const projectsUpdated = list.map((project) => {
-      if (project._id === data._id) {
+      if (project.id === data.id) {
         return data;
       } else {
         return project;

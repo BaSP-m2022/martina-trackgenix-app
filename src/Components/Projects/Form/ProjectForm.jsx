@@ -26,17 +26,16 @@ const ProjectForm = ({
   const [finishDate, setFinishDate] = useState(previousProject.finish_date);
   const [client, setClient] = useState(previousProject.client);
   const [active, setActive] = useState(previousProject.active);
-  const [employees, setEmployees] = useState({
-    _id: '',
-    role: '',
-    rate: ''
-  });
+  const [employees, setEmployees] = useState(previousProject.employees);
+
+  console.log('emplo', employees);
 
   const cleanFields = () => {
     setPreviousProject({
-      _id: '',
+      id: '',
       project_name: '',
       client: '',
+      employees: ['', '', ''],
       start_date: '',
       finish_date: '',
       active: ''
@@ -70,6 +69,7 @@ const ProjectForm = ({
       body: JSON.stringify({
         project_name: projectName,
         client: client,
+        employees: [employees],
         start_date: startDate,
         finish_date: finishDate,
         active: active
@@ -108,7 +108,7 @@ const ProjectForm = ({
       const url = `${process.env.REACT_APP_API_URL}/projects`;
       fetchProjects(url, addItem);
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject._id}`;
+      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject.id}`;
       fetchProjects(url, editItem);
     }
   };
