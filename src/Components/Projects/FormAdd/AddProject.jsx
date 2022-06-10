@@ -14,11 +14,9 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
   const [finishDate, setFinishDate] = useState('');
   const [client, setClient] = useState('');
   const [active, setActive] = useState(false);
-  const [employees, setEmployees] = useState({
-    id: '',
-    role: '',
-    rate: ''
-  });
+  const [employeeId, setEmployeeId] = useState('');
+  const [employeeRole, setEmployeeRole] = useState('');
+  const [employeeRate, setEmployeeRate] = useState(0);
 
   const fetchEmployees = async () => {
     try {
@@ -34,10 +32,6 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
     fetchEmployees();
   }, []);
 
-  const onChangeEmployee = (e) => {
-    setEmployees({ ...employees, [e.target.name]: e.target.value });
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,7 +46,13 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         finish_date: finishDate,
         client: client,
         active: active,
-        employees: [employees]
+        employees: [
+          {
+            id: employeeId,
+            role: employeeRole,
+            rate: employeeRate
+          }
+        ]
       })
     };
     try {
@@ -71,7 +71,6 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
       console.error(error);
     }
   };
-
   return (
     <div className={styles.container}>
       <form id="addForm" onSubmit={onSubmit}>
@@ -106,27 +105,27 @@ const AddProject = ({ showFormAdd, setShowFormAdd, setShowModal, setTitleModal, 
         ></Input>
         <Input
           type={'select'}
-          name={'id'}
+          name={'_id'}
           valueOptions={listEmployees}
-          onChange={onChangeEmployee}
+          onChange={(e) => setEmployeeId(e.target.value)}
           label="Select Employee"
         ></Input>
         <Input
           type={'select'}
           name={'role'}
-          onChange={onChangeEmployee}
+          onChange={(e) => setEmployeeRole(e.target.value)}
           label={'Role Employee'}
-          valueOptions={['QA', 'PM', 'DEV', 'TL']}
+          valueOptions={['DEV', 'QA', 'TL', 'PM']}
         ></Input>
         <Input
           type={'number'}
           name={'rate'}
-          value={employees.rate}
-          onChange={onChangeEmployee}
+          value={employeeRate}
+          onChange={(e) => setEmployeeRate(e.target.value)}
           label="RATE Employee"
         ></Input>
         <RadioButton
-          name={'Active'}
+          name={'active'}
           onChange={(e) => setActive(e.target.value)}
           label={'Active'}
           value={[true, false]}
