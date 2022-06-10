@@ -94,6 +94,7 @@ const TimeSheets = () => {
         previewTimeSheet={previewTimeSheet}
         setPreviewTimeSheet={setPreviewTimeSheet}
         method={method}
+        list={list}
       />
       <Button onClick={openForm}>Add a TimeSheets</Button>
       <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>

@@ -22,7 +22,7 @@ const FormTimeSheet = ({
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
-  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employee._id);
+  const [employeeId, setEmployeeId] = useState(previewTimeSheet.employee);
   const [projectId, setProjectId] = useState(previewTimeSheet.project._id);
   const [taskId, setTaskId] = useState(previewTimeSheet.task._id);
   const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
@@ -139,18 +139,15 @@ const FormTimeSheet = ({
         setShowForm(false);
         setShowModal(true);
         setChildrenModal(res.message);
-        console.log('salio por el error');
       } else {
         setShowForm(false);
         setShowModal(true);
         setChildrenModal(res.message);
         methodFunction(newBody);
         cleanFields();
-        console.log('salio bien');
       }
     } catch (error) {
       console.error(error);
-      console.log('salio por el catch');
     }
     setLoading(false);
   };
@@ -180,9 +177,10 @@ const FormTimeSheet = ({
         <div>
           <Input
             type={'select'}
-            name={'employee'}
+            // name={'employee'}
             onChange={(e) => setEmployeeId(e.target.value)}
             valueOptions={listEmployees}
+            value={employeeId}
             label={'Select an Employee'}
           ></Input>
         </div>
