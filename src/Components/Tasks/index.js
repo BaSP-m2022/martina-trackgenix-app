@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
-import Add from './AddForm/index';
-import Modal from './Modals/index';
+import FormTasks from './Form/Form';
 import List from './List';
+import Loader from '../Shared/Loader/Loader';
+import Button from '../Shared/Buttons/Buttons';
+import Modal from '../Shared/Modal/Modal';
 
 function Tasks() {
   const [tasks, saveTasks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [previewTask, setPreviewTask] = useState({
+    _id: '',
+    description: ''
+  });
+  const [method, setMethod] = useState('');
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
       const data = await response.json();
       saveTasks(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
-  const handleDelete = async (id) => {
-    const resp = confirm('Are you sure you want to delete it?');
-    if (resp) {
-      await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'DELETE'
-      }).then(() => {
-        alert('succesfully delete');
-      });
-      saveTasks(tasks.filter((task) => task._id !== id));
-    }
+
+  const deleteItem = (_id) => {
+    saveTasks([...tasks.filter((task) => task._id !== _id)]);
   };
 
   const addItem = ({ _id, description }) => {
@@ -53,34 +56,48 @@ function Tasks() {
     saveTasks(taskUpdated);
   };
 
-  const closeForm = () => {
-    setShowForm(false);
-  };
-
-  const onClick = () => {
+  const openForm = () => {
+    setMethod('POST');
     setShowForm(true);
   };
 
-  return (
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  return loading ? (
+    <Loader show={true} />
+  ) : (
     <section className={styles.container}>
       <h2>Tasks</h2>
       <List
-        handleDelete={handleDelete}
+        deleteItem={deleteItem}
         listTask={tasks}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
+        setShowForm={setShowForm}
         editItem={editItem}
+        setLoading={setLoading}
+        setPreviewTask={setPreviewTask}
+        setMethod={setMethod}
       />
-      <Add
+      <FormTasks
         addItem={addItem}
-        show={showForm}
-        closeForm={closeForm}
+        editItem={editItem}
+        showForm={showForm}
+        setShowForm={setShowForm}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
+        setLoading={setLoading}
+        previewTask={previewTask}
+        setPreviewTask={setPreviewTask}
+        method={method}
       />
       <div>
-        <button onClick={onClick}>Create a new task</button>
-        <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
+        <Button onClick={openForm}>Create a new task</Button>
+        <Modal handleClose={handleClose} isOpen={showModal} title={showTitle}>
+          {showTitle}
+        </Modal>
       </div>
     </section>
   );
