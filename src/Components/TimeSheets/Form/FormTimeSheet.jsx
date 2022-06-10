@@ -139,15 +139,18 @@ const FormTimeSheet = ({
         setShowForm(false);
         setShowModal(true);
         setChildrenModal(res.message);
+        console.log('salio por el error');
       } else {
         setShowForm(false);
         setShowModal(true);
         setChildrenModal(res.message);
         methodFunction(newBody);
         cleanFields();
+        console.log('salio bien');
       }
     } catch (error) {
       console.error(error);
+      console.log('salio por el catch');
     }
     setLoading(false);
   };

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './list.module.css';
-import Table from '../../Shared/Table/Table';
+import Row from '../../Shared/Row/Row';
 
 const List = ({
   list,
@@ -31,6 +31,9 @@ const List = ({
     setLoading(false);
   };
 
+  const previewData = list.map((item) => item);
+  console.log(previewData);
+
   const handleEdit = (timesheet) => {
     setPreviewTimeSheet(timesheet);
     setMethod('PUT');
@@ -40,33 +43,43 @@ const List = ({
   const newList = list.map((item) => {
     return {
       _id: item._id,
-      employee: item.employee.first_name,
+      employee: item.employee ? item.employee.first_name : '',
       hs_worked: item.hs_worked,
-      task: item.task.description,
-      project: item.project.project_name,
+      task: item.task ? item.task.description : '',
+      project: item.project ? item.project.project_name : '',
       timesheetDate: item.timesheetDate
     };
   });
 
   return (
     <section className={styles.container}>
-      <Table
-        title={'TimeSheets'}
-        data={newList}
-        headersColumns={[
-          'ID',
-          'Employee',
-          'Worked Hours',
-          'Projects',
-          'Tasks',
-          'Date',
-          'Edit',
-          'Delete'
-        ]}
-        headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-        deleteItem={handleDelete}
-        editItem={handleEdit}
-      ></Table>
+      <table>
+        <thead>
+          <tr>
+            <th id="_id">ID</th>
+            <th id="employee">EMPLOYEE</th>
+            <th id="hs_worked">HOURS WORKED</th>
+            <th id="project">PROJECT</th>
+            <th id="task">TASK</th>
+            <th id="timesheetDate">DATE</th>
+            <th id="edit">EDIT</th>
+            <th id="delete">DELETE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {newList.map((item) => {
+            return (
+              <Row
+                key={item._id}
+                data={item}
+                headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
+                deleteItem={() => handleDelete(item._id)}
+                editItem={() => handleEdit(item)}
+              ></Row>
+            );
+          })}
+        </tbody>
+      </table>
     </section>
   );
 };

@@ -8,9 +8,11 @@ const Input = ({ type, name, value, onChange, valueOptions, label }) => {
         <div className={styles.container}>
           <label>{label}</label>
           <select name={name} onChange={onChange}>
+            <option>Select One</option>
             {valueOptions.map((item) => (
               <option key={item._id} value={value}>
-                {item.first_name || item.project_name || item.description}
+                {item._id}
+                {/* -{item.first_name || item.project_name || item.description} */}
               </option>
             ))}
           </select>
