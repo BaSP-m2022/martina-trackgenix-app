@@ -15,7 +15,7 @@ const TimeSheets = () => {
   const [previewTimeSheet, setPreviewTimeSheet] = useState({
     _id: '',
     employee: '',
-    hs_worked: '',
+    hs_worked: 0,
     task: '',
     project: '',
     timesheetDate: ''
@@ -94,7 +94,6 @@ const TimeSheets = () => {
         previewTimeSheet={previewTimeSheet}
         setPreviewTimeSheet={setPreviewTimeSheet}
         method={method}
-        list={list}
       />
       <Button onClick={openForm}>Add a TimeSheets</Button>
       <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>

@@ -35,6 +35,7 @@ const List = ({
   console.log(previewData);
 
   const handleEdit = (timesheet) => {
+    console.log('timesheet', timesheet);
     setPreviewTimeSheet(timesheet);
     setMethod('PUT');
     setShowForm(true);

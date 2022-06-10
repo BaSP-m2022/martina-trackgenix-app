@@ -18,13 +18,13 @@ const FormTimeSheet = ({
   if (!showForm) {
     return null;
   }
-
+  console.log('previous timesheet', previewTimeSheet);
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
   const [employeeId, setEmployeeId] = useState(previewTimeSheet.employee);
-  const [projectId, setProjectId] = useState(previewTimeSheet.project._id);
-  const [taskId, setTaskId] = useState(previewTimeSheet.task._id);
+  const [projectId, setProjectId] = useState(previewTimeSheet.project);
+  const [taskId, setTaskId] = useState(previewTimeSheet.task);
   const [hsWorked, setHSWorked] = useState(previewTimeSheet.hs_worked);
   const [date, setDate] = useState(previewTimeSheet.date);
   const timeSheetId = previewTimeSheet._id;
@@ -93,7 +93,7 @@ const FormTimeSheet = ({
     setPreviewTimeSheet({
       _id: '',
       employee: '',
-      hs_worked: '',
+      hs_worked: 0,
       task: '',
       project: '',
       timesheetDate: ''
@@ -191,6 +191,7 @@ const FormTimeSheet = ({
             onChange={(e) => setProjectId(e.target.value)}
             valueOptions={listProjects}
             label={'Select a Project'}
+            value={projectId}
           ></Input>
         </div>
         <div>
