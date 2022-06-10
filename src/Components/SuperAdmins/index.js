@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
-import AddSuperAdmin from './FormAdd/AddSuperAdmin';
-import Modal from './Modals/modal';
+import Form from './Form/SuperAdminForm';
+import Modal from '../Shared/Modal/Modal';
+import Loader from '../Shared/Loader/Loader';
+import Button from '../Shared/Buttons/Buttons';
 
 const SuperAdmins = () => {
   const [superAdmins, saveSuperAdmins] = useState([]);
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showTitle, setShowTitle] = useState('');
   const [loading, setLoading] = useState(true);
+  const [method, setMethod] = useState('');
+  const [previousSuperAdmin, setPreviousSuperAdmin] = useState({
+    _id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    active: true
+  });
 
   const fetchData = async () => {
     try {
@@ -30,16 +41,17 @@ const SuperAdmins = () => {
     saveSuperAdmins([...superAdmins.filter((listItem) => listItem._id !== _id)]);
   };
 
-  const addItem = ({ _id, firstName, lastName, email, password, active }) => {
-    const newItem = {
-      _id,
-      firstName,
-      lastName,
-      email,
-      password,
-      active
+  const addItem = (body) => {
+    const newSuperAdmin = {
+      _id: body._id,
+      firstName: body.firstName,
+      lastName: body.lastName,
+      phone: body.phone,
+      email: body.email,
+      password: body.password,
+      active: body.active
     };
-    saveSuperAdmins([...superAdmins, newItem]);
+    saveSuperAdmins([...superAdmins, newSuperAdmin]);
   };
 
   const editItem = (data) => {
@@ -53,38 +65,46 @@ const SuperAdmins = () => {
     saveSuperAdmins(superAdminUpdated);
   };
 
-  const closeForm = () => {
-    setShowFormAdd(false);
-  };
-
   const onClick = () => {
-    setShowFormAdd(true);
+    setShowForm(true);
+    setMethod('POST');
   };
 
   return loading ? (
-    <section className={styles.containerLoading}>
-      <div className={styles.loader}></div>
-    </section>
+    <Loader show={true} />
   ) : (
     <section className={styles.container}>
-      <AddSuperAdmin
-        addItem={addItem}
-        show={showFormAdd}
-        closeForm={closeForm}
-        setShowModal={setShowModal}
-        setShowTitle={setShowTitle}
-      />
-      <h2>SuperAdmins List</h2>
       <ListSuperAdmin
         list={superAdmins}
-        setList={saveSuperAdmins}
         deleteItem={deleteItem}
         setShowModal={setShowModal}
         setShowTitle={setShowTitle}
-        editItem={editItem}
+        setShowForm={setShowForm}
+        setPreviousSuperAdmin={setPreviousSuperAdmin}
+        setLoading={setLoading}
+        setMethod={setMethod}
       />
-      <button onClick={onClick}>+ Add Super Admin</button>
-      <Modal showTitle={showTitle} showModal={showModal} setShowModal={setShowModal} />
+      <Form
+        showForm={showForm}
+        setShowForm={setShowForm}
+        previousSuperAdmin={previousSuperAdmin}
+        setPreviousSuperAdmin={setPreviousSuperAdmin}
+        setShowModal={setShowModal}
+        setShowTitle={setShowTitle}
+        editItem={editItem}
+        addItem={addItem}
+        setLoading={setLoading}
+        method={method}
+      />
+      <Button onClick={onClick}> Add Super Admin</Button>
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal(false);
+        }}
+      >
+        <p>{showTitle}</p>
+      </Modal>
     </section>
   );
 };

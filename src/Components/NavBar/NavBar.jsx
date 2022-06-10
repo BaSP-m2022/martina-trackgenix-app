@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styles from './navBar.module.css';
 
 const NavBar = ({ props }) => {
@@ -20,4 +20,4 @@ const NavBar = ({ props }) => {
   );
 };
 
-export default NavBar;
+export default withRouter(NavBar);
