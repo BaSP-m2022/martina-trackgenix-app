@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './addProject.module.css';
+import styles from './projectForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
@@ -179,8 +179,8 @@ const ProjectForm = ({
         ></RadioButton>
         <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         <Button onClick={closeForm}>Close</Button>
-      </form >
-    </div >
+      </form>
+    </div>
   );
 };
 
