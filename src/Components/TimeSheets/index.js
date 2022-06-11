@@ -47,7 +47,6 @@ const TimeSheets = () => {
   }, []);
 
   const deleteItem = (_id) => {
-    // setList([...list.filter((listItem) => listItem._id !== _id)]);
     dispatch(deleteTimeSheetSuccess(_id));
   };
 
