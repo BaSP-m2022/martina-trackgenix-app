@@ -3,6 +3,7 @@ import styles from './projectForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
+import Dropdown from '../Dropdown/index';
 
 const ProjectForm = ({
   showForm,
@@ -27,20 +28,7 @@ const ProjectForm = ({
   const [client, setClient] = useState(previousProject.client);
   const [active, setActive] = useState(previousProject.active);
   const [employees, setEmployees] = useState(previousProject.employees);
-
-  console.log('emplo', employees);
-
-  const cleanFields = () => {
-    setPreviousProject({
-      id: '',
-      project_name: '',
-      client: '',
-      employees: ['', '', ''],
-      start_date: '',
-      finish_date: '',
-      active: ''
-    });
-  };
+  const [employeesId, setEmployeeId] = useState('');
 
   const fetchEmployees = async () => {
     try {
@@ -60,6 +48,36 @@ const ProjectForm = ({
     setEmployees({ ...employees, [e.target.name]: e.target.value });
   };
 
+  const employeesRole = listEmployees.map((item) => {
+    if (item._id == employeesId) {
+      return item.role;
+    }
+  });
+
+  const employeesRate = listEmployees.map((item) => {
+    if (item._id == employeesId) {
+      return item.rate;
+    }
+  });
+
+  const cleanFields = () => {
+    setPreviousProject({
+      _id: '',
+      project_name: '',
+      client: '',
+      start_date: '',
+      finish_date: '',
+      active: '',
+      employees: [
+        {
+          id: '',
+          role: '',
+          rate: 0
+        }
+      ]
+    });
+  };
+
   const fetchProjects = async (url, methodFunction) => {
     const options = {
       method: method,
@@ -68,26 +86,45 @@ const ProjectForm = ({
       },
       body: JSON.stringify({
         project_name: projectName,
-        client: client,
-        employees: [employees],
         start_date: startDate,
         finish_date: finishDate,
-        active: active
+        client: client,
+        active: active,
+        employees: [
+          {
+            id: employeesId,
+            role: employeesRole,
+            rate: employeesRate
+          }
+        ]
       })
     };
 
     try {
       const response = await fetch(url, options);
       const res = await response.json();
+      const newBody = {
+        _id: res.data._id,
+        project_name: res.data.project_name,
+        client: res.data.client,
+        start_date: res.data.start_date,
+        finish_date: res.data.finish_date,
+        active: res.data.active,
+        employee: {
+          _id: res.data.employee,
+          role: employeesRole,
+          rate: employeesRate
+        }
+      };
       if (response.status !== 201 && response.status !== 200) {
         setShowForm(false);
         setShowModal(true);
-        setTitleModal(res.message);
+        setTitleModal('Projects was added');
       } else {
         setShowForm(false);
         setShowModal(true);
-        setTitleModal(res.message);
-        methodFunction(res.data);
+        setTitleModal('The projects cannot be created');
+        methodFunction(newBody);
         cleanFields();
       }
     } catch (error) {
@@ -95,10 +132,6 @@ const ProjectForm = ({
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +141,7 @@ const ProjectForm = ({
       const url = `${process.env.REACT_APP_API_URL}/projects`;
       fetchProjects(url, addItem);
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject.id}`;
+      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject._id}`;
       fetchProjects(url, editItem);
     }
   };
@@ -154,20 +187,19 @@ const ProjectForm = ({
           type={'select'}
           name={'id'}
           valueOptions={listEmployees}
-          onChange={onChangeEmployee}
+          value={employeesId}
+          onChange={(e) => setEmployeeId(e.target.value)}
           label="Select Employee"
         ></Input>
-        <Input
-          type={'select'}
-          name={'role'}
-          onChange={onChangeEmployee}
-          label={'Role Employee'}
-          valueOptions={['QA', 'PM', 'DEV', 'TL']}
-        ></Input>
+        <Dropdown title="role" value={employeesRole} onChange={onChangeEmployee}>
+          <option value="DEV">DEV</option>
+          <option value="QA">QA</option>
+          <option value="TL">TL</option>
+          <option value="PM">PM</option>
+        </Dropdown>
         <Input
           type={'number'}
           name={'rate'}
-          value={employees.rate}
           onChange={onChangeEmployee}
           label="RATE Employee"
         ></Input>

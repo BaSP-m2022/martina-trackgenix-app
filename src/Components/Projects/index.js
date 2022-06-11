@@ -50,22 +50,28 @@ const Projects = () => {
     setList([...list.filter((listItem) => listItem.id !== id)]);
   };
 
-  const addItem = ({ id, project_name, start_date, finish_date, client, active, employees }) => {
+  const addItem = (body) => {
     const newItem = {
-      id,
-      project_name,
-      start_date,
-      finish_date,
-      client,
-      active,
-      employees
+      _id: body._id,
+      project_name: body.project_name,
+      start_date: body.start_date,
+      finish_date: body.finish_date,
+      client: body.client,
+      active: body.active,
+      employees: [
+        {
+          id: body.employees.id,
+          role: body.employees.role,
+          rate: body.employees.rate
+        }
+      ]
     };
     setList([...list, newItem]);
   };
 
   const editItem = (data) => {
     const projectsUpdated = list.map((project) => {
-      if (project.id === data.id) {
+      if (project._id === data._id) {
         return data;
       } else {
         return project;
