@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
+import { useSelector } from 'react-redux';
 
 const List = ({
-  list,
   setShowModal,
   setShowForm,
   setMethod,
@@ -12,6 +12,8 @@ const List = ({
   setChildrenModal,
   setPreviousTimeSheet
 }) => {
+  const listTimeSheet = useSelector((state) => state.timeSheet.list);
+
   const handleDelete = async (_id) => {
     setLoading(true);
     if (confirm('Are you sure you want to delete this Time-Sheet?')) {
@@ -37,7 +39,7 @@ const List = ({
     setShowForm(true);
   };
 
-  const newList = list.map((item) => {
+  const newList = listTimeSheet.map((item) => {
     return {
       _id: item._id,
       employee: item.employee ? item.employee.first_name : '',

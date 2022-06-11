@@ -5,9 +5,16 @@ import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import Modal from '../Shared/Modal/Modal';
 import FormTimeSheet from './Form/FormTimeSheet';
+import { useDispatch } from 'react-redux';
+import {
+  deleteTimeSheetSuccess,
+  getTimeSheetSuccess,
+  getTimeSheetPending,
+  getTimeSheetError
+} from '../../redux/timeSheets/actions';
 
 const TimeSheets = () => {
-  const [list, setList] = useState([]);
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const [loading, setLoading] = useState(true);
@@ -23,13 +30,15 @@ const TimeSheets = () => {
   const [method, setMethod] = useState('');
 
   const listTS = async () => {
+    dispatch(getTimeSheetPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheet`);
       const data = await response.json();
-      setList(data.data);
+      dispatch(getTimeSheetSuccess(data.data));
       setLoading(false);
     } catch (error) {
       console.error(error);
+      dispatch(getTimeSheetError(error));
     }
   };
 
@@ -38,31 +47,32 @@ const TimeSheets = () => {
   }, []);
 
   const deleteItem = (_id) => {
-    setList([...list.filter((listItem) => listItem._id !== _id)]);
+    // setList([...list.filter((listItem) => listItem._id !== _id)]);
+    dispatch(deleteTimeSheetSuccess(_id));
   };
 
-  const newItem = (body) => {
-    const newTimeSheet = {
-      _id: body._id,
-      employee: body.employee,
-      project: body.project,
-      task: body.task,
-      hs_worked: body.hs_worked,
-      timesheetDate: body.timesheetDate
-    };
-    setList([...list, newTimeSheet]);
-  };
+  // const newItem = (body) => {
+  //   const newTimeSheet = {
+  //     _id: body._id,
+  //     employee: body.employee,
+  //     project: body.project,
+  //     task: body.task,
+  //     hs_worked: body.hs_worked,
+  //     timesheetDate: body.timesheetDate
+  //   };
+  //   setList([...list, newTimeSheet]);
+  // };
 
-  const editItem = (body) => {
-    const updatedTimeSheet = list.map((item) => {
-      if (item._id === body._id) {
-        return body;
-      } else {
-        return item;
-      }
-    });
-    setList(updatedTimeSheet);
-  };
+  // const editItem = (body) => {
+  //   const updatedTimeSheet = list.map((item) => {
+  //     if (item._id === body._id) {
+  //       return body;
+  //     } else {
+  //       return item;
+  //     }
+  //   });
+  //   setList(updatedTimeSheet);
+  // };
 
   const openForm = () => {
     setMethod('POST');
@@ -74,7 +84,7 @@ const TimeSheets = () => {
   ) : (
     <section className={styles.container}>
       <List
-        list={list}
+        // list={listTimeSheet}
         deleteItem={deleteItem}
         setShowModal={setShowModal}
         setLoading={setLoading}
@@ -84,13 +94,13 @@ const TimeSheets = () => {
         setMethod={setMethod}
       />
       <FormTimeSheet
-        addItem={newItem}
+        // addItem={newItem}
         showForm={showForm}
         setShowForm={setShowForm}
         setShowModal={setShowModal}
         setChildrenModal={setChildrenModal}
         setLoading={setLoading}
-        editItem={editItem}
+        // editItem={editItem}
         previousTimeSheet={previousTimeSheet}
         setPreviousTimeSheet={setPreviousTimeSheet}
         method={method}
