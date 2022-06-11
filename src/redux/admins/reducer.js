@@ -9,7 +9,7 @@ import {
   ADD_ADMINS_SUCCESS,
   ADD_ADMINS_ERROR,
   EDIT_ADMINS_PENDING,
-  // EDIT_ADMINS_SUCCESS,
+  EDIT_ADMINS_SUCCESS,
   EDIT_ADMINS_ERROR
 } from './constants';
 
@@ -46,7 +46,8 @@ export const adminsReducer = (state = initialState, action) => {
     case DELETE_ADMINS_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((admin) => admin.id !== action.payload)
+        list: state.list.filter((a) => a.id !== action.payload),
+        isLoading: false
       };
     case DELETE_ADMINS_ERROR:
       return {
@@ -62,7 +63,8 @@ export const adminsReducer = (state = initialState, action) => {
     case ADD_ADMINS_SUCCESS:
       return {
         ...state,
-        list: [...state, action.payload]
+        list: [...state, action.payload],
+        isLoading: false
       };
     case ADD_ADMINS_ERROR:
       return {
@@ -75,23 +77,26 @@ export const adminsReducer = (state = initialState, action) => {
         ...state,
         isLoading: true
       };
-    // case EDIT_ADMINS_SUCCESS:
-    //   const adminUpd = state.map((admin) => {
-    //     if (admin._id === action.payload) {
-    //       return data;
-    //     } else {
-    //       return admin;
-    //     }
-    //   });
-    //   return {
-    //     ...state,
-    //     list: adminUpd
-    //   };
+    case EDIT_ADMINS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        // Update the updated admin into the previous admin list
+        list: state.list.map((a) => {
+          if (a._id === action.payload._id) {
+            return action.payload;
+          }
+          return a;
+        })
+      };
     case EDIT_ADMINS_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload
       };
+    default: {
+      return state;
+    }
   }
 };

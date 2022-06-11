@@ -3,23 +3,26 @@ import styles from './adminForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
+import { useDispatch } from 'react-redux/es/hooks/useDispatch';
+import { addAdmins, editAdmins } from '../../../redux/admins/thunks';
 
 const AdminForm = ({
   showForm,
   setShowForm,
-  addItem,
-  setShowModal,
-  setChildrenModal,
-  setIsLoading,
+  // addItem,
+  // setShowModal,
+  // setChildrenModal,
+  // setIsLoading,
   previousAdmin,
-  setPreviousAdmin,
-  method,
-  editItem
+  setPreviousAdmin
+  // method
+  // editItem
 }) => {
   if (!showForm) {
     return null;
   }
 
+  const dispatch = useDispatch();
   const [userInput, setUserInput] = useState(previousAdmin);
 
   const cleanFields = () => {
@@ -38,52 +41,57 @@ const AdminForm = ({
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const fetchData = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: userInput.firstName,
-        lastName: userInput.lastName,
-        phone: userInput.phone,
-        email: userInput.email,
-        password: userInput.password,
-        active: userInput.active
-      })
-    };
+  // const fetchData = async (url, methodFunction) => {
+  //   const options = {
+  //     method: method,
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       firstName: userInput.firstName,
+  //       lastName: userInput.lastName,
+  //       phone: userInput.phone,
+  //       email: userInput.email,
+  //       password: userInput.password,
+  //       active: userInput.active
+  //     })
+  //   };
 
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      if (response.status !== 201 && response.status !== 200) {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-      } else {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-        methodFunction(res.data);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
-  };
+  //   try {
+  //     const response = await fetch(url, options);
+  //     const res = await response.json();
+  //     if (response.status !== 201 && response.status !== 200) {
+  //       setShowForm(false);
+  //       setShowModal(true);
+  //       setChildrenModal(res.message);
+  //     } else {
+  //       setShowForm(false);
+  //       setShowModal(true);
+  //       setChildrenModal(res.message);
+  //       methodFunction(res.data);
+  //       cleanFields();
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  //   setIsLoading(false);
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    // if (!userInput._id) {
+    //   const url = `${process.env.REACT_APP_API_URL}/admins`;
+    //   fetchData(url, addItem);
+    // } else {
+    //   const url = `${process.env.REACT_APP_API_URL}/admins/${userInput._id}`;
+    //   fetchData(url, editItem);
+    // }
 
     if (!userInput._id) {
-      const url = `${process.env.REACT_APP_API_URL}/admins`;
-      fetchData(url, addItem);
+      dispatch(addAdmins(userInput));
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/admins/${userInput._id}`;
-      fetchData(url, editItem);
+      dispatch(editAdmins(userInput));
     }
   };
 

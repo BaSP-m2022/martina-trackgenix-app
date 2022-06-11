@@ -6,25 +6,12 @@ import Modal from '../Shared/Modal/Modal';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdminsError, getAdminsSuccess } from '../../redux/admins/actions';
+import { getAdmins } from '../../redux/admins/thunks';
 
 const Admins = () => {
   const dispatch = useDispatch();
 
-  const getAdminsFetch = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
-      const data = await response.json();
-      dispatch(getAdminsSuccess(data.data));
-    } catch (error) {
-      dispatch(getAdminsError(error));
-    }
-  };
-
-  // eslint-disable-next-line prettier/prettier
-  const admins = useSelector(state => state.admins.list);
-  // eslint-disable-next-line prettier/prettier
-  const isLoading = useSelector(state => state.admins.isLoading);
+  const isLoading = useSelector((state) => state.admins.isLoading);
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -41,7 +28,7 @@ const Admins = () => {
   const [method, setMethod] = useState('');
 
   useEffect(() => {
-    getAdminsFetch();
+    dispatch(getAdmins());
   }, []);
 
   // const deleteItem = (_id) => {
@@ -85,25 +72,20 @@ const Admins = () => {
         <section className={styles.container}>
           <h2>Admins</h2>
           <AdminForm
-            // addItem={addItem}
             showForm={showForm}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            // setIsLoading={setIsLoading}
             // editItem={editItem}
             previousAdmin={previousAdmin}
             setPreviousAdmin={setPreviousAdmin}
             method={method}
           />
           <List
-            // deleteItem={deleteItem}
-            list={admins}
             setPreviousAdmin={setPreviousAdmin}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            // setIsLoading={setIsLoading}
             setMethod={setMethod}
           />
           <Button onClick={openForm}>Add New Admin</Button>
