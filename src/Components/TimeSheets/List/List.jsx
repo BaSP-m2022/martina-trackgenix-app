@@ -1,42 +1,30 @@
 import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteTimeSheet } from '../../../redux/timeSheets/thunks';
 
 const List = ({
-  setShowModal,
+  // setShowModal,
   setShowForm,
   setMethod,
-  deleteItem,
-  setLoading,
-  setChildrenModal,
+  // deleteItem,
+  // setLoading,
+  // setChildrenModal,
   setPreviousTimeSheet
 }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
 
-  const handleDelete = async (_id) => {
-    setLoading(true);
-    if (confirm('Are you sure you want to delete this Time-Sheet?')) {
-      try {
-        await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
-          method: 'DELETE'
-        });
-        setShowModal(true);
-        setChildrenModal('Time-sheet deleted successfully');
-        deleteItem(_id);
-      } catch (error) {
-        setShowModal(true);
-        setChildrenModal(error.msg);
-        console.error(error);
-      }
-    }
-    setLoading(false);
-  };
+  const dispatch = useDispatch();
 
   const handleEdit = (timesheet) => {
     setPreviousTimeSheet(timesheet);
     setMethod('PUT');
     setShowForm(true);
+  };
+
+  const deleteItem = (_id) => {
+    dispatch(deleteTimeSheet(_id));
   };
 
   const newList = listTimeSheet.map((item) => {
@@ -49,7 +37,6 @@ const List = ({
       timesheetDate: item.timesheetDate
     };
   });
-
   return (
     <section className={styles.container}>
       <table>
@@ -72,7 +59,7 @@ const List = ({
                 key={item._id}
                 data={item}
                 headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-                deleteItem={() => handleDelete(item._id)}
+                deleteItem={() => deleteItem(item._id)}
                 editItem={() => handleEdit(item)}
               ></Row>
             );

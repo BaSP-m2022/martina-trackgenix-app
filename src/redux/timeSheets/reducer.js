@@ -35,7 +35,8 @@ export const timeSheetReducer = (state = initialState, action) => {
     case DELETE_TIMESHEET_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((t) => t._id !== action.payload)
+        list: state.list.filter((t) => t._id !== action.payload),
+        isLoading: false
       };
     case DELETE_TIMESHEET_PENDING:
       return {
