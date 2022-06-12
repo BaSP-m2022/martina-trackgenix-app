@@ -1,15 +1,70 @@
-export const GET_TASKS_SUCCESS = 'GET_TASKS_SUCCESS';
-export const GET_TASKS_PENDING = 'GET_TASKS_PENDING';
-export const GET_TASKS_ERROR = 'GET_TASKS_ERROR';
+import {
+  GET_TASKS_PENDING,
+  GET_TASKS_SUCCESS,
+  GET_TASKS_ERROR,
+  DELETE_TASKS_PENDING,
+  DELETE_TASKS_SUCCESS,
+  DELETE_TASKS_ERROR,
+  ADD_TASKS_PENDING,
+  ADD_TASKS_SUCCESS,
+  ADD_TASKS_ERROR,
+  EDIT_TASKS_PENDING,
+  EDIT_TASKS_SUCCESS,
+  EDIT_TASKS_ERROR
+} from './constants';
 
-export const DELETE_TASKS_SUCCESS = 'DELETE_TASKS_SUCCESS';
-export const DELETE_TASKS_PENDING = 'DELETE_TASKS_PENDING';
-export const DELETE_TASKS_ERROR = 'DELETE_TASKS_ERROR';
+export const getTasksPending = () => ({
+  type: GET_TASKS_PENDING
+});
 
-export const ADD_TASKS_SUCCESS = 'ADD_TASKS_SUCCESS';
-export const ADD_TASKS_PENDING = 'ADD_TASKS_PENDING';
-export const ADD_TASKS_ERROR = 'ADD_TASKS_ERROR';
+export const getTasksSuccess = (tasks) => ({
+  type: GET_TASKS_SUCCESS,
+  payload: tasks
+});
 
-export const EDIT_TASKS_SUCCESS = 'EDIT_TASKS_SUCCESS';
-export const EDIT_TASKS_PENDING = 'EDI_TASKS_PENDING';
-export const EDIT_TASKS_ERROR = 'EDIT_TASKS_ERROR';
+export const getTasksError = (error) => ({
+  type: GET_TASKS_ERROR,
+  payload: error
+});
+
+export const deleteTasksPending = () => ({
+  type: DELETE_TASKS_PENDING
+});
+
+export const deleteTasksSuccess = (taskId) => ({
+  type: DELETE_TASKS_SUCCESS,
+  payload: taskId
+});
+
+export const deleteTasksError = (error) => ({
+  type: DELETE_TASKS_ERROR,
+  payload: error
+});
+
+export const addTasksPending = () => ({
+  type: ADD_TASKS_PENDING
+});
+
+export const addTasksSuccess = (tasks) => ({
+  type: ADD_TASKS_SUCCESS,
+  payload: tasks
+});
+
+export const addTasksError = (error) => ({
+  type: ADD_TASKS_ERROR,
+  payload: error
+});
+
+export const editTasksPending = () => ({
+  type: EDIT_TASKS_PENDING
+});
+
+export const editTasksSuccess = (tasks) => ({
+  type: EDIT_TASKS_SUCCESS,
+  payload: tasks
+});
+
+export const editTasksError = (error) => ({
+  type: EDIT_TASKS_ERROR,
+  payload: error
+});
