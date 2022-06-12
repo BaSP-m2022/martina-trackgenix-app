@@ -59,9 +59,9 @@ export const editAdminsPending = () => ({
   type: EDIT_ADMINS_PENDING
 });
 
-export const editAdminsSuccess = (adminsId) => ({
+export const editAdminsSuccess = (admin) => ({
   type: EDIT_ADMINS_SUCCESS,
-  payload: adminsId
+  payload: admin
 });
 
 export const editAdminsError = (error) => ({

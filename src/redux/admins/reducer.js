@@ -46,7 +46,7 @@ export const adminsReducer = (state = initialState, action) => {
     case DELETE_ADMINS_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((a) => a.id !== action.payload),
+        list: state.list.filter((a) => a._id !== action.payload),
         isLoading: false
       };
     case DELETE_ADMINS_ERROR:
@@ -63,7 +63,7 @@ export const adminsReducer = (state = initialState, action) => {
     case ADD_ADMINS_SUCCESS:
       return {
         ...state,
-        list: [...state, action.payload],
+        list: [...state.list, action.payload],
         isLoading: false
       };
     case ADD_ADMINS_ERROR:
