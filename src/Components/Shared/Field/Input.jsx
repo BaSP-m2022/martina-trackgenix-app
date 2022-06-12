@@ -9,7 +9,7 @@ const Input = ({ type, name, value, onChange, valueOptions, label }) => {
           <label>{label}</label>
           <select name={name} onChange={onChange}>
             {valueOptions.map((item) => (
-              <option key={item._id} value={value}>
+              <option key={item._id} value={item._id}>
                 {item.first_name || item.project_name || item.description}
               </option>
             ))}
