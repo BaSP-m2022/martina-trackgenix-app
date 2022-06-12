@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+// import { getTimeSheet } from '../../../redux/timeSheets/thunks';
+import {
+  addTimeSheetSuccess,
+  addTimeSheetError,
+  addTimeSheetPending,
+  editTimeSheetSuccess,
+  editTimeSheetPending,
+  editTimeSheetError
+} from '../../../redux/timeSheets/actions';
 import styles from './FormTimeSheet.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 
 const FormTimeSheet = ({
-  addItem,
   showForm,
   setShowForm,
   setShowModal,
   setChildrenModal,
-  setLoading,
-  editItem,
   previousTimeSheet,
   setPreviousTimeSheet,
   method
@@ -27,6 +34,9 @@ const FormTimeSheet = ({
   const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
   const [date, setDate] = useState(previousTimeSheet.date);
   const timeSheetId = previousTimeSheet._id;
+
+  const dispatch = useDispatch();
+  // const listTimeSheets = useSelector((state) => state.timeSheet.list);
 
   const fetchEmployees = async () => {
     try {
@@ -99,16 +109,17 @@ const FormTimeSheet = ({
     });
   };
 
-  const fetchData = async (url, methodFunction) => {
+  const fetchData = async (url, actionPending, actionSuccess, actionError) => {
+    dispatch(actionPending());
     const options = {
-      method: method,
+      method,
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        employee: employee,
-        project: project,
-        task: task,
+        employee,
+        project,
+        task,
         hs_worked: hsWorked,
         timesheetDate: date
       })
@@ -117,6 +128,7 @@ const FormTimeSheet = ({
     try {
       const response = await fetch(url, options);
       const res = await response.json();
+      console.log(res);
       const newBody = {
         _id: res.data._id,
         employee: {
@@ -134,33 +146,38 @@ const FormTimeSheet = ({
         hs_worked: res.data.hs_worked,
         timesheetDate: res.data.timesheetDate
       };
-      if (response.status !== 201 && response.status !== 200) {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-      } else {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-        methodFunction(newBody);
-        cleanFields();
-      }
+      // if (res.status === 400) {
+      //   console.log('ENTRO IF ERROR');
+      //   setShowForm(false);
+      //   setShowModal(true);
+      //   setChildrenModal(res.message);
+      //   dispatch(actionError(res.error));
+      // } else {
+      console.log('ENTRO IF BIEN');
+      setShowForm(false);
+      setShowModal(true);
+      setChildrenModal(res.message);
+      dispatch(actionSuccess(newBody));
+      cleanFields();
+      // }
     } catch (error) {
+      console.log('ENTRO CATCH');
+      setShowModal(true);
+      setChildrenModal(error.message);
+      dispatch(actionError(error.message));
       console.error(error);
     }
-    setLoading(false);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!timeSheetId) {
       const url = `${process.env.REACT_APP_API_URL}/time-sheet`;
-      fetchData(url, addItem);
+      fetchData(url, addTimeSheetPending, addTimeSheetSuccess, addTimeSheetError);
     } else {
       const url = `${process.env.REACT_APP_API_URL}/time-sheet/${timeSheetId}`;
-      fetchData(url, editItem);
+      fetchData(url, editTimeSheetPending, editTimeSheetSuccess, editTimeSheetError);
     }
   };
 

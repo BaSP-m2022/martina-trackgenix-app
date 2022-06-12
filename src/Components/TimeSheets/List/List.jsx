@@ -1,19 +1,19 @@
 import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteTimeSheetSuccess,
+  deleteTimeSheetError,
+  deleteTimeSheetPending
+} from '../../../redux/timeSheets/actions';
 
-const List = ({
-  list,
-  setShowModal,
-  setShowForm,
-  setMethod,
-  deleteItem,
-  setLoading,
-  setChildrenModal,
-  setPreviousTimeSheet
-}) => {
+const List = ({ setShowModal, setShowForm, setMethod, setChildrenModal, setPreviousTimeSheet }) => {
+  const listTimeSheet = useSelector((state) => state.timeSheet.list);
+  const dispatch = useDispatch();
+
   const handleDelete = async (_id) => {
-    setLoading(true);
+    deleteTimeSheetPending();
     if (confirm('Are you sure you want to delete this Time-Sheet?')) {
       try {
         await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
@@ -21,14 +21,14 @@ const List = ({
         });
         setShowModal(true);
         setChildrenModal('Time-sheet deleted successfully');
-        deleteItem(_id);
+        dispatch(deleteTimeSheetSuccess(_id));
       } catch (error) {
         setShowModal(true);
         setChildrenModal(error.msg);
         console.error(error);
+        dispatch(deleteTimeSheetError(error.msg));
       }
     }
-    setLoading(false);
   };
 
   const handleEdit = (timesheet) => {
@@ -37,7 +37,7 @@ const List = ({
     setShowForm(true);
   };
 
-  const newList = list.map((item) => {
+  const newList = listTimeSheet.map((item) => {
     return {
       _id: item._id,
       employee: item.employee ? item.employee.first_name : '',
