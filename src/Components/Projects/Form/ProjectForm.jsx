@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import styles from './projectForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
@@ -20,17 +21,23 @@ const ProjectForm = ({
   if (!showForm) {
     return null;
   }
-
+  console.log('previousProject', previousProject);
   const [listEmployees, setListEmployees] = useState([]);
-  const [projectName, setProjectName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [finishDate, setFinishDate] = useState('');
-  const [client, setClient] = useState('');
-  const [active, setActive] = useState('');
+  const [projectName, setProjectName] = useState(previousProject?.project_name || '');
+  const [startDate, setStartDate] = useState(
+    moment(previousProject?.start_date).format('YYYY-MM-DD') || ''
+  );
+  const [finishDate, setFinishDate] = useState(
+    moment(previousProject?.finish_date).format('YYYY-MM-DD') || ''
+  );
+  const [client, setClient] = useState(previousProject?.client || '');
+  const [active, setActive] = useState(!!previousProject?.active);
   // const [employees, setEmployees] = useState(previousProject.employees);
-  const [employeeId, setEmployeeId] = useState('');
-  const [employeeRate, setEmployeeRate] = useState();
-  const [employeeRole, setEmployeeRole] = useState('');
+  const [employeeId, setEmployeeId] = useState(previousProject?.employees[0].id || '');
+  const [employeeRate, setEmployeeRate] = useState(
+    parseInt(previousProject?.employees[0].rate) || ''
+  );
+  const [employeeRole, setEmployeeRole] = useState(previousProject?.employees[0].role || '');
   const fetchEmployees = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
@@ -128,10 +135,10 @@ const ProjectForm = ({
     setLoading(true);
 
     if (!previousProject._id) {
-      const url = `http://localhost:4000/projects`;
+      const url = `${process.env.REACT_APP_API_URL}/projects`;
       fetchProjects(url, addItem);
     } else {
-      const url = `${process.env.LOCAL_APP_API_URL}/projects/${previousProject._id}`;
+      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject._id}`;
       fetchProjects(url, editItem);
     }
   };
@@ -156,7 +163,10 @@ const ProjectForm = ({
           type={'date'}
           name={'startDate'}
           value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+          onChange={(e) => {
+            console.log(e.target.value, typeof e.target.value);
+            setStartDate(e.target.value);
+          }}
           label={'Start Date'}
         ></Input>
         <Input
@@ -178,10 +188,7 @@ const ProjectForm = ({
           name={'id'}
           valueOptions={listEmployees}
           value={employeeId}
-          onChange={(e) => {
-            console.log('target:', e.target);
-            setEmployeeId(e.target.value);
-          }}
+          onChange={(e) => setEmployeeId(e.target.value)}
           label="Select Employee"
         ></Input>
         <Dropdown
@@ -197,6 +204,7 @@ const ProjectForm = ({
         <Input
           type={'number'}
           name={'rate'}
+          value={employeeRate}
           onChange={(e) => setEmployeeRate(e.target.value)}
           label="RATE Employee"
         ></Input>

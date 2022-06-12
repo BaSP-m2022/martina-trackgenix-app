@@ -15,7 +15,7 @@ const Projects = () => {
   const [method, setMethod] = useState('');
   const [previousProject, setPreviousProject] = useState({
     id: '',
-    project_name: '',
+    project_name: 'test',
     start_date: '',
     finish_date: '',
     client: '',
@@ -68,14 +68,15 @@ const Projects = () => {
   };
 
   const editItem = (data) => {
-    const projectsUpdated = list.map((project) => {
-      if (project._id === data._id) {
-        return data;
-      } else {
-        return project;
-      }
-    });
-    setList(projectsUpdated);
+    // const projectsUpdated = list.map((project) => {
+    //   if (project._id === data._id) {
+    //     return data;
+    //   } else {
+    //     return project;
+    //   }
+    // });
+    console.log('data:', data);
+    setList(data);
   };
 
   const onClick = () => {

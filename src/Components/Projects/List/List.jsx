@@ -43,7 +43,7 @@ const List = ({
       headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
       headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={() => handleDelete(list._id)}
-      editItem={() => handleEdit(list._id)}
+      editItem={handleEdit}
     />
   );
 };

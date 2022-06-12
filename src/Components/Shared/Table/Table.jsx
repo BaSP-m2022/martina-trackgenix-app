@@ -36,7 +36,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem }) =
                 data={item}
                 headers={headers}
                 deleteItem={deleteItem}
-                editItem={editItem}
+                editItem={() => editItem(item)}
               />
             );
           })}
