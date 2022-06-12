@@ -10,7 +10,8 @@ import {
   ADD_ADMINS_ERROR,
   EDIT_ADMINS_PENDING,
   EDIT_ADMINS_SUCCESS,
-  EDIT_ADMINS_ERROR
+  EDIT_ADMINS_ERROR,
+  CLEAN_ADMINS_ERROR
 } from './constants';
 
 const initialState = {
@@ -94,6 +95,11 @@ export const adminsReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: action.payload
+      };
+    case CLEAN_ADMINS_ERROR:
+      return {
+        ...state,
+        error: ''
       };
     default: {
       return state;

@@ -7,6 +7,7 @@ import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins } from '../../redux/admins/thunks';
+import { clearAdminsError } from '../../redux/admins/actions';
 
 const Admins = () => {
   const dispatch = useDispatch();
@@ -25,43 +26,18 @@ const Admins = () => {
     password: '',
     active: false
   });
-  const [method, setMethod] = useState('');
 
   useEffect(() => {
     dispatch(getAdmins());
   }, []);
 
-  // const deleteItem = (_id) => {
-  //   setList([...list.filter((listItem) => listItem._id !== _id)]);
-  // };
-
-  // const addItem = ({ _id, firstName, lastName, phone, email, password, active }) => {
-  //   const newItem = {
-  //     _id,
-  //     firstName,
-  //     lastName,
-  //     phone,
-  //     email,
-  //     password,
-  //     active
-  //   };
-  //   setList([...list, newItem]);
-  // };
-
-  // const editItem = (data) => {
-  //   const adminUpd = list.map((admin) => {
-  //     if (admin._id === data._id) {
-  //       return data;
-  //     } else {
-  //       return admin;
-  //     }
-  //   });
-  //   setList(adminUpd);
-  // };
-
   const openForm = () => {
-    setMethod('POST');
     setShowForm(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    dispatch(clearAdminsError());
   };
 
   return (
@@ -76,20 +52,17 @@ const Admins = () => {
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            // editItem={editItem}
             previousAdmin={previousAdmin}
             setPreviousAdmin={setPreviousAdmin}
-            method={method}
           />
           <List
             setPreviousAdmin={setPreviousAdmin}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            setMethod={setMethod}
           />
           <Button onClick={openForm}>Add New Admin</Button>
-          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+          <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}
           </Modal>
         </section>

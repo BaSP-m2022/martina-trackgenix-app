@@ -61,6 +61,9 @@ export const addAdmins = (admin) => {
         })
       });
       const res = await response.json();
+      if (res.error) {
+        throw res.message;
+      }
       dispatch(addAdminsSuccess(res.data));
     } catch (error) {
       dispatch(addAdminsError(error.toString()));
@@ -87,6 +90,9 @@ export const editAdmins = (admin) => {
         })
       });
       const res = await response.json();
+      if (res.error) {
+        throw res.message;
+      }
       dispatch(editAdminsSuccess(res.data));
     } catch (error) {
       dispatch(editAdminsError(error.toString()));
