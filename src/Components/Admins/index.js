@@ -55,12 +55,7 @@ const Admins = () => {
             previousAdmin={previousAdmin}
             setPreviousAdmin={setPreviousAdmin}
           />
-          <List
-            setPreviousAdmin={setPreviousAdmin}
-            setShowForm={setShowForm}
-            setShowModal={setShowModal}
-            setChildrenModal={setChildrenModal}
-          />
+          <List setPreviousAdmin={setPreviousAdmin} setShowForm={setShowForm} />
           <Button onClick={openForm}>Add New Admin</Button>
           <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}

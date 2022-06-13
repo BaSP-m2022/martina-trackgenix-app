@@ -47,13 +47,12 @@ const AdminForm = ({
     } else {
       dispatch(editAdmins(userInput));
     }
-
-    if (error !== '') {
-      setChildrenModal(error);
-      setShowModal(true);
-    }
-    closeForm();
   };
+
+  if (error !== '') {
+    setChildrenModal(error);
+    setShowModal(true);
+  }
 
   const closeForm = () => {
     cleanFields();
