@@ -1,86 +1,115 @@
-import React, { useEffect, useState } from 'react';
-import ListBody from './ListBody/ListBody';
+import React, { useState, useEffect } from 'react';
 import styles from './employees.module.css';
-import Modal from './Modals/Modal';
-import AddEmployee from './AddForm/AddEmployee';
+import List from './List/List';
+import EmployeeForm from './Form/EmployeeForm';
+import Modal from '../Shared/Modal/Modal';
+import Button from '../Shared/Buttons/Buttons';
+import Loader from '../Shared/Loader/Loader';
 
 const Employees = () => {
-  const [employees, setEmployees] = useState([]);
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showTitle, setShowTitle] = useState('');
+  const [childrenModal, setChildrenModal] = useState('');
+  const [previewEmployee, setPreviewEmployee] = useState({
+    _id: '',
+    first_name: '',
+    last_name: '',
+    phone: '',
+    email: '',
+    password: '',
+    active: ''
+  });
+  const [method, setMethod] = useState('');
 
   // API REQUEST TO GET DATA
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/employees`)
-      .then((response) => response.json())
-      .then((response) => {
-        setEmployees(response.data);
-      });
-  }, []);
-
-  // DELETE ITEM
-  const deleteItem = (_id) => {
-    setEmployees([...employees.filter((employees) => employees._id !== _id)]);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const data = await response.json();
+      setList(data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+  // DELETE ITEM
+  const deleteItem = (_id) => {
+    setList([...list.filter((listItem) => listItem._id !== _id)]);
+  };
   // POST EMPLOYEE
-  const newEmployee = (body) => {
-    const newEmployee = {
-      _id: body._id,
-      first_name: body.first_name,
-      last_name: body.last_name,
-      phone: body.phone,
-      email: body.email,
-      password: body.password,
-      active: body.active
+  const addItem = ({ _id, first_name, last_name, phone, email, password, active }) => {
+    const newItem = {
+      _id,
+      first_name,
+      last_name,
+      phone,
+      email,
+      password,
+      active
     };
-    setEmployees([...employees, newEmployee]);
+    setList([...list, newItem]);
   };
 
   // PUT EMPLOYEE
 
-  const editEmployee = (body) => {
-    const employeesUpdated = employees.map((employee) => {
-      if (employee._id === body._id) {
-        return body;
+  const editItem = (data) => {
+    const empnUpd = list.map((employee) => {
+      if (employee._id === data._id) {
+        return data;
       } else {
         return employee;
       }
     });
-    setEmployees(employeesUpdated);
+    setList(empnUpd);
   };
 
-  const closeForm = () => {
-    setShowFormAdd(false);
-  };
-  const onClick = () => {
-    setShowFormAdd(true);
+  const openForm = () => {
+    setMethod('POST');
+    setShowForm(true);
   };
 
   return (
-    <section className={styles.container}>
-      <h2>Employees</h2>
-      {showModal && <Modal showModal={showModal} title={showTitle} setShowModal={setShowModal} />}
-      <AddEmployee
-        show={showFormAdd}
-        closeForm={closeForm}
-        setShowModal={setShowModal}
-        setShowTitle={setShowTitle}
-        newEmployee={newEmployee}
-      />
-      <ListBody
-        employees={employees}
-        setEmployees={setEmployees}
-        deleteItem={deleteItem}
-        setShowModal={setShowModal}
-        setShowTitle={setShowTitle}
-        editEmployee={editEmployee}
-      />
-      <button className={styles.addBtn} onClick={onClick}>
-        ADD NEW
-      </button>
-    </section>
+    <>
+      {isLoading ? (
+        <Loader show={isLoading} />
+      ) : (
+        <section className={styles.container}>
+          <h2>Employees</h2>
+          <EmployeeForm
+            addItem={addItem}
+            showForm={showForm}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            setIsLoading={setIsLoading}
+            editItem={editItem}
+            previewEmployee={previewEmployee}
+            setPreviewsEmployee={setPreviewEmployee}
+            method={method}
+          />
+          <List
+            deleteItem={deleteItem}
+            list={list}
+            setPreviewsEmployee={setPreviewEmployee}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            setIsLoading={setIsLoading}
+            setMethod={setMethod}
+          />
+          <Button onClick={openForm}>Add New Employee</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+            {childrenModal}
+          </Modal>
+        </section>
+      )}
+    </>
   );
 };
 
