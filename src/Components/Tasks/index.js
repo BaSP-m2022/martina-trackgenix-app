@@ -22,6 +22,7 @@ function Tasks() {
   useEffect(() => {
     fetchData();
   }, []);
+
   const handleDelete = async (id) => {
     const resp = confirm('Are you sure you want to delete it?');
     if (resp) {

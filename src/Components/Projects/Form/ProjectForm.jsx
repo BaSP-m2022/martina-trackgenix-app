@@ -19,22 +19,15 @@ const ProjectForm = ({
   if (!showForm) {
     return null;
   }
-  const parseStartDate = new Date(previousProject?.start_date);
-  const parseFinishDate = new Date(previousProject?.finish_date);
+  // const parseStartDate = new Date(previousProject?.start_date);
+  // const parseFinishDate = new Date(previousProject?.finish_date);
   const [listEmployees, setListEmployees] = useState([]);
   const [projectName, setProjectName] = useState(previousProject?.project_name || '');
-  const [startDate, setStartDate] = useState(
-    `${parseStartDate.getFullYear()}-${
-      parseStartDate.getMonth() + 1
-    }-${parseStartDate.getDate()}` || ''
-  );
-  const [finishDate, setFinishDate] = useState(
-    `${parseFinishDate.getFullYear()}-${
-      parseFinishDate.getMonth() + 1
-    }-${parseFinishDate.getDate()}` || ''
-  );
-  console.log('startDate', startDate);
-  console.log('finishtDate', finishDate);
+  const [startDate, setStartDate] = useState(previousProject?.start_date);
+  // `${parseStartDate.getFullYear()}-${
+  //   parseStartDate.getMonth() + 1
+  // }-${parseStartDate.getDate()}` || ''
+  const [finishDate, setFinishDate] = useState(previousProject?.start_date);
   const [client, setClient] = useState(previousProject?.client || '');
   const [active, setActive] = useState(!!previousProject?.active);
   const [employeeId, setEmployeeId] = useState(previousProject?.employees[0]?.id || '');
@@ -155,7 +148,9 @@ const ProjectForm = ({
           type={'date'}
           name={'finishDate'}
           value={finishDate}
-          onChange={(e) => setFinishDate(e.target.value)}
+          onChange={(e) => {
+            setFinishDate(e.target.value);
+          }}
           label={'Finish Date'}
         ></Input>
         <Input
