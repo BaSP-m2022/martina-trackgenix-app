@@ -1,15 +1,49 @@
 import React from 'react';
 import Table from '../../Shared/Table/Table';
 
-const List = ({ list, deleteItem, editItem }) => {
+const List = ({
+  list,
+  setShowModal,
+  setTitleModal,
+  deleteItem,
+  setLoading,
+  setShowForm,
+  setPreviousProject,
+  setMethod
+}) => {
+  const handleDelete = async (projectId) => {
+    setLoading(true);
+    if (confirm('Are you sure you want to remove this Project?')) {
+      try {
+        await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
+          method: 'DELETE'
+        });
+        setShowModal(true);
+        setTitleModal('Project deleted successfully');
+        deleteItem(projectId);
+      } catch (error) {
+        setShowModal(true);
+        setTitleModal(error.msg);
+        console.error(error);
+      }
+    }
+    setLoading(false);
+  };
+
+  const handleEdit = (project) => {
+    setMethod('PUT');
+    setPreviousProject(project);
+    setShowForm(true);
+  };
+
   return (
     <Table
       title={'Projects'}
       data={list}
-      headersName={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date', 'Status']}
-      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date', 'active']}
-      deleteItem={deleteItem}
-      editItem={editItem}
+      headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
+      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
+      deleteItem={handleDelete}
+      editItem={handleEdit}
     />
   );
 };

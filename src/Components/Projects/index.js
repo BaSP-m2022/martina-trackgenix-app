@@ -1,23 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import List from './List/List';
-import Modal from './Modal/Modal';
-// import Row from '../Shared/Row';
+import ProjectForm from './Form/ProjectForm';
+import Modal from '../Shared/Modal/Modal';
+import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
-// import Field from '../Shared/Field';
-import AddProject from './FormAdd/AddProject';
 
 const Projects = () => {
   const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [method, setMethod] = useState('');
+  const [previousProject, setPreviousProject] = useState({
+    id: '',
+    project_name: '',
+    start_date: '',
+    finish_date: '',
+    client: '',
+    active: '',
+    employees: [
+      {
+        role: '',
+        rate: '0',
+        id: ''
+      }
+    ]
+  });
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       setList(data.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -27,56 +44,74 @@ const Projects = () => {
     fetchData();
   }, []);
 
-  const deleteItem = (_id) => {
-    setList([...list.filter((listItem) => listItem._id !== _id)]);
+  const deleteItem = (id) => {
+    setList([...list.filter((listItem) => listItem._id !== id)]);
   };
 
-  const addItem = ({ _id, project_name, start_date, finish_date, client, active }) => {
+  const addItem = (body) => {
     const newItem = {
-      _id,
-      project_name,
-      start_date,
-      finish_date,
-      client,
-      active
+      _id: body._id,
+      project_name: body.project_name,
+      start_date: body.start_date,
+      finish_date: body.finish_date,
+      client: body.client,
+      active: body.active,
+      employees: [
+        {
+          id: body.employees[0].id,
+          role: body.employees[0].role,
+          rate: parseInt(body.employees[0].rate)
+        }
+      ]
     };
     setList([...list, newItem]);
   };
 
   const editItem = (data) => {
-    const projectsUpdated = list.map((project) => {
-      if (project._id === data._id) {
-        return data;
-      } else {
-        return project;
-      }
-    });
-    setList(projectsUpdated);
+    setList(list.map((e) => (e._id === data._id ? data : e)));
   };
 
   const onClick = () => {
-    setShowFormAdd(true);
+    setShowForm(true);
+    setMethod('POST');
   };
 
-  return (
+  return loading ? (
+    <Loader show={true} />
+  ) : (
     <section className={styles.container}>
       <List
         list={list}
-        setList={setList}
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
         deleteItem={deleteItem}
-        editItem={editItem}
+        setShowForm={setShowForm}
+        setPreviousProject={setPreviousProject}
+        setLoading={setLoading}
+        setMethod={setMethod}
       />
-      <Button onClick={onClick}>+ Add Project</Button>
-      <AddProject
-        showFormAdd={showFormAdd}
-        setShowFormAdd={setShowFormAdd}
+      <ProjectForm
+        showForm={showForm}
+        setShowForm={setShowForm}
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
+        previousProject={previousProject}
+        setPreviousProject={setPreviousProject}
         addItem={addItem}
+        editItem={editItem}
+        setLoading={setLoading}
+        method={method}
       />
-      <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} />
+      <Button onClick={onClick}>+ Add Project</Button>
+      <Modal
+        isOpen={showModal}
+        handleClose={() => {
+          setShowModal(false);
+        }}
+        title={titleModal}
+      >
+        {titleModal}
+      </Modal>
     </section>
   );
 };
