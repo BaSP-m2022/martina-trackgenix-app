@@ -20,6 +20,7 @@ const AdminForm = ({
 
   const dispatch = useDispatch();
   const error = useSelector((state) => state.admins.error);
+  const message = useSelector((state) => state.admins.message);
 
   const [userInput, setUserInput] = useState(previousAdmin);
 
@@ -49,8 +50,8 @@ const AdminForm = ({
     }
   };
 
-  if (error !== '') {
-    setChildrenModal(error);
+  if (error) {
+    setChildrenModal(message);
     setShowModal(true);
   }
 

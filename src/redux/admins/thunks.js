@@ -9,7 +9,7 @@ import {
   addAdminSuccess,
   addAdminError,
   editAdminPending,
-  editAdminuccess,
+  editAdminSuccess,
   editAdminError
 } from './actions';
 
@@ -93,7 +93,7 @@ export const editAdmin = (admin) => {
       if (res.error) {
         throw res.message;
       }
-      dispatch(editAdminuccess(res.data));
+      dispatch(editAdminSuccess(res.data));
     } catch (error) {
       dispatch(editAdminError(error.toString()));
     }

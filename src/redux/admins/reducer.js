@@ -17,7 +17,8 @@ import {
 const initialState = {
   list: [],
   isLoading: false,
-  error: ''
+  error: false,
+  message: ''
 };
 
 export const adminsReducer = (state = initialState, action) => {
@@ -37,7 +38,8 @@ export const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case DELETE_ADMIN_PENDING:
       return {
@@ -54,7 +56,8 @@ export const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case ADD_ADMIN_PENDING:
       return {
@@ -71,7 +74,8 @@ export const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case EDIT_ADMIN_PENDING:
       return {
@@ -93,12 +97,14 @@ export const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case CLEAN_ADMIN_ERROR:
       return {
         ...state,
-        error: ''
+        error: false,
+        message: ''
       };
     default: {
       return state;
