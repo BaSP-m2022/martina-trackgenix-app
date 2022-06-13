@@ -8,25 +8,5 @@
 }
 
 h2 {
-  color: #EA3354;
-}
-
-.addButton {
-  font-size: 20px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #AACE9B;
-  cursor: pointer;
-}
-
-.addButton:hover{
-  background-color: #37781c;
-  color: #fff;
-  transition-duration: 0,4s;
-}
-
-.addButton:active{
-  background-color: #265213;
-  transform: translateY(4px);
+  color: #373867;
 }

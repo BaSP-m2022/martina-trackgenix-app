@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './list.module.css';
+import styles from './List.module.css';
 import Row from '../../Shared/Row/Row';
 
 const List = ({
@@ -9,18 +9,18 @@ const List = ({
   setChildrenModal,
   setIsLoading,
   setShowForm,
-  setPreviousAdmin,
+  setPreviewsEmployee,
   setMethod
 }) => {
   const handleDelete = async (_id) => {
     setIsLoading(true);
-    if (confirm('Are you sure you want to remove the Admin?')) {
+    if (confirm('Are you sure you want to remove the Employee?')) {
       try {
-        await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/employees/${_id}`, {
           method: 'DELETE'
         });
         setShowModal(true);
-        setChildrenModal('Admin deleted successfully');
+        setChildrenModal('Employee deleted successfully');
         deleteItem(_id);
       } catch (error) {
         setShowModal(true);
@@ -31,9 +31,9 @@ const List = ({
     setIsLoading(false);
   };
 
-  const handleEdit = (admin) => {
+  const handleEdit = (employee) => {
     setMethod('PUT');
-    setPreviousAdmin(admin);
+    setPreviewsEmployee(employee);
     setShowForm(true);
   };
 
@@ -43,8 +43,8 @@ const List = ({
         <thead>
           <tr>
             <th id="id">ID</th>
-            <th id="firstName">First Name</th>
-            <th id="lastName">Last Name</th>
+            <th id="first_name">First Name</th>
+            <th id="last_name">Last Name</th>
             <th id="phone">Phone</th>
             <th id="email">Email</th>
           </tr>
@@ -55,7 +55,7 @@ const List = ({
               <Row
                 key={item._id}
                 data={item}
-                headers={['_id', 'firstName', 'lastName', 'phone', 'email']}
+                headers={['_id', 'first_name', 'last_name', 'phone', 'email']}
                 deleteItem={() => handleDelete(item._id)}
                 editItem={() => handleEdit(item)}
               />
