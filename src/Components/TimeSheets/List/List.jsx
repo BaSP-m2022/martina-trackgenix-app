@@ -4,15 +4,7 @@ import Row from '../../Shared/Row/Row';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTimeSheet } from '../../../redux/timeSheets/thunks';
 
-const List = ({
-  // setShowModal,
-  setShowForm,
-  setMethod,
-  // deleteItem,
-  // setLoading,
-  // setChildrenModal,
-  setPreviousTimeSheet
-}) => {
+const List = ({ setShowForm, setMethod, setPreviousTimeSheet }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
 
   const dispatch = useDispatch();

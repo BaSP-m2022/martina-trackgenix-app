@@ -6,8 +6,8 @@ import Loader from '../Shared/Loader/Loader';
 import Modal from '../Shared/Modal/Modal';
 import FormTimeSheet from './Form/FormTimeSheet';
 import { useDispatch, useSelector } from 'react-redux';
-// import { deleteTimeSheetSuccess } from '../../redux/timeSheets/actions';
 import { getTimeSheet } from '../../redux/timeSheets/thunks';
+import { cleanTimeSheetError } from '../../redux/timeSheets/actions';
 
 const TimeSheets = () => {
   const dispatch = useDispatch();
@@ -31,36 +31,14 @@ const TimeSheets = () => {
     dispatch(getTimeSheet());
   }, []);
 
-  // const deleteItem = (_id) => {
-  //   dispatch(deleteTimeSheetSuccess(_id));
-  // };
-
-  // const newItem = (body) => {
-  //   const newTimeSheet = {
-  //     _id: body._id,
-  //     employee: body.employee,
-  //     project: body.project,
-  //     task: body.task,
-  //     hs_worked: body.hs_worked,
-  //     timesheetDate: body.timesheetDate
-  //   };
-  //   setList([...list, newTimeSheet]);
-  // };
-
-  // const editItem = (body) => {
-  //   const updatedTimeSheet = list.map((item) => {
-  //     if (item._id === body._id) {
-  //       return body;
-  //     } else {
-  //       return item;
-  //     }
-  //   });
-  //   setList(updatedTimeSheet);
-  // };
-
   const openForm = () => {
     setMethod('POST');
     setShowForm(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    dispatch(cleanTimeSheetError());
   };
 
   return (
@@ -70,27 +48,21 @@ const TimeSheets = () => {
       ) : (
         <section className={styles.container}>
           <List
-            // list={listTimeSheet}
-            // deleteItem={deleteItem}
-            setShowModal={setShowModal}
-            setChildrenModal={setChildrenModal}
             setPreviousTimeSheet={setPreviousTimeSheet}
             setShowForm={setShowForm}
             setMethod={setMethod}
           />
           <FormTimeSheet
-            // addItem={newItem}
             showForm={showForm}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            // editItem={editItem}
             previousTimeSheet={previousTimeSheet}
             setPreviousTimeSheet={setPreviousTimeSheet}
             method={method}
           />
           <Button onClick={openForm}>Add a TimeSheets</Button>
-          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+          <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}
           </Modal>
         </section>

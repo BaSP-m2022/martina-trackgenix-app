@@ -4,7 +4,8 @@ import {
   GET_TIMESHEET_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
-  DELETE_TIMESHEET_ERROR
+  DELETE_TIMESHEET_ERROR,
+  CLEAN_TIMESHEET_ERROR
 } from './constants';
 
 const initialState = {
@@ -48,6 +49,11 @@ export const timeSheetReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: action.payload
+      };
+    case CLEAN_TIMESHEET_ERROR:
+      return {
+        ...state,
+        error: ''
       };
     default:
       return state;
