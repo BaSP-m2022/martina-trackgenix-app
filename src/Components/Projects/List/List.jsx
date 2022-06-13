@@ -11,16 +11,16 @@ const List = ({
   setPreviousProject,
   setMethod
 }) => {
-  const handleDelete = async (_id) => {
+  const handleDelete = async (projectId) => {
     setLoading(true);
     if (confirm('Are you sure you want to remove this Project?')) {
       try {
-        await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
           method: 'DELETE'
         });
         setShowModal(true);
         setTitleModal('Project deleted successfully');
-        deleteItem(_id);
+        deleteItem(projectId);
       } catch (error) {
         setShowModal(true);
         setTitleModal(error.msg);
@@ -42,7 +42,7 @@ const List = ({
       data={list}
       headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
       headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
-      deleteItem={() => handleDelete(list._id)}
+      deleteItem={handleDelete}
       editItem={handleEdit}
     />
   );

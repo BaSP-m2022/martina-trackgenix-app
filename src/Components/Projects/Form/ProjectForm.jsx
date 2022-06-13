@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import styles from './projectForm.module.css';
 import Input from '../../Shared/Field/Input';
-import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
 import Dropdown from '../Dropdown/index';
 
@@ -21,23 +19,30 @@ const ProjectForm = ({
   if (!showForm) {
     return null;
   }
-  console.log('previousProject', previousProject);
+  const parseStartDate = new Date(previousProject?.start_date);
+  const parseFinishDate = new Date(previousProject?.finish_date);
   const [listEmployees, setListEmployees] = useState([]);
   const [projectName, setProjectName] = useState(previousProject?.project_name || '');
   const [startDate, setStartDate] = useState(
-    moment(previousProject?.start_date).format('YYYY-MM-DD') || ''
+    `${parseStartDate.getFullYear()}-${
+      parseStartDate.getMonth() + 1
+    }-${parseStartDate.getDate()}` || ''
   );
   const [finishDate, setFinishDate] = useState(
-    moment(previousProject?.finish_date).format('YYYY-MM-DD') || ''
+    `${parseFinishDate.getFullYear()}-${
+      parseFinishDate.getMonth() + 1
+    }-${parseFinishDate.getDate()}` || ''
   );
+  console.log('startDate', startDate);
+  console.log('finishtDate', finishDate);
   const [client, setClient] = useState(previousProject?.client || '');
   const [active, setActive] = useState(!!previousProject?.active);
-  // const [employees, setEmployees] = useState(previousProject.employees);
-  const [employeeId, setEmployeeId] = useState(previousProject?.employees[0].id || '');
+  const [employeeId, setEmployeeId] = useState(previousProject?.employees[0]?.id || '');
   const [employeeRate, setEmployeeRate] = useState(
-    parseInt(previousProject?.employees[0].rate) || ''
+    parseInt(previousProject?.employees[0]?.rate) || ''
   );
-  const [employeeRole, setEmployeeRole] = useState(previousProject?.employees[0].role || '');
+  const [employeeRole, setEmployeeRole] = useState(previousProject?.employees[0]?.role || '');
+
   const fetchEmployees = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
@@ -47,14 +52,9 @@ const ProjectForm = ({
       console.error(error);
     }
   };
-  console.log({ listEmployees });
   useEffect(() => {
     fetchEmployees();
   }, []);
-
-  // const onChangeEmployee = (e) => {
-  //   setEmployees({ ...employees, [e.target.name]: e.target.value });
-  // };
 
   const cleanFields = () => {
     setPreviousProject({
@@ -88,31 +88,14 @@ const ProjectForm = ({
           {
             id: employeeId,
             role: employeeRole,
-            rate: employeeRate
+            rate: `${employeeRate}`
           }
         ]
       })
     };
-    console.log({ options });
     try {
       const response = await fetch(url, options);
       const res = await response.json();
-      const newBody = {
-        _id: res.data._id,
-        project_name: res.data.project_name,
-        client: res.data.client,
-        start_date: res.data.start_date,
-        finish_date: res.data.finish_date,
-        active: res.data.active,
-        employees: [
-          {
-            _id: res.data.employees,
-            role: employeeRole,
-            rate: employeeRate
-          }
-        ]
-      };
-      console.log({ response });
       if (response.status !== 201 && response.status !== 200) {
         setShowForm(false);
         setShowModal(true);
@@ -121,7 +104,7 @@ const ProjectForm = ({
         setShowForm(false);
         setShowModal(true);
         setTitleModal('Projects was added');
-        methodFunction(newBody);
+        methodFunction(res.data);
         cleanFields();
       }
     } catch (error) {
@@ -164,7 +147,6 @@ const ProjectForm = ({
           name={'startDate'}
           value={startDate}
           onChange={(e) => {
-            console.log(e.target.value, typeof e.target.value);
             setStartDate(e.target.value);
           }}
           label={'Start Date'}
@@ -196,6 +178,7 @@ const ProjectForm = ({
           value={employeeRole}
           onChange={(e) => setEmployeeRole(e.target.value)}
         >
+          <option value="selectRole">Select a role</option>
           <option value="DEV">DEV</option>
           <option value="QA">QA</option>
           <option value="TL">TL</option>
@@ -208,12 +191,14 @@ const ProjectForm = ({
           onChange={(e) => setEmployeeRate(e.target.value)}
           label="RATE Employee"
         ></Input>
-        <RadioButton
+        <label htmlFor="active">Active</label>
+        <input
+          type={'checkbox'}
           name={'Active'}
-          onChange={(e) => setActive(e.target.value)}
+          onChange={() => setActive(!active)}
           label={'Active'}
-          value={[true, false]}
-        ></RadioButton>
+          checked={active}
+        ></input>
         <Button onClick={(e) => onSubmit(e)}>Submit</Button>
         <Button onClick={closeForm}>Close</Button>
       </form>
