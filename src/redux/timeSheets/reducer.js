@@ -17,7 +17,8 @@ import {
 const initialState = {
   list: [],
   isLoading: false,
-  error: ''
+  error: false,
+  message: ''
 };
 
 let updatedTimeSheet = [];
@@ -61,8 +62,10 @@ export const timeSheetReducer = (state = initialState, action) => {
     case ADD_TIMESHEET_SUCCESS:
       return {
         ...state,
-        list: [...state.list, action.payload],
-        isLoading: false
+        list: [...state.list, action.payload.timeSheet],
+        isLoading: false,
+        error: false,
+        message: action.payload.message
       };
     case ADD_TIMESHEET_PENDING:
       return {
@@ -73,12 +76,13 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case EDIT_TIMESHEET_SUCCESS:
       updatedTimeSheet = state.list.map((item) => {
-        if (item._id === action.payload._id) {
-          return action.payload;
+        if (item._id === action.payload.timeSheet._id) {
+          return action.payload.timeSheet;
         } else {
           return item;
         }
@@ -86,7 +90,9 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         list: updatedTimeSheet,
-        isLoading: false
+        isLoading: false,
+        error: false,
+        message: action.payload.message
       };
     case EDIT_TIMESHEET_PENDING:
       return {
@@ -97,12 +103,14 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case CLEAN_TIMESHEET_ERROR:
       return {
         ...state,
-        error: ''
+        error: false,
+        message: ''
       };
     default:
       return state;

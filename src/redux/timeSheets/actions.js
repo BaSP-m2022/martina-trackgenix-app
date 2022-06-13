@@ -14,9 +14,9 @@ import {
   CLEAN_TIMESHEET_ERROR
 } from './constants';
 
-export const addTimeSheetSuccess = (timeSheet) => ({
+export const addTimeSheetSuccess = (timeSheet, message) => ({
   type: ADD_TIMESHEET_SUCCESS,
-  payload: timeSheet
+  payload: { timeSheet, message }
 });
 export const addTimeSheetPending = () => ({
   type: ADD_TIMESHEET_PENDING
@@ -25,9 +25,9 @@ export const addTimeSheetError = (error) => ({
   type: ADD_TIMESHEET_ERROR,
   payload: error
 });
-export const editTimeSheetSuccess = (timeSheet) => ({
+export const editTimeSheetSuccess = (timeSheet, message) => ({
   type: EDIT_TIMESHEET_SUCCESS,
-  payload: timeSheet
+  payload: { timeSheet, message }
 });
 export const editTimeSheetPending = () => ({
   type: EDIT_TIMESHEET_PENDING
@@ -61,3 +61,7 @@ export const deleteTimeSheetError = (error) => ({
 export const cleanTimeSheetError = () => ({
   type: CLEAN_TIMESHEET_ERROR
 });
+// export const messageTimeSheet = (msg) => ({
+//   type: MESSAGE_TIMESHEET,
+//   payload: msg
+// });

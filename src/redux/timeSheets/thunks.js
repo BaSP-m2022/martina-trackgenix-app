@@ -35,27 +35,30 @@ export const addTimeSheet = (newTimeSheet, closeForm) => {
         throw res.message;
       }
       dispatch(
-        addTimeSheetSuccess({
-          _id: res.data._id,
-          employee: {
-            _id: newTimeSheet.employee._id,
-            first_name: newTimeSheet.employee.first_name
+        addTimeSheetSuccess(
+          {
+            _id: res.data._id,
+            employee: {
+              _id: newTimeSheet.employee._id,
+              first_name: newTimeSheet.employee.first_name
+            },
+            project: {
+              _id: newTimeSheet.project._id,
+              project_name: newTimeSheet.project.project_name
+            },
+            task: {
+              _id: newTimeSheet.task._id,
+              description: newTimeSheet.task.description
+            },
+            hs_worked: newTimeSheet.hs_worked,
+            timesheetDate: newTimeSheet.timesheetDate
           },
-          project: {
-            _id: newTimeSheet.project._id,
-            project_name: newTimeSheet.project.project_name
-          },
-          task: {
-            _id: newTimeSheet.task._id,
-            description: newTimeSheet.task.description
-          },
-          hs_worked: newTimeSheet.hs_worked,
-          timesheetDate: newTimeSheet.timesheetDate
-        })
+          res.message
+        )
       );
       closeForm();
     } catch (error) {
-      dispatch(addTimeSheetError(error.toString()));
+      dispatch(addTimeSheetError(error));
     }
   };
 };
@@ -85,27 +88,30 @@ export const editAdmins = (newTimeSheet, closeForm) => {
         throw res.message;
       }
       dispatch(
-        editTimeSheetSuccess({
-          _id: res.data._id,
-          employee: {
-            _id: newTimeSheet.employee._id,
-            first_name: newTimeSheet.employee.first_name
+        editTimeSheetSuccess(
+          {
+            _id: res.data._id,
+            employee: {
+              _id: newTimeSheet.employee._id,
+              first_name: newTimeSheet.employee.first_name
+            },
+            project: {
+              _id: newTimeSheet.project._id,
+              project_name: newTimeSheet.project.project_name
+            },
+            task: {
+              _id: newTimeSheet.task._id,
+              description: newTimeSheet.task.description
+            },
+            hs_worked: newTimeSheet.hs_worked,
+            timesheetDate: newTimeSheet.timesheetDate
           },
-          project: {
-            _id: newTimeSheet.project._id,
-            project_name: newTimeSheet.project.project_name
-          },
-          task: {
-            _id: newTimeSheet.task._id,
-            description: newTimeSheet.task.description
-          },
-          hs_worked: newTimeSheet.hs_worked,
-          timesheetDate: newTimeSheet.timesheetDate
-        })
+          res.message
+        )
       );
       closeForm();
     } catch (error) {
-      dispatch(editTimeSheetError(error.toString()));
+      dispatch(editTimeSheetError(error));
     }
   };
 };

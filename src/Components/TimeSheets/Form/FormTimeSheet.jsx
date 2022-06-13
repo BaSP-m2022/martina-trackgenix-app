@@ -24,10 +24,12 @@ const FormTimeSheet = ({
   const [task, setTask] = useState(previousTimeSheet.task);
   const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
   const [date, setDate] = useState(previousTimeSheet.date);
+
   const timeSheetId = previousTimeSheet._id;
 
   const dispatch = useDispatch();
   const error = useSelector((state) => state.timeSheet.error);
+  const message = useSelector((state) => state.timeSheet.message);
 
   const fetchEmployees = async () => {
     try {
@@ -100,7 +102,7 @@ const FormTimeSheet = ({
     });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const newTimeSheet = {
@@ -123,13 +125,16 @@ const FormTimeSheet = ({
 
     if (!timeSheetId) {
       dispatch(addTimeSheet(newTimeSheet, closeForm));
+      setShowModal(true);
+      setChildrenModal(message);
+      console.log(message);
     } else {
       dispatch(editAdmins(newTimeSheet, closeForm));
     }
   };
 
-  if (error !== '') {
-    setChildrenModal(error);
+  if (error) {
+    setChildrenModal(message);
     setShowModal(true);
   }
 
