@@ -1,40 +1,21 @@
 import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteTimeSheetSuccess,
-  deleteTimeSheetError,
-  deleteTimeSheetPending
-} from '../../../redux/timeSheets/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteTimeSheet } from '../../../redux/timeSheets/thunks';
 
-const List = ({ setShowModal, setShowForm, setMethod, setChildrenModal, setPreviousTimeSheet }) => {
+const List = ({ setShowForm, setPreviousTimeSheet }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
-  const dispatch = useDispatch();
 
-  const handleDelete = async (_id) => {
-    deleteTimeSheetPending();
-    if (confirm('Are you sure you want to delete this Time-Sheet?')) {
-      try {
-        await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
-          method: 'DELETE'
-        });
-        setShowModal(true);
-        setChildrenModal('Time-sheet deleted successfully');
-        dispatch(deleteTimeSheetSuccess(_id));
-      } catch (error) {
-        setShowModal(true);
-        setChildrenModal(error.msg);
-        console.error(error);
-        dispatch(deleteTimeSheetError(error.msg));
-      }
-    }
-  };
+  const dispatch = useDispatch();
 
   const handleEdit = (timesheet) => {
     setPreviousTimeSheet(timesheet);
-    setMethod('PUT');
     setShowForm(true);
+  };
+
+  const deleteItem = (_id) => {
+    dispatch(deleteTimeSheet(_id));
   };
 
   const newList = listTimeSheet.map((item) => {
@@ -47,7 +28,6 @@ const List = ({ setShowModal, setShowForm, setMethod, setChildrenModal, setPrevi
       timesheetDate: item.timesheetDate
     };
   });
-
   return (
     <section className={styles.container}>
       <table>
@@ -70,7 +50,7 @@ const List = ({ setShowModal, setShowForm, setMethod, setChildrenModal, setPrevi
                 key={item._id}
                 data={item}
                 headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-                deleteItem={() => handleDelete(item._id)}
+                deleteItem={() => deleteItem(item._id)}
                 editItem={() => handleEdit(item)}
               ></Row>
             );

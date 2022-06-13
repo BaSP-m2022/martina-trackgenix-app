@@ -10,7 +10,8 @@ import {
   GET_TIMESHEET_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
-  DELETE_TIMESHEET_ERROR
+  DELETE_TIMESHEET_ERROR,
+  CLEAN_TIMESHEET_ERROR
 } from './constants';
 
 const initialState = {
@@ -69,15 +70,12 @@ export const timeSheetReducer = (state = initialState, action) => {
         isLoading: true
       };
     case ADD_TIMESHEET_ERROR:
-      console.log('action.payload error', action.payload);
       return {
         ...state,
         isLoading: false,
         error: action.payload
       };
     case EDIT_TIMESHEET_SUCCESS:
-      console.log('action.payload edit_success', action.payload);
-      console.log('state.list edit_success', state.list);
       updatedTimeSheet = state.list.map((item) => {
         if (item._id === action.payload._id) {
           return action.payload;
@@ -85,7 +83,6 @@ export const timeSheetReducer = (state = initialState, action) => {
           return item;
         }
       });
-      console.log('updatedTimeSheet edit_success', updatedTimeSheet);
       return {
         ...state,
         list: updatedTimeSheet,
@@ -101,6 +98,11 @@ export const timeSheetReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: action.payload
+      };
+    case CLEAN_TIMESHEET_ERROR:
+      return {
+        ...state,
+        error: ''
       };
     default:
       return state;

@@ -10,7 +10,8 @@ import {
   GET_TIMESHEET_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
-  DELETE_TIMESHEET_ERROR
+  DELETE_TIMESHEET_ERROR,
+  CLEAN_TIMESHEET_ERROR
 } from './constants';
 
 export const addTimeSheetSuccess = (timeSheet) => ({
@@ -56,4 +57,7 @@ export const deleteTimeSheetPending = () => ({
 export const deleteTimeSheetError = (error) => ({
   type: DELETE_TIMESHEET_ERROR,
   payload: error
+});
+export const cleanTimeSheetError = () => ({
+  type: CLEAN_TIMESHEET_ERROR
 });

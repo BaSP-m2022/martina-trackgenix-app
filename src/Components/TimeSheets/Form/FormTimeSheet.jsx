@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-// import { getTimeSheet } from '../../../redux/timeSheets/thunks';
-import {
-  addTimeSheetSuccess,
-  addTimeSheetError,
-  addTimeSheetPending,
-  editTimeSheetSuccess,
-  editTimeSheetPending,
-  editTimeSheetError
-} from '../../../redux/timeSheets/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTimeSheet, editAdmins } from '../../../redux/timeSheets/thunks';
 import styles from './FormTimeSheet.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
@@ -19,8 +11,7 @@ const FormTimeSheet = ({
   setShowModal,
   setChildrenModal,
   previousTimeSheet,
-  setPreviousTimeSheet,
-  method
+  setPreviousTimeSheet
 }) => {
   if (!showForm) {
     return null;
@@ -36,7 +27,7 @@ const FormTimeSheet = ({
   const timeSheetId = previousTimeSheet._id;
 
   const dispatch = useDispatch();
-  // const listTimeSheets = useSelector((state) => state.timeSheet.list);
+  const error = useSelector((state) => state.timeSheet.error);
 
   const fetchEmployees = async () => {
     try {
@@ -109,77 +100,38 @@ const FormTimeSheet = ({
     });
   };
 
-  const fetchData = async (url, actionPending, actionSuccess, actionError) => {
-    dispatch(actionPending());
-    const options = {
-      method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        employee,
-        project,
-        task,
-        hs_worked: hsWorked,
-        timesheetDate: date
-      })
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      console.log(res);
-      const newBody = {
-        _id: res.data._id,
-        employee: {
-          _id: res.data.employee,
-          first_name: employeeName
-        },
-        project: {
-          _id: res.data.project,
-          project_name: projectName
-        },
-        task: {
-          _id: res.data.task,
-          description: taskDescription
-        },
-        hs_worked: res.data.hs_worked,
-        timesheetDate: res.data.timesheetDate
-      };
-      // if (res.status === 400) {
-      //   console.log('ENTRO IF ERROR');
-      //   setShowForm(false);
-      //   setShowModal(true);
-      //   setChildrenModal(res.message);
-      //   dispatch(actionError(res.error));
-      // } else {
-      console.log('ENTRO IF BIEN');
-      setShowForm(false);
-      setShowModal(true);
-      setChildrenModal(res.message);
-      dispatch(actionSuccess(newBody));
-      cleanFields();
-      // }
-    } catch (error) {
-      console.log('ENTRO CATCH');
-      setShowModal(true);
-      setChildrenModal(error.message);
-      dispatch(actionError(error.message));
-      console.error(error);
-    }
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const newTimeSheet = {
+      _id: timeSheetId,
+      employee: {
+        _id: employee,
+        first_name: employeeName
+      },
+      project: {
+        _id: project,
+        project_name: projectName
+      },
+      task: {
+        _id: task,
+        description: taskDescription
+      },
+      hs_worked: hsWorked,
+      timesheetDate: date
+    };
+
     if (!timeSheetId) {
-      const url = `${process.env.REACT_APP_API_URL}/time-sheet`;
-      fetchData(url, addTimeSheetPending, addTimeSheetSuccess, addTimeSheetError);
+      dispatch(addTimeSheet(newTimeSheet, closeForm));
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/time-sheet/${timeSheetId}`;
-      fetchData(url, editTimeSheetPending, editTimeSheetSuccess, editTimeSheetError);
+      dispatch(editAdmins(newTimeSheet, closeForm));
     }
   };
+
+  if (error !== '') {
+    setChildrenModal(error);
+    setShowModal(true);
+  }
 
   const closeForm = () => {
     cleanFields();
