@@ -3,23 +3,24 @@ import styles from './superAdminForm.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
+import { useDispatch } from 'react-redux';
+import { addSuperAdmins, editSuperAdmins } from '../../../redux/superAdmins/thunks';
 
 const SuperAdminForm = ({
   showForm,
   setShowForm,
   previousSuperAdmin,
   setPreviousSuperAdmin,
-  setShowModal,
-  setShowTitle,
-  editItem,
-  addItem,
-  setLoading,
-  method
+  setShowModal
+  //editItem,
+  //addItem,
+  //method
 }) => {
   if (!showForm) {
     return null;
   }
 
+  const dispatch = useDispatch();
   const [inputSuperAdmin, setInputSuperAdmin] = useState({
     _id: previousSuperAdmin._id,
     firstName: previousSuperAdmin.firstName,
@@ -44,51 +45,53 @@ const SuperAdminForm = ({
     setInputSuperAdmin({ ...inputSuperAdmin, [e.target.name]: e.target.value });
   };
 
-  const fetchData = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: inputSuperAdmin.firstName,
-        lastName: inputSuperAdmin.lastName,
-        email: inputSuperAdmin.email,
-        password: inputSuperAdmin.password,
-        active: inputSuperAdmin.active
-      })
-    };
+  // const fetchData = async (url, methodFunction) => {
+  //   const options = {
+  //     method: method,
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       firstName: inputSuperAdmin.firstName,
+  //       lastName: inputSuperAdmin.lastName,
+  //       email: inputSuperAdmin.email,
+  //       password: inputSuperAdmin.password,
+  //       active: inputSuperAdmin.active
+  //     })
+  //   };
 
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      if (response.status !== 200 && response.status !== 201) {
-        setShowModal(true);
-        setShowTitle(res.message);
-      } else {
-        methodFunction(res.data);
-        setShowTitle('Super Admin updated successfully');
-        setShowModal(true);
-        setShowForm(false);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
+  //   try {
+  //     const response = await fetch(url, options);
+  //     const res = await response.json();
+  //     if (response.status !== 200 && response.status !== 201) {
+  //       setShowModal(true);
+  //       setShowTitle(res.message);
+  //     } else {
+  //       methodFunction(res.data);
+  //       setShowTitle('Super Admin updated successfully');
+  //       setShowModal(true);
+  //       setShowForm(false);
+  //       cleanFields();
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
     if (!inputSuperAdmin._id) {
-      const url = `${process.env.REACT_APP_API_URL}/super-admins`;
-      fetchData(url, addItem);
+      dispatch(addSuperAdmins(inputSuperAdmin));
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/super-admins/${inputSuperAdmin._id}`;
-      fetchData(url, editItem);
+      dispatch(editSuperAdmins(inputSuperAdmin));
     }
+    // if (!inputSuperAdmin._id) {
+    //   const url = `${process.env.REACT_APP_API_URL}/super-admins`;
+    //   fetchData(url, addItem);
+    // } else {
+    //   const url = `${process.env.REACT_APP_API_URL}/super-admins/${inputSuperAdmin._id}`;
+    //   fetchData(url, editItem);
+    // }
   };
 
   const onClose = () => {

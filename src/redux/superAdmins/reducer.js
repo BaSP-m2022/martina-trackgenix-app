@@ -46,7 +46,7 @@ export const superAdminsReducer = (state = stateInit, action) => {
     case ADD_SUPERADMINS_SUCCESS:
       return {
         ...state,
-        list: [...state, action.payload],
+        list: [...state.list, action.payload],
         isLoading: false
       };
     case ADD_SUPERADMINS_ERROR:
