@@ -2,15 +2,15 @@ import {
   getAdminsPending,
   getAdminsSuccess,
   getAdminsError,
-  deleteAdminsPending,
-  deleteAdminsSuccess,
-  deleteAdminsError,
-  addAdminsPending,
-  addAdminsSuccess,
-  addAdminsError,
-  editAdminsPending,
-  editAdminsSuccess,
-  editAdminsError
+  deleteAdminPending,
+  deleteAdminSuccess,
+  deleteAdminError,
+  addAdminPending,
+  addAdminSuccess,
+  addAdminError,
+  editAdminPending,
+  editAdminuccess,
+  editAdminError
 } from './actions';
 
 export const getAdmins = () => {
@@ -28,23 +28,23 @@ export const getAdmins = () => {
   };
 };
 
-export const deleteAdmins = (_id) => {
+export const deleteAdmin = (_id) => {
   return async (dispatch) => {
-    dispatch(deleteAdminsPending());
+    dispatch(deleteAdminPending());
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
         method: 'DELETE'
       });
-      dispatch(deleteAdminsSuccess(_id));
+      dispatch(deleteAdminSuccess(_id));
     } catch (error) {
-      dispatch(deleteAdminsError(error.toString()));
+      dispatch(deleteAdminError(error.toString()));
     }
   };
 };
 
-export const addAdmins = (admin) => {
+export const addAdmin = (admin) => {
   return async (dispatch) => {
-    dispatch(addAdminsPending());
+    dispatch(addAdminPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
         method: 'POST',
@@ -64,16 +64,16 @@ export const addAdmins = (admin) => {
       if (res.error) {
         throw res.message;
       }
-      dispatch(addAdminsSuccess(res.data));
+      dispatch(addAdminSuccess(res.data));
     } catch (error) {
-      dispatch(addAdminsError(error.toString()));
+      dispatch(addAdminError(error.toString()));
     }
   };
 };
 
-export const editAdmins = (admin) => {
+export const editAdmin = (admin) => {
   return async (dispatch) => {
-    dispatch(editAdminsPending());
+    dispatch(editAdminPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
         method: 'PUT',
@@ -93,9 +93,9 @@ export const editAdmins = (admin) => {
       if (res.error) {
         throw res.message;
       }
-      dispatch(editAdminsSuccess(res.data));
+      dispatch(editAdminuccess(res.data));
     } catch (error) {
-      dispatch(editAdminsError(error.toString()));
+      dispatch(editAdminError(error.toString()));
     }
   };
 };

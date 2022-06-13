@@ -4,7 +4,7 @@ import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { addAdmins, editAdmins } from '../../../redux/admins/thunks';
+import { addAdmin, editAdmin } from '../../../redux/admins/thunks';
 
 const AdminForm = ({
   showForm,
@@ -43,9 +43,9 @@ const AdminForm = ({
     e.preventDefault();
 
     if (!userInput._id) {
-      dispatch(addAdmins(userInput));
+      dispatch(addAdmin(userInput));
     } else {
-      dispatch(editAdmins(userInput));
+      dispatch(editAdmin(userInput));
     }
   };
 

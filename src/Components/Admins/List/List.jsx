@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { deleteAdmins } from '../../../redux/admins/thunks';
+import { deleteAdmin } from '../../../redux/admins/thunks';
 
 const List = ({ setShowForm, setPreviousAdmin }) => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const List = ({ setShowForm, setPreviousAdmin }) => {
 
   const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove the Admin?')) {
-      dispatch(deleteAdmins(_id));
+      dispatch(deleteAdmin(_id));
     }
   };
 

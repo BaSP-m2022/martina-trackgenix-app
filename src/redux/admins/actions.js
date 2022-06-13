@@ -2,16 +2,16 @@ import {
   GET_ADMINS_PENDING,
   GET_ADMINS_SUCCESS,
   GET_ADMINS_ERROR,
-  DELETE_ADMINS_PENDING,
-  DELETE_ADMINS_SUCCESS,
-  DELETE_ADMINS_ERROR,
-  ADD_ADMINS_PENDING,
-  ADD_ADMINS_SUCCESS,
-  ADD_ADMINS_ERROR,
-  EDIT_ADMINS_PENDING,
-  EDIT_ADMINS_SUCCESS,
-  EDIT_ADMINS_ERROR,
-  CLEAN_ADMINS_ERROR
+  DELETE_ADMIN_PENDING,
+  DELETE_ADMIN_SUCCESS,
+  DELETE_ADMIN_ERROR,
+  ADD_ADMIN_PENDING,
+  ADD_ADMIN_SUCCESS,
+  ADD_ADMIN_ERROR,
+  EDIT_ADMIN_PENDING,
+  EDIT_ADMIN_SUCCESS,
+  EDIT_ADMIN_ERROR,
+  CLEAN_ADMIN_ERROR
 } from './constants';
 
 export const getAdminsPending = () => ({
@@ -28,48 +28,48 @@ export const getAdminsError = (error) => ({
   payload: error
 });
 
-export const deleteAdminsPending = () => ({
-  type: DELETE_ADMINS_PENDING
+export const deleteAdminPending = () => ({
+  type: DELETE_ADMIN_PENDING
 });
 
-export const deleteAdminsSuccess = (adminsId) => ({
-  type: DELETE_ADMINS_SUCCESS,
-  payload: adminsId
+export const deleteAdminSuccess = (adminId) => ({
+  type: DELETE_ADMIN_SUCCESS,
+  payload: adminId
 });
 
-export const deleteAdminsError = (error) => ({
-  type: DELETE_ADMINS_ERROR,
+export const deleteAdminError = (error) => ({
+  type: DELETE_ADMIN_ERROR,
   payload: error
 });
 
-export const addAdminsPending = () => ({
-  type: ADD_ADMINS_PENDING
+export const addAdminPending = () => ({
+  type: ADD_ADMIN_PENDING
 });
 
-export const addAdminsSuccess = (admins) => ({
-  type: ADD_ADMINS_SUCCESS,
-  payload: admins
-});
-
-export const addAdminsError = (error) => ({
-  type: ADD_ADMINS_ERROR,
-  payload: error
-});
-
-export const editAdminsPending = () => ({
-  type: EDIT_ADMINS_PENDING
-});
-
-export const editAdminsSuccess = (admin) => ({
-  type: EDIT_ADMINS_SUCCESS,
+export const addAdminSuccess = (admin) => ({
+  type: ADD_ADMIN_SUCCESS,
   payload: admin
 });
 
-export const editAdminsError = (error) => ({
-  type: EDIT_ADMINS_ERROR,
+export const addAdminError = (error) => ({
+  type: ADD_ADMIN_ERROR,
   payload: error
 });
 
-export const clearAdminsError = () => ({
-  type: CLEAN_ADMINS_ERROR
+export const editAdminPending = () => ({
+  type: EDIT_ADMIN_PENDING
+});
+
+export const editAdminSuccess = (admin) => ({
+  type: EDIT_ADMIN_SUCCESS,
+  payload: admin
+});
+
+export const editAdminError = (error) => ({
+  type: EDIT_ADMIN_ERROR,
+  payload: error
+});
+
+export const cleanAdminError = () => ({
+  type: CLEAN_ADMIN_ERROR
 });
