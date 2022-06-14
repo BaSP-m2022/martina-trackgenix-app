@@ -64,9 +64,13 @@ export const addEmployee = (employee) => {
         throw res.msg;
       }
       dispatch(addEmployeeSuccess(res.data));
+      return res.data;
     } catch (error) {
-      console.log(error);
       dispatch(addEmployeeError(error.toString()));
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };
@@ -94,9 +98,13 @@ export const editEmployee = (employee) => {
         throw res.msg;
       }
       dispatch(editEmployeeSuccess(res.data));
+      return res.data;
     } catch (error) {
-      console.log(error);
       dispatch(editEmployeeError(error.toString()));
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };

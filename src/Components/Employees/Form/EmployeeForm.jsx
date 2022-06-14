@@ -40,20 +40,36 @@ const EmployeeForm = ({
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!userInput._id) {
-      dispatch(addEmployee(userInput));
-    } else {
-      dispatch(editEmployee(userInput));
-    }
-  };
-
   if (error) {
     setChildrenModal(message);
     setShowModal(true);
   }
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userInput._id) {
+      const employeeResponse = await dispatch(addEmployee(userInput));
+      if (employeeResponse.error) {
+        setChildrenModal(employeeResponse.message);
+        setShowModal(true);
+      } else {
+        closeForm();
+        setChildrenModal('Employee added');
+        setShowModal(true);
+      }
+    } else {
+      const employeeResponse = await dispatch(editEmployee(userInput));
+      if (employeeResponse.error) {
+        setChildrenModal(employeeResponse.message);
+        setShowModal(true);
+      } else {
+        closeForm();
+        setChildrenModal('Employee edited');
+        setShowModal(true);
+      }
+    }
+  };
 
   const closeForm = () => {
     cleanFields();
