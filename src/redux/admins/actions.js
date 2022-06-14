@@ -22,9 +22,8 @@ export const getAdminsSuccess = (admins) => ({
   payload: admins
 });
 
-export const getAdminsError = (error) => ({
-  type: GET_ADMINS_ERROR,
-  payload: error
+export const getAdminsError = () => ({
+  type: GET_ADMINS_ERROR
 });
 
 export const deleteAdminPending = () => ({
@@ -36,9 +35,8 @@ export const deleteAdminSuccess = (adminId) => ({
   payload: adminId
 });
 
-export const deleteAdminError = (error) => ({
-  type: DELETE_ADMIN_ERROR,
-  payload: error
+export const deleteAdminError = () => ({
+  type: DELETE_ADMIN_ERROR
 });
 
 export const addAdminPending = () => ({
@@ -50,9 +48,8 @@ export const addAdminSuccess = (admin) => ({
   payload: admin
 });
 
-export const addAdminError = (error) => ({
-  type: ADD_ADMIN_ERROR,
-  payload: error
+export const addAdminError = () => ({
+  type: ADD_ADMIN_ERROR
 });
 
 export const editAdminPending = () => ({
@@ -64,7 +61,6 @@ export const editAdminSuccess = (admin) => ({
   payload: admin
 });
 
-export const editAdminError = (error) => ({
-  type: EDIT_ADMIN_ERROR,
-  payload: error
+export const editAdminError = () => ({
+  type: EDIT_ADMIN_ERROR
 });
