@@ -1,7 +1,7 @@
 import {
-  GET_TIMESHEET_SUCCESS,
-  GET_TIMESHEET_PENDING,
-  GET_TIMESHEET_ERROR,
+  GET_TIMESHEETS_SUCCESS,
+  GET_TIMESHEETS_PENDING,
+  GET_TIMESHEETS_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
   DELETE_TIMESHEET_ERROR
@@ -15,20 +15,20 @@ const initialState = {
 
 export const timeSheetReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_TIMESHEET_SUCCESS:
+    case GET_TIMESHEETS_SUCCESS:
       return {
         ...state,
         list: action.payload,
         isLoading: false,
         error: false
       };
-    case GET_TIMESHEET_PENDING:
+    case GET_TIMESHEETS_PENDING:
       return {
         ...state,
         isLoading: true,
         error: false
       };
-    case GET_TIMESHEET_ERROR:
+    case GET_TIMESHEETS_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -37,7 +37,7 @@ export const timeSheetReducer = (state = initialState, action) => {
     case DELETE_TIMESHEET_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((timesheet) => timesheet._id !== action.payload.timeSheetsId),
+        list: state.list.filter((timesheet) => timesheet._id !== action.payload),
         isLoading: false,
         error: false
       };

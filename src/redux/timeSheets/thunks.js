@@ -29,15 +29,8 @@ export const deleteTimeSheet = (_id) => {
         method: 'DELETE'
       });
       dispatch(deleteTimeSheetSuccess(_id));
-      return {
-        error: false
-      };
     } catch (error) {
-      dispatch(deleteTimeSheetError());
-      return {
-        error: false,
-        message: error
-      };
+      dispatch(deleteTimeSheetError(error.toString()));
     }
   };
 };
