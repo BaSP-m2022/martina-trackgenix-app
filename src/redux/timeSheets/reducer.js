@@ -10,18 +10,14 @@ import {
   GET_TIMESHEET_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
-  DELETE_TIMESHEET_ERROR,
-  CLEAN_TIMESHEET_ERROR
+  DELETE_TIMESHEET_ERROR
 } from './constants';
 
 const initialState = {
   list: [],
   isLoading: false,
-  error: false,
-  message: ''
+  error: false
 };
-
-let updatedTimeSheet = [];
 
 export const timeSheetReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -29,88 +25,83 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
-        isLoading: false
+        isLoading: false,
+        error: false
       };
     case GET_TIMESHEET_PENDING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: false
       };
     case GET_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
     case DELETE_TIMESHEET_SUCCESS:
       return {
         ...state,
         list: state.list.filter((t) => t._id !== action.payload),
-        isLoading: false
+        isLoading: false,
+        error: false
       };
     case DELETE_TIMESHEET_PENDING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: false
       };
     case DELETE_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
     case ADD_TIMESHEET_SUCCESS:
       return {
         ...state,
-        list: [...state.list, action.payload.timeSheet],
+        list: [...state.list, action.payload],
         isLoading: false,
-        error: false,
-        message: action.payload.message
+        error: false
       };
     case ADD_TIMESHEET_PENDING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: false
       };
     case ADD_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case EDIT_TIMESHEET_SUCCESS:
-      updatedTimeSheet = state.list.map((item) => {
-        if (item._id === action.payload.timeSheet._id) {
-          return action.payload.timeSheet;
-        } else {
-          return item;
-        }
-      });
       return {
         ...state,
-        list: updatedTimeSheet,
+        list: state.list.map((item) => {
+          if (item._id === action.payload._id) {
+            return action.payload;
+          } else {
+            return item;
+          }
+        }),
         isLoading: false,
-        error: false,
-        message: action.payload.message
+        error: false
       };
     case EDIT_TIMESHEET_PENDING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: false
       };
     case EDIT_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
-      };
-    case CLEAN_TIMESHEET_ERROR:
-      return {
-        ...state,
-        error: false,
-        message: ''
+        error: true
       };
     default:
       return state;

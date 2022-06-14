@@ -13,7 +13,7 @@ import {
   deleteTimeSheetPending
 } from './actions';
 
-export const addTimeSheet = (newTimeSheet, closeForm) => {
+export const addTimeSheet = (newTimeSheet) => {
   return async (dispatch) => {
     dispatch(addTimeSheetPending());
     try {
@@ -35,35 +35,39 @@ export const addTimeSheet = (newTimeSheet, closeForm) => {
         throw res.message;
       }
       dispatch(
-        addTimeSheetSuccess(
-          {
-            _id: res.data._id,
-            employee: {
-              _id: newTimeSheet.employee._id,
-              first_name: newTimeSheet.employee.first_name
-            },
-            project: {
-              _id: newTimeSheet.project._id,
-              project_name: newTimeSheet.project.project_name
-            },
-            task: {
-              _id: newTimeSheet.task._id,
-              description: newTimeSheet.task.description
-            },
-            hs_worked: newTimeSheet.hs_worked,
-            timesheetDate: newTimeSheet.timesheetDate
+        addTimeSheetSuccess({
+          _id: res.data._id,
+          employee: {
+            _id: newTimeSheet.employee._id,
+            first_name: newTimeSheet.employee.first_name
           },
-          res.message
-        )
+          project: {
+            _id: newTimeSheet.project._id,
+            project_name: newTimeSheet.project.project_name
+          },
+          task: {
+            _id: newTimeSheet.task._id,
+            description: newTimeSheet.task.description
+          },
+          hs_worked: newTimeSheet.hs_worked,
+          timesheetDate: newTimeSheet.timesheetDate
+        })
       );
-      closeForm();
+      return {
+        error: false,
+        message: res.message
+      };
     } catch (error) {
-      dispatch(addTimeSheetError(error));
+      dispatch(addTimeSheetError());
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };
 
-export const editAdmins = (newTimeSheet, closeForm) => {
+export const editTimeSheet = (newTimeSheet) => {
   return async (dispatch) => {
     dispatch(editTimeSheetPending());
     try {
@@ -88,30 +92,34 @@ export const editAdmins = (newTimeSheet, closeForm) => {
         throw res.message;
       }
       dispatch(
-        editTimeSheetSuccess(
-          {
-            _id: res.data._id,
-            employee: {
-              _id: newTimeSheet.employee._id,
-              first_name: newTimeSheet.employee.first_name
-            },
-            project: {
-              _id: newTimeSheet.project._id,
-              project_name: newTimeSheet.project.project_name
-            },
-            task: {
-              _id: newTimeSheet.task._id,
-              description: newTimeSheet.task.description
-            },
-            hs_worked: newTimeSheet.hs_worked,
-            timesheetDate: newTimeSheet.timesheetDate
+        editTimeSheetSuccess({
+          _id: res.data._id,
+          employee: {
+            _id: newTimeSheet.employee._id,
+            first_name: newTimeSheet.employee.first_name
           },
-          res.message
-        )
+          project: {
+            _id: newTimeSheet.project._id,
+            project_name: newTimeSheet.project.project_name
+          },
+          task: {
+            _id: newTimeSheet.task._id,
+            description: newTimeSheet.task.description
+          },
+          hs_worked: newTimeSheet.hs_worked,
+          timesheetDate: newTimeSheet.timesheetDate
+        })
       );
-      closeForm();
+      return {
+        error: false,
+        message: res.message
+      };
     } catch (error) {
-      dispatch(editTimeSheetError(error));
+      dispatch(editTimeSheetError());
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };

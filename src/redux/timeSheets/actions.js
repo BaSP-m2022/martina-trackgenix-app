@@ -10,31 +10,28 @@ import {
   GET_TIMESHEET_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
-  DELETE_TIMESHEET_ERROR,
-  CLEAN_TIMESHEET_ERROR
+  DELETE_TIMESHEET_ERROR
 } from './constants';
 
-export const addTimeSheetSuccess = (timeSheet, message) => ({
+export const addTimeSheetSuccess = (timeSheet) => ({
   type: ADD_TIMESHEET_SUCCESS,
-  payload: { timeSheet, message }
+  payload: timeSheet
 });
 export const addTimeSheetPending = () => ({
   type: ADD_TIMESHEET_PENDING
 });
-export const addTimeSheetError = (error) => ({
-  type: ADD_TIMESHEET_ERROR,
-  payload: error
+export const addTimeSheetError = () => ({
+  type: ADD_TIMESHEET_ERROR
 });
-export const editTimeSheetSuccess = (timeSheet, message) => ({
+export const editTimeSheetSuccess = (timeSheet) => ({
   type: EDIT_TIMESHEET_SUCCESS,
-  payload: { timeSheet, message }
+  payload: timeSheet
 });
 export const editTimeSheetPending = () => ({
   type: EDIT_TIMESHEET_PENDING
 });
-export const editTimeSheetError = (error) => ({
-  type: EDIT_TIMESHEET_ERROR,
-  payload: error
+export const editTimeSheetError = () => ({
+  type: EDIT_TIMESHEET_ERROR
 });
 export const getTimeSheetSuccess = (timeSheets) => ({
   type: GET_TIMESHEET_SUCCESS,
@@ -43,9 +40,8 @@ export const getTimeSheetSuccess = (timeSheets) => ({
 export const getTimeSheetPending = () => ({
   type: GET_TIMESHEET_PENDING
 });
-export const getTimeSheetError = (error) => ({
-  type: GET_TIMESHEET_ERROR,
-  payload: error
+export const getTimeSheetError = () => ({
+  type: GET_TIMESHEET_ERROR
 });
 export const deleteTimeSheetSuccess = (timeSheetsId) => ({
   type: DELETE_TIMESHEET_SUCCESS,
@@ -54,14 +50,6 @@ export const deleteTimeSheetSuccess = (timeSheetsId) => ({
 export const deleteTimeSheetPending = () => ({
   type: DELETE_TIMESHEET_PENDING
 });
-export const deleteTimeSheetError = (error) => ({
-  type: DELETE_TIMESHEET_ERROR,
-  payload: error
+export const deleteTimeSheetError = () => ({
+  type: DELETE_TIMESHEET_ERROR
 });
-export const cleanTimeSheetError = () => ({
-  type: CLEAN_TIMESHEET_ERROR
-});
-// export const messageTimeSheet = (msg) => ({
-//   type: MESSAGE_TIMESHEET,
-//   payload: msg
-// });

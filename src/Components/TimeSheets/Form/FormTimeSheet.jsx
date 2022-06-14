@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addTimeSheet, editAdmins } from '../../../redux/timeSheets/thunks';
+import { useDispatch } from 'react-redux';
+import { addTimeSheet, editTimeSheet } from '../../../redux/timeSheets/thunks';
 import styles from './FormTimeSheet.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
@@ -16,6 +16,7 @@ const FormTimeSheet = ({
   if (!showForm) {
     return null;
   }
+  const dispatch = useDispatch();
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
@@ -24,12 +25,6 @@ const FormTimeSheet = ({
   const [task, setTask] = useState(previousTimeSheet.task);
   const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
   const [date, setDate] = useState(previousTimeSheet.date);
-
-  const timeSheetId = previousTimeSheet._id;
-
-  const dispatch = useDispatch();
-  const error = useSelector((state) => state.timeSheet.error);
-  const message = useSelector((state) => state.timeSheet.message);
 
   const fetchEmployees = async () => {
     try {
@@ -91,22 +86,11 @@ const FormTimeSheet = ({
     }
   });
 
-  const cleanFields = () => {
-    setPreviousTimeSheet({
-      _id: '',
-      employee: '',
-      hs_worked: 0,
-      task: '',
-      project: '',
-      timesheetDate: ''
-    });
-  };
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const newTimeSheet = {
-      _id: timeSheetId,
+      _id: previousTimeSheet._id,
       employee: {
         _id: employee,
         first_name: employeeName
@@ -123,20 +107,49 @@ const FormTimeSheet = ({
       timesheetDate: date
     };
 
-    if (!timeSheetId) {
-      dispatch(addTimeSheet(newTimeSheet, closeForm));
-      setShowModal(true);
-      setChildrenModal(message);
-      console.log(message);
+    console.log('NEWtimeSheet', newTimeSheet);
+
+    if (!previousTimeSheet._id) {
+      try {
+        const timeSheetResponse = await dispatch(addTimeSheet(newTimeSheet));
+        if (timeSheetResponse.error) {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      dispatch(editAdmins(newTimeSheet, closeForm));
+      try {
+        const timeSheetResponse = await dispatch(editTimeSheet(newTimeSheet));
+        if (timeSheetResponse.error) {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
-  if (error) {
-    setChildrenModal(message);
-    setShowModal(true);
-  }
+  const cleanFields = () => {
+    setPreviousTimeSheet({
+      _id: '',
+      employee: '',
+      hs_worked: 0,
+      task: '',
+      project: '',
+      timesheetDate: ''
+    });
+  };
 
   const closeForm = () => {
     cleanFields();

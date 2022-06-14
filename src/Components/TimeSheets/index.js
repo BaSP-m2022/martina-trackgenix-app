@@ -7,7 +7,6 @@ import Modal from '../Shared/Modal/Modal';
 import FormTimeSheet from './Form/FormTimeSheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from '../../redux/timeSheets/thunks';
-import { cleanTimeSheetError } from '../../redux/timeSheets/actions';
 
 const TimeSheets = () => {
   const dispatch = useDispatch();
@@ -30,18 +29,18 @@ const TimeSheets = () => {
     dispatch(getTimeSheet());
   }, []);
 
-  const handleClose = () => {
-    setShowModal(false);
-    dispatch(cleanTimeSheetError());
-  };
-
   return (
     <>
       {isLoading ? (
         <Loader show={true} />
       ) : (
         <section className={styles.container}>
-          <List setPreviousTimeSheet={setPreviousTimeSheet} setShowForm={setShowForm} />
+          <List
+            setPreviousTimeSheet={setPreviousTimeSheet}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+          />
           <FormTimeSheet
             showForm={showForm}
             setShowForm={setShowForm}
@@ -51,7 +50,7 @@ const TimeSheets = () => {
             setPreviousTimeSheet={setPreviousTimeSheet}
           />
           <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button>
-          <Modal isOpen={showModal} handleClose={handleClose}>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>
         </section>
