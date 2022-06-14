@@ -4,7 +4,8 @@ import {
   GET_PROJECTS_ERROR,
   DELETE_PROJECTS_PENDING,
   DELETE_PROJECTS_SUCCESS,
-  DELETE_PROJECTS_ERROR
+  DELETE_PROJECTS_ERROR,
+  CLEAN_PROJECTS_ERROR
 } from './constants';
 
 export const getProjectsPending = () => {
@@ -39,4 +40,8 @@ export const deleteProjectsSuccess = (projectsId) => ({
 export const deleteProjectsError = (error) => ({
   type: DELETE_PROJECTS_ERROR,
   payload: error
+});
+
+export const cleanProjectsError = () => ({
+  type: CLEAN_PROJECTS_ERROR
 });

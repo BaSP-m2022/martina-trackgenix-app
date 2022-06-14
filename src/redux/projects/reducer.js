@@ -4,7 +4,8 @@ import {
   GET_PROJECTS_ERROR,
   DELETE_PROJECTS_PENDING,
   DELETE_PROJECTS_SUCCESS,
-  DELETE_PROJECTS_ERROR
+  DELETE_PROJECTS_ERROR,
+  CLEAN_PROJECTS_ERROR
 } from './constants';
 
 const initialState = {
@@ -49,10 +50,13 @@ export const projectReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload
       };
+    case CLEAN_PROJECTS_ERROR:
+      return {
+        ...state,
+        error: ''
+      };
     default: {
       return state;
     }
   }
 };
-
-//export default projectReducer;
