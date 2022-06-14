@@ -2,21 +2,23 @@ import {
   GET_SUPERADMINS_PENDING,
   GET_SUPERADMINS_SUCCESS,
   GET_SUPERADMINS_ERROR,
-  ADD_SUPERADMINS_PENDING,
-  ADD_SUPERADMINS_SUCCESS,
-  ADD_SUPERADMINS_ERROR,
-  DELETE_SUPERADMINS_PENDING,
-  DELETE_SUPERADMINS_SUCCESS,
-  DELETE_SUPERADMINS_ERROR,
-  EDIT_SUPERADMINS_PENDING,
-  EDIT_SUPERADMINS_SUCCESS,
-  EDIT_SUPERADMINS_ERROR
+  ADD_SUPERADMIN_PENDING,
+  ADD_SUPERADMIN_SUCCESS,
+  ADD_SUPERADMIN_ERROR,
+  DELETE_SUPERADMIN_PENDING,
+  DELETE_SUPERADMIN_SUCCESS,
+  DELETE_SUPERADMIN_ERROR,
+  EDIT_SUPERADMIN_PENDING,
+  EDIT_SUPERADMIN_SUCCESS,
+  EDIT_SUPERADMIN_ERROR,
+  CLEAN_SUPERADMIN_ERROR
 } from './constants';
 
 const stateInit = {
   list: [],
   isLoading: false,
-  error: ''
+  error: false,
+  message: ''
 };
 
 export const superAdminsReducer = (state = stateInit, action) => {
@@ -36,63 +38,74 @@ export const superAdminsReducer = (state = stateInit, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
-    case ADD_SUPERADMINS_PENDING:
+    case ADD_SUPERADMIN_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case ADD_SUPERADMINS_SUCCESS:
+    case ADD_SUPERADMIN_SUCCESS:
       return {
         ...state,
         list: [...state.list, action.payload],
         isLoading: false
       };
-    case ADD_SUPERADMINS_ERROR:
+    case ADD_SUPERADMIN_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
-    case DELETE_SUPERADMINS_PENDING:
+    case DELETE_SUPERADMIN_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case DELETE_SUPERADMINS_SUCCESS:
+    case DELETE_SUPERADMIN_SUCCESS:
       return {
         ...state,
         list: state.list.filter((b) => b._id !== action.payload),
         isLoading: false
       };
-    case DELETE_SUPERADMINS_ERROR:
+    case DELETE_SUPERADMIN_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
-    case EDIT_SUPERADMINS_PENDING:
+    case EDIT_SUPERADMIN_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case EDIT_SUPERADMINS_SUCCESS:
+    case EDIT_SUPERADMIN_SUCCESS:
       return {
         ...state,
         isLoading: false,
         list: state.list.map((p) => {
           if (p._id === action.payload._id) {
             return action.payload;
+          } else {
+            return p;
           }
-          return p;
         })
       };
-    case EDIT_SUPERADMINS_ERROR:
+    case EDIT_SUPERADMIN_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
+      };
+    case CLEAN_SUPERADMIN_ERROR:
+      return {
+        ...state,
+        error: false,
+        message: ''
       };
     default: {
       return state;

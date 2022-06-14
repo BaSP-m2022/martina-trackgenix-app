@@ -2,15 +2,16 @@ import {
   GET_SUPERADMINS_PENDING,
   GET_SUPERADMINS_SUCCESS,
   GET_SUPERADMINS_ERROR,
-  ADD_SUPERADMINS_PENDING,
-  ADD_SUPERADMINS_SUCCESS,
-  ADD_SUPERADMINS_ERROR,
-  DELETE_SUPERADMINS_PENDING,
-  DELETE_SUPERADMINS_SUCCESS,
-  DELETE_SUPERADMINS_ERROR,
-  EDIT_SUPERADMINS_PENDING,
-  EDIT_SUPERADMINS_SUCCESS,
-  EDIT_SUPERADMINS_ERROR
+  ADD_SUPERADMIN_PENDING,
+  ADD_SUPERADMIN_SUCCESS,
+  ADD_SUPERADMIN_ERROR,
+  DELETE_SUPERADMIN_PENDING,
+  DELETE_SUPERADMIN_SUCCESS,
+  DELETE_SUPERADMIN_ERROR,
+  EDIT_SUPERADMIN_PENDING,
+  EDIT_SUPERADMIN_SUCCESS,
+  EDIT_SUPERADMIN_ERROR,
+  CLEAN_SUPERADMIN_ERROR
 } from './constants';
 
 export const getSuperAdminsPending = () => {
@@ -33,62 +34,68 @@ export const getSuperAdminsError = (error) => {
   };
 };
 
-export const addSuperAdminsPending = () => {
+export const addSuperAdminPending = () => {
   return {
-    type: ADD_SUPERADMINS_PENDING
+    type: ADD_SUPERADMIN_PENDING
   };
 };
 
-export const addSuperAdminsSuccess = (data) => {
+export const addSuperAdminSuccess = (data) => {
   return {
-    type: ADD_SUPERADMINS_SUCCESS,
+    type: ADD_SUPERADMIN_SUCCESS,
     payload: data
   };
 };
 
-export const addSuperAdminsError = (error) => {
+export const addSuperAdminError = (error) => {
   return {
-    type: ADD_SUPERADMINS_ERROR,
+    type: ADD_SUPERADMIN_ERROR,
     payload: error
   };
 };
 
-export const deleteSuperAdminsPending = () => {
+export const deleteSuperAdminPending = () => {
   return {
-    type: DELETE_SUPERADMINS_PENDING
+    type: DELETE_SUPERADMIN_PENDING
   };
 };
 
-export const deleteSuperAdminsSuccess = (data) => {
+export const deleteSuperAdminSuccess = (data) => {
   return {
-    type: DELETE_SUPERADMINS_SUCCESS,
+    type: DELETE_SUPERADMIN_SUCCESS,
     payload: data
   };
 };
 
-export const deleteSuperAdminsError = (error) => {
+export const deleteSuperAdminError = (error) => {
   return {
-    type: DELETE_SUPERADMINS_ERROR,
+    type: DELETE_SUPERADMIN_ERROR,
     payload: error
   };
 };
 
-export const editSuperAdminsPending = () => {
+export const editSuperAdminPending = () => {
   return {
-    type: EDIT_SUPERADMINS_PENDING
+    type: EDIT_SUPERADMIN_PENDING
   };
 };
 
-export const editSuperAdminsSuccess = (data) => {
+export const editSuperAdminSuccess = (data) => {
   return {
-    type: EDIT_SUPERADMINS_SUCCESS,
+    type: EDIT_SUPERADMIN_SUCCESS,
     payload: data
   };
 };
 
-export const editSuperAdminsError = (error) => {
+export const editSuperAdminError = (error) => {
   return {
-    type: EDIT_SUPERADMINS_ERROR,
+    type: EDIT_SUPERADMIN_ERROR,
     payload: error
+  };
+};
+
+export const cleanSuperAdminError = () => {
+  return {
+    type: CLEAN_SUPERADMIN_ERROR
   };
 };

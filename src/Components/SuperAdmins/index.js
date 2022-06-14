@@ -7,6 +7,7 @@ import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSuperAdmins } from '../../redux/superAdmins/thunks';
+import { cleanSuperAdminError } from '../../redux/superAdmins/actions';
 
 const SuperAdmins = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const SuperAdmins = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [method, setMethod] = useState('');
+  const [childrenModal, setChildrenModal] = useState('');
   const [previousSuperAdmin, setPreviousSuperAdmin] = useState({
     _id: '',
     firstName: '',
@@ -58,38 +59,43 @@ const SuperAdmins = () => {
 
   const onClick = () => {
     setShowForm(true);
-    setMethod('POST');
   };
 
-  return isLoading ? (
-    <Loader show={isLoading} />
-  ) : (
-    <section className={styles.container}>
-      <ListSuperAdmin
-        //list={superAdmins}
-        //deleteItem={deleteItem}
-        setShowModal={setShowModal}
-        setShowForm={setShowForm}
-        setPreviousSuperAdmin={setPreviousSuperAdmin}
-        setMethod={setMethod}
-      />
-      <Form
-        showForm={showForm}
-        setShowForm={setShowForm}
-        previousSuperAdmin={previousSuperAdmin}
-        setPreviousSuperAdmin={setPreviousSuperAdmin}
-        setShowModal={setShowModal}
-        //editItem={editItem}
-        method={method}
-      />
-      <Button onClick={onClick}> Add Super Admin</Button>
-      <Modal
-        isOpen={showModal}
-        handleClose={() => {
-          setShowModal(false);
-        }}
-      />
-    </section>
+  const handleClose = () => {
+    setShowModal(false);
+    dispatch(cleanSuperAdminError());
+  };
+
+  return (
+    <>
+      {isLoading ? (
+        <Loader show={true} />
+      ) : (
+        <section className={styles.container}>
+          <ListSuperAdmin
+            //list={superAdmins}
+            //deleteItem={deleteItem}
+            //setShowModal={setShowModal}
+            setShowForm={setShowForm}
+            setPreviousSuperAdmin={setPreviousSuperAdmin}
+          />
+          <Form
+            showForm={showForm}
+            setShowForm={setShowForm}
+            previousSuperAdmin={previousSuperAdmin}
+            setPreviousSuperAdmin={setPreviousSuperAdmin}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            //editItem={editItem}
+          />
+          <Button onClick={onClick}> Add Super Admin</Button>
+          <Modal isOpen={showModal} handleClose={handleClose}>
+            {childrenModal}
+          </Modal>
+        </section>
+      )}
+      ;
+    </>
   );
 };
 

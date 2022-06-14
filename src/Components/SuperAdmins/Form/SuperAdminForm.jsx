@@ -3,15 +3,16 @@ import styles from './superAdminForm.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
-import { useDispatch } from 'react-redux';
-import { addSuperAdmins, editSuperAdmins } from '../../../redux/superAdmins/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSuperAdmin, editSuperAdmin } from '../../../redux/superAdmins/thunks';
 
 const SuperAdminForm = ({
   showForm,
   setShowForm,
   previousSuperAdmin,
   setPreviousSuperAdmin,
-  setShowModal
+  setShowModal,
+  setChildrenModal
   //editItem,
   //addItem,
   //method
@@ -21,14 +22,10 @@ const SuperAdminForm = ({
   }
 
   const dispatch = useDispatch();
-  const [inputSuperAdmin, setInputSuperAdmin] = useState({
-    _id: previousSuperAdmin._id,
-    firstName: previousSuperAdmin.firstName,
-    lastName: previousSuperAdmin.lastName,
-    email: previousSuperAdmin.email,
-    password: previousSuperAdmin.password,
-    active: previousSuperAdmin.active
-  });
+  const error = useSelector((state) => state.superAdmins.error);
+  const message = useSelector((state) => state.superAdmins.message);
+
+  const [inputSuperAdmin, setInputSuperAdmin] = useState(previousSuperAdmin);
 
   const cleanFields = () => {
     setPreviousSuperAdmin({
@@ -81,9 +78,9 @@ const SuperAdminForm = ({
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!inputSuperAdmin._id) {
-      dispatch(addSuperAdmins(inputSuperAdmin));
+      dispatch(addSuperAdmin(inputSuperAdmin));
     } else {
-      dispatch(editSuperAdmins(inputSuperAdmin));
+      dispatch(editSuperAdmin(inputSuperAdmin));
     }
     // if (!inputSuperAdmin._id) {
     //   const url = `${process.env.REACT_APP_API_URL}/super-admins`;
@@ -94,6 +91,10 @@ const SuperAdminForm = ({
     // }
   };
 
+  if (error) {
+    setChildrenModal(message);
+    setShowModal(true);
+  }
   const onClose = () => {
     setShowForm(false);
     cleanFields();
@@ -132,13 +133,7 @@ const SuperAdminForm = ({
           label={'Password'}
         />
         <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
-        <Button
-          onClick={() => {
-            setShowModal(true);
-          }}
-        >
-          Confirm
-        </Button>
+        <Button onClick={(e) => onSubmit(e)}>Confirm</Button>
         <div>
           <Button onClick={onClose}> Close </Button>
         </div>
