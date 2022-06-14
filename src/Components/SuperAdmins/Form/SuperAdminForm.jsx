@@ -3,7 +3,7 @@ import styles from './superAdminForm.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addSuperAdmin, editSuperAdmin } from '../../../redux/superAdmins/thunks';
 
 const SuperAdminForm = ({
@@ -19,8 +19,6 @@ const SuperAdminForm = ({
   }
 
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.superAdmins.error);
-  const message = useSelector((state) => state.superAdmins.message);
 
   const [inputSuperAdmin, setInputSuperAdmin] = useState(previousSuperAdmin);
 
@@ -39,22 +37,30 @@ const SuperAdminForm = ({
     setInputSuperAdmin({ ...inputSuperAdmin, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!inputSuperAdmin._id) {
-      dispatch(addSuperAdmin(inputSuperAdmin));
-    } else {
-      dispatch(editSuperAdmin(inputSuperAdmin));
-    }
-  };
-
-  if (error) {
-    setChildrenModal(message);
-    setShowModal(true);
-  }
   const onClose = () => {
     setShowForm(false);
     cleanFields();
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!inputSuperAdmin._id) {
+      const superAdminResponse = await dispatch(addSuperAdmin(inputSuperAdmin));
+      if (superAdminResponse.error) {
+        setChildrenModal(superAdminResponse.message);
+        setShowModal(true);
+      } else {
+        onClose();
+      }
+    } else {
+      const superAdminResponse = await dispatch(editSuperAdmin(inputSuperAdmin));
+      if (superAdminResponse.error) {
+        setChildrenModal(superAdminResponse.message);
+        setShowModal(true);
+      } else {
+        onClose();
+      }
+    }
   };
 
   return (

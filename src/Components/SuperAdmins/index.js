@@ -7,7 +7,6 @@ import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSuperAdmins } from '../../redux/superAdmins/thunks';
-import { cleanSuperAdminError } from '../../redux/superAdmins/actions';
 
 const SuperAdmins = () => {
   const dispatch = useDispatch();
@@ -35,7 +34,6 @@ const SuperAdmins = () => {
 
   const handleClose = () => {
     setShowModal(false);
-    dispatch(cleanSuperAdminError());
   };
 
   return (

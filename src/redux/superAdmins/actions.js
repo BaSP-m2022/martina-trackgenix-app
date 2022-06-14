@@ -10,8 +10,7 @@ import {
   DELETE_SUPERADMIN_ERROR,
   EDIT_SUPERADMIN_PENDING,
   EDIT_SUPERADMIN_SUCCESS,
-  EDIT_SUPERADMIN_ERROR,
-  CLEAN_SUPERADMIN_ERROR
+  EDIT_SUPERADMIN_ERROR
 } from './constants';
 
 export const getSuperAdminsPending = () => {
@@ -27,10 +26,9 @@ export const getSuperAdminsSuccess = (data) => {
   };
 };
 
-export const getSuperAdminsError = (error) => {
+export const getSuperAdminsError = () => {
   return {
-    type: GET_SUPERADMINS_ERROR,
-    payload: error
+    type: GET_SUPERADMINS_ERROR
   };
 };
 
@@ -47,10 +45,9 @@ export const addSuperAdminSuccess = (data) => {
   };
 };
 
-export const addSuperAdminError = (error) => {
+export const addSuperAdminError = () => {
   return {
-    type: ADD_SUPERADMIN_ERROR,
-    payload: error
+    type: ADD_SUPERADMIN_ERROR
   };
 };
 
@@ -67,10 +64,9 @@ export const deleteSuperAdminSuccess = (data) => {
   };
 };
 
-export const deleteSuperAdminError = (error) => {
+export const deleteSuperAdminError = () => {
   return {
-    type: DELETE_SUPERADMIN_ERROR,
-    payload: error
+    type: DELETE_SUPERADMIN_ERROR
   };
 };
 
@@ -87,15 +83,8 @@ export const editSuperAdminSuccess = (data) => {
   };
 };
 
-export const editSuperAdminError = (error) => {
+export const editSuperAdminError = () => {
   return {
-    type: EDIT_SUPERADMIN_ERROR,
-    payload: error
-  };
-};
-
-export const cleanSuperAdminError = () => {
-  return {
-    type: CLEAN_SUPERADMIN_ERROR
+    type: EDIT_SUPERADMIN_ERROR
   };
 };

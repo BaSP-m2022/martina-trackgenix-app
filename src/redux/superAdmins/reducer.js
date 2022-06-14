@@ -10,15 +10,13 @@ import {
   DELETE_SUPERADMIN_ERROR,
   EDIT_SUPERADMIN_PENDING,
   EDIT_SUPERADMIN_SUCCESS,
-  EDIT_SUPERADMIN_ERROR,
-  CLEAN_SUPERADMIN_ERROR
+  EDIT_SUPERADMIN_ERROR
 } from './constants';
 
 const stateInit = {
   list: [],
   isLoading: false,
-  error: false,
-  message: ''
+  error: false
 };
 
 export const superAdminsReducer = (state = stateInit, action) => {
@@ -38,8 +36,7 @@ export const superAdminsReducer = (state = stateInit, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case ADD_SUPERADMIN_PENDING:
       return {
@@ -56,8 +53,7 @@ export const superAdminsReducer = (state = stateInit, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case DELETE_SUPERADMIN_PENDING:
       return {
@@ -74,8 +70,7 @@ export const superAdminsReducer = (state = stateInit, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case EDIT_SUPERADMIN_PENDING:
       return {
@@ -98,14 +93,7 @@ export const superAdminsReducer = (state = stateInit, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
-      };
-    case CLEAN_SUPERADMIN_ERROR:
-      return {
-        ...state,
-        error: false,
-        message: ''
+        error: true
       };
     default: {
       return state;
