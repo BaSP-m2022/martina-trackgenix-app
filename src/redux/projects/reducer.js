@@ -49,5 +49,10 @@ export const projectReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload
       };
+    default: {
+      return state;
+    }
   }
 };
+
+export default projectReducer;
