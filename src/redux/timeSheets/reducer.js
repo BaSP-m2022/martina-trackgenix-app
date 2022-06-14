@@ -11,7 +11,8 @@ import {
 const initialState = {
   list: [],
   isLoading: false,
-  error: ''
+  error: false,
+  message: ''
 };
 
 export const timeSheetReducer = (state = initialState, action) => {
@@ -20,7 +21,9 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
-        isLoading: false
+        isLoading: false,
+        error: false,
+        message: ''
       };
     case GET_TIMESHEET_PENDING:
       return {
@@ -31,13 +34,16 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case DELETE_TIMESHEET_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((t) => t._id !== action.payload),
-        isLoading: false
+        list: state.list.filter((t) => t._id !== action.payload.timeSheetsId),
+        isLoading: false,
+        error: false,
+        message: action.payload.message
       };
     case DELETE_TIMESHEET_PENDING:
       return {
@@ -48,12 +54,14 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true,
+        message: action.payload
       };
     case CLEAN_TIMESHEET_ERROR:
       return {
         ...state,
-        error: ''
+        error: false,
+        message: ''
       };
     default:
       return state;

@@ -4,9 +4,14 @@ import Row from '../../Shared/Row/Row';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTimeSheet } from '../../../redux/timeSheets/thunks';
 
-const List = ({ setShowForm, setMethod, setPreviousTimeSheet }) => {
+const List = ({ setShowForm, setMethod, setPreviousTimeSheet, setShowModal, setChildrenModal }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
+  const error = useSelector((state) => state.timeSheet.error);
+  const message = useSelector((state) => state.timeSheet.message);
 
+  if (message) {
+    setChildrenModal(message);
+  }
   const dispatch = useDispatch();
 
   const handleEdit = (timesheet) => {
@@ -16,8 +21,17 @@ const List = ({ setShowForm, setMethod, setPreviousTimeSheet }) => {
   };
 
   const deleteItem = (_id) => {
-    dispatch(deleteTimeSheet(_id));
+    if (confirm('Are you sure you want to delete this Time-Sheet')) {
+      dispatch(deleteTimeSheet(_id));
+    }
+    setShowModal(true);
+    setChildrenModal(message);
   };
+
+  if (error) {
+    setShowModal(true);
+    setChildrenModal(message);
+  }
 
   const newList = listTimeSheet.map((item) => {
     return {

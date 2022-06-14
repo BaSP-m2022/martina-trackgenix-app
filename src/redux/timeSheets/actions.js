@@ -22,9 +22,9 @@ export const getTimeSheetError = (error) => ({
   payload: error
 });
 
-export const deleteTimeSheetSuccess = (timeSheetsId) => ({
+export const deleteTimeSheetSuccess = (timeSheetsId, message) => ({
   type: DELETE_TIMESHEET_SUCCESS,
-  payload: timeSheetsId
+  payload: { timeSheetsId, message }
 });
 
 export const deleteTimeSheetPending = () => ({

@@ -51,6 +51,8 @@ const TimeSheets = () => {
             setPreviousTimeSheet={setPreviousTimeSheet}
             setShowForm={setShowForm}
             setMethod={setMethod}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
           />
           <FormTimeSheet
             showForm={showForm}
