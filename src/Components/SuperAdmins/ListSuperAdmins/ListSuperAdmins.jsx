@@ -4,14 +4,7 @@ import Row from '../../Shared/Row/Row';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSuperAdmin } from '../../../redux/superAdmins/thunks';
 
-const ListSAdmin = ({
-  //list,
-  //deleteItem,
-  //setShowModal,
-  //setShowTitle,
-  setShowForm,
-  setPreviousSuperAdmin
-}) => {
+const ListSAdmin = ({ setShowForm, setPreviousSuperAdmin }) => {
   const dispatch = useDispatch();
   const superAdmins = useSelector((state) => state.superAdmins.list);
   const handleDelete = async (_id) => {

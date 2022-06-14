@@ -29,34 +29,6 @@ const SuperAdmins = () => {
     dispatch(getSuperAdmins());
   }, []);
 
-  // const deleteItem = (_id) => {
-  //   saveSuperAdmins([...superAdmins.filter((listItem) => listItem._id !== _id)]);
-  // };
-
-  // const addItem = (body) => {
-  //   const newSuperAdmin = {
-  //     _id: body._id,
-  //     firstName: body.firstName,
-  //     lastName: body.lastName,
-  //     phone: body.phone,
-  //     email: body.email,
-  //     password: body.password,
-  //     active: body.active
-  //   };
-  //   saveSuperAdmins([...superAdmins, newSuperAdmin]);
-  // };
-
-  // const editItem = (data) => {
-  //   const superAdminUpdated = superAdmins.map((superAdmin) => {
-  //     if (superAdmin._id === data._id) {
-  //       return data;
-  //     } else {
-  //       return superAdmin;
-  //     }
-  //   });
-  //   saveSuperAdmins(superAdminUpdated);
-  // };
-
   const onClick = () => {
     setShowForm(true);
   };
@@ -72,13 +44,7 @@ const SuperAdmins = () => {
         <Loader show={true} />
       ) : (
         <section className={styles.container}>
-          <ListSuperAdmin
-            //list={superAdmins}
-            //deleteItem={deleteItem}
-            //setShowModal={setShowModal}
-            setShowForm={setShowForm}
-            setPreviousSuperAdmin={setPreviousSuperAdmin}
-          />
+          <ListSuperAdmin setShowForm={setShowForm} setPreviousSuperAdmin={setPreviousSuperAdmin} />
           <Form
             showForm={showForm}
             setShowForm={setShowForm}
@@ -86,7 +52,6 @@ const SuperAdmins = () => {
             setPreviousSuperAdmin={setPreviousSuperAdmin}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            //editItem={editItem}
           />
           <Button onClick={onClick}> Add Super Admin</Button>
           <Modal isOpen={showModal} handleClose={handleClose}>
