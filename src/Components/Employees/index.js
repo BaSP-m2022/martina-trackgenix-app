@@ -15,8 +15,6 @@ const Employees = () => {
     state.employees.isLoading;
   });
 
-  //const [list, setList] = useState([]);
-  //const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -29,42 +27,10 @@ const Employees = () => {
     password: '',
     active: ''
   });
-  //const [method, setMethod] = useState('');
 
   useEffect(() => {
     dispatch(getEmployees());
   }, []);
-
-  // POST EMPLOYEE
-  // const addItem = ({ _id, first_name, last_name, phone, email, password, active }) => {
-  //   const newItem = {
-  //     _id,
-  //     first_name,
-  //     last_name,
-  //     phone,
-  //     email,
-  //     password,
-  //     active
-  //   };
-  //   setList([...list, newItem]);
-  // };
-
-  // PUT EMPLOYEE
-  // const editItem = (data) => {
-  //   const empnUpd = list.map((employee) => {
-  //     if (employee._id === data._id) {
-  //       return data;
-  //     } else {
-  //       return employee;
-  //     }
-  //   });
-  //   setList(empnUpd);
-  // };
-
-  const openForm = () => {
-    //setMethod('POST');
-    setShowForm(true);
-  };
 
   return (
     <>
@@ -74,28 +40,20 @@ const Employees = () => {
         <section className={styles.container}>
           <h2>Employees</h2>
           <EmployeeForm
-            //addItem={addItem}
             showForm={showForm}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            //setIsLoading={setIsLoading}
-            //editItem={editItem}
             previewEmployee={previewEmployee}
             setPreviewsEmployee={setPreviewEmployee}
-            //method={method}
           />
           <List
-            //deleteItem={deleteItem}
-            //list={list}
             setPreviewsEmployee={setPreviewEmployee}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            //setIsLoading={setIsLoading}
-            //setMethod={setMethod}
           />
-          <Button onClick={openForm}>Add New Employee</Button>
+          <Button onClick={() => setShowForm(true)}>Add New Employee</Button>
           <Modal
             isOpen={showModal}
             handleClose={(() => setShowModal(false), dispatch(cleanEmployeesError()))}

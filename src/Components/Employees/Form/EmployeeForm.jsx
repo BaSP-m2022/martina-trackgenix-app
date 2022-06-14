@@ -40,42 +40,6 @@ const EmployeeForm = ({
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  // const fetchData = async (url, methodFunction) => {
-  //   const options = {
-  //     method: method,
-  //     headers: {
-  //       'Content-type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       first_name: userInput.first_name,
-  //       last_name: userInput.last_name,
-  //       phone: userInput.phone,
-  //       email: userInput.email,
-  //       password: userInput.password,
-  //       active: userInput.active
-  //     })
-  //   };
-
-  //   try {
-  //     const response = await fetch(url, options);
-  //     const res = await response.json();
-  //     if (response.status !== 201 && response.status !== 200) {
-  //       setShowForm(false);
-  //       setShowModal(true);
-  //       setChildrenModal('The employee is added to the list');
-  //     } else {
-  //       setShowForm(false);
-  //       setShowModal(true);
-  //       setChildrenModal('The employee is added to the list');
-  //       methodFunction(res.data);
-  //       cleanFields();
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  //   setIsLoading(false);
-  // };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
