@@ -14,17 +14,16 @@ import {
 } from './actions';
 
 export const getAdmins = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(getAdminsPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/admins`)
-      .then((response) => response.json())
-      .then((response) => {
-        dispatch(getAdminsSuccess(response.data));
-        return response.data;
-      })
-      .catch((error) => {
-        dispatch(getAdminsError(error.toString()));
-      });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
+      const res = await response.json();
+      dispatch(getAdminsSuccess(res.data));
+      return response.data;
+    } catch (error) {
+      dispatch(getAdminsError(error.toString()));
+    }
   };
 };
 
