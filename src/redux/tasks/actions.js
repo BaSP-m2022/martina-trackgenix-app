@@ -2,15 +2,15 @@ import {
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
   GET_TASKS_ERROR,
-  DELETE_TASKS_PENDING,
-  DELETE_TASKS_SUCCESS,
-  DELETE_TASKS_ERROR,
-  ADD_TASKS_PENDING,
-  ADD_TASKS_SUCCESS,
-  ADD_TASKS_ERROR,
-  EDIT_TASKS_PENDING,
-  EDIT_TASKS_SUCCESS,
-  EDIT_TASKS_ERROR
+  DELETE_TASK_PENDING,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_ERROR,
+  ADD_TASK_PENDING,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_ERROR,
+  EDIT_TASK_PENDING,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_ERROR
 } from './constants';
 
 export const getTasksPending = () => ({
@@ -27,44 +27,44 @@ export const getTasksError = (error) => ({
   payload: error
 });
 
-export const deleteTasksPending = () => ({
-  type: DELETE_TASKS_PENDING
+export const deleteTaskPending = () => ({
+  type: DELETE_TASK_PENDING
 });
 
-export const deleteTasksSuccess = (taskId) => ({
-  type: DELETE_TASKS_SUCCESS,
+export const deleteTaskSuccess = (taskId) => ({
+  type: DELETE_TASK_SUCCESS,
   payload: taskId
 });
 
-export const deleteTasksError = (error) => ({
-  type: DELETE_TASKS_ERROR,
+export const deleteTaskError = (error) => ({
+  type: DELETE_TASK_ERROR,
   payload: error
 });
 
-export const addTasksPending = () => ({
-  type: ADD_TASKS_PENDING
+export const addTaskPending = () => ({
+  type: ADD_TASK_PENDING
 });
 
-export const addTasksSuccess = (tasks) => ({
-  type: ADD_TASKS_SUCCESS,
-  payload: tasks
+export const addTaskSuccess = (task) => ({
+  type: ADD_TASK_SUCCESS,
+  payload: task
 });
 
-export const addTasksError = (error) => ({
-  type: ADD_TASKS_ERROR,
+export const addTaskError = (error) => ({
+  type: ADD_TASK_ERROR,
   payload: error
 });
 
-export const editTasksPending = () => ({
-  type: EDIT_TASKS_PENDING
+export const editTaskPending = () => ({
+  type: EDIT_TASK_PENDING
 });
 
-export const editTasksSuccess = (tasks) => ({
-  type: EDIT_TASKS_SUCCESS,
-  payload: tasks
+export const editTaskSuccess = (task) => ({
+  type: EDIT_TASK_SUCCESS,
+  payload: task
 });
 
-export const editTasksError = (error) => ({
-  type: EDIT_TASKS_ERROR,
+export const editTaskError = (error) => ({
+  type: EDIT_TASK_ERROR,
   payload: error
 });

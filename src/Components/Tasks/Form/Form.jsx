@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import styles from './form.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
+import { useDispatch } from 'react-redux';
+import { addTask, editTask } from '../../../redux/tasks/thunks';
 
-const FormTasks = ({
-  addItem,
-  editItem,
-  showForm,
-  setShowForm,
-  setShowModal,
-  setShowTitle,
-  previewTask,
-  setPreviewTask,
-  setLoading,
-  method
-}) => {
+const FormTasks = ({ showForm, setShowForm, previewTask, setPreviewTask }) => {
   if (!showForm) {
     return null;
   }
+
+  const dispatch = useDispatch();
 
   const [userInput, setUserInput] = useState(previewTask);
 
@@ -32,47 +25,13 @@ const FormTasks = ({
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const fetchData = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: userInput.description
-      })
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      if (response.status !== 201 && response.status !== 200) {
-        setShowForm(false);
-        setShowModal(true);
-        setShowTitle(res.message);
-      } else {
-        setShowForm(false);
-        setShowModal(true);
-        setShowTitle(res.message);
-        methodFunction(res.data);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!userInput._id) {
-      const url = `${process.env.REACT_APP_API_URL}/tasks`;
-      fetchData(url, addItem);
+      dispatch(addTask(userInput));
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/tasks/${userInput._id}`;
-      fetchData(url, editItem);
+      dispatch(editTask(userInput));
     }
   };
 

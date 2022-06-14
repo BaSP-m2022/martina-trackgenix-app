@@ -2,48 +2,49 @@ import {
   getTasksPending,
   getTasksSuccess,
   getTasksError,
-  deleteTasksPending,
-  deleteTasksSuccess,
-  deleteTasksError,
-  addTasksPending,
-  addTasksSuccess,
-  addTasksError,
-  editTasksPending,
-  editTasksSuccess,
-  editTasksError
+  deleteTaskPending,
+  deleteTaskSuccess,
+  deleteTaskError,
+  addTaskPending,
+  addTaskSuccess,
+  addTaskError,
+  editTaskPending,
+  editTaskSuccess,
+  editTaskError
 } from './actions';
 
 export const getTasks = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(getTasksPending());
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      const response_1 = await response.json();
-      dispatch(getTasksSuccess(response_1.data));
-      return response_1.data;
-    } catch (error) {
-      dispatch(getTasksError(error.toString()));
-    }
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+      .then((response) => response.json())
+      .then((response) => {
+        dispatch(getTasksSuccess(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(getTasksError(error.toString()));
+      });
   };
 };
 
-export const deleteTasks = (_id) => {
+export const deleteTask = (_id) => {
   return async (dispatch) => {
-    dispatch(deleteTasksPending());
+    dispatch(deleteTaskPending());
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/tasks/${_id}`, {
         method: 'DELETE'
       });
-      dispatch(deleteTasksSuccess(_id));
+      dispatch(deleteTaskSuccess(_id));
     } catch (error) {
-      dispatch(deleteTasksError(error.toString()));
+      dispatch(deleteTaskError(error.toString()));
     }
   };
 };
 
-export const addTasks = (task) => {
+export const addTask = (task) => {
   return async (dispatch) => {
-    dispatch(addTasksPending());
+    dispatch(addTaskPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
@@ -53,16 +54,16 @@ export const addTasks = (task) => {
         body: JSON.stringify({ description: task.description })
       });
       const res = await response.json();
-      dispatch(addTasksSuccess(res.data));
+      dispatch(addTaskSuccess(res.data));
     } catch (error) {
-      dispatch(addTasksError(error.toString()));
+      dispatch(addTaskError(error.toString()));
     }
   };
 };
 
-export const editTasks = (task) => {
+export const editTask = (task) => {
   return async (dispatch) => {
-    dispatch(editTasksPending());
+    dispatch(editTaskPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${task._id}`, {
         method: 'PUT',
@@ -72,9 +73,9 @@ export const editTasks = (task) => {
         body: JSON.stringify({ description: task.description })
       });
       const res = await response.json();
-      dispatch(editTasksSuccess(res.data));
+      dispatch(editTaskSuccess(res.data));
     } catch (error) {
-      dispatch(editTasksError(error.toString()));
+      dispatch(editTaskError(error.toString()));
     }
   };
 };

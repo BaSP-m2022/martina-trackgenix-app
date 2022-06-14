@@ -2,15 +2,15 @@ import {
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
   GET_TASKS_ERROR,
-  DELETE_TASKS_PENDING,
-  DELETE_TASKS_SUCCESS,
-  DELETE_TASKS_ERROR,
-  ADD_TASKS_PENDING,
-  ADD_TASKS_SUCCESS,
-  ADD_TASKS_ERROR,
-  EDIT_TASKS_PENDING,
-  EDIT_TASKS_SUCCESS,
-  EDIT_TASKS_ERROR
+  DELETE_TASK_PENDING,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_ERROR,
+  ADD_TASK_PENDING,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_ERROR,
+  EDIT_TASK_PENDING,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_ERROR
 } from './constants';
 
 const initialState = {
@@ -38,46 +38,46 @@ export const tasksReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload
       };
-    case DELETE_TASKS_PENDING:
+    case DELETE_TASK_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case DELETE_TASKS_SUCCESS:
+    case DELETE_TASK_SUCCESS:
       return {
         ...state,
         list: state.list.filter((a) => a._id !== action.payload),
         isLoading: false
       };
-    case DELETE_TASKS_ERROR:
+    case DELETE_TASK_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload
       };
-    case ADD_TASKS_PENDING:
+    case ADD_TASK_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case ADD_TASKS_SUCCESS:
+    case ADD_TASK_SUCCESS:
       return {
         ...state,
         list: [...state.list, action.payload],
         isLoading: false
       };
-    case ADD_TASKS_ERROR:
+    case ADD_TASK_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload
       };
-    case EDIT_TASKS_PENDING:
+    case EDIT_TASK_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case EDIT_TASKS_SUCCESS:
+    case EDIT_TASK_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -89,7 +89,7 @@ export const tasksReducer = (state = initialState, action) => {
           return a;
         })
       };
-    case EDIT_TASKS_ERROR:
+    case EDIT_TASK_ERROR:
       return {
         ...state,
         isLoading: false,
