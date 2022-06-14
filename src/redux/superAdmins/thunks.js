@@ -14,7 +14,7 @@ import {
 } from './actions';
 
 export const getSuperAdmins = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(getSuperAdminsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/super-admins`)
       .then((response) => response.json())
