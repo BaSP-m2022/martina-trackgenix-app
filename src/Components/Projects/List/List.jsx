@@ -3,14 +3,18 @@ import Table from '../../Shared/Table/Table';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteProject } from '../../../redux/projects/thunks';
 
-const List = ({ setShowForm, setPreviousProject, setMethod }) => {
+const List = ({ setShowForm, setPreviousProject, setMethod, setShowModal, setTitleModal }) => {
   const listProject = useSelector((state) => state.projects.list);
 
   const dispatch = useDispatch();
 
   const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove this Project?')) {
-      dispatch(deleteProject(_id));
+      const responseProject = await dispatch(deleteProject(_id));
+      if (!responseProject.error) {
+        setShowModal(true);
+        setTitleModal('Project deleted successfully');
+      }
     }
   };
 

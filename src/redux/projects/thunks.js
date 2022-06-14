@@ -29,8 +29,15 @@ export const deleteProject = (_id) => {
         method: 'DELETE'
       });
       dispatch(deleteProjectSuccess(_id));
+      return {
+        error: false
+      };
     } catch (error) {
       dispatch(deleteProjectError(error.toString()));
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };

@@ -56,6 +56,8 @@ const Projects = () => {
             setShowForm={setShowForm}
             setPreviousProject={setPreviousProject}
             setMethod={setMethod}
+            setShowModal={setShowModal}
+            setTitleModal={setTitleModal}
           />
           <ProjectForm
             showForm={showForm}
