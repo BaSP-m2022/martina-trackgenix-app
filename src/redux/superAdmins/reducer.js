@@ -67,8 +67,8 @@ export const superAdminsReducer = (state = stateInit, action) => {
     case DELETE_SUPERADMIN_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((b) => b._id !== action.payload),
-        isLoading: false
+        isLoading: false,
+        list: state.list.filter((b) => b._id !== action.payload)
       };
     case DELETE_SUPERADMIN_ERROR:
       return {
