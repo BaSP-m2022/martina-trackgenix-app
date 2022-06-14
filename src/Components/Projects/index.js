@@ -11,7 +11,7 @@ import { getProject } from '../../redux/projects/thunks';
 const Projects = () => {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector((state) => state.projects.loading);
+  const isLoading = useSelector((state) => state.projects.isLoading);
 
   //const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);

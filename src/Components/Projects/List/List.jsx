@@ -1,33 +1,26 @@
 import React from 'react';
 import Table from '../../Shared/Table/Table';
+import { useDispatch } from 'react-redux'; //useSelector
+import { deleteProject } from '../../../redux/projects/thunks';
 
 const List = ({
   list,
-  setShowModal,
-  setTitleModal,
-  deleteItem,
-  setLoading,
+  //setShowModal,
+  //setTitleModal,
+  //deleteItem,
+  //setLoading,
   setShowForm,
   setPreviousProject,
   setMethod
 }) => {
-  const handleDelete = async (projectId) => {
-    setLoading(true);
+  //const listProject = useSelector((state) => state.projects.list);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove this Project?')) {
-      try {
-        await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
-          method: 'DELETE'
-        });
-        setShowModal(true);
-        setTitleModal('Project deleted successfully');
-        deleteItem(projectId);
-      } catch (error) {
-        setShowModal(true);
-        setTitleModal(error.msg);
-        console.error(error);
-      }
+      dispatch(deleteProject(_id));
     }
-    setLoading(false);
   };
 
   const handleEdit = (project) => {
