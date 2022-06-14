@@ -11,9 +11,7 @@ import { cleanEmployeesError } from '../../redux/employees/actions';
 
 const Employees = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => {
-    state.employees.isLoading;
-  });
+  const isLoading = useSelector((state) => state.employees.isLoading);
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +30,11 @@ const Employees = () => {
     dispatch(getEmployees());
   }, []);
 
+  const handleClose = () => {
+    setShowModal(false);
+    dispatch(cleanEmployeesError());
+  };
+
   return (
     <>
       {isLoading ? (
@@ -47,17 +50,9 @@ const Employees = () => {
             previewEmployee={previewEmployee}
             setPreviewsEmployee={setPreviewEmployee}
           />
-          <List
-            setPreviewsEmployee={setPreviewEmployee}
-            setShowForm={setShowForm}
-            setShowModal={setShowModal}
-            setChildrenModal={setChildrenModal}
-          />
+          <List setPreviewsEmployee={setPreviewEmployee} setShowForm={setShowForm} />
           <Button onClick={() => setShowForm(true)}>Add New Employee</Button>
-          <Modal
-            isOpen={showModal}
-            handleClose={(() => setShowModal(false), dispatch(cleanEmployeesError()))}
-          >
+          <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}
           </Modal>
         </section>

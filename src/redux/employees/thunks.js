@@ -18,9 +18,9 @@ export const getEmployees = () => {
     dispatch(getEmployeesPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const response_1 = await response.json();
-      dispatch(getEmployeesSuccess(response_1.data));
-      return response_1.data;
+      const res = await response.json();
+      dispatch(getEmployeesSuccess(res.data));
+      return response.data;
     } catch (error) {
       dispatch(getEmployeesError(error.toString()));
     }
