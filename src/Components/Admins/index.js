@@ -7,7 +7,6 @@ import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins } from '../../redux/admins/thunks';
-import { cleanAdminError } from '../../redux/admins/actions';
 
 const Admins = () => {
   const dispatch = useDispatch();
@@ -37,7 +36,6 @@ const Admins = () => {
 
   const handleClose = () => {
     setShowModal(false);
-    dispatch(cleanAdminError());
   };
 
   return (

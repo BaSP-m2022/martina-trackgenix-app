@@ -10,15 +10,12 @@ import {
   ADD_ADMIN_ERROR,
   EDIT_ADMIN_PENDING,
   EDIT_ADMIN_SUCCESS,
-  EDIT_ADMIN_ERROR,
-  CLEAN_ADMIN_ERROR
+  EDIT_ADMIN_ERROR
 } from './constants';
 
 const initialState = {
   list: [],
-  isLoading: false,
-  error: false,
-  message: ''
+  isLoading: false
 };
 
 export const adminsReducer = (state = initialState, action) => {
@@ -37,9 +34,7 @@ export const adminsReducer = (state = initialState, action) => {
     case GET_ADMINS_ERROR:
       return {
         ...state,
-        isLoading: false,
-        error: true,
-        message: action.payload
+        isLoading: false
       };
     case DELETE_ADMIN_PENDING:
       return {
@@ -55,9 +50,7 @@ export const adminsReducer = (state = initialState, action) => {
     case DELETE_ADMIN_ERROR:
       return {
         ...state,
-        isLoading: false,
-        error: true,
-        message: action.payload
+        isLoading: false
       };
     case ADD_ADMIN_PENDING:
       return {
@@ -73,9 +66,7 @@ export const adminsReducer = (state = initialState, action) => {
     case ADD_ADMIN_ERROR:
       return {
         ...state,
-        isLoading: false,
-        error: true,
-        message: action.payload
+        isLoading: false
       };
     case EDIT_ADMIN_PENDING:
       return {
@@ -96,16 +87,9 @@ export const adminsReducer = (state = initialState, action) => {
     case EDIT_ADMIN_ERROR:
       return {
         ...state,
-        isLoading: false,
-        error: true,
-        message: action.payload
+        isLoading: false
       };
-    case CLEAN_ADMIN_ERROR:
-      return {
-        ...state,
-        error: false,
-        message: ''
-      };
+
     default: {
       return state;
     }

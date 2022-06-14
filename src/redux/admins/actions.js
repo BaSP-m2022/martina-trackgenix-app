@@ -10,8 +10,7 @@ import {
   ADD_ADMIN_ERROR,
   EDIT_ADMIN_PENDING,
   EDIT_ADMIN_SUCCESS,
-  EDIT_ADMIN_ERROR,
-  CLEAN_ADMIN_ERROR
+  EDIT_ADMIN_ERROR
 } from './constants';
 
 export const getAdminsPending = () => ({
@@ -68,8 +67,4 @@ export const editAdminSuccess = (admin) => ({
 export const editAdminError = (error) => ({
   type: EDIT_ADMIN_ERROR,
   payload: error
-});
-
-export const cleanAdminError = () => ({
-  type: CLEAN_ADMIN_ERROR
 });

@@ -3,7 +3,7 @@ import styles from './adminForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { useDispatch } from 'react-redux/es/exports';
 import { addAdmin, editAdmin } from '../../../redux/admins/thunks';
 
 const AdminForm = ({
@@ -19,8 +19,6 @@ const AdminForm = ({
   }
 
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.admins.error);
-  const message = useSelector((state) => state.admins.message);
 
   const [userInput, setUserInput] = useState(previousAdmin);
 
@@ -39,11 +37,6 @@ const AdminForm = ({
   const onChange = (e) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
-
-  if (error) {
-    setChildrenModal(message);
-    setShowModal(true);
-  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
