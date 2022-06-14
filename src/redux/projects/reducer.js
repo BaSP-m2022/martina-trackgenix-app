@@ -2,16 +2,15 @@ import {
   GET_PROJECTS_PENDING,
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_ERROR,
-  DELETE_PROJECTS_PENDING,
-  DELETE_PROJECTS_SUCCESS,
-  DELETE_PROJECTS_ERROR,
-  CLEAN_PROJECTS_ERROR
+  DELETE_PROJECT_PENDING,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_ERROR
 } from './constants';
 
 const initialState = {
   list: [],
   isLoading: false,
-  error: ''
+  error: false
 };
 
 export const projectReducer = (state = initialState, action) => {
@@ -31,30 +30,26 @@ export const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
-    case DELETE_PROJECTS_PENDING:
+    case DELETE_PROJECT_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case DELETE_PROJECTS_SUCCESS:
+    case DELETE_PROJECT_SUCCESS:
       return {
         ...state,
         list: state.list.filter((p) => p._id !== action.payload),
         isLoading: false
       };
-    case DELETE_PROJECTS_ERROR:
+    case DELETE_PROJECT_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
-    case CLEAN_PROJECTS_ERROR:
-      return {
-        ...state,
-        error: ''
-      };
+
     default: {
       return state;
     }

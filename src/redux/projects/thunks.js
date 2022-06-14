@@ -2,12 +2,12 @@ import {
   getProjectsPending,
   getProjectsSuccess,
   getProjectsError,
-  deleteProjectsSuccess,
-  deleteProjectsError,
-  deleteProjectsPending
+  deleteProjectSuccess,
+  deleteProjectError,
+  deleteProjectPending
 } from './actions';
 
-export const getProject = () => {
+export const getProjects = () => {
   return async (dispatch) => {
     dispatch(getProjectsPending());
     try {
@@ -23,15 +23,14 @@ export const getProject = () => {
 
 export const deleteProject = (_id) => {
   return async (dispatch) => {
-    dispatch(deleteProjectsPending());
+    dispatch(deleteProjectPending());
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
         method: 'DELETE'
       });
-      dispatch(deleteProjectsSuccess(_id));
+      dispatch(deleteProjectSuccess(_id));
     } catch (error) {
-      dispatch(deleteProjectsError(error.toString()));
+      dispatch(deleteProjectError(error.toString()));
     }
   };
 };
-

@@ -2,10 +2,9 @@ import {
   GET_PROJECTS_PENDING,
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_ERROR,
-  DELETE_PROJECTS_PENDING,
-  DELETE_PROJECTS_SUCCESS,
-  DELETE_PROJECTS_ERROR,
-  CLEAN_PROJECTS_ERROR
+  DELETE_PROJECT_PENDING,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_ERROR
 } from './constants';
 
 export const getProjectsPending = () => {
@@ -21,27 +20,21 @@ export const getProjectsSuccess = (data) => {
   };
 };
 
-export const getProjectsError = (error) => {
+export const getProjectsError = () => {
   return {
-    type: GET_PROJECTS_ERROR,
-    payload: error
+    type: GET_PROJECTS_ERROR
   };
 };
 
-export const deleteProjectsPending = () => ({
-  type: DELETE_PROJECTS_PENDING
+export const deleteProjectPending = () => ({
+  type: DELETE_PROJECT_PENDING
 });
 
-export const deleteProjectsSuccess = (projectsId) => ({
-  type: DELETE_PROJECTS_SUCCESS,
-  payload: projectsId
+export const deleteProjectSuccess = (projectId) => ({
+  type: DELETE_PROJECT_SUCCESS,
+  payload: projectId
 });
 
-export const deleteProjectsError = (error) => ({
-  type: DELETE_PROJECTS_ERROR,
-  payload: error
-});
-
-export const cleanProjectsError = () => ({
-  type: CLEAN_PROJECTS_ERROR
+export const deleteProjectError = () => ({
+  type: DELETE_PROJECT_ERROR
 });

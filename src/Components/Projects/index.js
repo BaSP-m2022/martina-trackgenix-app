@@ -6,18 +6,16 @@ import Modal from '../Shared/Modal/Modal';
 import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProject } from '../../redux/projects/thunks';
+import { getProjects } from '../../redux/projects/thunks';
 
 const Projects = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.projects.isLoading);
 
-  //const [list, setList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
   const [showForm, setShowForm] = useState(false);
-  //const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState('');
   const [previousProject, setPreviousProject] = useState({
     id: '',
@@ -36,12 +34,16 @@ const Projects = () => {
   });
 
   useEffect(() => {
-    dispatch(getProject());
+    dispatch(getProjects());
   }, []);
 
   const onClick = () => {
     setShowForm(true);
     setMethod('POST');
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
   };
 
   return (
@@ -51,9 +53,6 @@ const Projects = () => {
       ) : (
         <section className={styles.container}>
           <List
-            //setShowModal={setShowModal}
-            //setTitleModal={setTitleModal}
-            //deleteItem={deleteItem}
             setShowForm={setShowForm}
             setPreviousProject={setPreviousProject}
             setMethod={setMethod}
@@ -65,19 +64,10 @@ const Projects = () => {
             setTitleModal={setTitleModal}
             previousProject={previousProject}
             setPreviousProject={setPreviousProject}
-            //addItem={addItem}
-            //editItem={editItem}
-            //setLoading={setLoading}
             method={method}
           />
           <Button onClick={onClick}>+ Add Project</Button>
-          <Modal
-            isOpen={showModal}
-            handleClose={() => {
-              setShowModal(false);
-            }}
-            title={titleModal}
-          >
+          <Modal isOpen={showModal} handleClose={handleClose} title={titleModal}>
             {titleModal}
           </Modal>
         </section>
