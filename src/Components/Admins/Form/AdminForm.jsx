@@ -40,20 +40,32 @@ const AdminForm = ({
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!userInput._id) {
-      dispatch(addAdmin(userInput));
-    } else {
-      dispatch(editAdmin(userInput));
-    }
-  };
-
   if (error) {
     setChildrenModal(message);
     setShowModal(true);
   }
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userInput._id) {
+      const adminResponse = await dispatch(addAdmin(userInput));
+      if (adminResponse.error) {
+        setChildrenModal(adminResponse.message);
+        setShowModal(true);
+      } else {
+        closeForm();
+      }
+    } else {
+      const adminResponse = await dispatch(editAdmin(userInput));
+      if (adminResponse.error) {
+        setChildrenModal(adminResponse.message);
+        setShowModal(true);
+      } else {
+        closeForm();
+      }
+    }
+  };
 
   const closeForm = () => {
     cleanFields();

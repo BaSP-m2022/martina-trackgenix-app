@@ -64,8 +64,13 @@ export const addAdmin = (admin) => {
         throw res.message;
       }
       dispatch(addAdminSuccess(res.data));
+      return res.data;
     } catch (error) {
       dispatch(addAdminError(error.toString()));
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };
@@ -93,8 +98,13 @@ export const editAdmin = (admin) => {
         throw res.message;
       }
       dispatch(editAdminSuccess(res.data));
+      return res.data;
     } catch (error) {
       dispatch(editAdminError(error.toString()));
+      return {
+        error: true,
+        message: error
+      };
     }
   };
 };
