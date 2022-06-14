@@ -5,10 +5,18 @@ import EmployeeForm from './Form/EmployeeForm';
 import Modal from '../Shared/Modal/Modal';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployees } from '../../redux/employees/thunks';
+import { cleanEmployeesError } from '../../redux/employees/actions';
 
 const Employees = () => {
-  const [list, setList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => {
+    state.employees.isLoading;
+  });
+
+  //const [list, setList] = useState([]);
+  //const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -21,56 +29,40 @@ const Employees = () => {
     password: '',
     active: ''
   });
-  const [method, setMethod] = useState('');
-
-  // API REQUEST TO GET DATA
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setList(data.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //const [method, setMethod] = useState('');
 
   useEffect(() => {
-    fetchData();
+    dispatch(getEmployees());
   }, []);
-  // DELETE ITEM
-  const deleteItem = (_id) => {
-    setList([...list.filter((listItem) => listItem._id !== _id)]);
-  };
+
   // POST EMPLOYEE
-  const addItem = ({ _id, first_name, last_name, phone, email, password, active }) => {
-    const newItem = {
-      _id,
-      first_name,
-      last_name,
-      phone,
-      email,
-      password,
-      active
-    };
-    setList([...list, newItem]);
-  };
+  // const addItem = ({ _id, first_name, last_name, phone, email, password, active }) => {
+  //   const newItem = {
+  //     _id,
+  //     first_name,
+  //     last_name,
+  //     phone,
+  //     email,
+  //     password,
+  //     active
+  //   };
+  //   setList([...list, newItem]);
+  // };
 
   // PUT EMPLOYEE
-
-  const editItem = (data) => {
-    const empnUpd = list.map((employee) => {
-      if (employee._id === data._id) {
-        return data;
-      } else {
-        return employee;
-      }
-    });
-    setList(empnUpd);
-  };
+  // const editItem = (data) => {
+  //   const empnUpd = list.map((employee) => {
+  //     if (employee._id === data._id) {
+  //       return data;
+  //     } else {
+  //       return employee;
+  //     }
+  //   });
+  //   setList(empnUpd);
+  // };
 
   const openForm = () => {
-    setMethod('POST');
+    //setMethod('POST');
     setShowForm(true);
   };
 
@@ -82,29 +74,32 @@ const Employees = () => {
         <section className={styles.container}>
           <h2>Employees</h2>
           <EmployeeForm
-            addItem={addItem}
+            //addItem={addItem}
             showForm={showForm}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            setIsLoading={setIsLoading}
-            editItem={editItem}
+            //setIsLoading={setIsLoading}
+            //editItem={editItem}
             previewEmployee={previewEmployee}
             setPreviewsEmployee={setPreviewEmployee}
-            method={method}
+            //method={method}
           />
           <List
-            deleteItem={deleteItem}
-            list={list}
+            //deleteItem={deleteItem}
+            //list={list}
             setPreviewsEmployee={setPreviewEmployee}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            setIsLoading={setIsLoading}
-            setMethod={setMethod}
+            //setIsLoading={setIsLoading}
+            //setMethod={setMethod}
           />
           <Button onClick={openForm}>Add New Employee</Button>
-          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+          <Modal
+            isOpen={showModal}
+            handleClose={(() => setShowModal(false), dispatch(cleanEmployeesError()))}
+          >
             {childrenModal}
           </Modal>
         </section>
