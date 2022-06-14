@@ -4,8 +4,7 @@ import {
   GET_TIMESHEET_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
-  DELETE_TIMESHEET_ERROR,
-  CLEAN_TIMESHEET_ERROR
+  DELETE_TIMESHEET_ERROR
 } from './constants';
 
 export const getTimeSheetSuccess = (timeSheets) => ({
@@ -17,25 +16,19 @@ export const getTimeSheetPending = () => ({
   type: GET_TIMESHEET_PENDING
 });
 
-export const getTimeSheetError = (error) => ({
-  type: GET_TIMESHEET_ERROR,
-  payload: error
+export const getTimeSheetError = () => ({
+  type: GET_TIMESHEET_ERROR
 });
 
-export const deleteTimeSheetSuccess = (timeSheetsId, message) => ({
+export const deleteTimeSheetSuccess = (timeSheetsId) => ({
   type: DELETE_TIMESHEET_SUCCESS,
-  payload: { timeSheetsId, message }
+  payload: timeSheetsId
 });
 
 export const deleteTimeSheetPending = () => ({
   type: DELETE_TIMESHEET_PENDING
 });
 
-export const deleteTimeSheetError = (error) => ({
-  type: DELETE_TIMESHEET_ERROR,
-  payload: error
-});
-
-export const cleanTimeSheetError = () => ({
-  type: CLEAN_TIMESHEET_ERROR
+export const deleteTimeSheetError = () => ({
+  type: DELETE_TIMESHEET_ERROR
 });

@@ -28,9 +28,16 @@ export const deleteTimeSheet = (_id) => {
       await fetch(`${process.env.REACT_APP_API_URL}/time-sheet/${_id}`, {
         method: 'DELETE'
       });
-      dispatch(deleteTimeSheetSuccess(_id, 'Deleted Successfully'));
+      dispatch(deleteTimeSheetSuccess(_id));
+      return {
+        error: false
+      };
     } catch (error) {
-      dispatch(deleteTimeSheetError(error.toString()));
+      dispatch(deleteTimeSheetError());
+      return {
+        error: false,
+        message: error
+      };
     }
   };
 };

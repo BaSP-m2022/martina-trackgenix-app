@@ -6,12 +6,18 @@ import { deleteTimeSheet } from '../../../redux/timeSheets/thunks';
 
 const List = ({ setShowForm, setMethod, setPreviousTimeSheet, setShowModal, setChildrenModal }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
-  const error = useSelector((state) => state.timeSheet.error);
-  const message = useSelector((state) => state.timeSheet.message);
+  // const error = useSelector((state) => state.timeSheet.error);
+  // const message = useSelector((state) => state.timeSheet.message);
 
-  if (message) {
-    setChildrenModal(message);
-  }
+  // if (message) {
+  //   setChildrenModal(message);
+  // }
+
+  // if (error) {
+  //   setShowModal(true);
+  //   setChildrenModal(message);
+  // }
+
   const dispatch = useDispatch();
 
   const handleEdit = (timesheet) => {
@@ -20,18 +26,15 @@ const List = ({ setShowForm, setMethod, setPreviousTimeSheet, setShowModal, setC
     setShowForm(true);
   };
 
-  const deleteItem = (_id) => {
+  const deleteItem = async (_id) => {
     if (confirm('Are you sure you want to delete this Time-Sheet')) {
-      dispatch(deleteTimeSheet(_id));
+      const responseTimeSheet = await dispatch(deleteTimeSheet(_id));
+      if (!responseTimeSheet.error) {
+        setShowModal(true);
+        setChildrenModal('TimeSheet Deleted Successfully');
+      }
     }
-    setShowModal(true);
-    setChildrenModal(message);
   };
-
-  if (error) {
-    setShowModal(true);
-    setChildrenModal(message);
-  }
 
   const newList = listTimeSheet.map((item) => {
     return {

@@ -7,7 +7,6 @@ import Modal from '../Shared/Modal/Modal';
 import FormTimeSheet from './Form/FormTimeSheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from '../../redux/timeSheets/thunks';
-import { cleanTimeSheetError } from '../../redux/timeSheets/actions';
 
 const TimeSheets = () => {
   const dispatch = useDispatch();
@@ -25,21 +24,10 @@ const TimeSheets = () => {
     project: '',
     timesheetDate: ''
   });
-  const [method, setMethod] = useState('');
 
   useEffect(() => {
     dispatch(getTimeSheet());
   }, []);
-
-  const openForm = () => {
-    setMethod('POST');
-    setShowForm(true);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-    dispatch(cleanTimeSheetError());
-  };
 
   return (
     <>
@@ -50,7 +38,6 @@ const TimeSheets = () => {
           <List
             setPreviousTimeSheet={setPreviousTimeSheet}
             setShowForm={setShowForm}
-            setMethod={setMethod}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
           />
@@ -61,10 +48,9 @@ const TimeSheets = () => {
             setChildrenModal={setChildrenModal}
             previousTimeSheet={previousTimeSheet}
             setPreviousTimeSheet={setPreviousTimeSheet}
-            method={method}
           />
-          <Button onClick={openForm}>Add a TimeSheets</Button>
-          <Modal isOpen={showModal} handleClose={handleClose}>
+          <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>
         </section>
