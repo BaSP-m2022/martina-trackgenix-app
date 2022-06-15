@@ -29,14 +29,14 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem }) =
           </tr>
         </thead>
         <tbody>
-          {pageItems.map((item) => {
+          {pageItems.map((item, index) => {
             return (
               <Row
-                key={item._id}
+                key={index}
                 data={item}
                 headers={headers}
-                deleteItem={deleteItem}
-                editItem={editItem}
+                deleteItem={() => deleteItem(item._id)}
+                editItem={() => editItem(item)}
               />
             );
           })}

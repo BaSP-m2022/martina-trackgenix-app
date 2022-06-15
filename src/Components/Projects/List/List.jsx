@@ -1,36 +1,50 @@
 import React from 'react';
-// import ListItem from '../ListItem/ListItem';
-import Row from '../../Shared/Row/Row';
-import styles from './list.module.css';
+import Table from '../../Shared/Table/Table';
 
-const List = ({ list, deleteItem, editItem }) => {
+const List = ({
+  list,
+  setShowModal,
+  setTitleModal,
+  deleteItem,
+  setLoading,
+  setShowForm,
+  setPreviousProject,
+  setMethod
+}) => {
+  const handleDelete = async (projectId) => {
+    setLoading(true);
+    if (confirm('Are you sure you want to remove this Project?')) {
+      try {
+        await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
+          method: 'DELETE'
+        });
+        setShowModal(true);
+        setTitleModal('Project deleted successfully');
+        deleteItem(projectId);
+      } catch (error) {
+        setShowModal(true);
+        setTitleModal(error.msg);
+        console.error(error);
+      }
+    }
+    setLoading(false);
+  };
+
+  const handleEdit = (project) => {
+    setMethod('PUT');
+    setPreviousProject(project);
+    setShowForm(true);
+  };
+
   return (
-    <section className={styles.container}>
-      <table>
-        <thead>
-          <tr>
-            <th id="id">ID</th>
-            <th id="project_name">Project Name</th>
-            <th id="client">Client</th>
-            <th id="start_date">Start Date</th>
-            <th id="finish_date">Finish Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((item) => {
-            return (
-              <Row
-                key={item._id}
-                data={item}
-                headers={['_id', 'project_name', 'client', 'start_date', 'finish_date', 'active']}
-                deleteItem={deleteItem}
-                editItem={editItem}
-              />
-            );
-          })}
-        </tbody>
-      </table>
-    </section>
+    <Table
+      title={'Projects'}
+      data={list}
+      headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
+      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
+      deleteItem={handleDelete}
+      editItem={handleEdit}
+    />
   );
 };
 
