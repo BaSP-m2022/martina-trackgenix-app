@@ -1,33 +1,21 @@
 import React from 'react';
 import Table from '../../Shared/Table/Table';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteProject } from '../../../redux/projects/thunks';
 
-const List = ({
-  list,
-  setShowModal,
-  setTitleModal,
-  deleteItem,
-  setLoading,
-  setShowForm,
-  setPreviousProject,
-  setMethod
-}) => {
-  const handleDelete = async (projectId) => {
-    setLoading(true);
+const List = ({ setShowForm, setPreviousProject, setMethod, setShowModal, setTitleModal }) => {
+  const listProject = useSelector((state) => state.projects.list);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove this Project?')) {
-      try {
-        await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
-          method: 'DELETE'
-        });
+      const responseProject = await dispatch(deleteProject(_id));
+      if (!responseProject.error) {
         setShowModal(true);
         setTitleModal('Project deleted successfully');
-        deleteItem(projectId);
-      } catch (error) {
-        setShowModal(true);
-        setTitleModal(error.msg);
-        console.error(error);
       }
     }
-    setLoading(false);
   };
 
   const handleEdit = (project) => {
@@ -39,7 +27,7 @@ const List = ({
   return (
     <Table
       title={'Projects'}
-      data={list}
+      data={listProject}
       headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
       headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={handleDelete}
