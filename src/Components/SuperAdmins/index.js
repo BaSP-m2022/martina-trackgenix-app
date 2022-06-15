@@ -28,14 +28,6 @@ const SuperAdmins = () => {
     dispatch(getSuperAdmins());
   }, []);
 
-  const onClick = () => {
-    setShowForm(true);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
   return (
     <>
       {isLoading ? (
@@ -56,8 +48,8 @@ const SuperAdmins = () => {
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
           />
-          <Button onClick={onClick}> Add Super Admin</Button>
-          <Modal isOpen={showModal} handleClose={handleClose}>
+          <Button onClick={() => setShowForm(true)}> Add Super Admin</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>
         </section>
