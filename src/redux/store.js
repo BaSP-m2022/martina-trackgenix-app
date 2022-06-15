@@ -1,7 +1,9 @@
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import { timeSheetReducer, projectReducer, adminsReducer } from './projects/reducer';
+import { projectReducer } from './projects/reducer';
+import { timeSheetReducer } from './timeSheets/reducer';
+import { adminsReducer } from './admins/reducer';
 
 const rootReducer = combineReducers({
   timeSheet: timeSheetReducer,
