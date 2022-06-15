@@ -3,6 +3,8 @@ import styles from './projectForm.module.css';
 import Input from '../../Shared/Field/Input';
 import Button from '../../Shared/Buttons/Buttons';
 import Dropdown from '../Dropdown/index';
+import { useDispatch } from 'react-redux';
+import { addProject, editProject } from '../../../redux/projects/thunks';
 
 const ProjectForm = ({
   showForm,
@@ -10,15 +12,12 @@ const ProjectForm = ({
   previousProject,
   setPreviousProject,
   setShowModal,
-  setTitleModal,
-  addItem,
-  editItem,
-  setLoading,
-  method
+  setTitleModal
 }) => {
   if (!showForm) {
     return null;
   }
+
   const [listEmployees, setListEmployees] = useState([]);
   const [projectName, setProjectName] = useState(previousProject?.project_name || '');
   const [startDate, setStartDate] = useState(previousProject?.start_date);
@@ -40,7 +39,6 @@ const ProjectForm = ({
       console.error(error);
     }
   };
-
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -61,57 +59,52 @@ const ProjectForm = ({
     });
   };
 
-  const fetchProjects = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        project_name: projectName,
-        start_date: startDate,
-        finish_date: finishDate,
-        client: client,
-        active: active,
-        employees: [
-          {
-            id: employeeId,
-            role: employeeRole,
-            rate: `${employeeRate}`
-          }
-        ]
-      })
-    };
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      if (response.status !== 201 && response.status !== 200) {
-        setShowForm(false);
-        setShowModal(true);
-        setTitleModal('The projects cannot be created');
-      } else {
-        setShowForm(false);
-        setShowModal(true);
-        setTitleModal('Projects was added');
-        methodFunction(res.data);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
-
+  const dispatch = useDispatch();
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
+    const newProjects = {
+      _id: previousProject._id,
+      project_name: projectName,
+      client: client,
+      start_date: startDate,
+      finish_date: finishDate,
+      active: active,
+      employees: [
+        {
+          id: employeeId,
+          role: employeeRole,
+          rate: employeeRate
+        }
+      ]
+    };
     if (!previousProject._id) {
-      const url = `${process.env.REACT_APP_API_URL}/projects`;
-      fetchProjects(url, addItem);
+      try {
+        const project = await dispatch(addProject(newProjects));
+        if (project.error) {
+          setTitleModal(project.message);
+          setShowModal(true);
+        } else {
+          setTitleModal(project.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/projects/${previousProject._id}`;
-      fetchProjects(url, editItem);
+      try {
+        const project = await dispatch(editProject(newProjects));
+        if (project.error) {
+          setTitleModal(project.message);
+          setShowModal(true);
+        } else {
+          setTitleModal(project.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
