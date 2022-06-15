@@ -107,8 +107,6 @@ const FormTimeSheet = ({
       timesheetDate: date
     };
 
-    console.log('NEWtimeSheet', newTimeSheet);
-
     if (!previousTimeSheet._id) {
       try {
         const timeSheetResponse = await dispatch(addTimeSheet(newTimeSheet));
@@ -140,7 +138,7 @@ const FormTimeSheet = ({
     }
   };
 
-  const cleanFields = () => {
+  const closeForm = () => {
     setPreviousTimeSheet({
       _id: '',
       employee: '',
@@ -149,10 +147,6 @@ const FormTimeSheet = ({
       project: '',
       timesheetDate: ''
     });
-  };
-
-  const closeForm = () => {
-    cleanFields();
     setShowForm(false);
   };
 
