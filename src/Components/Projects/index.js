@@ -1,84 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import styles from './projects.module.css';
 import List from './List/List';
-import Modal from './Modal/Modal';
-// import Row from '../Shared/Row';
+import ProjectForm from './Form/ProjectForm';
+import Modal from '../Shared/Modal/Modal';
+import Loader from '../Shared/Loader/Loader';
 import Button from '../Shared/Buttons/Buttons';
-// import Field from '../Shared/Field';
-import AddProject from './FormAdd/AddProject';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjects } from '../../redux/projects/thunks';
 
 const Projects = () => {
-  const [list, setList] = useState([]);
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector((state) => state.projects.isLoading);
+
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
-  const [showFormAdd, setShowFormAdd] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
-      const data = await response.json();
-      setList(data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [showForm, setShowForm] = useState(false);
+  const [method, setMethod] = useState('');
+  const [previousProject, setPreviousProject] = useState({
+    id: '',
+    project_name: '',
+    start_date: '',
+    finish_date: '',
+    client: '',
+    active: '',
+    employees: [
+      {
+        role: '',
+        rate: '0',
+        id: ''
+      }
+    ]
+  });
 
   useEffect(() => {
-    fetchData();
+    dispatch(getProjects());
   }, []);
 
-  const deleteItem = (_id) => {
-    setList([...list.filter((listItem) => listItem._id !== _id)]);
-  };
-
-  const addItem = ({ _id, project_name, start_date, finish_date, client, active }) => {
-    const newItem = {
-      _id,
-      project_name,
-      start_date,
-      finish_date,
-      client,
-      active
-    };
-    setList([...list, newItem]);
-  };
-
-  const editItem = (data) => {
-    const projectsUpdated = list.map((project) => {
-      if (project._id === data._id) {
-        return data;
-      } else {
-        return project;
-      }
-    });
-    setList(projectsUpdated);
-  };
-
   const onClick = () => {
-    setShowFormAdd(true);
+    setShowForm(true);
+    setMethod('POST');
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
   };
 
   return (
-    <section className={styles.container}>
-      <h2>Projects</h2>
-      <List
-        list={list}
-        setList={setList}
-        setShowModal={setShowModal}
-        setTitleModal={setTitleModal}
-        deleteItem={deleteItem}
-        editItem={editItem}
-      />
-      <Button onClick={onClick}>+ Add Project</Button>
-      <AddProject
-        showFormAdd={showFormAdd}
-        setShowFormAdd={setShowFormAdd}
-        setShowModal={setShowModal}
-        setTitleModal={setTitleModal}
-        addItem={addItem}
-      />
-      <Modal titleModal={titleModal} showModal={showModal} setShowModal={setShowModal} />
-    </section>
+    <>
+      {isLoading ? (
+        <Loader show={true} />
+      ) : (
+        <section className={styles.container}>
+          <List
+            setShowForm={setShowForm}
+            setPreviousProject={setPreviousProject}
+            setMethod={setMethod}
+            setShowModal={setShowModal}
+            setTitleModal={setTitleModal}
+          />
+          <ProjectForm
+            showForm={showForm}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setTitleModal={setTitleModal}
+            previousProject={previousProject}
+            setPreviousProject={setPreviousProject}
+            method={method}
+          />
+          <Button onClick={onClick}>+ Add Project</Button>
+          <Modal isOpen={showModal} handleClose={handleClose} title={titleModal}>
+            {titleModal}
+          </Modal>
+        </section>
+      )}
+      ;
+    </>
   );
 };
 
