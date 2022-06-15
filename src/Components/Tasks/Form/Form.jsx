@@ -47,7 +47,7 @@ const FormTasks = ({
           closeForm();
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     } else {
       try {
@@ -61,7 +61,7 @@ const FormTasks = ({
           closeForm();
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
