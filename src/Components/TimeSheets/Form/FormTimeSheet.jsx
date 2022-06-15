@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTimeSheet, editTimeSheet } from '../../../redux/timeSheets/thunks';
 import styles from './FormTimeSheet.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 
 const FormTimeSheet = ({
-  addItem,
   showForm,
   setShowForm,
   setShowModal,
   setChildrenModal,
-  setLoading,
-  editItem,
   previousTimeSheet,
-  setPreviousTimeSheet,
-  method
+  setPreviousTimeSheet
 }) => {
   if (!showForm) {
     return null;
   }
+  const dispatch = useDispatch();
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
@@ -26,7 +25,6 @@ const FormTimeSheet = ({
   const [task, setTask] = useState(previousTimeSheet.task);
   const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
   const [date, setDate] = useState(previousTimeSheet.date);
-  const timeSheetId = previousTimeSheet._id;
 
   const fetchEmployees = async () => {
     try {
@@ -88,7 +86,59 @@ const FormTimeSheet = ({
     }
   });
 
-  const cleanFields = () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const newTimeSheet = {
+      _id: previousTimeSheet._id,
+      employee: {
+        _id: employee,
+        first_name: employeeName
+      },
+      project: {
+        _id: project,
+        project_name: projectName
+      },
+      task: {
+        _id: task,
+        description: taskDescription
+      },
+      hs_worked: hsWorked,
+      timesheetDate: date
+    };
+
+    if (!previousTimeSheet._id) {
+      try {
+        const timeSheetResponse = await dispatch(addTimeSheet(newTimeSheet));
+        if (timeSheetResponse.error) {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const timeSheetResponse = await dispatch(editTimeSheet(newTimeSheet));
+        if (timeSheetResponse.error) {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal(timeSheetResponse.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const closeForm = () => {
     setPreviousTimeSheet({
       _id: '',
       employee: '',
@@ -97,75 +147,6 @@ const FormTimeSheet = ({
       project: '',
       timesheetDate: ''
     });
-  };
-
-  const fetchData = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        employee: employee,
-        project: project,
-        task: task,
-        hs_worked: hsWorked,
-        timesheetDate: date
-      })
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      const newBody = {
-        _id: res.data._id,
-        employee: {
-          _id: res.data.employee,
-          first_name: employeeName
-        },
-        project: {
-          _id: res.data.project,
-          project_name: projectName
-        },
-        task: {
-          _id: res.data.task,
-          description: taskDescription
-        },
-        hs_worked: res.data.hs_worked,
-        timesheetDate: res.data.timesheetDate
-      };
-      if (response.status !== 201 && response.status !== 200) {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-      } else {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-        methodFunction(newBody);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    if (!timeSheetId) {
-      const url = `${process.env.REACT_APP_API_URL}/time-sheet`;
-      fetchData(url, addItem);
-    } else {
-      const url = `${process.env.REACT_APP_API_URL}/time-sheet/${timeSheetId}`;
-      fetchData(url, editItem);
-    }
-  };
-
-  const closeForm = () => {
-    cleanFields();
     setShowForm(false);
   };
 

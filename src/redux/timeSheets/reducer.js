@@ -1,4 +1,10 @@
 import {
+  ADD_TIMESHEET_SUCCESS,
+  ADD_TIMESHEET_PENDING,
+  ADD_TIMESHEET_ERROR,
+  EDIT_TIMESHEET_SUCCESS,
+  EDIT_TIMESHEET_PENDING,
+  EDIT_TIMESHEET_ERROR,
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_ERROR,
@@ -48,6 +54,50 @@ export const timeSheetReducer = (state = initialState, action) => {
         error: false
       };
     case DELETE_TIMESHEET_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: true
+      };
+    case ADD_TIMESHEET_SUCCESS:
+      return {
+        ...state,
+        list: [...state.list, action.payload],
+        isLoading: false,
+        error: false
+      };
+    case ADD_TIMESHEET_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      };
+    case ADD_TIMESHEET_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: true
+      };
+    case EDIT_TIMESHEET_SUCCESS:
+      return {
+        ...state,
+        list: state.list.map((item) => {
+          if (item._id === action.payload._id) {
+            return action.payload;
+          } else {
+            return item;
+          }
+        }),
+        isLoading: false,
+        error: false
+      };
+    case EDIT_TIMESHEET_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      };
+    case EDIT_TIMESHEET_ERROR:
       return {
         ...state,
         isLoading: false,

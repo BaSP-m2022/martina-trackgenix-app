@@ -6,7 +6,6 @@ import { deleteTimeSheet } from '../../../redux/timeSheets/thunks';
 
 const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModal }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
-
   const dispatch = useDispatch();
 
   const handleEdit = (timesheet) => {
@@ -17,9 +16,9 @@ const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModa
   const deleteItem = async (_id) => {
     if (confirm('Are you sure you want to delete this Time-Sheet')) {
       dispatch(deleteTimeSheet(_id));
+      setShowModal(true);
+      setChildrenModal('TimeSheet Deleted Successfully');
     }
-    setShowModal(true);
-    setChildrenModal('TimeSheet Deleted Successfully');
   };
 
   const newList = listTimeSheet.map((item) => {
@@ -32,7 +31,6 @@ const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModa
       timesheetDate: item.timesheetDate
     };
   });
-
   return (
     <section className={styles.container}>
       <table>
