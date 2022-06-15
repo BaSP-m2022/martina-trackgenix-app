@@ -51,6 +51,8 @@ const SuperAdminForm = ({
         setShowModal(true);
       } else {
         onClose();
+        setChildrenModal('Super Admin added');
+        setShowModal(true);
       }
     } else {
       const superAdminResponse = await dispatch(editSuperAdmin(inputSuperAdmin));
@@ -59,6 +61,8 @@ const SuperAdminForm = ({
         setShowModal(true);
       } else {
         onClose();
+        setChildrenModal('Super Admin edited');
+        setShowModal(true);
       }
     }
   };

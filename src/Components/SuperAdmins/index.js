@@ -42,7 +42,12 @@ const SuperAdmins = () => {
         <Loader show={true} />
       ) : (
         <section className={styles.container}>
-          <ListSuperAdmin setShowForm={setShowForm} setPreviousSuperAdmin={setPreviousSuperAdmin} />
+          <ListSuperAdmin
+            setShowForm={setShowForm}
+            setPreviousSuperAdmin={setPreviousSuperAdmin}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+          />
           <Form
             showForm={showForm}
             setShowForm={setShowForm}
