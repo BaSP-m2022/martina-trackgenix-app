@@ -1,38 +1,21 @@
 import React from 'react';
 import styles from './list.module.css';
 import Row from '../../Shared/Row/Row';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { deleteAdmin } from '../../../redux/admins/thunks';
 
-const List = ({
-  list,
-  deleteItem,
-  setShowModal,
-  setChildrenModal,
-  setIsLoading,
-  setShowForm,
-  setPreviousAdmin,
-  setMethod
-}) => {
+const List = ({ setShowForm, setPreviousAdmin }) => {
+  const dispatch = useDispatch();
+
+  const admins = useSelector((state) => state.admins.list);
+
   const handleDelete = async (_id) => {
-    setIsLoading(true);
     if (confirm('Are you sure you want to remove the Admin?')) {
-      try {
-        await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
-          method: 'DELETE'
-        });
-        setShowModal(true);
-        setChildrenModal('Admin deleted successfully');
-        deleteItem(_id);
-      } catch (error) {
-        setShowModal(true);
-        setChildrenModal(error.msg);
-        console.error(error);
-      }
+      dispatch(deleteAdmin(_id));
     }
-    setIsLoading(false);
   };
 
   const handleEdit = (admin) => {
-    setMethod('PUT');
     setPreviousAdmin(admin);
     setShowForm(true);
   };
@@ -50,7 +33,7 @@ const List = ({
           </tr>
         </thead>
         <tbody>
-          {list.map((item) => {
+          {admins.map((item) => {
             return (
               <Row
                 key={item._id}

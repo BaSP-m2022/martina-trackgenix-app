@@ -5,10 +5,14 @@ import AdminForm from './Form/AdminForm';
 import Modal from '../Shared/Modal/Modal';
 import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins } from '../../redux/admins/thunks';
 
 const Admins = () => {
-  const [list, setList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector((state) => state.admins.isLoading);
+
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -21,54 +25,17 @@ const Admins = () => {
     password: '',
     active: false
   });
-  const [method, setMethod] = useState('');
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
-      const data = await response.json();
-      setList(data.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
-    fetchData();
+    dispatch(getAdmins());
   }, []);
 
-  const deleteItem = (_id) => {
-    setList([...list.filter((listItem) => listItem._id !== _id)]);
-  };
-
-  const addItem = ({ _id, firstName, lastName, phone, email, password, active }) => {
-    const newItem = {
-      _id,
-      firstName,
-      lastName,
-      phone,
-      email,
-      password,
-      active
-    };
-    setList([...list, newItem]);
-  };
-
-  const editItem = (data) => {
-    const adminUpd = list.map((admin) => {
-      if (admin._id === data._id) {
-        return data;
-      } else {
-        return admin;
-      }
-    });
-    setList(adminUpd);
-  };
-
   const openForm = () => {
-    setMethod('POST');
     setShowForm(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
   };
 
   return (
@@ -79,29 +46,16 @@ const Admins = () => {
         <section className={styles.container}>
           <h2>Admins</h2>
           <AdminForm
-            addItem={addItem}
             showForm={showForm}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            setIsLoading={setIsLoading}
-            editItem={editItem}
             previousAdmin={previousAdmin}
             setPreviousAdmin={setPreviousAdmin}
-            method={method}
           />
-          <List
-            deleteItem={deleteItem}
-            list={list}
-            setPreviousAdmin={setPreviousAdmin}
-            setShowForm={setShowForm}
-            setShowModal={setShowModal}
-            setChildrenModal={setChildrenModal}
-            setIsLoading={setIsLoading}
-            setMethod={setMethod}
-          />
+          <List setPreviousAdmin={setPreviousAdmin} setShowForm={setShowForm} />
           <Button onClick={openForm}>Add New Admin</Button>
-          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+          <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}
           </Modal>
         </section>
