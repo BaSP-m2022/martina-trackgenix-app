@@ -61,6 +61,9 @@ export const addSuperAdmin = (superAdmin) => {
         })
       });
       const res = await response.json();
+      if (res.error) {
+        throw res.message;
+      }
       dispatch(addSuperAdminSuccess(res.data));
       return res.data;
     } catch (error) {
@@ -95,6 +98,9 @@ export const editSuperAdmin = (superAdmin) => {
         }
       );
       const res = await response.json();
+      if (res.error) {
+        throw res.message;
+      }
       dispatch(editSuperAdminSuccess(res.data));
       return res.data;
     } catch (error) {

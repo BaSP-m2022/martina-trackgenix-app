@@ -10,9 +10,9 @@ const ListSAdmin = ({ setShowForm, setPreviousSuperAdmin, setShowModal, setChild
   const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove the super admin?')) {
       dispatch(deleteSuperAdmin(_id));
+      setShowModal(true);
+      setChildrenModal('Super Admin Deleted Successfully');
     }
-    setShowModal(true);
-    setChildrenModal('Super Admin Deleted Successfully');
   };
 
   const handleEdit = (superAdmin) => {
