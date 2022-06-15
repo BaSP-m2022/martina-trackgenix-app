@@ -10,15 +10,13 @@ import {
   ADD_EMPLOYEE_ERROR,
   EDIT_EMPLOYEE_PENDING,
   EDIT_EMPLOYEE_SUCCESS,
-  EDIT_EMPLOYEE_ERROR,
-  CLEAN_EMPLOYEES_ERROR
+  EDIT_EMPLOYEE_ERROR
 } from './constants';
 
 const initialState = {
   list: [],
   isLoading: false,
-  error: false,
-  message: ''
+  error: false
 };
 
 export const employeesReducer = (state = initialState, action) => {
@@ -38,8 +36,7 @@ export const employeesReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case DELETE_EMPLOYEE_PENDING:
       return {
@@ -56,8 +53,7 @@ export const employeesReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case ADD_EMPLOYEE_PENDING:
       return {
@@ -74,8 +70,7 @@ export const employeesReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
+        error: true
       };
     case EDIT_EMPLOYEE_PENDING:
       return {
@@ -97,14 +92,7 @@ export const employeesReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        message: action.payload
-      };
-    case CLEAN_EMPLOYEES_ERROR:
-      return {
-        ...state,
-        error: false,
-        message: ''
+        error: true
       };
     default: {
       return state;

@@ -10,8 +10,7 @@ import {
   ADD_EMPLOYEE_ERROR,
   EDIT_EMPLOYEE_PENDING,
   EDIT_EMPLOYEE_SUCCESS,
-  EDIT_EMPLOYEE_ERROR,
-  CLEAN_EMPLOYEES_ERROR
+  EDIT_EMPLOYEE_ERROR
 } from './constants';
 
 export const getEmployeesPending = () => {
@@ -27,10 +26,9 @@ export const getEmployeesSuccess = (employees) => {
   };
 };
 
-export const getEmployeesError = (error) => {
+export const getEmployeesError = () => {
   return {
-    type: GET_EMPLOYEES_ERROR,
-    payload: error
+    type: GET_EMPLOYEES_ERROR
   };
 };
 
@@ -47,10 +45,9 @@ export const deleteEmployeeSuccess = (employeeId) => {
   };
 };
 
-export const deleteEmployeeError = (error) => {
+export const deleteEmployeeError = () => {
   return {
-    type: DELETE_EMPLOYEE_ERROR,
-    payload: error
+    type: DELETE_EMPLOYEE_ERROR
   };
 };
 
@@ -67,10 +64,9 @@ export const addEmployeeSuccess = (employee) => {
   };
 };
 
-export const addEmployeeError = (error) => {
+export const addEmployeeError = () => {
   return {
-    type: ADD_EMPLOYEE_ERROR,
-    payload: error
+    type: ADD_EMPLOYEE_ERROR
   };
 };
 
@@ -87,13 +83,8 @@ export const editEmployeeSuccess = (employeeId) => {
   };
 };
 
-export const editEmployeeError = (error) => {
+export const editEmployeeError = () => {
   return {
-    type: EDIT_EMPLOYEE_ERROR,
-    payload: error
+    type: EDIT_EMPLOYEE_ERROR
   };
 };
-
-export const cleanEmployeesError = () => ({
-  type: CLEAN_EMPLOYEES_ERROR
-});

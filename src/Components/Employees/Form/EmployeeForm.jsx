@@ -3,7 +3,7 @@ import styles from './employeeForm.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { useDispatch } from 'react-redux/es/exports';
 import { addEmployee, editEmployee } from '../../../redux/employees/thunks';
 
 const EmployeeForm = ({
@@ -19,8 +19,6 @@ const EmployeeForm = ({
   }
 
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.employees.error);
-  const message = useSelector((state) => state.employees.message);
 
   const [userInput, setUserInput] = useState(previewEmployee);
 
@@ -39,11 +37,6 @@ const EmployeeForm = ({
   const onChange = (e) => {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
-
-  if (error) {
-    setChildrenModal(message);
-    setShowModal(true);
-  }
 
   const onSubmit = async (e) => {
     e.preventDefault();

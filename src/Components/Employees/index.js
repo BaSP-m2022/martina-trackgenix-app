@@ -7,7 +7,6 @@ import Button from '../Shared/Buttons/Buttons';
 import Loader from '../Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../redux/employees/thunks';
-import { cleanEmployeesError } from '../../redux/employees/actions';
 
 const Employees = () => {
   const dispatch = useDispatch();
@@ -32,7 +31,6 @@ const Employees = () => {
 
   const handleClose = () => {
     setShowModal(false);
-    dispatch(cleanEmployeesError());
   };
 
   return (
