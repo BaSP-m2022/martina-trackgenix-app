@@ -5,9 +5,9 @@ import {
   EDIT_TIMESHEET_SUCCESS,
   EDIT_TIMESHEET_PENDING,
   EDIT_TIMESHEET_ERROR,
-  GET_TIMESHEET_SUCCESS,
-  GET_TIMESHEET_PENDING,
-  GET_TIMESHEET_ERROR,
+  GET_TIMESHEETS_SUCCESS,
+  GET_TIMESHEETS_PENDING,
+  GET_TIMESHEETS_ERROR,
   DELETE_TIMESHEET_SUCCESS,
   DELETE_TIMESHEET_PENDING,
   DELETE_TIMESHEET_ERROR
@@ -34,22 +34,27 @@ export const editTimeSheetError = () => ({
   type: EDIT_TIMESHEET_ERROR
 });
 export const getTimeSheetSuccess = (timeSheets) => ({
-  type: GET_TIMESHEET_SUCCESS,
+  type: GET_TIMESHEETS_SUCCESS,
   payload: timeSheets
 });
+
 export const getTimeSheetPending = () => ({
-  type: GET_TIMESHEET_PENDING
+  type: GET_TIMESHEETS_PENDING
 });
+
 export const getTimeSheetError = () => ({
-  type: GET_TIMESHEET_ERROR
+  type: GET_TIMESHEETS_ERROR
 });
-export const deleteTimeSheetSuccess = (timeSheetsId) => ({
+
+export const deleteTimeSheetSuccess = (timeSheetId) => ({
   type: DELETE_TIMESHEET_SUCCESS,
-  payload: timeSheetsId
+  payload: timeSheetId
 });
+
 export const deleteTimeSheetPending = () => ({
   type: DELETE_TIMESHEET_PENDING
 });
+
 export const deleteTimeSheetError = () => ({
   type: DELETE_TIMESHEET_ERROR
 });
