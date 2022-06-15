@@ -2,6 +2,9 @@ import {
   GET_PROJECTS_PENDING,
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_ERROR,
+  DELETE_PROJECT_PENDING,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_ERROR,
   ADD_PROJECT_PENDING,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_ERROR,
@@ -71,6 +74,25 @@ export const projectReducer = (state = initialState, action) => {
         })
       };
     case EDIT_PROJECT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: true
+      };
+
+    case DELETE_PROJECT_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case DELETE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter((p) => p._id !== action.payload),
+        isLoading: false
+      };
+    case DELETE_PROJECT_ERROR:
       return {
         ...state,
         isLoading: false,
