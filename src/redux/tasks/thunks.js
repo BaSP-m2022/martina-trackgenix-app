@@ -14,17 +14,16 @@ import {
 } from './actions';
 
 export const getTasks = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(getTasksPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-      .then((response) => response.json())
-      .then((response) => {
-        dispatch(getTasksSuccess(response.data));
-        return response.data;
-      })
-      .catch((error) => {
-        dispatch(getTasksError(error.toString()));
-      });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      const res = await response.json();
+      dispatch(getTasksSuccess(res.data));
+      return res.data;
+    } catch (error) {
+      dispatch(getTasksError(error.toString()));
+    }
   };
 };
 
