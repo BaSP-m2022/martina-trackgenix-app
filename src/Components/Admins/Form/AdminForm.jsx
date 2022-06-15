@@ -3,22 +3,22 @@ import styles from './adminForm.module.css';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
 import Button from '../../Shared/Buttons/Buttons';
+import { useDispatch } from 'react-redux/es/exports';
+import { addAdmin, editAdmin } from '../../../redux/admins/thunks';
 
 const AdminForm = ({
   showForm,
   setShowForm,
-  addItem,
   setShowModal,
   setChildrenModal,
-  setIsLoading,
   previousAdmin,
-  setPreviousAdmin,
-  method,
-  editItem
+  setPreviousAdmin
 }) => {
   if (!showForm) {
     return null;
   }
+
+  const dispatch = useDispatch();
 
   const [userInput, setUserInput] = useState(previousAdmin);
 
@@ -38,52 +38,25 @@ const AdminForm = ({
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const fetchData = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: userInput.firstName,
-        lastName: userInput.lastName,
-        phone: userInput.phone,
-        email: userInput.email,
-        password: userInput.password,
-        active: userInput.active
-      })
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      if (response.status !== 201 && response.status !== 200) {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-      } else {
-        setShowForm(false);
-        setShowModal(true);
-        setChildrenModal(res.message);
-        methodFunction(res.data);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
     if (!userInput._id) {
-      const url = `${process.env.REACT_APP_API_URL}/admins`;
-      fetchData(url, addItem);
+      const adminResponse = await dispatch(addAdmin(userInput));
+      if (adminResponse.error) {
+        setChildrenModal(adminResponse.message);
+        setShowModal(true);
+      } else {
+        closeForm();
+      }
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/admins/${userInput._id}`;
-      fetchData(url, editItem);
+      const adminResponse = await dispatch(editAdmin(userInput));
+      if (adminResponse.error) {
+        setChildrenModal(adminResponse.message);
+        setShowModal(true);
+      } else {
+        closeForm();
+      }
     }
   };
 
