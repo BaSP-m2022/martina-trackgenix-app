@@ -66,11 +66,11 @@ export const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: state.list.map((a) => {
-          if (a._id === action.payload._id) {
+        list: state.list.map((p) => {
+          if (p._id === action.payload._id) {
             return action.payload;
           }
-          return a;
+          return p;
         })
       };
     case EDIT_PROJECT_ERROR:
