@@ -5,7 +5,14 @@ import Input from '../../Shared/Field/Input';
 import { useDispatch } from 'react-redux';
 import { addTask, editTask } from '../../../redux/tasks/thunks';
 
-const FormTasks = ({ showForm, setShowForm, previewTask, setPreviewTask }) => {
+const FormTasks = ({
+  showForm,
+  setShowForm,
+  previewTask,
+  setPreviewTask,
+  setShowModal,
+  setChildrenModal
+}) => {
   if (!showForm) {
     return null;
   }
@@ -29,9 +36,33 @@ const FormTasks = ({ showForm, setShowForm, previewTask, setPreviewTask }) => {
     e.preventDefault();
 
     if (!userInput._id) {
-      dispatch(addTask(userInput));
+      try {
+        const taskResponse = await dispatch(addTask(userInput));
+        if (taskResponse.error) {
+          setChildrenModal(taskResponse.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal(taskResponse.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      dispatch(editTask(userInput));
+      try {
+        const taskResponse = await dispatch(editTask(userInput));
+        if (taskResponse.error) {
+          setChildrenModal(taskResponse.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal(taskResponse.message);
+          setShowModal(true);
+          closeForm();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

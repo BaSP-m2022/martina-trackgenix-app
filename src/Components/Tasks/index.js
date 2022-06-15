@@ -10,6 +10,7 @@ import { getTasks } from '../../redux/tasks/thunks';
 
 const Tasks = () => {
   const [showForm, setShowForm] = useState(false);
+  const [childrenModal, setChildrenModal] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [previewTask, setPreviewTask] = useState({
     _id: '',
@@ -28,25 +29,32 @@ const Tasks = () => {
     setShowForm(true);
   };
 
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
   return isLoading ? (
     <Loader show={isLoading} />
   ) : (
     <section className={styles.container}>
       <h2>Tasks</h2>
-      <List setShowModal={setShowModal} setShowForm={setShowForm} setPreviewTask={setPreviewTask} />
+      <List
+        setShowForm={setShowForm}
+        setPreviewTask={setPreviewTask}
+        setChildrenModal={setChildrenModal}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
       <FormTasks
         showForm={showForm}
         setShowForm={setShowForm}
         previewTask={previewTask}
         setPreviewTask={setPreviewTask}
+        setChildrenModal={setChildrenModal}
+        showModal={showModal}
+        setShowModal={setShowModal}
       />
       <div>
         <Button onClick={openForm}>Create a new task</Button>
-        <Modal handleClose={handleClose} isOpen={showModal} />
+        <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+          {childrenModal}
+        </Modal>
       </div>
     </section>
   );

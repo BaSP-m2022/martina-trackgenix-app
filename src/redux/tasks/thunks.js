@@ -54,9 +54,14 @@ export const addTask = (task) => {
         body: JSON.stringify({ description: task.description })
       });
       const res = await response.json();
+      if (res.error) {
+        throw res.message;
+      }
       dispatch(addTaskSuccess(res.data));
+      return { error: false, message: res.message };
     } catch (error) {
-      dispatch(addTaskError(error.toString()));
+      dispatch(addTaskError(error));
+      return { error: true, message: error };
     }
   };
 };
@@ -73,9 +78,14 @@ export const editTask = (task) => {
         body: JSON.stringify({ description: task.description })
       });
       const res = await response.json();
+      if (res.error) {
+        throw res.message;
+      }
       dispatch(editTaskSuccess(res.data));
+      return { error: false, message: res.message };
     } catch (error) {
-      dispatch(editTaskError(error.toString()));
+      dispatch(editTaskError(error));
+      return { error: true, message: error };
     }
   };
 };

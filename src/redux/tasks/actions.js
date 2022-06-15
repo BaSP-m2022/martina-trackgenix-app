@@ -22,9 +22,8 @@ export const getTasksSuccess = (tasks) => ({
   payload: tasks
 });
 
-export const getTasksError = (error) => ({
-  type: GET_TASKS_ERROR,
-  payload: error
+export const getTasksError = () => ({
+  type: GET_TASKS_ERROR
 });
 
 export const deleteTaskPending = () => ({
@@ -36,9 +35,8 @@ export const deleteTaskSuccess = (taskId) => ({
   payload: taskId
 });
 
-export const deleteTaskError = (error) => ({
-  type: DELETE_TASK_ERROR,
-  payload: error
+export const deleteTaskError = () => ({
+  type: DELETE_TASK_ERROR
 });
 
 export const addTaskPending = () => ({
@@ -50,9 +48,8 @@ export const addTaskSuccess = (task) => ({
   payload: task
 });
 
-export const addTaskError = (error) => ({
-  type: ADD_TASK_ERROR,
-  payload: error
+export const addTaskError = () => ({
+  type: ADD_TASK_ERROR
 });
 
 export const editTaskPending = () => ({
@@ -64,7 +61,6 @@ export const editTaskSuccess = (task) => ({
   payload: task
 });
 
-export const editTaskError = (error) => ({
-  type: EDIT_TASK_ERROR,
-  payload: error
+export const editTaskError = () => ({
+  type: EDIT_TASK_ERROR
 });

@@ -16,7 +16,7 @@ import {
 const initialState = {
   list: [],
   isLoading: false,
-  error: ''
+  error: false
 };
 
 export const tasksReducer = (state = initialState, action) => {
@@ -36,7 +36,7 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
     case DELETE_TASK_PENDING:
       return {
@@ -53,7 +53,7 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
     case ADD_TASK_PENDING:
       return {
@@ -70,7 +70,7 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
     case EDIT_TASK_PENDING:
       return {
@@ -93,7 +93,7 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: true
       };
     default: {
       return state;
