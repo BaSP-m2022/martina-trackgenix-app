@@ -1,17 +1,17 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Header from '../Header/index';
-import NavBar from '../NavBar/NavBar';
-import Footer from '../Footer/index';
-import Admins from '../Admins/index';
-import SuperAdmins from '../SuperAdmins/index';
-import Home from '../Home/index';
+import Header from 'Components/Shared/Header/index';
+import NavBar from 'Components/Shared/NavBar/NavBar';
+import Footer from 'Components/Shared/Footer/index';
+import Admins from 'Components/SuperAdmin/Admins/index';
+import SuperAdmins from 'Components/SuperAdmin/SuperAdmins/index';
+import Home from 'Components/Home/index';
 import styles from './layout.module.css';
-import Employees from '../Employees/index';
-import Projects from '../Projects';
-import TimeSheets from '../TimeSheets';
-import Tasks from '../Tasks/index';
+import Employees from 'Components/SuperAdmin/Employees/index';
+import Projects from 'Components/SuperAdmin/Projects/index';
+import TimeSheets from 'Components/SuperAdmin/TimeSheets/index';
+import Tasks from 'Components/SuperAdmin/Tasks/index';
 
 function Layout() {
   const arrayRoute = [
