@@ -3,7 +3,7 @@ import Table from '../../Shared/Table/Table';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteProject } from '../../../redux/projects/thunks';
 
-const List = ({ setShowForm, setPreviousProject, setMethod, setShowModal, setTitleModal }) => {
+const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) => {
   const listProject = useSelector((state) => state.projects.list);
 
   const dispatch = useDispatch();
@@ -19,11 +19,9 @@ const List = ({ setShowForm, setPreviousProject, setMethod, setShowModal, setTit
   };
 
   const handleEdit = (project) => {
-    setMethod('PUT');
     setPreviousProject(project);
     setShowForm(true);
   };
-
   return (
     <Table
       title={'Projects'}

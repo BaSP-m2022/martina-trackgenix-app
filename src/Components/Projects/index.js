@@ -16,7 +16,6 @@ const Projects = () => {
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [method, setMethod] = useState('');
   const [previousProject, setPreviousProject] = useState({
     id: '',
     project_name: '',
@@ -39,7 +38,6 @@ const Projects = () => {
 
   const onClick = () => {
     setShowForm(true);
-    setMethod('POST');
   };
 
   const handleClose = () => {
@@ -55,7 +53,6 @@ const Projects = () => {
           <List
             setShowForm={setShowForm}
             setPreviousProject={setPreviousProject}
-            setMethod={setMethod}
             setShowModal={setShowModal}
             setTitleModal={setTitleModal}
           />
@@ -66,7 +63,6 @@ const Projects = () => {
             setTitleModal={setTitleModal}
             previousProject={previousProject}
             setPreviousProject={setPreviousProject}
-            method={method}
           />
           <Button onClick={onClick}>+ Add Project</Button>
           <Modal isOpen={showModal} handleClose={handleClose} title={titleModal}>

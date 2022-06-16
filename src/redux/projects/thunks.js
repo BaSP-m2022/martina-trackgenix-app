@@ -2,9 +2,15 @@ import {
   getProjectsPending,
   getProjectsSuccess,
   getProjectsError,
+  deleteProjectPending,
   deleteProjectSuccess,
   deleteProjectError,
-  deleteProjectPending
+  addProjectPending,
+  addProjectSuccess,
+  addProjectError,
+  editProjectPending,
+  editProjectSuccess,
+  editProjectError
 } from './actions';
 
 export const getProjects = () => {
@@ -21,6 +27,39 @@ export const getProjects = () => {
   };
 };
 
+export const addProject = (project) => {
+  return async (dispatch) => {
+    dispatch(addProjectPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          project_name: project.project_name,
+          client: project.client,
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          active: project.active,
+          employees: [
+            {
+              id: project.employees[0].id,
+              role: project.employees[0].role,
+              rate: project.employees[0].rate.toString()
+            }
+          ]
+        })
+      });
+      const res = await response.json();
+      dispatch(addProjectSuccess(res.data));
+      return { error: false, message: res.message };
+    } catch (error) {
+      dispatch(addProjectError(error.toString()));
+      return { error: true, message: error };
+    }
+  };
+};
 export const deleteProject = (_id) => {
   return async (dispatch) => {
     dispatch(deleteProjectPending());
@@ -38,6 +77,40 @@ export const deleteProject = (_id) => {
         error: true,
         message: error
       };
+    }
+  };
+};
+
+export const editProject = (project) => {
+  return async (dispatch) => {
+    dispatch(editProjectPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${project._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          project_name: project.project_name,
+          client: project.client,
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          active: project.active,
+          employees: [
+            {
+              id: project.employees[0].id,
+              role: project.employees[0].role,
+              rate: project.employees[0].rate.toString()
+            }
+          ]
+        })
+      });
+      const res = await response.json();
+      dispatch(editProjectSuccess(res.data));
+      return { error: false, message: res.message };
+    } catch (error) {
+      dispatch(editProjectError(error.toString()));
+      return { error: true, message: error };
     }
   };
 };
