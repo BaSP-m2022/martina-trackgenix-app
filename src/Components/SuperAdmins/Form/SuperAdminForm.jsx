@@ -3,6 +3,8 @@ import styles from './superAdminForm.module.css';
 import Button from '../../Shared/Buttons/Buttons';
 import Input from '../../Shared/Field/Input';
 import RadioButton from '../../Shared/Field/RadioButton';
+import { useDispatch } from 'react-redux';
+import { addSuperAdmin, editSuperAdmin } from '../../../redux/superAdmins/thunks';
 
 const SuperAdminForm = ({
   showForm,
@@ -10,24 +12,15 @@ const SuperAdminForm = ({
   previousSuperAdmin,
   setPreviousSuperAdmin,
   setShowModal,
-  setShowTitle,
-  editItem,
-  addItem,
-  setLoading,
-  method
+  setChildrenModal
 }) => {
   if (!showForm) {
     return null;
   }
 
-  const [inputSuperAdmin, setInputSuperAdmin] = useState({
-    _id: previousSuperAdmin._id,
-    firstName: previousSuperAdmin.firstName,
-    lastName: previousSuperAdmin.lastName,
-    email: previousSuperAdmin.email,
-    password: previousSuperAdmin.password,
-    active: previousSuperAdmin.active
-  });
+  const dispatch = useDispatch();
+
+  const [inputSuperAdmin, setInputSuperAdmin] = useState(previousSuperAdmin);
 
   const cleanFields = () => {
     setPreviousSuperAdmin({
@@ -44,56 +37,34 @@ const SuperAdminForm = ({
     setInputSuperAdmin({ ...inputSuperAdmin, [e.target.name]: e.target.value });
   };
 
-  const fetchData = async (url, methodFunction) => {
-    const options = {
-      method: method,
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: inputSuperAdmin.firstName,
-        lastName: inputSuperAdmin.lastName,
-        email: inputSuperAdmin.email,
-        password: inputSuperAdmin.password,
-        active: inputSuperAdmin.active
-      })
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const res = await response.json();
-      if (response.status !== 200 && response.status !== 201) {
-        setShowModal(true);
-        setShowTitle(res.message);
-      } else {
-        methodFunction(res.data);
-        setShowTitle('Super Admin updated successfully');
-        setShowModal(true);
-        setShowForm(false);
-        cleanFields();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
+  const onClose = () => {
+    setShowForm(false);
+    cleanFields();
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
     if (!inputSuperAdmin._id) {
-      const url = `${process.env.REACT_APP_API_URL}/super-admins`;
-      fetchData(url, addItem);
+      const superAdminResponse = await dispatch(addSuperAdmin(inputSuperAdmin));
+      if (superAdminResponse.error) {
+        setChildrenModal(superAdminResponse.message);
+        setShowModal(true);
+      } else {
+        onClose();
+        setChildrenModal('Super Admin added');
+        setShowModal(true);
+      }
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/super-admins/${inputSuperAdmin._id}`;
-      fetchData(url, editItem);
+      const superAdminResponse = await dispatch(editSuperAdmin(inputSuperAdmin));
+      if (superAdminResponse.error) {
+        setChildrenModal(superAdminResponse.message);
+        setShowModal(true);
+      } else {
+        onClose();
+        setChildrenModal('Super Admin edited');
+        setShowModal(true);
+      }
     }
-  };
-
-  const onClose = () => {
-    setShowForm(false);
-    cleanFields();
   };
 
   return (
@@ -129,13 +100,7 @@ const SuperAdminForm = ({
           label={'Password'}
         />
         <RadioButton name="active" label={'Active'} value={[true, false]} onChange={onChange} />
-        <Button
-          onClick={() => {
-            setShowModal(true);
-          }}
-        >
-          Confirm
-        </Button>
+        <Button onClick={(e) => onSubmit(e)}>Confirm</Button>
         <div>
           <Button onClick={onClose}> Close </Button>
         </div>

@@ -1,38 +1,20 @@
 import React from 'react';
 import styles from './List.module.css';
 import Row from '../../Shared/Row/Row';
+import { useSelector, useDispatch } from 'react-redux/es/exports';
+import { deleteEmployee } from '../../../redux/employees/thunks';
 
-const List = ({
-  list,
-  deleteItem,
-  setShowModal,
-  setChildrenModal,
-  setIsLoading,
-  setShowForm,
-  setPreviewsEmployee,
-  setMethod
-}) => {
+const List = ({ setShowForm, setPreviewsEmployee }) => {
+  const employees = useSelector((state) => state.employees.list);
+  const dispatch = useDispatch();
+
   const handleDelete = async (_id) => {
-    setIsLoading(true);
     if (confirm('Are you sure you want to remove the Employee?')) {
-      try {
-        await fetch(`${process.env.REACT_APP_API_URL}/employees/${_id}`, {
-          method: 'DELETE'
-        });
-        setShowModal(true);
-        setChildrenModal('Employee deleted successfully');
-        deleteItem(_id);
-      } catch (error) {
-        setShowModal(true);
-        setChildrenModal(error.msg);
-        console.error(error);
-      }
+      dispatch(deleteEmployee(_id));
     }
-    setIsLoading(false);
   };
 
   const handleEdit = (employee) => {
-    setMethod('PUT');
     setPreviewsEmployee(employee);
     setShowForm(true);
   };
@@ -50,7 +32,7 @@ const List = ({
           </tr>
         </thead>
         <tbody>
-          {list.map((item) => {
+          {employees.map((item) => {
             return (
               <Row
                 key={item._id}
