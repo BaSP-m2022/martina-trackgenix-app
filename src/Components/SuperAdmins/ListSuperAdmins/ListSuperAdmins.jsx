@@ -1,39 +1,23 @@
 import React from 'react';
 import styles from './listSAdmins.module.css';
 import Row from '../../Shared/Row/Row';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteSuperAdmin } from '../../../redux/superAdmins/thunks';
 
-const ListSAdmin = ({
-  list,
-  deleteItem,
-  setShowModal,
-  setShowTitle,
-  setShowForm,
-  setPreviousSuperAdmin,
-  setLoading,
-  setMethod
-}) => {
+const ListSAdmin = ({ setShowForm, setPreviousSuperAdmin, setShowModal, setChildrenModal }) => {
+  const dispatch = useDispatch();
+  const superAdmins = useSelector((state) => state.superAdmins.list);
   const handleDelete = async (_id) => {
-    setLoading(true);
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
-        method: 'DELETE'
-      });
+    if (confirm('Are you sure you want to remove the super admin?')) {
+      dispatch(deleteSuperAdmin(_id));
       setShowModal(true);
-      setShowTitle('Super Admin deleted successfully');
-      setLoading(false);
-      deleteItem(_id);
-    } catch (error) {
-      setShowModal(true);
-      setShowTitle(error.msg);
-      setLoading(false);
-      console.error(error);
+      setChildrenModal('Super Admin Deleted Successfully');
     }
   };
 
   const handleEdit = (superAdmin) => {
     setPreviousSuperAdmin(superAdmin);
     setShowForm(true);
-    setMethod('PUT');
   };
   return (
     <div className={styles.container}>
@@ -46,7 +30,7 @@ const ListSAdmin = ({
           <th id="password">Password</th>
         </thead>
         <tbody>
-          {list.map((item) => (
+          {superAdmins.map((item) => (
             <Row
               key={item._id}
               data={item}
