@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './input.module.css';
+import { useForm } from 'react-hook-form';
 
-const Input = ({ type, name, value, onChange, label, valueOptions }) => {
+const Input = ({ type, name, value, onChange, label, valueOptions, error, htmlFor }) => {
+  const { register } = useForm();
   return (
     <>
       {type === 'select' ? (
@@ -18,8 +20,16 @@ const Input = ({ type, name, value, onChange, label, valueOptions }) => {
         </div>
       ) : (
         <div className={styles.container}>
-          <label>{label}</label>
-          <input type={type} name={name} value={value} onChange={onChange}></input>
+          <label htmlFor={htmlFor}>{label}</label>
+          <input
+            type={type}
+            value={value}
+            name={name}
+            {...register(name, { minLength: 3 })} // validation test not working
+            onChange={onChange}
+            className={error ? styles.errorRed : ''}
+          ></input>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
       )}
     </>

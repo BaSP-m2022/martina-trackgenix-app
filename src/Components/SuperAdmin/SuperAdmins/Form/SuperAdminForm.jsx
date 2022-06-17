@@ -5,6 +5,7 @@ import Input from '../../../Shared/Field/Input';
 import RadioButton from '../../../Shared/Field/RadioButton';
 import { useDispatch } from 'react-redux';
 import { addSuperAdmin, editSuperAdmin } from '../../../../redux/superAdmins/thunks';
+import { useForm } from 'react-hook-form';
 
 const SuperAdminForm = ({
   showForm,
@@ -19,6 +20,14 @@ const SuperAdminForm = ({
   }
 
   const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange'
+  });
 
   const [inputSuperAdmin, setInputSuperAdmin] = useState(previousSuperAdmin);
 
@@ -67,16 +76,20 @@ const SuperAdminForm = ({
     }
   };
 
+  console.log(errors); // gets an empty object
+
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <h2>Form Edit</h2>
         <Input
           type={'text'}
           name={'firstName'}
-          value={inputSuperAdmin.firstName}
+          label="First name"
+          htmlFor={'firstName'}
+          register={register}
           onChange={onChange}
-          label={'Name'}
+          error={errors.firstName?.message} // not showing
         />
         <Input
           type={'text'}
