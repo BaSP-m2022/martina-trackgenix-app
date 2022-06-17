@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
-import Header from '../Header/index';
-import NavBar from '../NavBar/NavBar';
-import Footer from '../Footer/index';
-import Admins from '../Admins/index';
-import SuperAdmins from '../SuperAdmins/index';
-import Home from '../Home/index';
 import styles from './layout.module.css';
-import Employees from '../Employees/index';
-import Projects from '../Projects';
-import TimeSheets from '../TimeSheets';
-import Tasks from '../Tasks/index';
+
+const Home = lazy(() => import('Components/Home'));
+const Header = lazy(() => import('Components/Shared/Header'));
+const NavBar = lazy(() => import('Components/Shared/NavBar/NavBar'));
+const Footer = lazy(() => import('Components/Shared/Footer'));
+const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
+const SuperAdmins = lazy(() => import('Components/SuperAdmin/SuperAdmins'));
+const Employees = lazy(() => import('Components/SuperAdmin/Employees'));
+const Projects = lazy(() => import('Components/SuperAdmin/Projects'));
+const TimeSheets = lazy(() => import('Components/SuperAdmin/TimeSheets'));
+const Tasks = lazy(() => import('Components/SuperAdmin/Tasks'));
 
 function Layout() {
   const arrayRoute = [
@@ -24,21 +24,23 @@ function Layout() {
   ];
   return (
     <div className={styles.container}>
-      <Header />
-      <NavBar props={arrayRoute} />
-      <Switch>
-        <Route path="/home" component={Home} />
-        <Route path="/admins" component={Admins} />
-        <Route path="/super-admins" component={SuperAdmins} />
-        <Route path="/employees" component={Employees} />
-        <Route path="/projects" component={Projects} />
-        <Route path="/time-sheets" component={TimeSheets} />
-        <Route path="/tasks" component={Tasks} />
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </Switch>
-      <Footer props={arrayRoute} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Header />
+        <NavBar props={arrayRoute} />
+        <Switch>
+          <Route path="/home" component={Home} />
+          <Route path="/admins" component={Admins} />
+          <Route path="/super-admins" component={SuperAdmins} />
+          <Route path="/employees" component={Employees} />
+          <Route path="/projects" component={Projects} />
+          <Route path="/time-sheets" component={TimeSheets} />
+          <Route path="/tasks" component={Tasks} />
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+        </Switch>
+        <Footer props={arrayRoute} />
+      </Suspense>
     </div>
   );
 }
