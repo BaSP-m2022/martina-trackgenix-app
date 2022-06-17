@@ -35,6 +35,7 @@ const TimeSheets = () => {
         <Loader show={true} />
       ) : (
         <section className={styles.container}>
+          <h2>Time-Sheets</h2>
           <List
             setPreviousTimeSheet={setPreviousTimeSheet}
             setShowForm={setShowForm}
