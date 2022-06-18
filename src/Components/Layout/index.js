@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import styles from './layout.module.css';
-// import NavBar from 'Components/Shared/NavBar/NavBar';
 import Header from 'Components/Shared/Header';
 import SuperAdminLayout from 'Components/SuperAdmin/index';
 
