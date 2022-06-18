@@ -12,6 +12,9 @@ function Home() {
         <Link to="/super-admin" className={styles.homeContainer}>
           <h2>Super Admin</h2>
         </Link>
+        <Link to="/employee/sign-up" className={styles.homeContainer}>
+          <h2>Register</h2>
+        </Link>
       </div>
     </section>
   );
