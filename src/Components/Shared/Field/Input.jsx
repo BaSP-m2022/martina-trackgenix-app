@@ -1,32 +1,31 @@
 import React from 'react';
 import styles from './input.module.css';
-import { useForm } from 'react-hook-form';
 
-const Input = ({ type, name, value, onChange, label, valueOptions, error, htmlFor }) => {
-  const { register } = useForm();
+const Input = ({ type, name, label, register, valueOptions, error, htmlFor }) => {
   return (
     <>
       {type === 'select' ? (
         <div className={styles.container}>
-          <label>{label}</label>
-          <select name={name} onChange={onChange} value={value}>
-            {!value ? <option>Select one</option> : <option>{value}</option>}
+          <label htmlFor={htmlFor}>{label}</label>
+          <select name={name} {...register(name)}>
+            {/* not sure if necessary:
+            {!value ? <option>Select one</option> : <option>{value}</option>} */}
             {valueOptions.map((item) => (
               <option key={item._id} value={item._id}>
                 {item._id} - {item.first_name || item.project_name || item.description}
               </option>
             ))}
           </select>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
       ) : (
         <div className={styles.container}>
           <label htmlFor={htmlFor}>{label}</label>
           <input
             type={type}
-            value={value}
+            label={label}
             name={name}
-            {...register(name, { minLength: 3 })} // validation test not working
-            onChange={onChange}
+            {...register(name)}
             className={error ? styles.errorRed : ''}
           ></input>
           {error && <p className={styles.error}>{error}</p>}
