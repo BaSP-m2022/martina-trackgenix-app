@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTimeSheet, editTimeSheet } from '../../../../redux/timeSheets/thunks';
+import { addTimeSheet, editTimeSheet } from 'redux/timeSheets/thunks';
 import styles from './FormTimeSheet.module.css';
-import Button from '../../../Shared/Buttons/Buttons';
-import Input from '../../../Shared/Field/Input';
+import Button from 'Components/Shared/Buttons/Buttons';
+import Input from 'Components/Shared/Field/Input';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+import { useForm } from 'react-hook-form';
+
+const schema = Joi.object({
+  employee: Joi.string().required().length(24).alphanum(),
+  project: Joi.string().required().length(24).alphanum(),
+  task: Joi.string().required().length(24).alphanum(),
+  hs_worked: Joi.number().required(),
+  timesheetDate: Joi.date().required()
+});
 
 const FormTimeSheet = ({
   showForm,
@@ -25,6 +36,15 @@ const FormTimeSheet = ({
   const [task, setTask] = useState(previousTimeSheet.task);
   const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
   const [date, setDate] = useState(previousTimeSheet.date);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema)
+  });
 
   const fetchEmployees = async () => {
     try {

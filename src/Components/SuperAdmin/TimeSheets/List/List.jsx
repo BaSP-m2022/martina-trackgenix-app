@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './list.module.css';
-import Row from '../../../Shared/Row/Row';
+import Row from 'Components/Shared/Row/Row';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTimeSheet } from '../../../../redux/timeSheets/thunks';
+import { deleteTimeSheet } from 'redux/timeSheets/thunks';
 
 const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModal }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
