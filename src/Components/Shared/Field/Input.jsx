@@ -1,25 +1,32 @@
 import React from 'react';
 import styles from './input.module.css';
 
-const Input = ({ type, name, value, onChange, label, valueOptions }) => {
+const Input = ({ type, name, label, register, valueOptions, error }) => {
   return (
     <>
       {type === 'select' ? (
         <div className={styles.container}>
-          <label>{label}</label>
-          <select name={name} onChange={onChange} value={value}>
-            {!value ? <option>Select one</option> : <option>{value}</option>}
+          <label htmlFor={name}>{label}</label>
+          <select name={name} {...register(name)}>
             {valueOptions.map((item) => (
               <option key={item._id} value={item._id}>
                 {item._id} - {item.first_name || item.project_name || item.description}
               </option>
             ))}
           </select>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
       ) : (
         <div className={styles.container}>
-          <label>{label}</label>
-          <input type={type} name={name} value={value} onChange={onChange}></input>
+          <label htmlFor={name}>{label}</label>
+          <input
+            type={type}
+            label={label}
+            name={name}
+            {...register(name)}
+            className={error ? styles.errorRed : ''}
+          ></input>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
       )}
     </>
