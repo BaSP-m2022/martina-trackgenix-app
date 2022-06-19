@@ -8,14 +8,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useForm } from 'react-hook-form';
 
-const schema = Joi.object({
-  employee: Joi.string().required().length(24).alphanum(),
-  project: Joi.string().required().length(24).alphanum(),
-  task: Joi.string().required().length(24).alphanum(),
-  hs_worked: Joi.number().required(),
-  timesheetDate: Joi.date().required()
-});
-
 const FormTimeSheet = ({
   showForm,
   setShowForm,
@@ -28,14 +20,16 @@ const FormTimeSheet = ({
     return null;
   }
   const dispatch = useDispatch();
+  const schema = Joi.object({
+    employee: Joi.string().required().length(24).alphanum(),
+    project: Joi.string().required().length(24).alphanum(),
+    task: Joi.string().required().length(24).alphanum(),
+    hsWorked: Joi.number().required(),
+    timesheetDate: Joi.date().required()
+  });
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
   const [listTasks, setListTasks] = useState([]);
-  const [employee, setEmployee] = useState(previousTimeSheet.employee);
-  const [project, setProject] = useState(previousTimeSheet.project);
-  const [task, setTask] = useState(previousTimeSheet.task);
-  const [hsWorked, setHSWorked] = useState(previousTimeSheet.hs_worked);
-  const [date, setDate] = useState(previousTimeSheet.date);
 
   const {
     handleSubmit,
@@ -43,7 +37,14 @@ const FormTimeSheet = ({
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema)
+    resolver: joiResolver(schema),
+    defaultValue: {
+      employee: previousTimeSheet.employee,
+      project: previousTimeSheet.project,
+      task: previousTimeSheet.task,
+      hsWorked: previousTimeSheet.hs_worked,
+      timesheetDate: previousTimeSheet.timesheetDate
+    }
   });
 
   const fetchEmployees = async () => {
@@ -59,9 +60,9 @@ const FormTimeSheet = ({
   useEffect(() => {
     fetchEmployees();
   }, []);
-
+  console.log(previousTimeSheet);
   const employeeName = listEmployees.map((item) => {
-    if (item._id == employee) {
+    if (item._id == previousTimeSheet.employee) {
       return item.first_name;
     }
   });
@@ -81,7 +82,7 @@ const FormTimeSheet = ({
   }, []);
 
   const projectName = listProjects.map((item) => {
-    if (item._id == project) {
+    if (item._id == previousTimeSheet.project) {
       return item.project_name;
     }
   });
@@ -101,30 +102,28 @@ const FormTimeSheet = ({
   }, []);
 
   const taskDescription = listTasks.map((item) => {
-    if (item._id == task) {
+    if (item._id == previousTimeSheet.task) {
       return item.description;
     }
   });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (data) => {
     const newTimeSheet = {
       _id: previousTimeSheet._id,
       employee: {
-        _id: employee,
+        _id: data.employee,
         first_name: employeeName
       },
       project: {
-        _id: project,
+        _id: data.project,
         project_name: projectName
       },
       task: {
-        _id: task,
+        _id: data.task,
         description: taskDescription
       },
-      hs_worked: hsWorked,
-      timesheetDate: date
+      hs_worked: data.hsWorked,
+      timesheetDate: data.timesheetDate
     };
 
     if (!previousTimeSheet._id) {
@@ -172,58 +171,58 @@ const FormTimeSheet = ({
 
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <h2>Edit time-sheet</h2>
         <div>
           <Input
             type={'select'}
             name={'employee'}
-            onChange={(e) => setEmployee(e.target.value)}
+            register={register}
             valueOptions={listEmployees}
-            value={employee}
             label={'Select an Employee'}
+            error={errors.employee?.message}
           ></Input>
         </div>
         <div>
           <Input
             type={'select'}
             name={'project'}
-            onChange={(e) => setProject(e.target.value)}
+            register={register}
             valueOptions={listProjects}
             label={'Select a Project'}
-            value={project}
+            error={errors.project?.message}
           ></Input>
         </div>
         <div>
           <Input
             type={'select'}
             name={'task'}
-            onChange={(e) => setTask(e.target.value)}
+            register={register}
             valueOptions={listTasks}
             label={'Select a Task'}
-            value={task}
+            error={errors.task?.message}
           ></Input>
         </div>
         <div>
           <Input
             type="number"
-            name="hs_worked"
-            value={hsWorked}
-            onChange={(e) => setHSWorked(e.target.value)}
+            name="hsWorked"
+            register={register}
             label={'Worked Hours'}
+            error={errors.hsWorked?.message}
           ></Input>
         </div>
         <div>
           <Input
             type="date"
             name="timesheetDate"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            register={register}
             label={'DATE'}
+            error={errors.timesheetDate?.message}
           ></Input>
         </div>
         <div className={styles.button}>
-          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
+          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
           <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
