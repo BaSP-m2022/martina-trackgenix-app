@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './form.module.css';
 import Button from '../../../Shared/Buttons/Buttons';
 import Input from '../../../Shared/Field/Input';
 import { useDispatch } from 'react-redux';
 import { addTask, editTask } from '../../../../redux/tasks/thunks';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import joi from 'joi';
 
 const FormTasks = ({
   showForm,
@@ -16,28 +19,29 @@ const FormTasks = ({
   if (!showForm) {
     return null;
   }
-
   const dispatch = useDispatch();
 
-  const [userInput, setUserInput] = useState(previewTask);
+  const schema = joi.object({
+    description: joi.string().required().min(10).max(60)
+  });
 
-  const cleanFields = () => {
-    setPreviewTask({
-      _id: '',
-      description: ''
-    });
-  };
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema),
+    defaultValues: {
+      description: previewTask.description
+    }
+  });
 
-  const onChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!userInput._id) {
+  const onSubmit = async (data) => {
+    if (!previewTask._id) {
       try {
-        const taskResponse = await dispatch(addTask(userInput));
+        const taskResponse = await dispatch(addTask(data));
         if (taskResponse.error) {
           setChildrenModal(taskResponse.message);
           setShowModal(true);
@@ -51,7 +55,7 @@ const FormTasks = ({
       }
     } else {
       try {
-        const taskResponse = await dispatch(editTask(userInput));
+        const taskResponse = await dispatch(editTask(data, previewTask._id));
         if (taskResponse.error) {
           setChildrenModal(taskResponse.message);
           setShowModal(true);
@@ -67,26 +71,31 @@ const FormTasks = ({
   };
 
   const closeForm = () => {
-    cleanFields();
+    setPreviewTask({
+      _id: '',
+      description: ''
+    });
     setShowForm(false);
   };
 
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <h2>Task Description</h2>
           <Input
             type={'text'}
-            label={'Description:'}
+            label={'Description: '}
             name={'description'}
-            placeholder={'new-description'}
-            value={userInput.description}
-            onChange={onChange}
-          ></Input>
+            register={register}
+            error={errors.description?.message}
+          />
         </div>
         <div>
-          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
+          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        </div>
+        <div>
+          <Button onClick={() => reset()}>Reset Form</Button>
         </div>
         <div>
           <Button onClick={closeForm}>Close</Button>
