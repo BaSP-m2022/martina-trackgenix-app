@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styles from './projects.module.css';
-import List from './List/List';
-import ProjectForm from './Form/ProjectForm';
-import Modal from '../../Shared/Modal/Modal';
-import Loader from '../../Shared/Loader/Loader';
-import Button from '../../Shared/Buttons/Buttons';
+import styles from 'Components/SuperAdmin/Projects/projects.module.css';
+import List from 'Components/SuperAdmin/Projects/List/List';
+import ProjectForm from 'Components/SuperAdmin/Projects/Form/ProjectForm';
+import Modal from 'Components/Shared/Modal/Modal';
+import Loader from 'Components/Shared/Loader/Loader';
+import Button from 'Components/Shared/Buttons/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects } from '../../../redux/projects/thunks';
+import { getProjects } from 'redux/projects/thunks';
 
 const Projects = () => {
   const dispatch = useDispatch();
