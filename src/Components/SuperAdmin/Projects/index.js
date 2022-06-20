@@ -36,14 +36,6 @@ const Projects = () => {
     dispatch(getProjects());
   }, []);
 
-  const onClick = () => {
-    setShowForm(true);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
   return (
     <>
       {isLoading ? (
@@ -64,8 +56,8 @@ const Projects = () => {
             previousProject={previousProject}
             setPreviousProject={setPreviousProject}
           />
-          <Button onClick={onClick}>+ Add Project</Button>
-          <Modal isOpen={showModal} handleClose={handleClose} title={titleModal}>
+          <Button onClick={() => setShowForm(true)}>+ Add Project</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {titleModal}
           </Modal>
         </section>
