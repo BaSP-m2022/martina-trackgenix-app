@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'Components/Shared/Table/Table';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteProject } from '/redux/projects/thunks';
+import { deleteProject } from 'redux/projects/thunks';
 
 const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) => {
   const dispatch = useDispatch();
