@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './form.module.css';
-import Button from '../../../Shared/Buttons/Buttons';
-import Input from '../../../Shared/Field/Input';
+import styles from 'Components/SuperAdmin/Tasks/Form/form.module.css';
+import Button from 'Components/Shared/Buttons/Buttons';
+import Input from 'Components/Shared/Field/Input';
 import { useDispatch } from 'react-redux';
-import { addTask, editTask } from '../../../../redux/tasks/thunks';
+import { addTask, editTask } from 'redux/tasks/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';

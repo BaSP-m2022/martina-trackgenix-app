@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styles from './tasks.module.css';
-import FormTasks from './Form/Form';
-import List from './List';
-import Loader from '../../Shared/Loader/Loader';
-import Button from '../../Shared/Buttons/Buttons';
-import Modal from '../../Shared/Modal/Modal';
+import styles from 'Components/SuperAdmin/Tasks/tasks.module.css';
+import FormTasks from 'Components/SuperAdmin/Tasks/Form/Form';
+import List from 'Components/SuperAdmin/Tasks/List';
+import Loader from 'Components/Shared/Loader/Loader';
+import Button from 'Components/Shared/Buttons/Buttons';
+import Modal from 'Components/Shared/Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasks } from '../../../redux/tasks/thunks';
+import { getTasks } from 'redux/tasks/thunks';
 
 const Tasks = () => {
   const [showForm, setShowForm] = useState(false);

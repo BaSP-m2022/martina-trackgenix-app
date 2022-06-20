@@ -11,7 +11,7 @@ import {
   editTaskPending,
   editTaskSuccess,
   editTaskError
-} from './actions';
+} from 'redux/tasks/actions';
 
 export const getTasks = () => {
   return async (dispatch) => {

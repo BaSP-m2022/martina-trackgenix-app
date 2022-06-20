@@ -11,7 +11,7 @@ import {
   EDIT_TASK_PENDING,
   EDIT_TASK_SUCCESS,
   EDIT_TASK_ERROR
-} from './constants';
+} from 'redux/tasks/constants';
 
 export const getTasksPending = () => ({
   type: GET_TASKS_PENDING
