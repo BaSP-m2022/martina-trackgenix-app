@@ -8,10 +8,10 @@
 
 .homeContainer {
     align-self: center;
+    text-decoration: none;
 }
 
 .appName {
-    text-decoration: none;
     font-size: 2rem;
     font-weight: bold;
     color: #AACE9B
