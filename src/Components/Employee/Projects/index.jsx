@@ -14,7 +14,7 @@ const Projects = () => {
   console.log(listProject);
   return (
     <Table
-      title={'Projects'}
+      title={'My Projects'}
       data={listProject}
       headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
       headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
