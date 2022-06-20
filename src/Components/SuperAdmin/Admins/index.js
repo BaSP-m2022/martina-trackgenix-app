@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styles from './admins.module.css';
-import List from './List/List';
-import AdminForm from './Form/AdminForm';
-import Modal from '../../Shared/Modal/Modal';
-import Button from '../../Shared/Buttons/Buttons';
-import Loader from '../../Shared/Loader/Loader';
+import styles from 'Components/SuperAdmin/Admins/admins.module.css';
+import List from 'Components/SuperAdmin/Admins/List/List';
+import AdminForm from 'Components/SuperAdmin/Admins/Form/AdminForm';
+import Modal from 'Components/Shared/Modal/Modal';
+import Button from 'Components/Shared/Buttons/Buttons';
+import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins } from '../../../redux/admins/thunks';
+import { getAdmins } from 'redux/admins/thunks';
 
 const Admins = () => {
   const dispatch = useDispatch();

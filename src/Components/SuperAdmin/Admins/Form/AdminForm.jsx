@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import styles from './adminForm.module.css';
-import Input from '../../../Shared/Field/Input';
-import RadioButton from '../../../Shared/Field/RadioButton';
-import Button from '../../../Shared/Buttons/Buttons';
+import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
+import Input from 'Components/Shared/Field/Input';
+import RadioButton from 'Components/Shared/Field/RadioButton';
+import Button from 'Components/Shared/Buttons/Buttons';
 import { useDispatch } from 'react-redux/es/exports';
-import { addAdmin, editAdmin } from '../../../../redux/admins/thunks';
+import { addAdmin, editAdmin } from 'redux/admins/thunks';
 
 const AdminForm = ({
   showForm,

@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './list.module.css';
-import Row from '../../../Shared/Row/Row';
+import styles from 'Components/SuperAdmin/Admins/List/list.module.css';
+import Row from 'Components/Shared/Row/Row';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { deleteAdmin } from '../../../../redux/admins/thunks';
+import { deleteAdmin } from 'redux/admins/thunks';
 
 const List = ({ setShowForm, setPreviousAdmin }) => {
   const dispatch = useDispatch();
