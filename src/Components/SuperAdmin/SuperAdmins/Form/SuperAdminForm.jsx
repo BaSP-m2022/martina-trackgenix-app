@@ -35,12 +35,32 @@ const SuperAdminForm = ({
   };
 
   const schema = Joi.object({
-    firstName: Joi.string().alphanum().min(3).max(20).required(),
-    lastName: Joi.string().alphanum().min(3).max(20).required(),
+    firstName: Joi.string()
+      .min(3)
+      .max(20)
+      .required()
+      .regex(/^[a-zA-Z]+$/)
+      .messages({
+        'string.pattern.base': 'First name must contain only letters'
+      }),
+    lastName: Joi.string()
+      .min(3)
+      .max(20)
+      .required()
+      .regex(/^[a-zA-Z]+$/)
+      .messages({
+        'string.pattern.base': 'Last name must contain only letters'
+      }),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .required(),
-    password: Joi.string().alphanum().min(8).required(),
+    password: Joi.string()
+      .min(8)
+      .required()
+      .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
+      .messages({
+        'string.pattern.base': 'Password must contain letters and numbers'
+      }),
     active: Joi.boolean().required().messages({
       'boolean.base': 'You must select an option'
     })
