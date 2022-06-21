@@ -22,7 +22,7 @@ const FormTasks = ({
   const dispatch = useDispatch();
 
   const schema = joi.object({
-    description: joi.string().required().min(10).max(60)
+    description: joi.string().required().min(12).max(80)
   });
 
   const {
@@ -80,27 +80,23 @@ const FormTasks = ({
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <h2>Task Description</h2>
-          <Input
-            type={'text'}
-            label={'Description: '}
-            name={'description'}
-            register={register}
-            error={errors.description?.message}
-          />
-        </div>
-        <div>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-        </div>
-        <div>
-          <Button onClick={() => reset()}>Reset Form</Button>
-        </div>
-        <div>
-          <Button onClick={closeForm}>Close</Button>
-        </div>
-      </form>
+      <div className={styles.containerForm}>
+        <form>
+          <div>
+            <h2>Task Description</h2>
+            <Input
+              type={'text'}
+              label={'Description: '}
+              name={'description'}
+              register={register}
+              error={errors.description?.message}
+            />
+          </div>
+        </form>
+        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={() => reset()}>Reset Form</Button>
+        <Button onClick={closeForm}>Close</Button>
+      </div>
     </div>
   );
 };
