@@ -64,8 +64,13 @@ const SingUpEmployee = () => {
 
   return (
     <section className={styles.container}>
-      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+      <Modal
+        isOpen={showModal}
+        handleClose={() => setShowModal(false)}
+        className={styles.containerButtons}
+      >
         {childrenModal}
+        <Button onClick={() => location.assign('/home')}>Confirm</Button>
       </Modal>
       <div className={styles.containerForm}>
         <h2>Sign-Up</h2>
@@ -127,7 +132,7 @@ const SingUpEmployee = () => {
         </form>
         <div className={styles.containerButtons}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => history.back()}>Close</Button>
+          <Button onClick={() => location.assign('/home')}>Close</Button>
           <Button onClick={() => reset()}>Reset Form</Button>
         </div>
       </div>
