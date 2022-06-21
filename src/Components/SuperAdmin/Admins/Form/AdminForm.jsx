@@ -12,14 +12,17 @@ import { useForm } from 'react-hook-form';
 const adminSchema = Joi.object({
   firstName: Joi.string().min(3).max(15).required(),
   lastName: Joi.string().min(3).max(15).required(),
-  phone: Joi.string()
-    .length(10)
-    .pattern(/^[0-9]+$/)
-    .required(),
+  phone: Joi.number().min(1000000000).required(),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
-  password: Joi.string().alphanum().min(8).max(20).required(),
+  password: Joi.string()
+    .min(8)
+    .required()
+    .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
+    .messages({
+      'string.pattern.base': 'Password must contain letters and numbers'
+    }),
   active: Joi.boolean().required().messages({
     'boolean.base': 'You must select an option'
   })
@@ -139,12 +142,12 @@ const AdminForm = ({
           register={register}
           error={errors.active?.message}
         />
-        <div className={styles.button}>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
-          <Button onClick={closeForm}>Close</Button>
-        </div>
       </form>
+      <div className={styles.button}>
+        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={() => reset()}>Reset Form</Button>
+        <Button onClick={closeForm}>Close</Button>
+      </div>
     </div>
   );
 };

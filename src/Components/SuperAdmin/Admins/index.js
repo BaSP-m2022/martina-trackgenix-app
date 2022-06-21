@@ -44,7 +44,6 @@ const Admins = () => {
         <Loader show={isLoading} />
       ) : (
         <section className={styles.container}>
-          <h2>Admins</h2>
           <AdminForm
             showForm={showForm}
             setShowForm={setShowForm}

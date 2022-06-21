@@ -75,11 +75,11 @@ export const addAdmin = (admin) => {
   };
 };
 
-export const editAdmin = (admin) => {
+export const editAdmin = (admin, _id) => {
   return async (dispatch) => {
     dispatch(editAdminPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${_id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
