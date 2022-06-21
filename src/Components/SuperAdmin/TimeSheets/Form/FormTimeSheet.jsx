@@ -61,7 +61,6 @@ const FormTimeSheet = ({
   useEffect(() => {
     fetchEmployees();
   }, []);
-  console.log(previousTimeSheet);
   const employeeName = listEmployees.map((item) => {
     if (item._id == previousTimeSheet.employee) {
       return item.first_name;
@@ -109,7 +108,6 @@ const FormTimeSheet = ({
   });
 
   const onSubmit = async (data) => {
-    console.log('string: ', data);
     const newTimeSheet = {
       _id: previousTimeSheet._id,
       employee: {
