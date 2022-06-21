@@ -21,37 +21,31 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 50px 80px;
+  width: 75%;
+  max-width: 550px;
+  padding: 40px 25px;
   background-color: #ffffff;
   border-radius: 10px;
   gap: 15px;
-  overflow: scroll;
+  overflow: auto;
 }
 
-form h2 {
-  padding: 0;
-  margin: 0;
-}
-
-.container input[type="submit"]{
-  margin-left: 20px;
-  padding: 10px 15px;
-  margin-right: 10px;
-  background-color: #aace9b;
-  border: #000000 solid 1px;
-  border-radius: 5px;
+.container h2 {
+  margin: 0 0 25px 0;
   color: #373867;
-  margin-left: 10px;
-  box-shadow: 3px 3px 10px
+  text-shadow: 2px 2px 4px #00000070;
 }
 
-.container input[type="submit"]:hover{
-  background-color: #37781c;
-  color: #ffffff;
-  transition-duration: 0,4s;
+.inputContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.container input[type="submit"]:active{
-  background-color: #265213;
-  transform: translateY(4px);
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 20px;
 }
+
