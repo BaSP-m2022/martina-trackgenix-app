@@ -5,6 +5,23 @@ import Input from 'Components/Shared/Field/Input';
 import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useDispatch } from 'react-redux/es/exports';
 import { addEmployee, editEmployee } from 'redux/employees/thunks';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+import { useForm } from 'react-hook-form';
+
+const employeeSchema = Joi.object({
+  first_name: Joi.string().min(3).max(15).required(),
+  last_name: Joi.string().min(3).max(15).required(),
+  phone: Joi.string()
+    .length(10)
+    .pattern(/^[0-9]+$/)
+    .required(),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required(),
+  password: Joi.string().alphanum().min(8).max(20).required(),
+  active: Joi.boolean()
+});
 
 const EmployeeForm = ({
   showForm,
@@ -20,7 +37,7 @@ const EmployeeForm = ({
 
   const dispatch = useDispatch();
 
-  const [userInput, setUserInput] = useState(previewEmployee);
+  const [userInput] = useState(previewEmployee);
 
   const cleanFields = () => {
     setPreviewsEmployee({
@@ -34,15 +51,30 @@ const EmployeeForm = ({
     });
   };
 
-  const onChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  };
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(employeeSchema),
+    defaultValues: {
+      first_name: previewEmployee.first_name,
+      last_name: previewEmployee.last_name,
+      phone: previewEmployee.phone,
+      email: previewEmployee.email,
+      password: previewEmployee.password,
+      active: previewEmployee.active
+    }
+  });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  //const onChange = (e) => {
+  //  setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  //};
 
+  const onSubmit = async (data) => {
     if (!userInput._id) {
-      const employeeResponse = await dispatch(addEmployee(userInput));
+      const employeeResponse = await dispatch(addEmployee(data));
       if (employeeResponse.error) {
         setChildrenModal(employeeResponse.message);
         setShowModal(true);
@@ -52,7 +84,7 @@ const EmployeeForm = ({
         setShowModal(true);
       }
     } else {
-      const employeeResponse = await dispatch(editEmployee(userInput));
+      const employeeResponse = await dispatch(editEmployee(data, userInput));
       if (employeeResponse.error) {
         setChildrenModal(employeeResponse.message);
         setShowModal(true);
@@ -71,63 +103,52 @@ const EmployeeForm = ({
 
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit}>
-        <h2>Add new Employee</h2>
-        <div>
-          <Input
-            type={'text'}
-            name={'first_name'}
-            value={userInput.first_name}
-            onChange={onChange}
-            label={'Name'}
-          />
-        </div>
-        <div>
-          <Input
-            type={'text'}
-            name={'last_name'}
-            value={userInput.last_name}
-            onChange={onChange}
-            label={'Last Name'}
-          />
-        </div>
-        <div>
-          <Input
-            type={'text'}
-            name={'phone'}
-            value={userInput.phone}
-            onChange={onChange}
-            label={'Phone'}
-          />
-        </div>
-        <div>
-          <Input
-            type={'text'}
-            name={'email'}
-            value={userInput.email}
-            onChange={onChange}
-            label={'Email'}
-          />
-        </div>
-        <div>
-          <Input
-            type={'password'}
-            name={'password'}
-            value={userInput.password}
-            onChange={onChange}
-            label={'Password'}
-          />
-        </div>
-        <div>
-          <RadioButton
-            name={'active'}
-            label={'Active'}
-            value={['true', 'false']}
-            onChange={onChange}
-          />
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {!previewEmployee._id ? <h2>Add a new employee</h2> : <h2>Edit Employee</h2>}
+        <Input
+          type={'text'}
+          name={'first_name'}
+          label={'Name'}
+          register={register}
+          error={errors.first_name?.message}
+        />
+        <Input
+          type={'text'}
+          name={'last_name'}
+          label={'Last Name'}
+          register={register}
+          error={errors.last_name?.message}
+        />
+        <Input
+          type={'text'}
+          name={'phone'}
+          label={'Phone'}
+          register={register}
+          error={errors.phone?.message}
+        />
+        <Input
+          type={'text'}
+          name={'email'}
+          label={'Email'}
+          register={register}
+          error={errors.email?.message}
+        />
+        <Input
+          type={'password'}
+          name={'password'}
+          label={'Password'}
+          register={register}
+          error={errors.password?.message}
+        />
+        <RadioButton
+          name={'active'}
+          label={'Active'}
+          valueOptions={['true', 'false']}
+          register={register}
+          error={errors.active?.message}
+        />
         <div className={styles.submitButton}>
-          <Button onClick={(e) => onSubmit(e)}>Submit</Button>
+          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
           <Button onClick={closeForm}>Close</Button>
         </div>
       </form>

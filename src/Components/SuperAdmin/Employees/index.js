@@ -4,7 +4,7 @@ import List from 'Components/SuperAdmin/Employees/List/List';
 import EmployeeForm from 'Components/SuperAdmin/Employees/Form/EmployeeForm';
 import Modal from 'Components/Shared/Modal/Modal';
 import Button from 'Components/Shared/Buttons/Buttons';
-import Loader from 'Shared/Loader/Loader';
+import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from 'redux/employees/thunks';
 
