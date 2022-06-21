@@ -41,6 +41,7 @@ const AdminForm = ({
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -67,9 +68,9 @@ const AdminForm = ({
     });
   };
 
-  const onSubmit = async (previousAdmin) => {
+  const onSubmit = async (data) => {
     if (!previousAdmin._id) {
-      const adminResponse = await dispatch(addAdmin(previousAdmin));
+      const adminResponse = await dispatch(addAdmin(data));
       if (adminResponse.error) {
         setChildrenModal(adminResponse.message);
         setShowModal(true);
@@ -77,7 +78,7 @@ const AdminForm = ({
         closeForm();
       }
     } else {
-      const adminResponse = await dispatch(editAdmin(previousAdmin));
+      const adminResponse = await dispatch(editAdmin(data, previousAdmin._id));
       if (adminResponse.error) {
         setChildrenModal(adminResponse.message);
         setShowModal(true);
@@ -140,6 +141,7 @@ const AdminForm = ({
         />
         <div className={styles.button}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+          <Button onClick={() => reset()}>Reset Form</Button>
           <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
