@@ -49,11 +49,12 @@ const SingUpEmployee = () => {
   const onSubmit = async (data) => {
     try {
       const employee = await dispatch(addEmployee(data));
+      console.log(employee);
       if (employee.error) {
         setChildrenModal(employee.message);
         setShowModal(true);
       } else {
-        setChildrenModal(employee.message);
+        setChildrenModal('Register successfully');
         setShowModal(true);
       }
     } catch (error) {
@@ -68,7 +69,7 @@ const SingUpEmployee = () => {
       </Modal>
       <div className={styles.containerForm}>
         <h2>Sign-Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <div>
             <Input
               type={'text'}
@@ -123,12 +124,12 @@ const SingUpEmployee = () => {
               error={errors.active?.message}
             />
           </div>
-          <div className={styles.containerButtons}>
-            <Button onSubmit={handleSubmit(onSubmit)}>Submit</Button>
-            <Button>Close</Button>
-            <Button onClick={() => reset}>Reset Form</Button>
-          </div>
         </form>
+        <div className={styles.containerButtons}>
+          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+          <Button onClick={() => history.back()}>Close</Button>
+          <Button onClick={() => reset()}>Reset Form</Button>
+        </div>
       </div>
     </section>
   );
