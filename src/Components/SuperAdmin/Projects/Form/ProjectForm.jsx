@@ -62,7 +62,7 @@ const ProjectForm = ({
     startDate: joi.date().required().max('now'),
     finishDate: joi.date().required().min('now'),
     employee: joi.string().required().length(24).alphanum(),
-    rate: joi.number().required().min(0).max(999),
+    rate: joi.number().required().min(1).max(999),
     role: joi.string().required().valid('DEV', 'PM', 'QA', 'TL'),
     active: joi.boolean().required()
   });
