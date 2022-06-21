@@ -12,7 +12,9 @@ import { useForm } from 'react-hook-form';
 const adminSchema = Joi.object({
   firstName: Joi.string().min(3).max(15).required(),
   lastName: Joi.string().min(3).max(15).required(),
-  phone: Joi.number().min(1000000000).required(),
+  phone: Joi.number().min(1000000000).required().messages({
+    'number.min': 'Phone number be 10 digits long'
+  }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
@@ -142,12 +144,12 @@ const AdminForm = ({
           register={register}
           error={errors.active?.message}
         />
+        <div className={styles.button}>
+          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+          <Button onClick={() => reset()}>Reset Form</Button>
+          <Button onClick={closeForm}>Close</Button>
+        </div>
       </form>
-      <div className={styles.button}>
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-        <Button onClick={() => reset()}>Reset Form</Button>
-        <Button onClick={closeForm}>Close</Button>
-      </div>
     </div>
   );
 };
