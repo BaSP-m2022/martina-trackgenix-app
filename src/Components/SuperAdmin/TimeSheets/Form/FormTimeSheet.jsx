@@ -25,7 +25,7 @@ const FormTimeSheet = ({
     project: Joi.string().required().length(24).alphanum(),
     task: Joi.string().required().length(24).alphanum(),
     hsWorked: Joi.number().required(),
-    timesheetDate: Joi.date().required()
+    timesheetDate: Joi.date().required().greater('01-01-1950').less('now')
   });
   const [listEmployees, setListEmployees] = useState([]);
   const [listProjects, setListProjects] = useState([]);
@@ -34,6 +34,7 @@ const FormTimeSheet = ({
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -108,6 +109,7 @@ const FormTimeSheet = ({
   });
 
   const onSubmit = async (data) => {
+    console.log('string: ', data);
     const newTimeSheet = {
       _id: previousTimeSheet._id,
       employee: {
@@ -123,7 +125,7 @@ const FormTimeSheet = ({
         description: taskDescription
       },
       hs_worked: data.hsWorked,
-      timesheetDate: data.timesheetDate
+      timesheetDate: data.timesheetDate.toString()
     };
 
     if (!previousTimeSheet._id) {
@@ -205,8 +207,8 @@ const FormTimeSheet = ({
         </div>
         <div>
           <Input
-            type="number"
-            name="hsWorked"
+            type={'number'}
+            name={'hsWorked'}
             register={register}
             label={'Worked Hours'}
             error={errors.hsWorked?.message}
@@ -214,8 +216,8 @@ const FormTimeSheet = ({
         </div>
         <div>
           <Input
-            type="date"
-            name="timesheetDate"
+            type={'date'}
+            name={'timesheetDate'}
             register={register}
             label={'DATE'}
             error={errors.timesheetDate?.message}
@@ -223,6 +225,7 @@ const FormTimeSheet = ({
         </div>
         <div className={styles.button}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+          <Button onClick={() => reset()}>Reset Form</Button>
           <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
