@@ -16,7 +16,7 @@
   flex-direction: column;
 }
 
-.container form {
+.formButtonContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,6 +34,7 @@
   margin: 0 0 25px 0;
   color: #373867;
   text-shadow: 2px 2px 4px #00000070;
+  text-align: center;
 }
 
 .inputContainer {

@@ -35,8 +35,8 @@ const SuperAdminForm = ({
   };
 
   const schema = Joi.object({
-    firstName: Joi.string().min(3).max(20).required(),
-    lastName: Joi.string().min(3).max(20).required(),
+    firstName: Joi.string().alphanum().min(3).max(20).required(),
+    lastName: Joi.string().alphanum().min(3).max(20).required(),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .required(),
@@ -94,52 +94,53 @@ const SuperAdminForm = ({
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {!previousSuperAdmin._id ? <h2>Add super admin</h2> : <h2>Edit super admin</h2>}
-        <div className={styles.inputContainer}>
-          <Input
-            type={'text'}
-            name={'firstName'}
-            label={'First name'}
+      <div className={styles.formButtonContainer}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {!previousSuperAdmin._id ? <h2>Add super admin</h2> : <h2>Edit super admin</h2>}
+          <div className={styles.inputContainer}>
+            <Input
+              type={'text'}
+              name={'firstName'}
+              label={'First name'}
+              register={register}
+              error={errors.firstName?.message}
+            />
+            <Input
+              type={'text'}
+              name={'lastName'}
+              label={'Last name'}
+              register={register}
+              error={errors.lastName?.message}
+            />
+            <Input
+              type={'text'}
+              name={'email'}
+              label={'Email'}
+              register={register}
+              error={errors.email?.message}
+            />
+            <Input
+              type={'password'}
+              name={'password'}
+              label={'Password'}
+              register={register}
+              error={errors.password?.message}
+            />
+          </div>
+          <RadioButton
+            name={'active'}
+            label={'Active'}
+            valueOptions={[true, false]}
             register={register}
-            error={errors.firstName?.message}
+            error={errors.active?.message}
           />
-          <Input
-            type={'text'}
-            name={'lastName'}
-            label={'Last name'}
-            register={register}
-            error={errors.lastName?.message}
-          />
-          <Input
-            type={'text'}
-            name={'email'}
-            label={'Email'}
-            register={register}
-            error={errors.email?.message}
-          />
-          <Input
-            type={'password'}
-            name={'password'}
-            label={'Password'}
-            register={register}
-            error={errors.password?.message}
-          />
-        </div>
-        <RadioButton
-          name="active"
-          label={'Active'}
-          valueOptions={[true, false]}
-          register={register}
-          error={errors.active?.message}
-          className={styles.radioButton}
-        />
+        </form>
         <div className={styles.buttonContainer}>
           <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
+          <Button onClick={() => reset()}>Reset form</Button>
           <Button onClick={onClose}>Close</Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
