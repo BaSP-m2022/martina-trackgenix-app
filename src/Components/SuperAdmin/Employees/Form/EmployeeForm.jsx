@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from './employeeForm.module.css';
-import Button from '../../../Shared/Buttons/Buttons';
-import Input from '../../../Shared/Field/Input';
-import RadioButton from '../../../Shared/Field/RadioButton';
+import Button from 'Components/Shared/Buttons/Buttons';
+import Input from 'Components/Shared/Field/Input';
+import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useDispatch } from 'react-redux/es/exports';
-import { addEmployee, editEmployee } from '../../../../redux/employees/thunks';
+import { addEmployee, editEmployee } from 'redux/employees/thunks';
 
 const EmployeeForm = ({
   showForm,

@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './List.module.css';
-import Row from '../../../Shared/Row/Row';
+import styles from 'Components/SuperAdmin/Employees/List/List.module.css';
+import Row from 'Components/Shared/Row/Row';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { deleteEmployee } from '../../../../redux/employees/thunks';
+import { deleteEmployee } from 'redux/employees/thunks';
 
 const List = ({ setShowForm, setPreviewsEmployee }) => {
   const employees = useSelector((state) => state.employees.list);

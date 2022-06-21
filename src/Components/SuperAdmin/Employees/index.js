@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styles from './employees.module.css';
-import List from './List/List';
-import EmployeeForm from './Form/EmployeeForm';
-import Modal from '../../Shared/Modal/Modal';
-import Button from '../../Shared/Buttons/Buttons';
-import Loader from '../../Shared/Loader/Loader';
+import styles from 'Components/SuperAdmin/Employees/employees.module.css';
+import List from 'Components/SuperAdmin/Employees/List/List';
+import EmployeeForm from 'Components/SuperAdmin/Employees/Form/EmployeeForm';
+import Modal from 'Components/Shared/Modal/Modal';
+import Button from 'Components/Shared/Buttons/Buttons';
+import Loader from 'Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from '../../../redux/employees/thunks';
+import { getEmployees } from 'redux/employees/thunks';
 
 const Employees = () => {
   const dispatch = useDispatch();
