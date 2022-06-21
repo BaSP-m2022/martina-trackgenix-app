@@ -54,6 +54,7 @@ const EmployeeForm = ({
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -149,6 +150,7 @@ const EmployeeForm = ({
         />
         <div className={styles.submitButton}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+          <Button onClick={() => reset()}>Reset Form</Button>
           <Button onClick={closeForm}>Close</Button>
         </div>
       </form>
