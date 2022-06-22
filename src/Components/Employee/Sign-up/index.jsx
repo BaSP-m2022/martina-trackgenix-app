@@ -49,7 +49,6 @@ const SingUpEmployee = () => {
   const onSubmit = async (data) => {
     try {
       const employee = await dispatch(addEmployee(data));
-      console.log(employee);
       if (employee.error) {
         setChildrenModal(employee.message);
         setShowModal(true);
