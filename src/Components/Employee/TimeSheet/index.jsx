@@ -14,7 +14,7 @@ const timeSheet = () => {
   const employeeId = '629d41966737e327d3189242';
 
   const filteredListTimeSheet = listTimeSheet.filter(
-    (timeSheet) => timeSheet.employee._id == employeeId
+    (timeSheet) => timeSheet.employee?._id == employeeId
   );
 
   const newList = filteredListTimeSheet.map((item) => {
@@ -30,8 +30,7 @@ const timeSheet = () => {
 
   return (
     <Table
-      // title={`${newList ? newList[0].employee : ''} Time-Sheet`}
-      title={'<Employee-Name> TimeSheet'}
+      title={`${newList[0] ? newList[0].employee : ''}'s Time-Sheet`}
       data={newList}
       headersColumns={['ID', 'Employee', 'Hours Worked', 'Project', 'Task', 'Date']}
       headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
