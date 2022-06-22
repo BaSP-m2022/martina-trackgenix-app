@@ -81,6 +81,8 @@ const AdminForm = ({
         setShowModal(true);
       } else {
         closeForm();
+        setChildrenModal('Admin added');
+        setShowModal(true);
       }
     } else {
       const adminResponse = await dispatch(editAdmin(data, previousAdmin._id));
@@ -89,6 +91,8 @@ const AdminForm = ({
         setShowModal(true);
       } else {
         closeForm();
+        setChildrenModal('Admin edited');
+        setShowModal(true);
       }
     }
   };
