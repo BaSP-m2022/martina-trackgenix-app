@@ -89,6 +89,7 @@ const Form = ({
   });
 
   const onSubmit = async (data) => {
+    console.log('Botón Submit apretado');
     const newTimeSheet = {
       _id: previousTimeSheet._id,
       employee: {
@@ -108,6 +109,7 @@ const Form = ({
     };
 
     if (!previousTimeSheet._id) {
+      console.log('No hay previous timesheet id');
       try {
         const timeSheetResponse = await dispatch(addTimeSheet(newTimeSheet));
         if (timeSheetResponse.error) {
@@ -122,6 +124,7 @@ const Form = ({
         console.error(error);
       }
     } else {
+      console.log('PreviousTimeSheets._id: ', previousTimeSheet._id);
       try {
         const timeSheetResponse = await dispatch(editTimeSheet(newTimeSheet));
         if (timeSheetResponse.error) {
