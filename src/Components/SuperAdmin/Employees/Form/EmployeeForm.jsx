@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './employeeForm.module.css';
+import styles from 'Components/SuperAdmin/Employees/Form/employeeForm.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
 import RadioButton from 'Components/Shared/Field/RadioButton';
@@ -148,7 +148,7 @@ const EmployeeForm = ({
           error={errors.active?.message}
         />
       </form>
-      <div className={styles.submitButton}>
+      <div className={styles.button}>
         <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
         <Button onClick={() => reset()}>Reset Form</Button>
         <Button onClick={closeForm}>Close</Button>

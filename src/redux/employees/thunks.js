@@ -11,7 +11,7 @@ import {
   editEmployeePending,
   editEmployeeSuccess,
   editEmployeeError
-} from './actions';
+} from 'redux/employees/actions';
 
 export const getEmployees = () => {
   return async (dispatch) => {
