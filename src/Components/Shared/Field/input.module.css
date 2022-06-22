@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    text-align: center;
     width: 97%;
   }
 
@@ -20,7 +20,10 @@
 }
 
 .errorRed {
-  border: 1px solid #ff0000;
+  padding: 5px;
+  border: #ff0000 solid 2px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px #00000090;
 }
 
 .error {
@@ -28,3 +31,9 @@
   color: #ff0000;
 }
 
+.input {
+  padding: 5px;
+  border: #373867 solid 2px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px #00000090;
+}

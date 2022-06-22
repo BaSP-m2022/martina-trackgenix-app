@@ -37,16 +37,16 @@ export const addProject = (project) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.project_name,
+          project_name: project.projectName,
           client: project.client,
-          start_date: project.start_date,
-          finish_date: project.finish_date,
+          start_date: project.startDate,
+          finish_date: project.finishDate,
           active: project.active,
           employees: [
             {
-              id: project.employees[0].id,
-              role: project.employees[0].role,
-              rate: project.employees[0].rate.toString()
+              id: project.employee,
+              role: project.role,
+              rate: project.rate.toString()
             }
           ]
         })
@@ -81,26 +81,28 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const editProject = (project) => {
+export const editProject = (project, id) => {
   return async (dispatch) => {
+    console.log('data en thunk: ', project);
+    console.log('id en thunk', id);
     dispatch(editProjectPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${project._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.project_name,
+          project_name: project.projectName,
           client: project.client,
-          start_date: project.start_date,
-          finish_date: project.finish_date,
+          start_date: project.startDate,
+          finish_date: project.finishDate,
           active: project.active,
           employees: [
             {
-              id: project.employees[0].id,
-              role: project.employees[0].role,
-              rate: project.employees[0].rate.toString()
+              id: project.employee,
+              role: project.role,
+              rate: project.rate.toString()
             }
           ]
         })

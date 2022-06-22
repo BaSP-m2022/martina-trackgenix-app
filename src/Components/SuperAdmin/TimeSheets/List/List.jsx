@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './list.module.css';
-import Row from '../../../Shared/Row/Row';
+import styles from 'Components/SuperAdmin/TimeSheets/List/list.module.css';
+import Row from 'Components/Shared/Row/Row';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTimeSheet } from '../../../../redux/timeSheets/thunks';
+import { deleteTimeSheet } from 'redux/timeSheets/thunks';
 
 const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModal }) => {
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
@@ -28,7 +28,7 @@ const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModa
       hs_worked: item.hs_worked,
       task: item.task ? item.task.description : '',
       project: item.project ? item.project.project_name : '',
-      timesheetDate: item.timesheetDate
+      timesheetDate: item.timesheetDate.slice(0, 10)
     };
   });
   return (
