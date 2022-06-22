@@ -84,7 +84,7 @@ const EmployeeForm = ({
         setShowModal(true);
       }
     } else {
-      const employeeResponse = await dispatch(editEmployee(data, previewEmployee));
+      const employeeResponse = await dispatch(editEmployee(data, previewEmployee._id));
       if (employeeResponse.error) {
         setChildrenModal(employeeResponse.message);
         setShowModal(true);
@@ -143,16 +143,16 @@ const EmployeeForm = ({
         <RadioButton
           name={'active'}
           label={'Active'}
-          valueOptions={['true', 'false']}
+          valueOptions={[true, false]}
           register={register}
           error={errors.active?.message}
         />
-        <div className={styles.submitButton}>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
-          <Button onClick={closeForm}>Close</Button>
-        </div>
       </form>
+      <div className={styles.submitButton}>
+        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={() => reset()}>Reset Form</Button>
+        <Button onClick={closeForm}>Close</Button>
+      </div>
     </div>
   );
 };
