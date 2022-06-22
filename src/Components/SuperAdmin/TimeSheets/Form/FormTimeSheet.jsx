@@ -47,7 +47,7 @@ const FormTimeSheet = ({
       timesheetDate: previousTimeSheet.timesheetDate
     }
   });
-
+  console.log('previous TimeSheet: ', previousTimeSheet);
   const fetchEmployees = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
@@ -61,11 +61,6 @@ const FormTimeSheet = ({
   useEffect(() => {
     fetchEmployees();
   }, []);
-  const employeeName = listEmployees.map((item) => {
-    if (item._id == previousTimeSheet.employee) {
-      return item.first_name;
-    }
-  });
 
   const fetchProjects = async () => {
     try {
@@ -81,12 +76,6 @@ const FormTimeSheet = ({
     fetchProjects();
   }, []);
 
-  const projectName = listProjects.map((item) => {
-    if (item._id == previousTimeSheet.project) {
-      return item.project_name;
-    }
-  });
-
   const fetchTasks = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
@@ -101,13 +90,23 @@ const FormTimeSheet = ({
     fetchTasks();
   }, []);
 
-  const taskDescription = listTasks.map((item) => {
-    if (item._id == previousTimeSheet.task) {
-      return item.description;
-    }
-  });
-
   const onSubmit = async (data) => {
+    const employeeName = listEmployees.map((item) => {
+      if (item._id == data.employee) {
+        return item.first_name;
+      }
+    });
+    const projectName = listProjects.map((item) => {
+      if (item._id == data.project) {
+        return item.project_name;
+      }
+    });
+    const taskDescription = listTasks.map((item) => {
+      if (item._id == data.task) {
+        return item.description;
+      }
+    });
+
     const newTimeSheet = {
       _id: previousTimeSheet._id,
       employee: {

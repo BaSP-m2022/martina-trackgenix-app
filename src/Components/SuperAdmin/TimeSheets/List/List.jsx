@@ -28,7 +28,7 @@ const List = ({ setShowForm, setPreviousTimeSheet, setShowModal, setChildrenModa
       hs_worked: item.hs_worked,
       task: item.task ? item.task.description : '',
       project: item.project ? item.project.project_name : '',
-      timesheetDate: item.timesheetDate
+      timesheetDate: item.timesheetDate.slice(0, 10)
     };
   });
   return (
