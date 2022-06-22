@@ -13,7 +13,7 @@ const adminSchema = Joi.object({
   firstName: Joi.string().min(3).max(15).required(),
   lastName: Joi.string().min(3).max(15).required(),
   phone: Joi.number().min(1000000000).required().messages({
-    'number.min': 'Phone number be 10 digits long'
+    'number.min': 'Phone number must be 10 digits long'
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
