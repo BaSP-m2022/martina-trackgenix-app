@@ -49,9 +49,6 @@ const EmployeeProfile = () => {
     });
   }, [employeeFounded]);
 
-  console.log(listEmployee);
-  console.log('Employee:', employeeFounded);
-
   const {
     handleSubmit,
     register,
