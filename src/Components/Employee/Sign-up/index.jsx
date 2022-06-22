@@ -8,7 +8,7 @@ import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
-import Modal from '../../Shared/Modal/Modal';
+import Modal from 'Components/Shared/Modal/Modal';
 
 const SingUpEmployee = () => {
   const [userInput] = useState('');
@@ -19,12 +19,22 @@ const SingUpEmployee = () => {
   const schema = joi.object({
     first_name: joi.string().min(3).max(30).required(),
     last_name: joi.string().min(3).max(30).required(),
-    phone: joi.number().min(7).required(),
+    phone: joi.number().min(1000000000).max(9999999999).required().messages({
+      'number.min': 'Phone number must be 10 digits long',
+      'number.max': 'Phone number must be 10 digits long'
+    }),
     email: joi
       .string()
       .email({ tlds: { allow: false } })
       .required(),
-    password: joi.string().min(6).required(),
+    password: joi
+      .string()
+      .min(6)
+      .required()
+      .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
+      .messages({
+        'string.pattern.base': 'Password must contain letters and numbers'
+      }),
     active: joi.boolean().required()
   });
 
