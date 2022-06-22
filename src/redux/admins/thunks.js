@@ -11,7 +11,7 @@ import {
   editAdminPending,
   editAdminSuccess,
   editAdminError
-} from './actions';
+} from 'redux/admins/actions';
 
 export const getAdmins = () => {
   return async (dispatch) => {

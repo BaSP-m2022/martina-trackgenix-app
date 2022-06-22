@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './adminForm.module.css';
+import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
 import Input from 'Components/Shared/Field/Input';
 import RadioButton from 'Components/Shared/Field/RadioButton';
 import Button from 'Components/Shared/Buttons/Buttons';
@@ -148,12 +148,12 @@ const AdminForm = ({
           register={register}
           error={errors.active?.message}
         />
-        <div className={styles.button}>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
-          <Button onClick={closeForm}>Close</Button>
-        </div>
       </form>
+      <div className={styles.button}>
+        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={() => reset()}>Reset Form</Button>
+        <Button onClick={closeForm}>Close</Button>
+      </div>
     </div>
   );
 };
