@@ -39,7 +39,6 @@ const Employees = () => {
         <Loader show={isLoading} />
       ) : (
         <section className={styles.container}>
-          <h2>Employees</h2>
           <EmployeeForm
             showForm={showForm}
             setShowForm={setShowForm}

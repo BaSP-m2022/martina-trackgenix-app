@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './employeeForm.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
@@ -12,14 +12,19 @@ import { useForm } from 'react-hook-form';
 const employeeSchema = Joi.object({
   first_name: Joi.string().min(3).max(15).required(),
   last_name: Joi.string().min(3).max(15).required(),
-  phone: Joi.string()
-    .length(10)
-    .pattern(/^[0-9]+$/)
-    .required(),
+  phone: Joi.number().min(1000000000).required().messages({
+    'number.min': 'Phone number must be 10 digits long'
+  }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
-  password: Joi.string().alphanum().min(8).max(20).required(),
+  password: Joi.string()
+    .min(8)
+    .required()
+    .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
+    .messages({
+      'string.pattern.base': 'Password must contain letters and numbers'
+    }),
   active: Joi.boolean()
 });
 
@@ -36,8 +41,6 @@ const EmployeeForm = ({
   }
 
   const dispatch = useDispatch();
-
-  const [userInput] = useState(previewEmployee);
 
   const cleanFields = () => {
     setPreviewsEmployee({
@@ -69,12 +72,8 @@ const EmployeeForm = ({
     }
   });
 
-  //const onChange = (e) => {
-  //  setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  //};
-
   const onSubmit = async (data) => {
-    if (!userInput._id) {
+    if (!previewEmployee._id) {
       const employeeResponse = await dispatch(addEmployee(data));
       if (employeeResponse.error) {
         setChildrenModal(employeeResponse.message);
@@ -85,7 +84,7 @@ const EmployeeForm = ({
         setShowModal(true);
       }
     } else {
-      const employeeResponse = await dispatch(editEmployee(data, userInput));
+      const employeeResponse = await dispatch(editEmployee(data, previewEmployee));
       if (employeeResponse.error) {
         setChildrenModal(employeeResponse.message);
         setShowModal(true);
