@@ -12,8 +12,9 @@ import { useForm } from 'react-hook-form';
 const adminSchema = Joi.object({
   firstName: Joi.string().min(3).max(15).required(),
   lastName: Joi.string().min(3).max(15).required(),
-  phone: Joi.number().min(1000000000).required().messages({
-    'number.min': 'Phone number must be 10 digits long'
+  phone: Joi.number().min(1000000000).max(9999999999).required().messages({
+    'number.min': 'Phone number must be 10 digits long',
+    'number.max': 'Phone number must be no more than 10 digits long'
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
