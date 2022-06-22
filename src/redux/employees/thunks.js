@@ -75,11 +75,11 @@ export const addEmployee = (employee) => {
   };
 };
 
-export const editEmployee = (employee) => {
+export const editEmployee = (employee, id) => {
   return async (dispatch) => {
     dispatch(editEmployeePending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employee._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
@@ -98,7 +98,10 @@ export const editEmployee = (employee) => {
         throw res.msg;
       }
       dispatch(editEmployeeSuccess(res.data));
-      return res.data;
+      return {
+        data: res.data,
+        message: res.message
+      };
     } catch (error) {
       dispatch(editEmployeeError(error.toString()));
       return {
