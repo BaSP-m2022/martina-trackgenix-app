@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import styles from 'Components/Employee/TimeSheet/timesheets.module.css';
 import Table from 'Components/Shared/Table/Table';
 import Modal from 'Components/Shared/Modal/Modal';
-import Form from './Form/Form';
+import Form from 'Components/Employee/TimeSheet/Form/Form';
 import Button from 'Components/Shared/Buttons/Buttons';
+import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
 
-const timeSheet = () => {
+const TimeSheet = () => {
   const dispatch = useDispatch();
+
+  const isLoading = useSelector((state) => state.timeSheet.isLoading);
 
   const employeeId = '629d41966737e327d3189242';
 
@@ -44,29 +48,55 @@ const timeSheet = () => {
     };
   });
 
-  return (
-    <section>
-      <Table
-        title={`${newList[0] ? newList[0].employee : ''}'s Time-Sheet`}
-        data={newList}
-        headersColumns={['ID', 'Employee', 'Hours Worked', 'Project', 'Task', 'Date']}
-        headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-      />
+  const deleteItem = () => {
+    setShowModal(true);
+    setChildrenModal('You cannot delete a time-sheet');
+  };
 
-      <Form
-        showForm={showForm}
-        setShowForm={setShowForm}
-        setShowModal={setShowModal}
-        setChildrenModal={setChildrenModal}
-        previousTimeSheet={previousTimeSheet}
-        setPreviousTimeSheet={setPreviousTimeSheet}
-      />
-      <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button>
-      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-        {childrenModal}
-      </Modal>
-    </section>
+  const handleEdit = (timeSheet) => {
+    console.log('Work in progress..');
+    setPreviousTimeSheet({
+      _id: timeSheet._id,
+      employee: employeeId,
+      hs_worked: timeSheet.hs_worked,
+      task: timeSheet.task,
+      project: timeSheet.project,
+      timesheetDate: timeSheet.timesheetDate
+    });
+    setShowForm(true);
+  };
+
+  return (
+    <>
+      {isLoading ? (
+        <Loader show={true} />
+      ) : (
+        <section className={styles.container}>
+          <Table
+            title={`${newList[0] ? newList[0].employee : ''}'s Time-Sheet`}
+            data={newList}
+            headersColumns={['ID', 'Employee', 'Hours Worked', 'Project', 'Task', 'Date']}
+            headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
+            deleteItem={deleteItem}
+            editItem={handleEdit}
+          />
+          <Form
+            showForm={showForm}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            previousTimeSheet={previousTimeSheet}
+            setPreviousTimeSheet={setPreviousTimeSheet}
+          />
+          <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+            {childrenModal}
+          </Modal>
+        </section>
+      )}
+      ;
+    </>
   );
 };
 
-export default timeSheet;
+export default TimeSheet;
