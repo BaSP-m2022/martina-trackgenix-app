@@ -29,12 +29,12 @@ const EmployeeProfile = () => {
   const schema = joi.object({
     first_name: joi.string().min(3).max(30).required(),
     last_name: joi.string().min(3).max(30).required(),
-    phone: joi.number().min(7).required(),
+    phone: joi.number().min(7).max(14).required(),
     email: joi
       .string()
       .email({ tlds: { allow: false } })
       .required(),
-    password: joi.string().min(6).required(),
+    password: joi.string().min(6).max(8).required(),
     active: joi.boolean().required()
   });
 
