@@ -125,6 +125,7 @@ const Form = ({
   const closeForm = () => {
     setPreviousTimeSheet({
       _id: '',
+      employee: previousTimeSheet.employee,
       hs_worked: 0,
       task: '',
       project: '',
