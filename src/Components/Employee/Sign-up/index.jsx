@@ -17,8 +17,24 @@ const SingUpEmployee = () => {
   const dispatch = useDispatch();
 
   const schema = joi.object({
-    first_name: joi.string().min(3).max(30).required(),
-    last_name: joi.string().min(3).max(30).required(),
+    first_name: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z]+$/)
+      .messages({
+        'string.pattern.base': 'First Name must contain only letters'
+      })
+      .required(),
+    last_name: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z]+$/)
+      .messages({
+        'string.pattern.base': 'Last Name must contain only letters'
+      })
+      .required(),
     phone: joi.number().min(1000000000).max(9999999999).required().messages({
       'number.min': 'Phone number must be 10 digits long',
       'number.max': 'Phone number must be 10 digits long'
