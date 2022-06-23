@@ -11,7 +11,7 @@ import {
   editTaskPending,
   editTaskSuccess,
   editTaskError
-} from './actions';
+} from 'redux/tasks/actions';
 
 export const getTasks = () => {
   return async (dispatch) => {
@@ -50,7 +50,7 @@ export const addTask = (task) => {
         headers: {
           'Content-type': 'application/json'
         },
-        body: JSON.stringify({ description: task.description })
+        body: JSON.stringify(task)
       });
       const res = await response.json();
       if (res.error) {
@@ -65,16 +65,16 @@ export const addTask = (task) => {
   };
 };
 
-export const editTask = (task) => {
+export const editTask = (task, id) => {
   return async (dispatch) => {
     dispatch(editTaskPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${task._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
         },
-        body: JSON.stringify({ description: task.description })
+        body: JSON.stringify(task)
       });
       const res = await response.json();
       if (res.error) {
