@@ -64,7 +64,10 @@ export const addEmployee = (employee) => {
         throw res.msg;
       }
       dispatch(addEmployeeSuccess(res.data));
-      return res.data;
+      return {
+        data: res.data,
+        message: res.message
+      };
     } catch (error) {
       dispatch(addEmployeeError(error.toString()));
       return {
