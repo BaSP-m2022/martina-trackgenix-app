@@ -21,6 +21,17 @@ const Projects = () => {
     (project) => project.employees[0].id == employeeId
   );
 
+  const newProject = listProjectEmployee.map((item) => {
+    return {
+      _id: item._id,
+      active: item.active,
+      start_date: item.start_date.slice(0, 10),
+      finish_date: item.finish_date.slice(0, 10),
+      project_name: item.project_name,
+      client: item.client
+    };
+  });
+
   const handleDelete = () => {
     setShowModal(true);
     setChildrenModal('You cannot delete project');
@@ -39,9 +50,9 @@ const Projects = () => {
         <section>
           <Table
             title={'My Projects'}
-            data={listProjectEmployee}
-            headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
-            headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
+            data={newProject}
+            headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
+            headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}
             deleteItem={handleDelete}
             editItem={handleEdit}
           />
