@@ -21,7 +21,7 @@ const SignUpEmployee = () => {
       .string()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z]+$/)
+      .regex(/^[a-zA-Z0-9_ ]*$/)
       .messages({
         'string.pattern.base': 'First Name must contain only letters'
       })
@@ -30,7 +30,7 @@ const SignUpEmployee = () => {
       .string()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z]+$/)
+      .regex(/^[a-zA-Z0-9_ ]*$/)
       .messages({
         'string.pattern.base': 'Last Name must contain only letters'
       })
@@ -42,6 +42,12 @@ const SignUpEmployee = () => {
     email: joi
       .string()
       .email({ tlds: { allow: false } })
+      .regex(
+        /^[a-z0-9]+(?:\.[a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+      )
+      .messages({
+        'string.pattern.base': 'The email are invalid'
+      })
       .required(),
     password: joi
       .string()
