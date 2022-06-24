@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import Modal from 'Components/Shared/Modal/Modal';
 
-const SingUpEmployee = () => {
+const SignUpEmployee = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -165,4 +165,4 @@ const SingUpEmployee = () => {
   );
 };
 
-export default SingUpEmployee;
+export default SignUpEmployee;
