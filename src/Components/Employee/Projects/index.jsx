@@ -21,14 +21,15 @@ const Projects = () => {
     (project) => project.employees[0].id == employeeId
   );
 
-  const newProject = listProjectEmployee.map((item) => {
+  const projectData = listProjectEmployee.map((item) => {
     return {
       _id: item._id,
       active: item.active,
       start_date: item.start_date.slice(0, 10),
       finish_date: item.finish_date.slice(0, 10),
       project_name: item.project_name,
-      client: item.client
+      client: item.client,
+      role: item.employees[0].role
     };
   });
 
@@ -50,7 +51,7 @@ const Projects = () => {
         <section>
           <Table
             title={'My Projects'}
-            data={newProject}
+            data={projectData}
             headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
             headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}
             deleteItem={handleDelete}
