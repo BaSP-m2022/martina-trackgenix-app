@@ -24,12 +24,12 @@ const EmployeeProfile = () => {
 
   const listEmployee = useSelector((state) => state.employees.list);
 
-  const employeeFounded = listEmployee.find((employee) => employee._id == employeeId);
+  const employeeFound = listEmployee.find((employee) => employee._id == employeeId);
 
   const schema = joi.object({
     first_name: joi.string().min(3).max(30).required(),
     last_name: joi.string().min(3).max(30).required(),
-    phone: joi.number().min(7).max(14).required(),
+    phone: joi.number().min(10).max(14).required(),
     email: joi
       .string()
       .email({ tlds: { allow: false } })
@@ -40,14 +40,14 @@ const EmployeeProfile = () => {
 
   useEffect(() => {
     reset({
-      first_name: employeeFounded?.first_name,
-      last_name: employeeFounded?.last_name,
-      phone: employeeFounded?.phone,
-      email: employeeFounded?.email,
-      password: employeeFounded?.password,
-      active: employeeFounded?.active
+      first_name: employeeFound?.first_name,
+      last_name: employeeFound?.last_name,
+      phone: employeeFound?.phone,
+      email: employeeFound?.email,
+      password: employeeFound?.password,
+      active: employeeFound?.active
     });
-  }, [employeeFounded]);
+  }, [employeeFound]);
 
   const {
     handleSubmit,
@@ -61,7 +61,7 @@ const EmployeeProfile = () => {
 
   const onSubmit = async (data) => {
     try {
-      const employee = await dispatch(editEmployee(data, employeeFounded._id));
+      const employee = await dispatch(editEmployee(data, employeeFound._id));
       if (employee.error) {
         setChildrenModal(employee.message);
         setShowModal(true);
