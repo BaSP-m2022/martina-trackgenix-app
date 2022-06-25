@@ -1,12 +1,17 @@
 import React from 'react';
-import Table from '../../../Shared/Table/Table';
+import Table from 'Components/Shared/Table/Table';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteProject } from '../../../../redux/projects/thunks';
+import { deleteProject } from 'redux/projects/thunks';
 
 const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) => {
-  const listProject = useSelector((state) => state.projects.list);
-
   const dispatch = useDispatch();
+
+  let listProject = useSelector((state) => state.projects.list);
+  listProject = listProject.map((project) => {
+    project.start_date = project.start_date.slice(0, 10);
+    project.finish_date = project.finish_date.slice(0, 10);
+    return project;
+  });
 
   const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove this Project?')) {

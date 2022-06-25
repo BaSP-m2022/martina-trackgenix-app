@@ -11,7 +11,7 @@ import {
   EDIT_EMPLOYEE_PENDING,
   EDIT_EMPLOYEE_SUCCESS,
   EDIT_EMPLOYEE_ERROR
-} from './constants';
+} from 'redux/employees/constants';
 
 export const getEmployeesPending = () => {
   return {

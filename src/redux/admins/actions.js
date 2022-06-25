@@ -11,7 +11,7 @@ import {
   EDIT_ADMIN_PENDING,
   EDIT_ADMIN_SUCCESS,
   EDIT_ADMIN_ERROR
-} from './constants';
+} from 'redux/admins/constants';
 
 export const getAdminsPending = () => ({
   type: GET_ADMINS_PENDING
