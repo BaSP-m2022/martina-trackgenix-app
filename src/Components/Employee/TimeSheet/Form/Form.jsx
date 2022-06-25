@@ -51,8 +51,6 @@ const Form = ({
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getTasks());
-    console.log('Project: ', previousTimeSheet);
-    console.log('Task: ', previousTimeSheet);
     reset(previousTimeSheet);
   }, []);
 

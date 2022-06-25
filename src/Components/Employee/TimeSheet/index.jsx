@@ -54,7 +54,6 @@ const TimeSheet = () => {
   };
 
   const handleEdit = (timeSheet) => {
-    console.log('Work in progress..');
     setPreviousTimeSheet({
       _id: timeSheet._id,
       employee: employeeId,
