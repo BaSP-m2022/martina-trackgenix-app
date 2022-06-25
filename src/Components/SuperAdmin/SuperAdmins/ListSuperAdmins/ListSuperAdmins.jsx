@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './listSAdmins.module.css';
-import Row from '../../../Shared/Row/Row';
+import styles from 'Components/SuperAdmin/SuperAdmins/ListSuperAdmins/listSAdmins.module.css';
+import Row from 'Components/Shared/Row/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteSuperAdmin } from '../../../../redux/superAdmins/thunks';
+import { deleteSuperAdmin } from 'redux/superAdmins/thunks';
 
 const ListSAdmin = ({ setShowForm, setPreviousSuperAdmin, setShowModal, setChildrenModal }) => {
   const dispatch = useDispatch();

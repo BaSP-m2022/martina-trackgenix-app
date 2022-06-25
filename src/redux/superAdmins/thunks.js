@@ -51,14 +51,7 @@ export const addSuperAdmin = (superAdmin) => {
         headers: {
           'Content-type': 'application/json'
         },
-        body: JSON.stringify({
-          firstName: superAdmin.firstName,
-          lastName: superAdmin.lastName,
-          phone: superAdmin.phone,
-          email: superAdmin.email,
-          password: superAdmin.password,
-          active: superAdmin.active
-        })
+        body: JSON.stringify(superAdmin)
       });
       const res = await response.json();
       if (res.error) {
@@ -76,27 +69,17 @@ export const addSuperAdmin = (superAdmin) => {
   };
 };
 
-export const editSuperAdmin = (superAdmin) => {
+export const editSuperAdmin = (superAdmin, _id) => {
   return async (dispatch) => {
     dispatch(editSuperAdminPending());
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/super-admins/${superAdmin._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName: superAdmin.firstName,
-            lastName: superAdmin.lastName,
-            phone: superAdmin.phone,
-            email: superAdmin.email,
-            password: superAdmin.password,
-            active: superAdmin.active
-          })
-        }
-      );
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(superAdmin)
+      });
       const res = await response.json();
       if (res.error) {
         throw res.message;

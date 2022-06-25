@@ -11,7 +11,7 @@ import {
   editEmployeePending,
   editEmployeeSuccess,
   editEmployeeError
-} from './actions';
+} from 'redux/employees/actions';
 
 export const getEmployees = () => {
   return async (dispatch) => {
@@ -64,7 +64,10 @@ export const addEmployee = (employee) => {
         throw res.msg;
       }
       dispatch(addEmployeeSuccess(res.data));
-      return res.data;
+      return {
+        data: res.data,
+        message: res.message
+      };
     } catch (error) {
       dispatch(addEmployeeError(error.toString()));
       return {
@@ -75,11 +78,11 @@ export const addEmployee = (employee) => {
   };
 };
 
-export const editEmployee = (employee) => {
+export const editEmployee = (employee, _id) => {
   return async (dispatch) => {
     dispatch(editEmployeePending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employee._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${_id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
@@ -98,7 +101,10 @@ export const editEmployee = (employee) => {
         throw res.msg;
       }
       dispatch(editEmployeeSuccess(res.data));
-      return res.data;
+      return {
+        data: res.data,
+        message: res.message
+      };
     } catch (error) {
       dispatch(editEmployeeError(error.toString()));
       return {

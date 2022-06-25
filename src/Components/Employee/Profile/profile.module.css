@@ -1,0 +1,48 @@
+container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .container h2 {
+    color: #373867;
+    text-shadow: 2px 2px 4px #00000070;
+  }
+  
+  .container label {
+    color: #373867;
+    font-weight: 500;
+  }
+  
+  .containerForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .containerForm form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;
+    height: 75%;
+    gap: 20px;
+  }
+  
+  .containerInput {
+    width: 44%;
+    margin: 0 5px;
+  }
+  
+  .containerButtons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 75%;
+    gap: 50px;
+    margin-bottom: 20px;
+  }
