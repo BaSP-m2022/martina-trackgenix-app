@@ -28,7 +28,7 @@ const Form = ({
     project: Joi.string().required().length(24).alphanum(),
     task: Joi.string().required().length(24).alphanum(),
     hsWorked: Joi.number().required(),
-    timesheetDate: Joi.date().required().greater('01-01-1950').less('now')
+    timesheetDate: Joi.date().required().greater('01-01-1930').less('now')
   });
 
   const {
@@ -88,7 +88,7 @@ const Form = ({
         description: taskDescription
       },
       hs_worked: data.hsWorked,
-      timesheetDate: data.timesheetDate.toString()
+      timesheetDate: data.timesheetDate.toISOString()
     };
 
     if (!previousTimeSheet._id) {
