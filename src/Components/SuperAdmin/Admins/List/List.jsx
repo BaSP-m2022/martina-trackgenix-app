@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from './list.module.css';
-import Row from '../../../Shared/Row/Row';
+import Table from 'Components/Shared/Table/Table';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { deleteAdmin } from '../../../../redux/admins/thunks';
+import { deleteAdmin } from 'redux/admins/thunks';
 
 const List = ({ setShowForm, setPreviousAdmin }) => {
   const dispatch = useDispatch();
@@ -21,32 +20,14 @@ const List = ({ setShowForm, setPreviousAdmin }) => {
   };
 
   return (
-    <section className={styles.container}>
-      <table>
-        <thead>
-          <tr>
-            <th id="id">ID</th>
-            <th id="firstName">First Name</th>
-            <th id="lastName">Last Name</th>
-            <th id="phone">Phone</th>
-            <th id="email">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {admins.map((item) => {
-            return (
-              <Row
-                key={item._id}
-                data={item}
-                headers={['_id', 'firstName', 'lastName', 'phone', 'email']}
-                deleteItem={() => handleDelete(item._id)}
-                editItem={() => handleEdit(item)}
-              />
-            );
-          })}
-        </tbody>
-      </table>
-    </section>
+    <Table
+      title={'Admins'}
+      data={admins}
+      headersColumns={['ID', 'Fist Name', 'Last Name', 'Phone', 'Email']}
+      headers={['_id', 'firstName', 'lastName', 'phone', 'email']}
+      deleteItem={handleDelete}
+      editItem={handleEdit}
+    />
   );
 };
 

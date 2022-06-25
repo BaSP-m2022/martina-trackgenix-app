@@ -1,7 +1,7 @@
 import React from 'react';
-import Row from '../../../Shared/Row/Row';
+import Row from 'Components/Shared/Row/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask } from '../../../../redux/tasks/thunks';
+import { deleteTask } from 'redux/tasks/thunks';
 
 const List = ({ setShowForm, setPreviewTask }) => {
   const dispatch = useDispatch();
