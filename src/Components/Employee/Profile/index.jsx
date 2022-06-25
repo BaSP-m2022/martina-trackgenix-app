@@ -27,14 +27,46 @@ const EmployeeProfile = () => {
   const employeeFound = listEmployee.find((employee) => employee._id == employeeId);
 
   const schema = joi.object({
-    first_name: joi.string().min(3).max(30).required(),
-    last_name: joi.string().min(3).max(30).required(),
-    phone: joi.number().min(10).max(14).required(),
+    first_name: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z0-9_ ]*$/)
+      .messages({
+        'string.pattern.base': 'First Name must contain only letters'
+      })
+      .required(),
+    last_name: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z0-9_ ]*$/)
+      .messages({
+        'string.pattern.base': 'Last Name must contain only letters'
+      })
+      .required(),
+    phone: joi.number().min(1000000000).max(9999999999).required().messages({
+      'number.min': 'Phone number must be 10 digits long',
+      'number.max': 'Phone number must be 10 digits long'
+    }),
     email: joi
       .string()
       .email({ tlds: { allow: false } })
+      .regex(
+        /^[a-z0-9]+(?:\.[a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+      )
+      .messages({
+        'string.pattern.base': 'The email are invalid'
+      })
       .required(),
-    password: joi.string().min(6).max(8).required(),
+    password: joi
+      .string()
+      .min(6)
+      .required()
+      .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
+      .messages({
+        'string.pattern.base': 'Password must contain letters and numbers'
+      }),
     active: joi.boolean().required()
   });
 
