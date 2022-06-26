@@ -51,7 +51,6 @@ const Form = ({
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getTasks());
-    reset(previousTimeSheet);
   }, []);
 
   const projects = useSelector((state) => state.projects.list);
