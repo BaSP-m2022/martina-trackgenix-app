@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { store } from 'redux/store';
+import { setAuthentication } from 'redux/auth/actions';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -13,12 +15,14 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-//TODO: save token on store when redux auth is ready
 export const tokenListener = () => {
   firebase.auth().onIdTokenChanged(async (user) => {
     if (user) {
       const token = await user.getIdToken();
-      sessionStorage.setItem('token', token);
+      const {
+        claims: { role }
+      } = await user.getIdTokenResult();
+      store.dispatch(setAuthentication({ token, role }));
     }
   });
 };
