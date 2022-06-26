@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  authenticated: false,
+  authenticated: undefined,
   error: ''
 };
 
@@ -25,7 +25,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: true
+        authenticated: action.payload
       };
     }
     case LOGIN_ERROR: {
