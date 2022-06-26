@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
+//TODO: save token on store when redux auth is ready
 export const tokenListener = () => {
   firebase.auth().onIdTokenChanged(async (user) => {
     if (user) {
