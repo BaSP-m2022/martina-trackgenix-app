@@ -44,7 +44,8 @@ export const authReducer = (state = initialState, action) => {
     case SET_AUTHENTICATION: {
       return {
         ...state,
-        authenticated: true
+        authenticated: action.payload,
+        isLoading: false
       };
     }
     default: {

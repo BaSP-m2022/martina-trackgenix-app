@@ -32,8 +32,9 @@ export const cleanError = () => {
   };
 };
 
-export const setAuthentication = () => {
+export const setAuthentication = (user) => {
   return {
-    type: SET_AUTHENTICATION
+    type: SET_AUTHENTICATION,
+    payload: user
   };
 };
