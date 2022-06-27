@@ -18,31 +18,28 @@
 .containerForm {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin-bottom: 40px;
+  width: 60%;
 }
 
 .containerForm form {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  width: 95%;
+  width: 55%;
   height: 75%;
   gap: 20px;
 }
 
-.containerInput {
-  width: 44%;
-  margin: 0 5px;
+.divIm {
+  display: flex;
 }
 
 .containerButtons {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 75%;
+  width: 63%;
   gap: 30px;
   margin-top: 50px;
   margin-bottom: 20px;

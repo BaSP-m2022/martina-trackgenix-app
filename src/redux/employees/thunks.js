@@ -45,7 +45,7 @@ export const addEmployee = (employee) => {
   return async (dispatch) => {
     dispatch(addEmployeePending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -56,7 +56,8 @@ export const addEmployee = (employee) => {
           phone: employee.phone,
           email: employee.email,
           password: employee.password,
-          active: employee.active
+          active: employee.active,
+          role: 'EMPLOYEE'
         })
       });
       const res = await response.json();

@@ -18,12 +18,13 @@ const LogInEmployee = () => {
   const schema = joi.object({
     email: joi
       .string()
-      .email({ tlds: { allow: false } })
+      .required()
       .regex(
         /^[a-z0-9]+(?:\.[a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
       )
       .messages({
-        'string.pattern.base': 'The email are invalid'
+        'string.pattern.base': 'The email is invalid',
+        'string.empty': 'This field is required'
       })
       .required(),
     password: joi
@@ -32,7 +33,9 @@ const LogInEmployee = () => {
       .required()
       .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
       .messages({
-        'string.pattern.base': 'Password must contain letters and numbers'
+        'string.pattern.base': 'Password must contain letters and numbers',
+        'string.min': 'Password is too short',
+        'string.empty': 'This field is required'
       }),
     active: joi.boolean().required()
   });
@@ -52,9 +55,9 @@ const LogInEmployee = () => {
 
   const onSubmit = async (data) => {
     try {
-      const employee = await dispatch(getEmployees(data));
-      if (employee.error) {
-        setChildrenModal(employee.message);
+      const User = await dispatch(getEmployees(data));
+      if (User.error) {
+        setChildrenModal(User.message);
         setShowModal(true);
       } else {
         setChildrenModal('Login successfully');
@@ -78,7 +81,7 @@ const LogInEmployee = () => {
       <div className={styles.containerForm}>
         <h2>Login</h2>
         <form>
-          <div>
+          <div className={styles.divIm}>
             <Input
               type={'text'}
               name={'email'}
@@ -87,7 +90,7 @@ const LogInEmployee = () => {
               error={errors.email?.message}
             />
           </div>
-          <div>
+          <div className={styles.divIm}>
             <Input
               type={'password'}
               name={'password'}
@@ -98,8 +101,8 @@ const LogInEmployee = () => {
           </div>
         </form>
         <div className={styles.containerButtons}>
-          <Button onClick={handleSubmit(onSubmit)}>Login</Button>
           <Button onClick={() => location.assign('/home')}>Close</Button>
+          <Button onClick={handleSubmit(onSubmit)}>Login</Button>
         </div>
       </div>
     </section>
