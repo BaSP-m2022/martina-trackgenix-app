@@ -33,9 +33,32 @@ describe('Home page testing', () => {
   it('Wait for bodyHome: container', async () => {
     await expect(HomePage.bodyHome).toBeDisplayed();
     await expect(HomePage.containerHome).toBeDisplayed();
-    await expect(HomePage.employeeContainer).toBeDisplayed();
-    await expect(HomePage.supeAdminContainer).toBeDisplayed();
-    await expect(HomePage.registerContainer).toBeDisplayed();
+    await expect(HomePage.employeeBtn).toBeDisplayed();
+    await expect(HomePage.superAdminBtn).toBeDisplayed();
+    await expect(HomePage.registerBtn).toBeDisplayed();
+  });
+  it('Container btn to be clickable', async () => {
+    await expect(HomePage.employeeBtn).toBeClickable();
+    await expect(HomePage.superAdminBtn).toBeClickable();
+    await expect(HomePage.registerBtn).toBeClickable();
+  });
+  it('container btn must have your href', async () => {
+    await expect(HomePage.employeeBtn).toHaveAttribute('href', false);
+    await expect(HomePage.superAdminBtn).toHaveAttribute('href', false);
+    await expect(HomePage.registerBtn).toHaveAttribute('href', false);
+  });
+  it('Wait for title for each btn to container', async () => {
+    await expect(HomePage.employeeBtn).toHaveText('Employee');
+    await expect(HomePage.superAdminBtn).toHaveText('Super Admin');
+    await expect(HomePage.registerBtn).toHaveText('Register');
+  });
+  /* it('Wait for footer', async () => {
+    await expect(HomePage.footer).toBeDisplayed();
+  }); */
+  //this bug its in progress
+  it('Display the registration page after clicking register', async () => {
+    HomePage.clickRegister();
+    await browser.url('https://martina-trackgenix-app.vercel.app/employee/sign-up');
   });
   it('I wait for the facebook page when I click on the icon', async () => {
     HomePage.clickFacebook();

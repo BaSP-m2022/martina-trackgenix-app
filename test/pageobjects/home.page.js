@@ -34,14 +34,17 @@ class homePage {
   get containerHome() {
     return $('#root > div > section > div');
   }
-  get employeeContainer() {
+  get employeeBtn() {
     return $('#root > div > section > div > a:nth-child(2)');
   }
-  get supeAdminContainer() {
+  get superAdminBtn() {
     return $('#root > div > section > div > a:nth-child(3)');
   }
-  get registerContainer() {
+  get registerBtn() {
     return $('#root > div > section > div > a:nth-child(4)');
+  }
+  get footer() {
+    return $('.footer_license__1FrkS');
   }
   async clickFacebook() {
     await this.facebookSocialRed.click();
@@ -53,6 +56,18 @@ class homePage {
   }
   async clickInstagram() {
     await this.instagramSocialRed.click();
+    browser.pause(3000);
+  }
+  async clickEmployee() {
+    await this.employeeBtn.click();
+    browser.pause(3000);
+  }
+  async clickSuperAdmin() {
+    await this.superAdminBtn.click();
+    browser.pause(3000);
+  }
+  async clickRegister() {
+    await this.registerBtn.click();
     browser.pause(3000);
   }
 }
