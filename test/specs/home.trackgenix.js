@@ -52,10 +52,9 @@ describe('Home page testing', () => {
     await expect(HomePage.superAdminBtn).toHaveText('Super Admin');
     await expect(HomePage.registerBtn).toHaveText('Register');
   });
-  /* it('Wait for footer', async () => {
+  it('Wait for footer, in progress', async () => {
     await expect(HomePage.footer).toBeDisplayed();
-  }); */
-  //this bug its in progress
+  });
   it('Display the registration page after clicking register', async () => {
     HomePage.clickRegister();
     await browser.url('https://martina-trackgenix-app.vercel.app/employee/sign-up');

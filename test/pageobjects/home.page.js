@@ -1,4 +1,3 @@
-/* eslint-disable no-dupe-class-members */
 /* eslint-disable no-undef */
 class homePage {
   get headerHome() {
