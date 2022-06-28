@@ -1,23 +1,26 @@
-import React, { lazy, Suspense } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Suspense } from 'react';
+// import { Switch, Route, Redirect } from 'react-router-dom';
 import styles from './layout.module.css';
 import Header from 'Components/Shared/Header';
 import NavBar from 'Components/Shared/NavBar/NavBar';
 import Footer from 'Components/Shared/Footer';
-import SuperAdminLayout from 'Components/SuperAdmin/index';
 
-const Home = lazy(() => import('Components/Home'));
-const Employee = lazy(() => import('Components/Employee'));
-const registerEmployee = lazy(() => import('Components/Auth/Sign-up'));
+// import SuperAdminLayout from 'Components/SuperAdmin/index';
+
+// const Home = lazy(() => import('Components/Home'));
+// const Employee = lazy(() => import('Components/Employee'));
+// const registerEmployee = lazy(() => import('Components/Auth/SignUp'));
 
 const Layout = ({ routes }) => {
   console.log('Layout routes:', routes);
   return (
     <div className={styles.container}>
       <Suspense fallback={<div>Loading...</div>}>
-        <Header />
-        <NavBar props={routes} />
-        <Switch>
+        <div>
+          <Header />
+          <NavBar props={routes} />
+        </div>
+        {/* <Switch>
           <Route path="/home" component={Home} />
           <Route path="/super-admin" component={SuperAdminLayout} />
           <Route path="/employee" component={Employee} />
@@ -25,7 +28,7 @@ const Layout = ({ routes }) => {
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
-        </Switch>
+        </Switch> */}
         <Footer props={routes} />
       </Suspense>
     </div>

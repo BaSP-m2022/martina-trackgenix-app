@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from 'Components/Auth/Sign-up/sign-up.module.css';
+import styles from 'Components/Auth/SignUp/sign-up.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 import RadioButton from 'Components/Shared/Field/RadioButton';
@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import Modal from 'Components/Shared/Modal/Modal';
 
-const SignUpEmployee = () => {
+const SignUp = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -171,4 +171,4 @@ const SignUpEmployee = () => {
   );
 };
 
-export default SignUpEmployee;
+export default SignUp;

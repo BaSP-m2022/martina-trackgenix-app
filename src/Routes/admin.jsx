@@ -3,6 +3,7 @@ import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import PrivateRoute from 'Routes/PrivateRoute';
 import Layout from 'Components/Layout';
 
+const Home = lazy(() => import('Components/SuperAdmin/Home'));
 const SuperAdmins = lazy(() => import('Components/SuperAdmin/SuperAdmins'));
 const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
 const Employees = lazy(() => import('Components/SuperAdmin/Employees'));
@@ -27,13 +28,14 @@ const AdminRoutes = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Layout routes={adminRoutes}>
         <Switch>
+          <PrivateRoute path={`${url}/home`} component={Home} />
           <PrivateRoute path={`${url}/super-admins`} component={SuperAdmins} />
           <PrivateRoute path={`${url}/admins`} component={Admins} />
           <PrivateRoute path={`${url}/employees`} component={Employees} />
           <PrivateRoute path={`${url}/projects`} component={Projects} />
           <PrivateRoute path={`${url}/time-sheets`} component={TimeSheets} />
           <PrivateRoute path={`${url}/tasks`} component={Tasks} />
-          <Redirect to={`${url}/admins`} />
+          <Redirect to={`${url}/home`} />
         </Switch>
       </Layout>
     </Suspense>

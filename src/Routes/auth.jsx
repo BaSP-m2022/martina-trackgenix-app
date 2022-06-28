@@ -1,12 +1,21 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Layout';
+import NotAllowed from 'Components/Auth/NotAllowed';
+// import SignUp from 'Components/Auth/SignUp';
 
 // const Login = lazy(() => import('Components/Auth/Login'));
 
-const SignUp = lazy(() => import('Components/Auth/Sign-up/index'));
+const Home = lazy(() => import('Components/Home/index'));
+const SignUp = lazy(() => import('Components/Auth/SignUp/index'));
 
-const authRoutes = [{ name: 'Log In', path: '/auth/sign-up' }];
+// const NotAllowed = lazy(() => import('Components/Auth/NotAllowed/index'));
+
+const authRoutes = [
+  { path: '/auth/login', name: 'Login' },
+  { path: '/auth/sign-up', name: 'Sign Up' },
+  { path: '/auth/logout', name: 'Logout' }
+];
 
 const AuthRoutes = () => {
   const { url } = useRouteMatch();
@@ -14,9 +23,11 @@ const AuthRoutes = () => {
     <Layout routes={authRoutes}>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
+          <Route path={`${url}`} component={Home} />
           {/* <Route path={`${url}/login`} component={Login} /> */}
           <Route path={`${url}/sign-up`} component={SignUp} />
-          <Redirect to={`${url}/login`} />
+          <Route path={`${url}/notAllowed`} component={NotAllowed} />
+          <Redirect to={`${url}/home`} />
         </Switch>
       </Suspense>
     </Layout>
