@@ -1,7 +1,7 @@
 const HomePage = require('../pageobjects/home.page');
 const RegisterPage = require('../pageobjects/register.page');
 
-describe('We register with Cristian, following the steps to a successfull registration', () => {
+describe('We register as Cristian, following the steps to a successfull registration', () => {
   beforeAll('Open browser', () => {
     browser.url('https://martina-trackgenix-b9dsg8a3w-basp-m2022.vercel.app/home');
   });

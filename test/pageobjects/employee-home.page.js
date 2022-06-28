@@ -1,6 +1,25 @@
-const HomePage = require('./home.page');
-
-class EmployeeHomePage extends HomePage {
+class EmployeeHomePage {
+  get titleHead() {
+    return $('.header_brand__2s1Vi');
+  }
+  get facebookIconHead() {
+    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(1) > img');
+  }
+  get twitterIconHead() {
+    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(2) > img');
+  }
+  get instagramIconHead() {
+    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(3) > img');
+  }
+  get faceLinkHead() {
+    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(1)');
+  }
+  get twitLinkHead() {
+    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(2)');
+  }
+  get instaLinkHead() {
+    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(3)');
+  }
   get facebookIconFoot() {
     return $(
       '#root > div > div > footer > div.footer_license__1FrkS > div:nth-child(2) > a:nth-child(1) > img'
