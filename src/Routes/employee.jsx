@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import PrivateRoute from 'Routes/PrivateRoute';
 import Layout from 'Components/Layout';
+
 const Home = lazy(() => import('Components/Employee/Home'));
 const Profile = lazy(() => import('Components/Employee/Profile'));
 const Projects = lazy(() => import('Components/Employee/Projects'));

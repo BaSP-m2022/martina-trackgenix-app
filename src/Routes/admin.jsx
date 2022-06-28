@@ -8,7 +8,7 @@ const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
 const Employees = lazy(() => import('Components/SuperAdmin/Employees'));
 const Tasks = lazy(() => import('Components/SuperAdmin/Tasks'));
 const Projects = lazy(() => import('Components/SuperAdmin/Projects'));
-const TimeSheets = lazy(() => import('Components/SuperAdmin/TimeSheet'));
+const TimeSheets = lazy(() => import('Components/SuperAdmin/TimeSheets'));
 
 const adminRoutes = [
   { path: '/super-admin/admins', name: 'Admins' },

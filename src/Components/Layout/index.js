@@ -8,7 +8,7 @@ import SuperAdminLayout from 'Components/SuperAdmin/index';
 
 const Home = lazy(() => import('Components/Home'));
 const Employee = lazy(() => import('Components/Employee'));
-const registerEmployee = lazy(() => import('Components/Employee/Sign-up'));
+const registerEmployee = lazy(() => import('Components/Auth/Sign-up'));
 
 const Layout = ({ routes }) => {
   console.log('Layout routes:', routes);

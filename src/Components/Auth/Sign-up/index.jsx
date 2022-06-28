@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from 'Components/Employee/Sign-up/sign-up.module.css';
+import styles from 'Components/Auth/Sign-up/sign-up.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 import RadioButton from 'Components/Shared/Field/RadioButton';
