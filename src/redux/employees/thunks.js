@@ -101,7 +101,10 @@ export const editEmployee = (employee, _id) => {
         throw res.msg;
       }
       dispatch(editEmployeeSuccess(res.data));
-      return res.data;
+      return {
+        data: res.data,
+        message: res.message
+      };
     } catch (error) {
       dispatch(editEmployeeError(error.toString()));
       return {

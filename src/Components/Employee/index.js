@@ -6,7 +6,7 @@ import Footer from 'Components/Shared/Footer';
 
 const Home = lazy(() => import('Components/Employee/Home/index'));
 const Projects = lazy(() => import('Components/Employee/Projects/index'));
-const Profile = lazy(() => import('Components/Employee/Profile/index'));
+const EmployeeProfile = lazy(() => import('Components/Employee/Profile/index'));
 const TimeSheet = lazy(() => import('Components/Employee/TimeSheet/index'));
 const SignUpEmployee = lazy(() => import('Components/Employee/Sign-up/index'));
 
@@ -24,7 +24,7 @@ function EmployeeLayout() {
           <Route path="/employee/home" component={Home} />
           <Route path="/employee/projects" component={Projects} />
           <Route path="/employee/time-sheets" component={TimeSheet} />
-          <Route path="/employee/profile" component={Profile} />
+          <Route path="/employee/profile" component={EmployeeProfile} />
           <Route path="/employee/sign-up" component={SignUpEmployee} />
           <Route exact path="/employee/">
             <Redirect to="/employee/home" />
