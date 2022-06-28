@@ -86,26 +86,6 @@ class EmployeeTimeSheetPage {
   get timesheetTitle() {
     return $('#root > div > div > section > div.form_container__3l8hg > div > form > h2');
   }
-  get projectLabel() {
-    return $(
-      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(2) > div > label'
-    );
-  }
-  get taskLabel() {
-    return $(
-      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(3) > div > label'
-    );
-  }
-  get workedHoursLabel() {
-    return $(
-      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(4) > div > label'
-    );
-  }
-  get dateLabel() {
-    return $(
-      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(5) > div > label'
-    );
-  }
   get sumbitBtn() {
     return $(
       '#root > div > div > section > div.form_container__3l8hg > div > div > button:nth-child(1)'
@@ -119,6 +99,57 @@ class EmployeeTimeSheetPage {
   get closeBtn() {
     return $(
       '#root > div > div > section > div.form_container__3l8hg > div > div > button:nth-child(3)'
+    );
+  }
+  get pageIndex() {
+    return $('.table_page__28tC0');
+  }
+  get previousBtn() {
+    return $(
+      '#root > div > div > section > div > div.table_buttons__2zGNi > div:nth-child(1) > button'
+    );
+  }
+  get nextBtn() {
+    return $(
+      '#root > div > div > section > div > div.table_buttons__2zGNi > div:nth-child(2) > button'
+    );
+  }
+  get idLabel() {
+    return $('#root > div > div > section > div > table > thead > tr > th:nth-child(1)');
+  }
+  get employeeLabel() {
+    return $('#root > div > div > section > div > table > thead > tr > th:nth-child(2)');
+  }
+  get hoursWorkedLabel() {
+    return $('#root > div > div > section > div > table > thead > tr > th:nth-child(3)');
+  }
+  get projectLabel() {
+    return $('#root > div > div > section > div > table > thead > tr > th:nth-child(4)');
+  }
+  get taskLabel() {
+    return $('#root > div > div > section > div > table > thead > tr > th:nth-child(5)');
+  }
+  get dateLabel() {
+    return $('#root > div > div > section > div > table > thead > tr > th:nth-child(6)');
+  }
+  get projectInput() {
+    return $(
+      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(2) > div > select'
+    );
+  }
+  get taskInput() {
+    return $(
+      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(3) > div > select'
+    );
+  }
+  get hoursWorkedInput() {
+    return $(
+      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(4) > div > input'
+    );
+  }
+  get dateInput() {
+    return $(
+      '#root > div > div > section > div.form_container__3l8hg > div > form > div:nth-child(5) > div > input'
     );
   }
 }

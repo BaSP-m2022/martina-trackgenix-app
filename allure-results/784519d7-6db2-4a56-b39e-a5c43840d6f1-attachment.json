@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "#root > div > div > section > div > form > div:nth-child(1) > div > label"
+}

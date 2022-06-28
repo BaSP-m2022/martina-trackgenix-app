@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "#root > div > div > section > div > table > thead > tr > th:nth-child(2)"
+}

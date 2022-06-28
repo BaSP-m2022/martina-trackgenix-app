@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "#root > div > div > nav > ul > li:nth-child(2) > a"
+}
