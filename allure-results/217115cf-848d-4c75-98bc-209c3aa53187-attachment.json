@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "#root > div > div > section > div > div.table_buttons__2zGNi > div:nth-child(2) > button"
+}

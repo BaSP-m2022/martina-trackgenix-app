@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "#root > div > div > section > div.form_container__3l8hg > div > div > button:nth-child(1)"
+}

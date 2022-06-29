@@ -62,9 +62,11 @@ describe('We enter the Employee section, try to register as Robert and check the
     await EmployeeTimeSheetPage.addTSBtn.click();
     await EmployeeTimeSheetPage.hoursWorkedInput.setValue('8');
     await EmployeeTimeSheetPage.resetFormBtn.click();
+    await EmployeeTimeSheetPage.resetFormBtn.click();
     await expect(EmployeeTimeSheetPage.hoursWorkedInput).toHaveValue('');
   });
   it('User should not be able to submit the form without filling all the fieldsets', async () => {
+    await EmployeeTimeSheetPage.resetFormBtn.click();
     await EmployeeTimeSheetPage.resetFormBtn.click();
     await EmployeeTimeSheetPage.sumbitBtn.click();
     await expect(EmployeeTimeSheetPage.projectInput).toHaveClass('input_errorRed__1jLFP');
