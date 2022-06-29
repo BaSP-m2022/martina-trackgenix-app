@@ -6,7 +6,6 @@ import NotAllowed from 'Components/Auth/NotAllowed';
 
 // const Login = lazy(() => import('Components/Auth/Login'));
 
-const Home = lazy(() => import('Components/Home/index'));
 const SignUp = lazy(() => import('Components/Auth/SignUp/index'));
 
 // const NotAllowed = lazy(() => import('Components/Auth/NotAllowed/index'));
@@ -19,15 +18,15 @@ const authRoutes = [
 
 const AuthRoutes = () => {
   const { url } = useRouteMatch();
+  console.log(`${url}/home`);
   return (
     <Layout routes={authRoutes}>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <Route path={`${url}`} component={Home} />
           {/* <Route path={`${url}/login`} component={Login} /> */}
           <Route path={`${url}/sign-up`} component={SignUp} />
           <Route path={`${url}/notAllowed`} component={NotAllowed} />
-          <Redirect to={`${url}/home`} />
+          <Redirect to={`${url}`} />
         </Switch>
       </Suspense>
     </Layout>

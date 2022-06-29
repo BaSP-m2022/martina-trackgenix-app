@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import PrivateRoute from 'Routes/PrivateRoute';
+import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Layout';
 
 const Home = lazy(() => import('Components/SuperAdmin/Home'));
@@ -25,20 +24,20 @@ const AdminRoutes = () => {
 
   console.log('Admin routes:', AdminRoutes);
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Layout routes={adminRoutes}>
+    <Layout routes={adminRoutes}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <PrivateRoute path={`${url}/home`} component={Home} />
-          <PrivateRoute path={`${url}/super-admins`} component={SuperAdmins} />
-          <PrivateRoute path={`${url}/admins`} component={Admins} />
-          <PrivateRoute path={`${url}/employees`} component={Employees} />
-          <PrivateRoute path={`${url}/projects`} component={Projects} />
-          <PrivateRoute path={`${url}/time-sheets`} component={TimeSheets} />
-          <PrivateRoute path={`${url}/tasks`} component={Tasks} />
+          <Route path={`${url}/home`} component={Home} />
+          <Route path={`${url}/super-admins`} component={SuperAdmins} />
+          <Route path={`${url}/admins`} component={Admins} />
+          <Route path={`${url}/employees`} component={Employees} />
+          <Route path={`${url}/projects`} component={Projects} />
+          <Route path={`${url}/time-sheets`} component={TimeSheets} />
+          <Route path={`${url}/tasks`} component={Tasks} />
           <Redirect to={`${url}/home`} />
         </Switch>
-      </Layout>
-    </Suspense>
+      </Suspense>
+    </Layout>
   );
 };
 

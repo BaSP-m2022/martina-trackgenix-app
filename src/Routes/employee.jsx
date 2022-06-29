@@ -18,17 +18,17 @@ const EmployeeRoutes = () => {
   const { url } = useRouteMatch();
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Layout routes={employeeRoutes}>
+    <Layout routes={employeeRoutes}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <PrivateRoute path={`${url}/employee/home`} component={Home} />
-          <PrivateRoute path={`${url}/employee/profile`} component={Profile} />
-          <PrivateRoute path={`${url}/employee/projects`} component={Projects} />
-          <PrivateRoute path={`${url}/employee/timesheets`} component={TimeSheets} />
-          <Redirect to={`${url}/employee/home`} />
+          <PrivateRoute path={`${url}/home`} component={Home} />
+          <PrivateRoute path={`${url}/profile`} component={Profile} />
+          <PrivateRoute path={`${url}/projects`} component={Projects} />
+          <PrivateRoute path={`${url}/timesheets`} component={TimeSheets} />
+          <Redirect to={`${url}/home`} />
         </Switch>
-      </Layout>
-    </Suspense>
+      </Suspense>
+    </Layout>
   );
 };
 
