@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getEmployees } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
@@ -8,6 +7,7 @@ import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Modal from 'Components/Shared/Modal/Modal';
 import styles from 'Components/Log-in/log-in.module.css';
+import { login } from 'redux/auth/thunks';
 
 const LogInEmployee = () => {
   const [userInput] = useState('');
@@ -36,8 +36,7 @@ const LogInEmployee = () => {
         'string.pattern.base': 'Password must contain letters and numbers',
         'string.min': 'Password is too short',
         'string.empty': 'This field is required'
-      }),
-    active: joi.boolean().required()
+      })
   });
 
   const {
@@ -55,7 +54,9 @@ const LogInEmployee = () => {
 
   const onSubmit = async (data) => {
     try {
-      const User = await dispatch(getEmployees(data));
+      console.log('data', data);
+      const User = await dispatch(login(data));
+      console.log('user', User);
       if (User.error) {
         setChildrenModal(User.message);
         setShowModal(true);

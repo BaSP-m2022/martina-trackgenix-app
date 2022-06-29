@@ -56,8 +56,7 @@ export const addEmployee = (employee) => {
           phone: employee.phone,
           email: employee.email,
           password: employee.password,
-          active: employee.active,
-          role: 'EMPLOYEE'
+          active: employee.active
         })
       });
       const res = await response.json();

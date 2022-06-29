@@ -24,6 +24,6 @@ const configureStore = () => {
   return createStore(rootReducer, enhancer);
 };
 
-const store = configureStore();
+export const store = configureStore();
 
-export default store;
+// export default { store };
