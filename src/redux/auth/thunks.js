@@ -1,45 +1,45 @@
-import { loginPending, loginSuccess, loginError } from 'redux/auth/actions';
+import {
+  loginPending,
+  loginSuccess,
+  loginError,
+  getAuthenticationError,
+  getAuthenticationSuccess,
+  getAuthenticationPending
+} from 'redux/auth/actions';
 import firebaseApp from 'helper/firebase';
-
-// export const login = (credentials) => {
-//   return (dispatch) => {
-//     console.log('credentials', credentials);
-//     dispatch(loginPending());
-//     return firebaseApp
-//       .auth()
-//       .signInWithEmailAndPassword(credentials.email, credentials.password)
-//       .then(async (response) => {
-//         console.log('user', firebaseApp);
-//         const token = await response.user.getIdToken();
-//         console.log('token', token);
-//         const {
-//           claims: { role }
-//         } = await response.user.getIdTokenResult();
-//         return dispatch(loginSuccess({ role, token }));
-//       })
-//       .catch((error) => {
-//         return dispatch(loginError(error.toString()));
-//       });
-//   };
-// };
+import { useSelector } from 'react-redux';
 
 export const login = (credentials) => {
-  return async (dispatch) => {
-    console.log('credentials', credentials);
+  return (dispatch) => {
     dispatch(loginPending());
-    try {
-      const firebaseRes = firebaseApp
-        .auth()
-        .signInWithEmailAndPassword(credentials.email, credentials.password);
-      console.log('user', firebaseRes);
-      const token = await firebaseRes.user.getIdToken();
-      console.log('token', token);
-      const {
-        claims: { role }
-      } = await firebaseRes.user.getIdTokenResult();
-      return dispatch(loginSuccess({ role, token }));
-    } catch (error) {
-      return dispatch(loginError(error.toString()));
-    }
+    return firebaseApp
+      .auth()
+      .signInWithEmailAndPassword(credentials.email, credentials.password)
+      .then(async (response) => {
+        const token = await response.user.getIdToken();
+        const {
+          claims: { role }
+        } = await response.user.getIdTokenResult();
+        return dispatch(loginSuccess({ role, token }));
+      })
+      .catch((error) => {
+        return dispatch(loginError(error.toString()));
+      });
+  };
+};
+
+export const getAuth = () => {
+  return (dispatch) => {
+    dispatch(getAuthenticationPending());
+    const token = useSelector((state) => state.auth.authenticated?.token);
+    return fetch(`${process.env.REACT_APP_API}/auth/`, { headers: { token } })
+      .then((response) => response.json())
+      .then((response) => {
+        dispatch(getAuthenticationSuccess(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(getAuthenticationError(error.toString()));
+      });
   };
 };

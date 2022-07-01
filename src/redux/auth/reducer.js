@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  authenticated: {},
+  authenticated: undefined,
   error: ''
 };
 

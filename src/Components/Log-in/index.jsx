@@ -9,7 +9,7 @@ import Modal from 'Components/Shared/Modal/Modal';
 import styles from 'Components/Log-in/log-in.module.css';
 import { login } from 'redux/auth/thunks';
 
-const LogInEmployee = () => {
+const LogInForm = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -54,15 +54,15 @@ const LogInEmployee = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log('data', data);
-      const User = await dispatch(login(data));
-      console.log('user', User);
-      if (User.error) {
-        setChildrenModal(User.message);
-        setShowModal(true);
-      } else {
-        setChildrenModal('Login successfully');
-        setShowModal(true);
+      const user = await dispatch(login(data));
+      if (user.payload?.role == 'EMPLOYEE') {
+        if (user.error) {
+          setChildrenModal(user.message);
+          setShowModal(true);
+        } else {
+          setChildrenModal('Login successfully');
+          setShowModal(true);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -77,7 +77,7 @@ const LogInEmployee = () => {
         className={styles.containerButtons}
       >
         {childrenModal}
-        <Button onClick={() => location.assign('/home')}>Login</Button>
+        <Button onClick={() => location.assign('/employee/home')}>Login</Button>
       </Modal>
       <div className={styles.containerForm}>
         <h2>Login</h2>
@@ -110,4 +110,4 @@ const LogInEmployee = () => {
   );
 };
 
-export default LogInEmployee;
+export default LogInForm;
