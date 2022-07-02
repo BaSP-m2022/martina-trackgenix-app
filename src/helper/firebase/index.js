@@ -1,7 +1,6 @@
-import { initializeApp } from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { store } from 'redux/store';
+import store from 'redux/store';
 import { setAuthentication } from 'redux/auth/actions';
 
 const firebaseConfig = {
@@ -13,7 +12,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_ID
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export const tokenListener = () => {
   firebase.auth().onIdTokenChanged(async (user) => {

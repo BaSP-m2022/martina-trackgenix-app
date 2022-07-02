@@ -21,32 +21,39 @@ const SignUpEmployee = () => {
       .string()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_ ]*$/)
+      .regex(/^[a-zA-Z_ ]*$/)
       .messages({
-        'string.pattern.base': 'First Name must contain only letters'
+        'string.pattern.base': 'First Name must contain only letters',
+        'string.min': 'The name is too short',
+        'string.max': 'The name is too long',
+        'string.empty': 'This field is required'
       })
       .required(),
     last_name: joi
       .string()
+      .regex(/^[a-zA-Z_ ]*$/)
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_ ]*$/)
       .messages({
-        'string.pattern.base': 'Last Name must contain only letters'
+        'string.pattern.base': 'Last Name must contain only letters',
+        'string.min': 'Last name is too short',
+        'string.max': 'The last name is too long',
+        'string.empty': 'This field is required'
       })
       .required(),
     phone: joi.number().min(1000000000).max(9999999999).required().messages({
       'number.min': 'Phone number must be 10 digits long',
-      'number.max': 'Phone number must be 10 digits long'
+      'number.max': 'Phone number must be 10 digits long',
+      'number.empty': 'This field is required'
     }),
     email: joi
       .string()
-      .email({ tlds: { allow: false } })
       .regex(
         /^[a-z0-9]+(?:\.[a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
       )
       .messages({
-        'string.pattern.base': 'The email are invalid'
+        'string.pattern.base': 'Invalid email',
+        'string.empty': 'This field is required'
       })
       .required(),
     password: joi
@@ -55,7 +62,9 @@ const SignUpEmployee = () => {
       .required()
       .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
       .messages({
-        'string.pattern.base': 'Password must contain letters and numbers'
+        'string.pattern.base': 'Password must contain letters and numbers',
+        'string.empty': 'This field is required',
+        'string.min': 'Password is too short'
       }),
     active: joi.boolean().required()
   });
