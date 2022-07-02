@@ -21,7 +21,7 @@ const SignUpEmployee = () => {
       .string()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_ ]*$/)
+      .regex(/^[a-zA-Z_ ]*$/)
       .messages({
         'string.pattern.base': 'First Name must contain only letters',
         'string.min': 'The name is too short',
@@ -31,9 +31,9 @@ const SignUpEmployee = () => {
       .required(),
     last_name: joi
       .string()
+      .regex(/^[a-zA-Z_ ]*$/)
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_ ]*$/)
       .messages({
         'string.pattern.base': 'Last Name must contain only letters',
         'string.min': 'Last name is too short',
