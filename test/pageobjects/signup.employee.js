@@ -75,6 +75,23 @@ class signupEmployee {
   get msgErrorStatus() {
     return $('div:nth-child(6) > div > p');
   }
+  get modalRegisterSuccessfully() {
+    return $('#root > div > div > section > div.modal_shade__iOVq8 > div > div');
+  }
+  get btnConfirmRegister() {
+    return $('#root > div > div > section > div.modal_shade__iOVq8 > div > div > button');
+  }
+  get btnXExit() {
+    return $('#root > div > div > section > div.modal_shade__iOVq8 > div > button');
+  }
+  get btnNavEmployee() {
+    return $('#root > div > div > nav > ul > li:nth-child(3) > a');
+  }
+  get btnDeleteLastChild() {
+    return $(
+      '#root > div > div > section > div > table > tbody > tr:last-child > td:nth-child(7) > button'
+    );
+  }
   async setFirstName(firstName) {
     await this.InputFirtName.setValue(firstName);
   }
@@ -92,11 +109,11 @@ class signupEmployee {
   }
   async clickTrue() {
     await this.trueStatus.click();
-    browser.pause(1000);
+    browser.pause(2000);
   }
   async clickFalse() {
     await this.falseStatus.click();
-    browser.pause(1000);
+    browser.pause(2000);
   }
   async register(firstName, lastName, phone, email, password) {
     await this.setFirstName(firstName);
@@ -107,6 +124,18 @@ class signupEmployee {
     await this.clickTrue;
     await this.btnRegister.click();
     browser.pause(4000);
+  }
+  async clickConfirmRegister() {
+    await this.btnConfirmRegister.click();
+    browser.pause(3000);
+  }
+  async clickNavEmployee() {
+    await this.btnNavEmployee.click();
+    browser.pause(2000);
+  }
+  async clickDeleteEmployee() {
+    await this.btnDeleteLastChild.click();
+    browser.pause(2000);
   }
 }
 module.exports = new signupEmployee();
