@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
-import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import PrivateRoute from 'Routes/PrivateRoute';
-import Layout from 'Components/Layout';
+import { Switch, Redirect, useRouteMatch, Route } from 'react-router-dom';
+// import PrivateRoute from 'Routes/PrivateRoute';
+import Layout from 'Components/Shared/Layout';
 
 const Home = lazy(() => import('Components/Employee/Home'));
 const Profile = lazy(() => import('Components/Employee/Profile'));
@@ -21,11 +21,11 @@ const EmployeeRoutes = () => {
     <Layout routes={employeeRoutes}>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <PrivateRoute path={`${url}/home`} component={Home} />
-          <PrivateRoute path={`${url}/profile`} component={Profile} />
-          <PrivateRoute path={`${url}/projects`} component={Projects} />
-          <PrivateRoute path={`${url}/timesheets`} component={TimeSheets} />
-          <Redirect to={`${url}/home`} />
+          <Route path={`${url}/`} component={Home} />
+          <Route path={`${url}/profile`} component={Profile} />
+          <Route path={`${url}/projects`} component={Projects} />
+          <Route path={`${url}/timesheets`} component={TimeSheets} />
+          <Redirect to={`${url}/`} />
         </Switch>
       </Suspense>
     </Layout>

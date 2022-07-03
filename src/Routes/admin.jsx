@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Layout from 'Components/Layout';
+import Layout from 'Components/Shared/Layout';
 
 const Home = lazy(() => import('Components/SuperAdmin/Home'));
 const SuperAdmins = lazy(() => import('Components/SuperAdmin/SuperAdmins'));

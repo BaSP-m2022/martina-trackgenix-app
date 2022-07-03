@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Layout from 'Components/Layout';
+import Layout from 'Components/Shared/Layout';
 import Home from 'Components/Home/Home';
 
 // const Home = lazy(() => import('Components/Home'));
@@ -12,7 +12,6 @@ const homeRoutes = [
 
 const HomeRoutes = () => {
   const { url } = useRouteMatch();
-  console.log(`${url}/`);
   return (
     <Layout routes={homeRoutes}>
       <Suspense fallback={<div>Loading...</div>}>

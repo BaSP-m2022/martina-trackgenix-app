@@ -6,22 +6,24 @@ import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useForm } from 'react-hook-form';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import Modal from 'Components/Shared/Modal/Modal';
+import Loader from 'Components/Shared/Loader/Loader';
 
 const SignUp = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.employees.isLoading);
 
   const schema = joi.object({
     first_name: joi
       .string()
+      .regex(/^[a-zA-Z_ ]*$/)
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z_ ]*$/)
       .messages({
         'string.pattern.base': 'First Name must contain only letters',
         'string.min': 'The name is too short',
@@ -103,80 +105,86 @@ const SignUp = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <Modal
-        isOpen={showModal}
-        handleClose={() => setShowModal(false)}
-        className={styles.containerButtons}
-      >
-        {childrenModal}
-        <Button onClick={() => location.assign('/home')}>Confirm</Button>
-      </Modal>
-      <div className={styles.containerForm}>
-        <h2>Sign-Up</h2>
-        <form>
-          <div>
-            <Input
-              type={'text'}
-              name={'first_name'}
-              label={'First Name'}
-              register={register}
-              error={errors.first_name?.message}
-            />
+    <>
+      {isLoading ? (
+        <Loader show={isLoading} />
+      ) : (
+        <section className={styles.container}>
+          <Modal
+            isOpen={showModal}
+            handleClose={() => setShowModal(false)}
+            className={styles.containerButtons}
+          >
+            {childrenModal}
+            <Button onClick={() => location.assign('/home')}>Confirm</Button>
+          </Modal>
+          <div className={styles.containerForm}>
+            <h2>Sign-Up</h2>
+            <form>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'first_name'}
+                  label={'First Name'}
+                  register={register}
+                  error={errors.first_name?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'last_name'}
+                  label={'Last Name'}
+                  register={register}
+                  error={errors.last_name?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'phone'}
+                  label={'Phone'}
+                  register={register}
+                  error={errors.phone?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'email'}
+                  label={'Email'}
+                  register={register}
+                  error={errors.email?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'password'}
+                  name={'password'}
+                  label={'Password'}
+                  register={register}
+                  error={errors.password?.message}
+                />
+              </div>
+              <div>
+                <RadioButton
+                  name={'active'}
+                  label={'Active'}
+                  valueOptions={[true, false]}
+                  register={register}
+                  error={errors.active?.message}
+                />
+              </div>
+            </form>
+            <div className={styles.containerButtons}>
+              <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+              <Button onClick={() => location.assign('/home')}>Close</Button>
+              <Button onClick={() => reset()}>Reset Form</Button>
+            </div>
           </div>
-          <div>
-            <Input
-              type={'text'}
-              name={'last_name'}
-              label={'Last Name'}
-              register={register}
-              error={errors.last_name?.message}
-            />
-          </div>
-          <div>
-            <Input
-              type={'text'}
-              name={'phone'}
-              label={'Phone'}
-              register={register}
-              error={errors.phone?.message}
-            />
-          </div>
-          <div>
-            <Input
-              type={'text'}
-              name={'email'}
-              label={'Email'}
-              register={register}
-              error={errors.email?.message}
-            />
-          </div>
-          <div>
-            <Input
-              type={'password'}
-              name={'password'}
-              label={'Password'}
-              register={register}
-              error={errors.password?.message}
-            />
-          </div>
-          <div>
-            <RadioButton
-              name={'active'}
-              label={'Active'}
-              valueOptions={[true, false]}
-              register={register}
-              error={errors.active?.message}
-            />
-          </div>
-        </form>
-        <div className={styles.containerButtons}>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => location.assign('/home')}>Close</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
-        </div>
-      </div>
-    </section>
+        </section>
+      )}
+    </>
   );
 };
 

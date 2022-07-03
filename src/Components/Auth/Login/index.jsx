@@ -6,7 +6,7 @@ import joi from 'joi';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Modal from 'Components/Shared/Modal/Modal';
-import styles from 'Components/Log-in/log-in.module.css';
+import styles from 'Components/Auth/Login/login.module.css';
 import { login } from 'redux/auth/thunks';
 
 const LogInForm = () => {
@@ -56,12 +56,19 @@ const LogInForm = () => {
     try {
       const user = await dispatch(login(data));
       if (user.payload?.role == 'EMPLOYEE') {
+        console.log('entró al primer if');
         if (user.error) {
+          console.log('entró al if de error');
           setChildrenModal(user.message);
           setShowModal(true);
         } else {
+          // location.assign('/employee/home');
+          console.log('entró al if de success');
+          console.log('antes: ', childrenModal);
           setChildrenModal('Login successfully');
+          console.log('despues: ', childrenModal);
           setShowModal(true);
+          console.log('estado: ', showModal);
         }
       }
     } catch (error) {

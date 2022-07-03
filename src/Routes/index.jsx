@@ -1,9 +1,9 @@
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-// import AdminRoutes from './admin';
-// import EmployeeRoutes from './employee';
-// import AuthRoutes from './auth';
-import PrivateRoute from './PrivateRoute';
+import { tokenListener } from 'helper/firebase';
+import { getAuth } from 'redux/auth/thunks';
+import PrivateRoute from 'Routes/PrivateRoute';
 
 const HomeRoutes = lazy(() => import('Routes/home'));
 const AdminRoutes = lazy(() => import('Routes/admin'));
@@ -11,12 +11,26 @@ const EmployeeRoutes = lazy(() => import('Routes/employee'));
 const AuthRoutes = lazy(() => import('Routes/auth'));
 
 const Routes = () => {
+  const dispatch = useDispatch();
+
+  const token = useSelector((store) => store.auth.authenticated?.token);
+
+  useEffect(() => {
+    tokenListener();
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getAuth());
+    }
+  }, [token]);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
         <Route path="/home" component={HomeRoutes} />
-        <PrivateRoute path="/super-admin" role="Admin" component={AdminRoutes} />
-        <PrivateRoute path="/employee" role="Employee" component={EmployeeRoutes} />
+        <PrivateRoute path="/super-admin" role="ADMIN" component={AdminRoutes} />
+        <PrivateRoute path="/employee" role="EMPLOYEE" component={EmployeeRoutes} />
         <Route path="/auth" component={AuthRoutes} />
         <Redirect to="/home" />
       </Switch>
