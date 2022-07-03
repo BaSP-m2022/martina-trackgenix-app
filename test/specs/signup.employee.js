@@ -99,7 +99,7 @@ describe('Sign up testing', () => {
       'Password must contain letters and numbers'
     );
   });
-  it('Registro exitoso', async () => {
+  it('Successful registration', async () => {
     SignupEmployee.clickTrue(),
       await SignupEmployee.register(
         'borrar',
@@ -108,19 +108,30 @@ describe('Sign up testing', () => {
         'borraemployee@hotmail.com',
         'borrar204'
       );
-    /* await expect(SignupEmployee.modalRegisterSuccessfully).toBeDisplayed();
-    await expect(SignupEmployee.btnConfirmRegister).toBeClickable();
-    await expect(SignupEmployee.btnXExit).toBeClickable(); */
-  });
-  it('esperar la pagina de logeo cuando hago click en confirmar registro', async () => {
     SignupEmployee.clickConfirmRegister();
-    await browser.url('https://martina-trackgenix-app.vercel.app/home');
   });
-  it('delete employee', async () => {
-    HomePage.clickSuperAdmin(),
-      await browser.url('https://martina-trackgenix-app.vercel.app/super-admin/home');
-    SignupEmployee.clickNavEmployee();
-    SignupEmployee.clickDeleteEmployee();
+  it('I find myself entering the employee profilescholartious registration', async () => {
+    await browser.url('https://martina-trackgenix-app.vercel.app/employee/home');
+  });
+  it('I wait for the profile container', async () => {
+    SignupEmployee.clickProfile();
+    await expect(SignupEmployee.containerBody).toBeDisplayed();
+  });
+  it('I wait for the project container', async () => {
+    SignupEmployee.clickProject();
+    await expect(SignupEmployee.containerBody).toBeDisplayed();
+  });
+  it('I wait for the timeSheet container', async () => {
+    SignupEmployee.clickProfile();
+    await expect(SignupEmployee.containerBody).toBeDisplayed();
+  });
+  it('Delete Employee', async () => {
+    await SignupEmployee.clickHomeTrackgenix();
+    await browser.url('https://martina-trackgenix-app.vercel.app/home');
+    await HomePage.clickSuperAdmin();
+    await browser.url('https://martina-trackgenix-app.vercel.app/super-admin/home');
+    await SignupEmployee.clickNavEmployee();
+    await SignupEmployee.clickDeleteEmployee();
     browser.acceptAlert();
   });
 });

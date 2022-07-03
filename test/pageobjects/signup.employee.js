@@ -92,6 +92,21 @@ class signupEmployee {
       '#root > div > div > section > div > table > tbody > tr:last-child > td:nth-child(7) > button'
     );
   }
+  get btnProfile() {
+    return $('#root > div > div > nav > ul > li:nth-child(1) > a');
+  }
+  get btnProject() {
+    return $('#root > div > div > nav > ul > li:nth-child(2) > a');
+  }
+  get btnTimeSheet() {
+    return $('#root > div > div > nav > ul > li:nth-child(3) > a');
+  }
+  get containerBody() {
+    return $('#root > div > div > section > div');
+  }
+  get btnHomeTrackgenix() {
+    return $('#root > div > div > nav > a > p');
+  }
   async setFirstName(firstName) {
     await this.InputFirtName.setValue(firstName);
   }
@@ -135,6 +150,22 @@ class signupEmployee {
   }
   async clickDeleteEmployee() {
     await this.btnDeleteLastChild.click();
+    browser.pause(2000);
+  }
+  async clickProfile() {
+    await this.btnProfile.click();
+    browser.pause(2000);
+  }
+  async clickProject() {
+    await this.btnProject.click();
+    browser.pause(2000);
+  }
+  async clickTimeSheet() {
+    await this.btnTimeSheet.click();
+    browser.pause(2000);
+  }
+  async clickHomeTrackgenix() {
+    await this.btnHomeTrackgenix.click();
     browser.pause(2000);
   }
 }
