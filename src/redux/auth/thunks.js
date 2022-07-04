@@ -7,7 +7,6 @@ import {
   getAuthenticationPending
 } from 'redux/auth/actions';
 import firebaseApp from 'helper/firebase';
-import { useSelector } from 'react-redux';
 
 export const login = (credentials) => {
   return (dispatch) => {
@@ -28,10 +27,9 @@ export const login = (credentials) => {
   };
 };
 
-export const getAuth = () => {
+export const getAuth = (token) => {
   return (dispatch) => {
     dispatch(getAuthenticationPending());
-    const token = useSelector((state) => state.auth.authenticated?.token);
     return fetch(`${process.env.REACT_APP_API}/auth/`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {

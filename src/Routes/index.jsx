@@ -21,15 +21,17 @@ const Routes = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(getAuth());
+      dispatch(getAuth(token));
     }
-  }, [token]);
+  }, []);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
         <Route path="/home" component={HomeRoutes} />
-        <PrivateRoute path="/super-admin" role="ADMIN" component={AdminRoutes} />
+        <PrivateRoute path="/super-admin" role="SUPERADMIN" />
+        {/* to do: add component to super-admin when was finished */}
+        <PrivateRoute path="/admin" role="ADMIN" component={AdminRoutes} />
         <PrivateRoute path="/employee" role="EMPLOYEE" component={EmployeeRoutes} />
         <Route path="/auth" component={AuthRoutes} />
         <Redirect to="/home" />

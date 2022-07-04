@@ -8,12 +8,14 @@ import Button from 'Components/Shared/Buttons/Buttons';
 import Modal from 'Components/Shared/Modal/Modal';
 import styles from 'Components/Auth/Login/login.module.css';
 import { login } from 'redux/auth/thunks';
+import { useHistory } from 'react-router-dom';
 
 const LogInForm = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const schema = joi.object({
     email: joi
@@ -55,24 +57,25 @@ const LogInForm = () => {
   const onSubmit = async (data) => {
     try {
       const user = await dispatch(login(data));
-      if (user.payload?.role == 'EMPLOYEE') {
-        console.log('entró al primer if');
-        if (user.error) {
-          console.log('entró al if de error');
-          setChildrenModal(user.message);
-          setShowModal(true);
-        } else {
-          // location.assign('/employee/home');
-          console.log('entró al if de success');
-          console.log('antes: ', childrenModal);
-          setChildrenModal('Login successfully');
-          console.log('despues: ', childrenModal);
-          setShowModal(true);
-          console.log('estado: ', showModal);
-        }
+      console.log(user);
+      if (user.error) {
+        throw user.message;
+      }
+      console.log('role', user.payload.role);
+      switch (user.payload.role) {
+        case 'EMPLOYEE':
+          return history.push('/employee');
+        case 'ADMIN':
+          return history.push('/admin');
+        case 'SUPERADMIN':
+          return history.push('/super-admin');
+        default:
+          break;
       }
     } catch (error) {
       console.error(error);
+      setChildrenModal(error);
+      setShowModal(true);
     }
   };
 
