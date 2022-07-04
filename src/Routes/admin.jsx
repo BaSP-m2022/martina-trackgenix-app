@@ -27,7 +27,7 @@ const AdminRoutes = () => {
     <Layout routes={adminRoutes}>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <Route path={`${url}/home`} component={Home} />
+          <Route exact path={`${url}/home`} component={Home} />
           <Route path={`${url}/super-admins`} component={SuperAdmins} />
           <Route path={`${url}/admins`} component={Admins} />
           <Route path={`${url}/employees`} component={Employees} />

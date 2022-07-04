@@ -11,7 +11,7 @@ import { getEmployees } from 'redux/employees/thunks';
 import Modal from 'Components/Shared/Modal/Modal';
 import { editEmployee } from 'redux/employees/thunks';
 
-const EmployeeProfile = () => {
+const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
@@ -185,4 +185,4 @@ const EmployeeProfile = () => {
   );
 };
 
-export default EmployeeProfile;
+export default Profile;

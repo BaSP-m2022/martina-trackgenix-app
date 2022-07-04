@@ -10,12 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import Modal from 'Components/Shared/Modal/Modal';
 import Loader from 'Components/Shared/Loader/Loader';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const SignUp = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
   const isLoading = useSelector((state) => state.employees.isLoading);
 
   const schema = joi.object({
@@ -116,7 +118,7 @@ const SignUp = () => {
             className={styles.containerButtons}
           >
             {childrenModal}
-            <Button onClick={() => location.assign('/home')}>Confirm</Button>
+            <Button onClick={() => history.push('/auth/login')}>Confirm</Button>
           </Modal>
           <div className={styles.containerForm}>
             <h2>Sign-Up</h2>
@@ -178,7 +180,7 @@ const SignUp = () => {
             </form>
             <div className={styles.containerButtons}>
               <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-              <Button onClick={() => location.assign('/home')}>Close</Button>
+              <Button onClick={() => history.push('/home')}>Close</Button>
               <Button onClick={() => reset()}>Reset Form</Button>
             </div>
           </div>

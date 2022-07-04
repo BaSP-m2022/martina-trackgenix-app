@@ -11,19 +11,18 @@ const TimeSheets = lazy(() => import('Components/Employee/TimeSheet'));
 const employeeRoutes = [
   { path: '/employee/profile', name: 'Profile' },
   { path: '/employee/projects', name: 'Projects' },
-  { path: '/employee/time-sheets', name: 'Time-sheets' }
+  { path: '/employee/timesheets', name: 'Time-sheets' }
 ];
 
 const EmployeeRoutes = () => {
   const { url } = useRouteMatch();
-
   return (
     <Layout routes={employeeRoutes}>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <Route path={`${url}/`} component={Home} />
-          <Route path={`${url}/profile`} component={Profile} />
+          <Route exact path={`${url}/`} component={Home} />
           <Route path={`${url}/projects`} component={Projects} />
+          <Route path={`${url}/profile`} component={Profile} />
           <Route path={`${url}/timesheets`} component={TimeSheets} />
           <Redirect to={`${url}/`} />
         </Switch>

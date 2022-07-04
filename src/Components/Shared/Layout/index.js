@@ -6,9 +6,9 @@ import NavBar from 'Components/Shared/NavBar/NavBar';
 import Footer from 'Components/Shared/Footer';
 import Loader from 'Components/Shared/Loader/Loader';
 
-const Layout = ({ children, routes }) => {
+const Layout = (props) => {
   const isLoading = useSelector((state) => state.auth.isLoading);
-
+  const { routes } = props;
   return (
     <>
       {isLoading ? (
@@ -19,7 +19,7 @@ const Layout = ({ children, routes }) => {
             <Header />
             <NavBar props={routes} />
           </div>
-          {children}
+          {props.children}
           <Footer props={routes} />
         </div>
       )}

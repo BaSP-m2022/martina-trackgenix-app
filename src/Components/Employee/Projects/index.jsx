@@ -7,6 +7,7 @@ import Modal from 'Components/Shared/Modal/Modal';
 
 const Projects = () => {
   const isLoading = useSelector((state) => state.projects.isLoading);
+
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -16,7 +17,9 @@ const Projects = () => {
   }, []);
 
   const listProject = useSelector((state) => state.projects.list);
+
   const employeeId = '629d41966737e327d3189242';
+
   const listProjectEmployee = listProject.filter(
     (project) => project.employees[0].id == employeeId
   );
@@ -50,7 +53,7 @@ const Projects = () => {
       ) : (
         <section>
           <Table
-            title={'My Projects'}
+            title={`${projectData[0] ? projectData[0].employee : ''}'s projects`}
             data={projectData}
             headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
             headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}
