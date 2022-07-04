@@ -13,7 +13,7 @@ const TimeSheet = () => {
 
   const dispatch = useDispatch();
 
-  const employeeId = '629d41966737e327d3189242';
+  const employeeId = '62c2527a5b940023727c397a';
 
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
@@ -32,12 +32,10 @@ const TimeSheet = () => {
   }, []);
 
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
-  console.log('Lista Completa:', listTimeSheet);
 
   const filteredListTimeSheet = listTimeSheet.filter(
     (timeSheet) => timeSheet.employee?._id == employeeId
   );
-  console.log('Lista Filtrada:', filteredListTimeSheet);
 
   const newList = filteredListTimeSheet.map((item) => {
     return {
@@ -49,7 +47,6 @@ const TimeSheet = () => {
       timesheetDate: item.timesheetDate.slice(0, 10)
     };
   });
-  console.log('Lista Nueva:', newList);
 
   const deleteItem = () => {
     setShowModal(true);

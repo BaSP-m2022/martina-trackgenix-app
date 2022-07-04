@@ -18,7 +18,7 @@ const Projects = () => {
 
   const listProject = useSelector((state) => state.projects.list);
 
-  const employeeId = '629d41966737e327d3189242';
+  const employeeId = '62c2527a5b940023727c397a';
 
   const listProjectEmployee = listProject.filter(
     (project) => project.employees[0].id == employeeId
@@ -53,7 +53,7 @@ const Projects = () => {
       ) : (
         <section>
           <Table
-            title={`${projectData[0] ? projectData[0].employee : ''}'s projects`}
+            title={'My projects'}
             data={projectData}
             headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
             headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}

@@ -57,11 +57,9 @@ const LogInForm = () => {
   const onSubmit = async (data) => {
     try {
       const user = await dispatch(login(data));
-      console.log(user);
       if (user.error) {
         throw user.message;
       }
-      console.log('role', user.payload.role);
       switch (user.payload.role) {
         case 'EMPLOYEE':
           return history.push('/employee');
@@ -87,7 +85,7 @@ const LogInForm = () => {
         className={styles.containerButtons}
       >
         {childrenModal}
-        <Button onClick={() => location.assign('/employee/home')}>Login</Button>
+        <Button onClick={() => history.push('/employee/home')}>Login</Button>
       </Modal>
       <div className={styles.containerForm}>
         <h2>Login</h2>
@@ -112,7 +110,7 @@ const LogInForm = () => {
           </div>
         </form>
         <div className={styles.containerButtons}>
-          <Button onClick={() => location.assign('/home')}>Close</Button>
+          <Button onClick={() => history.push('/home')}>Close</Button>
           <Button onClick={handleSubmit(onSubmit)}>Login</Button>
         </div>
       </div>
