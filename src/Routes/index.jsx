@@ -23,7 +23,7 @@ const Routes = () => {
     if (token) {
       dispatch(getAuth(token));
     }
-  }, []);
+  }, [token]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

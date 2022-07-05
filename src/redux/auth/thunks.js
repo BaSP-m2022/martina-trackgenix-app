@@ -30,7 +30,7 @@ export const login = (credentials) => {
 export const getAuth = (token) => {
   return (dispatch) => {
     dispatch(getAuthenticationPending());
-    return fetch(`${process.env.REACT_APP_API}/auth/`, { headers: { token } })
+    return fetch(`${process.env.REACT_APP_API_URL}/auth/`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getAuthenticationSuccess(response.data));
