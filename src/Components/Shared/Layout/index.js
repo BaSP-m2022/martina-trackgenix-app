@@ -8,7 +8,7 @@ import Loader from 'Components/Shared/Loader/Loader';
 
 const Layout = (props) => {
   const isLoading = useSelector((state) => state.auth.isLoading);
-  const { routes } = props;
+  const { routes, logout } = props;
   return (
     <>
       {isLoading ? (
@@ -17,7 +17,7 @@ const Layout = (props) => {
         <div className={styles.container}>
           <div>
             <Header />
-            <NavBar props={routes} />
+            <NavBar routes={routes} logout={logout} />
           </div>
           {props.children}
           <Footer props={routes} />

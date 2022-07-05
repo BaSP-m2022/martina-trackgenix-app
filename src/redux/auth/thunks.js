@@ -4,7 +4,8 @@ import {
   loginError,
   getAuthenticationError,
   getAuthenticationSuccess,
-  getAuthenticationPending
+  getAuthenticationPending,
+  setAuthentication
 } from 'redux/auth/actions';
 import firebaseApp from 'helper/firebase';
 
@@ -38,6 +39,25 @@ export const getAuth = (token) => {
       })
       .catch((error) => {
         dispatch(getAuthenticationError(error.toString()));
+      });
+  };
+};
+
+export const logOut = () => {
+  return (dispatch) => {
+    return firebaseApp
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch(setAuthentication());
+        return { error: false, message: 'Log Out Successfully' };
+      })
+      .catch((error) => {
+        console.error(error);
+        return {
+          error: true,
+          message: error
+        };
       });
   };
 };

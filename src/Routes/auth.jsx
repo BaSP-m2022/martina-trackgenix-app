@@ -1,20 +1,14 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Shared/Layout';
-// import NotAllowed from 'Components/Auth/NotAllowed';
-// import SignUp from 'Components/Auth/SignUp';
-// import Login from 'Components/Auth/Login';
 
 const Login = lazy(() => import('Components/Auth/Login'));
-
 const SignUp = lazy(() => import('Components/Auth/SignUp/index'));
-
 const NotAllowed = lazy(() => import('Components/Auth/NotAllowed/index'));
 
 const authRoutes = [
   { path: '/auth/login', name: 'Login' },
-  { path: '/auth/sign-up', name: 'Sign Up' },
-  { path: '/auth/logout', name: 'Logout' }
+  { path: '/auth/sign-up', name: 'Sign Up' }
 ];
 
 const AuthRoutes = () => {

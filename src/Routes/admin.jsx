@@ -22,7 +22,7 @@ const adminRoutes = [
 const AdminRoutes = () => {
   const { url } = useRouteMatch();
   return (
-    <Layout routes={adminRoutes}>
+    <Layout routes={adminRoutes} logout>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path={`${url}/home`} component={Home} />

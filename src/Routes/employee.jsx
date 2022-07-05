@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Redirect, useRouteMatch, Route } from 'react-router-dom';
-// import PrivateRoute from 'Routes/PrivateRoute';
 import Layout from 'Components/Shared/Layout';
 
 const Home = lazy(() => import('Components/Employee/Home'));
@@ -17,7 +16,7 @@ const employeeRoutes = [
 const EmployeeRoutes = () => {
   const { url } = useRouteMatch();
   return (
-    <Layout routes={employeeRoutes}>
+    <Layout routes={employeeRoutes} logout>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path={`${url}/`} component={Home} />
