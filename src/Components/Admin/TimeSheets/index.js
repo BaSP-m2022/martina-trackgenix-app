@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from 'Components/SuperAdmin/TimeSheets/time-sheets.module.css';
-import List from 'Components/SuperAdmin/TimeSheets/List/List.jsx';
+import styles from 'Components/Admin/TimeSheets/time-sheets.module.css';
+import List from 'Components/Admin/TimeSheets/List/List.jsx';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Loader from 'Components/Shared/Loader/Loader';
 import Modal from 'Components/Shared/Modal/Modal';
-import FormTimeSheet from 'Components/SuperAdmin/TimeSheets/Form/FormTimeSheet';
+import FormTimeSheet from 'Components/Admin/TimeSheets/Form/FormTimeSheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
 

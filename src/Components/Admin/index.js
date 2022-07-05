@@ -1,16 +1,16 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import styles from 'Components/SuperAdmin/superAdmin.module.css';
+import styles from 'Components/Admin/superAdmin.module.css';
 import NavBar from 'Components/Shared/NavBar/NavBar';
 import Footer from 'Components/Shared/Footer';
 
-const Home = lazy(() => import('Components/SuperAdmin/Home/index'));
-const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
-const SuperAdmins = lazy(() => import('Components/SuperAdmin/SuperAdmins'));
-const Employees = lazy(() => import('Components/SuperAdmin/Employees'));
-const Projects = lazy(() => import('Components/SuperAdmin/Projects'));
-const TimeSheets = lazy(() => import('Components/SuperAdmin/TimeSheets'));
-const Tasks = lazy(() => import('Components/SuperAdmin/Tasks'));
+const Home = lazy(() => import('Components/Admin/Home/index'));
+const Admins = lazy(() => import('Components/Admin/Admins'));
+const SuperAdmins = lazy(() => import('Components/Admin/SuperAdmins'));
+const Employees = lazy(() => import('Components/Admin/Employees'));
+const Projects = lazy(() => import('Components/Admin/Projects'));
+const TimeSheets = lazy(() => import('Components/Admin/TimeSheets'));
+const Tasks = lazy(() => import('Components/Admin/Tasks'));
 
 function SuperAdminLayout() {
   const arrayRoute = [

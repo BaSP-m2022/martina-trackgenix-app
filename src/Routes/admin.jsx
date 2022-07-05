@@ -2,13 +2,13 @@ import React, { lazy, Suspense } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from 'Components/Shared/Layout';
 
-const Home = lazy(() => import('Components/SuperAdmin/Home'));
-const SuperAdmins = lazy(() => import('Components/SuperAdmin/SuperAdmins'));
-const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
-const Employees = lazy(() => import('Components/SuperAdmin/Employees'));
-const Tasks = lazy(() => import('Components/SuperAdmin/Tasks'));
-const Projects = lazy(() => import('Components/SuperAdmin/Projects'));
-const TimeSheets = lazy(() => import('Components/SuperAdmin/TimeSheets'));
+const Home = lazy(() => import('Components/Admin/Home'));
+const SuperAdmins = lazy(() => import('Components/Admin/SuperAdmins'));
+const Admins = lazy(() => import('Components/Admin/Admins'));
+const Employees = lazy(() => import('Components/Admin/Employees'));
+const Tasks = lazy(() => import('Components/Admin/Tasks'));
+const Projects = lazy(() => import('Components/Admin/Projects'));
+const TimeSheets = lazy(() => import('Components/Admin/TimeSheets'));
 
 const adminRoutes = [
   { path: '/admin/admins', name: 'Admins' },

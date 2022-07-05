@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'Components/SuperAdmin/Tasks/Form/form.module.css';
+import styles from 'Components/Admin/Tasks/Form/form.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
 import { useDispatch } from 'react-redux';
