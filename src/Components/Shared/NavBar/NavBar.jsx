@@ -1,14 +1,28 @@
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useHistory, withRouter } from 'react-router-dom';
+import { Button } from '..';
 import styles from './navBar.module.css';
+import { useDispatch } from 'react-redux';
+import { logOut } from 'redux/auth/thunks';
 
-const NavBar = ({ props }) => {
+const NavBar = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const onClick = async () => {
+    const resp = await dispatch(logOut());
+    if (!resp.error) {
+      alert(resp.message);
+      history.push('/home');
+    }
+  };
+
   return (
     <nav className={styles.navbar}>
       <Link to="/home" className={styles.homeContainer}>
         <p className={styles.appName}>TrackGENIX</p>
       </Link>
       <ul className={styles.rutes}>
-        {props.map((route) => {
+        {props.routes.map((route) => {
           return (
             <li key={route.name}>
               <Link to={route.path}>{route.name}</Link>
@@ -16,6 +30,11 @@ const NavBar = ({ props }) => {
           );
         })}
       </ul>
+      {props.logout && (
+        <Button width={'100px'} height={'25px'} onClick={onClick}>
+          Log Out
+        </Button>
+      )}
     </nav>
   );
 };

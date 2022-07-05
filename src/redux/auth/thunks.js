@@ -4,10 +4,10 @@ import {
   loginError,
   getAuthenticationError,
   getAuthenticationSuccess,
-  getAuthenticationPending
+  getAuthenticationPending,
+  setAuthentication
 } from 'redux/auth/actions';
 import firebaseApp from 'helper/firebase';
-import { useSelector } from 'react-redux';
 
 export const login = (credentials) => {
   return (dispatch) => {
@@ -28,11 +28,10 @@ export const login = (credentials) => {
   };
 };
 
-export const getAuth = () => {
+export const getAuth = (token) => {
   return (dispatch) => {
     dispatch(getAuthenticationPending());
-    const token = useSelector((state) => state.auth.authenticated?.token);
-    return fetch(`${process.env.REACT_APP_API}/auth/`, { headers: { token } })
+    return fetch(`${process.env.REACT_APP_API_URL}/auth/`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getAuthenticationSuccess(response.data));
@@ -40,6 +39,25 @@ export const getAuth = () => {
       })
       .catch((error) => {
         dispatch(getAuthenticationError(error.toString()));
+      });
+  };
+};
+
+export const logOut = () => {
+  return (dispatch) => {
+    return firebaseApp
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch(setAuthentication());
+        return { error: false, message: 'Log Out Successfully' };
+      })
+      .catch((error) => {
+        console.error(error);
+        return {
+          error: true,
+          message: error
+        };
       });
   };
 };

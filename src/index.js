@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/redux/store';
-import Layout from './Components/Layout';
+import Routes from 'Routes/index';
 import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Layout />
+        <Routes />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

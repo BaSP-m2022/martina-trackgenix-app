@@ -7,24 +7,15 @@ import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useForm } from 'react-hook-form';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { getEmployees } from 'redux/employees/thunks';
 import Modal from 'Components/Shared/Modal/Modal';
 import { editEmployee } from 'redux/employees/thunks';
 
-const EmployeeProfile = () => {
+const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getEmployees());
-  }, []);
-
-  const employeeId = '629d41966737e327d3189242';
-
-  const listEmployee = useSelector((state) => state.employees.list);
-
-  const employeeFound = listEmployee.find((employee) => employee._id == employeeId);
+  const employeeFound = useSelector((state) => state.auth?.user);
 
   const schema = joi.object({
     first_name: joi
@@ -70,17 +61,6 @@ const EmployeeProfile = () => {
     active: joi.boolean().required()
   });
 
-  useEffect(() => {
-    reset({
-      first_name: employeeFound?.first_name,
-      last_name: employeeFound?.last_name,
-      phone: employeeFound?.phone,
-      email: employeeFound?.email,
-      password: employeeFound?.password,
-      active: employeeFound?.active
-    });
-  }, [employeeFound]);
-
   const {
     handleSubmit,
     register,
@@ -105,6 +85,17 @@ const EmployeeProfile = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    reset({
+      first_name: employeeFound?.first_name,
+      last_name: employeeFound?.last_name,
+      phone: employeeFound?.phone,
+      email: employeeFound?.email,
+      password: employeeFound?.password,
+      active: employeeFound?.active
+    });
+  }, [employeeFound]);
 
   return (
     <section className={styles.container}>
@@ -185,4 +176,4 @@ const EmployeeProfile = () => {
   );
 };
 
-export default EmployeeProfile;
+export default Profile;

@@ -6,14 +6,16 @@ import joi from 'joi';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Modal from 'Components/Shared/Modal/Modal';
-import styles from 'Components/Log-in/log-in.module.css';
+import styles from 'Components/Auth/Login/login.module.css';
 import { login } from 'redux/auth/thunks';
+import { useHistory } from 'react-router-dom';
 
 const LogInForm = () => {
   const [userInput] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const schema = joi.object({
     email: joi
@@ -55,17 +57,23 @@ const LogInForm = () => {
   const onSubmit = async (data) => {
     try {
       const user = await dispatch(login(data));
-      if (user.payload?.role == 'EMPLOYEE') {
-        if (user.error) {
-          setChildrenModal(user.message);
-          setShowModal(true);
-        } else {
-          setChildrenModal('Login successfully');
-          setShowModal(true);
-        }
+      if (user.error) {
+        throw user.message;
+      }
+      switch (user.payload.role) {
+        case 'EMPLOYEE':
+          return history.push('/employee');
+        case 'ADMIN':
+          return history.push('/admin');
+        case 'SUPERADMIN':
+          return history.push('/super-admin');
+        default:
+          break;
       }
     } catch (error) {
       console.error(error);
+      setChildrenModal(error);
+      setShowModal(true);
     }
   };
 
@@ -77,7 +85,7 @@ const LogInForm = () => {
         className={styles.containerButtons}
       >
         {childrenModal}
-        <Button onClick={() => location.assign('/employee/home')}>Login</Button>
+        <Button onClick={() => history.push('/employee/home')}>Login</Button>
       </Modal>
       <div className={styles.containerForm}>
         <h2>Login</h2>
@@ -102,7 +110,7 @@ const LogInForm = () => {
           </div>
         </form>
         <div className={styles.containerButtons}>
-          <Button onClick={() => location.assign('/home')}>Close</Button>
+          <Button onClick={() => history.push('/home')}>Close</Button>
           <Button onClick={handleSubmit(onSubmit)}>Login</Button>
         </div>
       </div>
