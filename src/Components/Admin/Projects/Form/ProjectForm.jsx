@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from 'Components/SuperAdmin/Projects/Form/projectForm.module.css';
+import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 import RadioButton from 'Components/Shared/Field/RadioButton';

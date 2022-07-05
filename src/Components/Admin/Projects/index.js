@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styles from 'Components/SuperAdmin/Projects/projects.module.css';
-import List from 'Components/SuperAdmin/Projects/List/List';
-import ProjectForm from 'Components/SuperAdmin/Projects/Form/ProjectForm';
+import styles from 'Components/Admin/Projects/projects.module.css';
+import List from 'Components/Admin/Projects/List/List';
+import ProjectForm from 'Components/Admin/Projects/Form/ProjectForm';
 import Modal from 'Components/Shared/Modal/Modal';
 import Loader from 'Components/Shared/Loader/Loader';
 import Button from 'Components/Shared/Buttons/Buttons';

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'Components/SuperAdmin/SuperAdmins/ListSuperAdmins/listSAdmins.module.css';
+import styles from 'Components/Admin/SuperAdmins/ListSuperAdmins/listSAdmins.module.css';
 import Row from 'Components/Shared/Row/Row';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSuperAdmin } from 'redux/superAdmins/thunks';

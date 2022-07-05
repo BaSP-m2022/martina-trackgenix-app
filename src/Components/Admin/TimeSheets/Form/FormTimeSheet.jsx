@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTimeSheet, editTimeSheet } from 'redux/timeSheets/thunks';
-import styles from 'Components/SuperAdmin/TimeSheets/Form/FormTimeSheet.module.css';
+import styles from 'Components/Admin/TimeSheets/Form/FormTimeSheet.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
 import { joiResolver } from '@hookform/resolvers/joi';

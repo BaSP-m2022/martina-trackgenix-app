@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'Components/SuperAdmin/TimeSheets/List/list.module.css';
+import styles from 'Components/Admin/TimeSheets/List/list.module.css';
 import Row from 'Components/Shared/Row/Row';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTimeSheet } from 'redux/timeSheets/thunks';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import styles from 'Components/SuperAdmin/Tasks/tasks.module.css';
-import FormTasks from 'Components/SuperAdmin/Tasks/Form/Form';
-import List from 'Components/SuperAdmin/Tasks/List';
+import styles from 'Components/Admin/Tasks/tasks.module.css';
+import FormTasks from 'Components/Admin/Tasks/Form/Form';
+import List from 'Components/Admin/Tasks/List';
 import Loader from 'Components/Shared/Loader/Loader';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Modal from 'Components/Shared/Modal/Modal';

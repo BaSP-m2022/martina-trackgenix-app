@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'Components/SuperAdmin/Employees/Form/employeeForm.module.css';
+import styles from 'Components/Admin/Employees/Form/employeeForm.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
 import RadioButton from 'Components/Shared/Field/RadioButton';

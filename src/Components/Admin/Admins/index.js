@@ -1,33 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import styles from 'Components/SuperAdmin/Employees/employees.module.css';
-import List from 'Components/SuperAdmin/Employees/List/List';
-import EmployeeForm from 'Components/SuperAdmin/Employees/Form/EmployeeForm';
+import styles from 'Components/Admin/Admins/admins.module.css';
+import List from 'Components/Admin/Admins/List/List';
+import AdminForm from 'Components/Admin/Admins/Form/AdminForm';
 import Modal from 'Components/Shared/Modal/Modal';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from 'redux/employees/thunks';
+import { getAdmins } from 'redux/admins/thunks';
 
-const Employees = () => {
+const Admins = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.employees.isLoading);
+
+  const isLoading = useSelector((state) => state.admins.isLoading);
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
-  const [previewEmployee, setPreviewEmployee] = useState({
+  const [previousAdmin, setPreviousAdmin] = useState({
     _id: '',
-    first_name: '',
-    last_name: '',
+    firstName: '',
+    lastName: '',
     phone: '',
     email: '',
     password: '',
-    active: ''
+    active: false
   });
 
   useEffect(() => {
-    dispatch(getEmployees());
+    dispatch(getAdmins());
   }, []);
+
+  const openForm = () => {
+    setShowForm(true);
+  };
 
   const handleClose = () => {
     setShowModal(false);
@@ -39,16 +44,16 @@ const Employees = () => {
         <Loader show={isLoading} />
       ) : (
         <section className={styles.container}>
-          <EmployeeForm
+          <AdminForm
             showForm={showForm}
             setShowForm={setShowForm}
             setShowModal={setShowModal}
             setChildrenModal={setChildrenModal}
-            previewEmployee={previewEmployee}
-            setPreviewsEmployee={setPreviewEmployee}
+            previousAdmin={previousAdmin}
+            setPreviousAdmin={setPreviousAdmin}
           />
-          <List setPreviewsEmployee={setPreviewEmployee} setShowForm={setShowForm} />
-          <Button onClick={() => setShowForm(true)}>Add New Employee</Button>
+          <List setPreviousAdmin={setPreviousAdmin} setShowForm={setShowForm} />
+          <Button onClick={openForm}>Add New Admin</Button>
           <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}
           </Modal>
@@ -58,4 +63,4 @@ const Employees = () => {
   );
 };
 
-export default Employees;
+export default Admins;
