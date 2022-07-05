@@ -14,14 +14,8 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
-  // const employeeId = '629d41966737e327d3189242';
-
-  // const listEmployee = useSelector((state) => state.employees.list);
-
-  // const employeeFound = listEmployee.find((employee) => employee._id == employeeId);
 
   const employeeFound = useSelector((state) => state.auth?.user);
-  console.log(employeeFound);
 
   const schema = joi.object({
     first_name: joi

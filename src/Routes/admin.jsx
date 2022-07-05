@@ -11,18 +11,16 @@ const Projects = lazy(() => import('Components/SuperAdmin/Projects'));
 const TimeSheets = lazy(() => import('Components/SuperAdmin/TimeSheets'));
 
 const adminRoutes = [
-  { path: '/super-admin/admins', name: 'Admins' },
-  { path: '/super-admin/super-admins', name: 'Super-admins' },
-  { path: '/super-admin/employees', name: 'Employees' },
-  { path: '/super-admin/projects', name: 'Projects' },
-  { path: '/super-admin/time-sheets', name: 'Time-sheets' },
-  { path: '/super-admin/tasks', name: 'Tasks' }
+  { path: '/admin/admins', name: 'Admins' },
+  { path: '/admin/super-admins', name: 'Super-admins' },
+  { path: '/admin/employees', name: 'Employees' },
+  { path: '/admin/projects', name: 'Projects' },
+  { path: '/admin/time-sheets', name: 'Time-sheets' },
+  { path: '/admin/tasks', name: 'Tasks' }
 ];
 
 const AdminRoutes = () => {
   const { url } = useRouteMatch();
-
-  console.log('Admin routes:', AdminRoutes);
   return (
     <Layout routes={adminRoutes}>
       <Suspense fallback={<div>Loading...</div>}>
