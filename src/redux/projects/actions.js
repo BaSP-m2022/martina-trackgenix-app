@@ -5,6 +5,9 @@ import {
   DELETE_PROJECT_PENDING,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_ERROR,
+  SOFT_DELETE_PROJECT_PENDING,
+  SOFT_DELETE_PROJECT_SUCCESS,
+  SOFT_DELETE_PROJECT_ERROR,
   ADD_PROJECT_PENDING,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_ERROR,
@@ -41,6 +44,19 @@ export const deleteProjectSuccess = (projectId) => ({
 
 export const deleteProjectError = () => ({
   type: DELETE_PROJECT_ERROR
+});
+
+export const softDeleteProjectPending = () => ({
+  type: SOFT_DELETE_PROJECT_PENDING
+});
+
+export const softDeleteProjectSuccess = (projectId) => ({
+  type: SOFT_DELETE_PROJECT_SUCCESS,
+  payload: projectId
+});
+
+export const softDeleteProjectError = () => ({
+  type: SOFT_DELETE_PROJECT_ERROR
 });
 
 export const addProjectPending = () => ({

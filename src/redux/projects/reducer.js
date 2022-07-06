@@ -5,6 +5,9 @@ import {
   DELETE_PROJECT_PENDING,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_ERROR,
+  SOFT_DELETE_PROJECT_PENDING,
+  SOFT_DELETE_PROJECT_SUCCESS,
+  SOFT_DELETE_PROJECT_ERROR,
   ADD_PROJECT_PENDING,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_ERROR,
@@ -79,13 +82,11 @@ export const projectReducer = (state = initialState, action) => {
         isLoading: false,
         error: true
       };
-
     case DELETE_PROJECT_PENDING:
       return {
         ...state,
         isLoading: true
       };
-
     case DELETE_PROJECT_SUCCESS:
       return {
         ...state,
@@ -93,6 +94,28 @@ export const projectReducer = (state = initialState, action) => {
         isLoading: false
       };
     case DELETE_PROJECT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: true
+      };
+    case SOFT_DELETE_PROJECT_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case SOFT_DELETE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: state.list.map((p) => {
+          if (p._id === action.payload._id) {
+            return action.payload;
+          }
+          return p;
+        })
+      };
+    case SOFT_DELETE_PROJECT_ERROR:
       return {
         ...state,
         isLoading: false,
