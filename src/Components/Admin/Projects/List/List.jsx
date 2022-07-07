@@ -25,8 +25,8 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
     if (confirm('Are you sure you want to remove this Project?')) {
       const responseProject = dispatch(softDelete(id));
       if (!responseProject.error) {
-        setShowModal(true);
         setTitleModal('Project deleted successfully');
+        setShowModal(true);
       }
     }
   };
@@ -37,7 +37,6 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
   };
 
   const viewEmployees = (project) => {
-    setShowModal(true);
     setTitleModal(
       project.employees.map((employee) => {
         return listEmployees.find((emp) => employee.id === emp._id);
@@ -67,14 +66,15 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
         </table>
       )
     );
+    setShowModal(true);
   };
 
   return (
     <Table
       title={'Projects'}
       data={newListProject}
-      headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date', 'Status']}
-      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date', 'active']}
+      headersColumns={['Project Name', 'Client', 'Start Date', 'Finish Date']}
+      headers={['project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={handleDelete}
       editItem={handleEdit}
       viewEmployees={viewEmployees}

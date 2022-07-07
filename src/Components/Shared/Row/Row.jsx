@@ -4,9 +4,13 @@ import Button from '../Buttons/Buttons';
 
 const Row = ({ data, headers, deleteItem, editItem, viewEmployees }) => {
   return (
-    <tr className={styles.tr} key={data._id} onClick={viewEmployees}>
+    <tr className={styles.tr} key={data._id}>
       {headers.map((header, index) => {
-        return <td key={index}>{data[header]}</td>;
+        return (
+          <td key={index} onClick={viewEmployees}>
+            {data[header]}
+          </td>
+        );
       })}
       <td>
         <Button onClick={editItem} width={'55px'}>
@@ -16,11 +20,6 @@ const Row = ({ data, headers, deleteItem, editItem, viewEmployees }) => {
       <td>
         <Button onClick={deleteItem} width={'55px'}>
           X
-        </Button>
-      </td>
-      <td>
-        <Button onClick={viewEmployees} width={'55px'}>
-          More
         </Button>
       </td>
     </tr>
