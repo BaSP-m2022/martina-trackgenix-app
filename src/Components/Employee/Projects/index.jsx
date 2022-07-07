@@ -6,44 +6,65 @@ import Loader from 'Components/Shared/Loader/Loader';
 import Modal from 'Components/Shared/Modal/Modal';
 
 const Projects = () => {
-  const isLoading = useSelector((state) => state.projects.isLoading);
-
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
+
+  const isLoading = useSelector((state) => state.projects.isLoading);
+  const user = useSelector((state) => state.auth.user);
+  const listProject = useSelector((state) => state.projects.list);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProjects());
   }, []);
 
-  const listProject = useSelector((state) => state.projects.list);
+  console.log('user: ', user);
+  console.log('listProject: ', listProject);
 
-  const employeeId = '62c2527a5b940023727c397a';
+  const listProjectEmployee = listProject.filter((project) => {
+    return project.employees.find((employee) => employee.id == user._id);
+  });
 
-  const listProjectEmployee = listProject.filter(
-    (project) => project.employees[0].id == employeeId
-  );
+  console.log('listProjectEmployee: ', listProjectEmployee);
 
-  const projectData = listProjectEmployee.map((item) => {
+  const projectData = listProjectEmployee.map((project) => {
+    let role;
+    project.employees.map((employee) => {
+      if (employee.id == user._id) {
+        role = employee.role;
+      }
+    });
+
+    console.log('role: ', role);
+
     return {
-      _id: item._id,
-      active: item.active,
-      start_date: item.start_date.slice(0, 10),
-      finish_date: item.finish_date.slice(0, 10),
-      project_name: item.project_name,
-      client: item.client,
-      role: item.employees[0].role
+      _id: project._id,
+      active: project.active,
+      start_date: project.start_date.slice(0, 10),
+      finish_date: project.finish_date.slice(0, 10),
+      project_name: project.project_name,
+      client: project.client,
+      employees: project.employees,
+      role
     };
   });
+
+  console.log('projectData: ', projectData);
 
   const handleDelete = () => {
     setShowModal(true);
     setChildrenModal('You cannot delete project');
   };
 
-  const handleEdit = () => {
-    setShowModal(true);
-    setChildrenModal('You cannot edit project');
+  const handleEdit = (project) => {
+    console.log('project en handleEdit: ', project);
+    if (project.role == 'PM') {
+      setShowModal(true);
+      setChildrenModal('You edit project');
+    } else {
+      setShowModal(true);
+      setChildrenModal('You cannot edit project');
+    }
   };
 
   return (
@@ -55,8 +76,8 @@ const Projects = () => {
           <Table
             title={'My projects'}
             data={projectData}
-            headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
-            headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}
+            headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
+            headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}
             deleteItem={handleDelete}
             editItem={handleEdit}
           />
