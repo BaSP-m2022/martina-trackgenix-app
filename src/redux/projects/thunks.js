@@ -84,7 +84,7 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const softDelete = (project, id) => {
+export const softDelete = (id) => {
   return async (dispatch) => {
     dispatch(softDeleteProjectPending());
     try {
@@ -94,18 +94,7 @@ export const softDelete = (project, id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.project_name,
-          client: project.client,
-          start_date: project.start_date,
-          finish_date: project.finish_date,
-          active: project.active == 'Active' ? false : true,
-          employees: project.employees.map((employee) => {
-            return {
-              id: employee.id,
-              role: employee.role,
-              rate: employee.rate.toString()
-            };
-          })
+          active: false
         })
       });
       const res = await response.json();

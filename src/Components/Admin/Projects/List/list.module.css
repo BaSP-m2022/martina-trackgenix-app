@@ -11,3 +11,12 @@ th {
   height: 50px;
   background-color: #EA3354;
 }
+
+.tr:hover {
+  background-color: #aace9bb7;
+}
+
+.tr td {
+  text-align: center;
+  padding: 10px;
+}
