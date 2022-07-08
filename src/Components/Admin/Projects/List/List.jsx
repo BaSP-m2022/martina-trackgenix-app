@@ -69,8 +69,6 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
     setShowModal(true);
   };
 
-  console.log(viewEmployees);
-
   return (
     <Table
       title={'Projects'}
@@ -79,6 +77,7 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
       headers={['project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={handleDelete}
       editItem={handleEdit}
+      viewMore={viewEmployees}
     />
   );
 };
