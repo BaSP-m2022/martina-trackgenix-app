@@ -77,7 +77,7 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
       headers={['project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={handleDelete}
       editItem={handleEdit}
-      viewEmployees={viewEmployees}
+      viewMore={viewEmployees}
     />
   );
 };
