@@ -4,10 +4,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
 import Loader from 'Components/Shared/Loader/Loader';
 import Modal from 'Components/Shared/Modal/Modal';
+import ProjectForm from 'Components/Employee/Projects/Form/ProjectForm';
 
 const Projects = () => {
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [previousProject, setPreviousProject] = useState({
+    id: '',
+    project_name: '',
+    start_date: '',
+    finish_date: '',
+    client: '',
+    active: '',
+    employees: [
+      {
+        role: '',
+        rate: '0',
+        id: ''
+      }
+    ]
+  });
 
   const isLoading = useSelector((state) => state.projects.isLoading);
   const user = useSelector((state) => state.auth.user);
@@ -51,16 +68,13 @@ const Projects = () => {
 
   console.log('projectData: ', projectData);
 
-  const handleDelete = () => {
-    setShowModal(true);
-    setChildrenModal('You cannot delete project');
-  };
-
   const handleEdit = (project) => {
     console.log('project en handleEdit: ', project);
     if (project.role == 'PM') {
+      setPreviousProject(project);
       setShowModal(true);
       setChildrenModal('You edit project');
+      setShowForm(true);
     } else {
       setShowModal(true);
       setChildrenModal('You cannot edit project');
@@ -78,8 +92,15 @@ const Projects = () => {
             data={projectData}
             headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
             headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}
-            deleteItem={handleDelete}
             editItem={handleEdit}
+          />
+          <ProjectForm
+            showForm={showForm}
+            setShowForm={setShowForm}
+            previousProject={previousProject}
+            setPreviousProject={setPreviousProject}
+            setTitleModal={childrenModal}
+            setShowModal={setShowModal}
           />
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
