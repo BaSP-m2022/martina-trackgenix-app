@@ -37,7 +37,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
                 headers={headers}
                 deleteItem={deleteItem && (() => deleteItem(item._id))}
                 editItem={editItem && (() => editItem(item))}
-                viewMore={() => viewMore(item)}
+                viewMore={viewMore && (() => viewMore(item))}
               />
             );
           })}
