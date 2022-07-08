@@ -1,52 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import styles from 'Components/Employee/TimeSheet/timesheets.module.css';
-import Table from 'Components/Shared/Table/Table';
+// import Table from 'Components/Shared/Table/Table';
+import TimeSheetHs from './Table/Table';
 import Modal from 'Components/Shared/Modal/Modal';
 import Form from 'Components/Employee/TimeSheet/Form/Form';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
+import moment from 'moment';
+import { getProjects } from 'redux/projects/thunks';
 
 const TimeSheet = () => {
   const isLoading = useSelector((state) => state.timeSheet.isLoading);
 
   const dispatch = useDispatch();
 
-  const employeeId = '62c2527a5b940023727c397a';
+  const user = useSelector((state) => state.auth?.user);
 
+  const [projectSelected, setProjectSelected] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [previousTimeSheet, setPreviousTimeSheet] = useState({
     _id: '',
-    employee: employeeId,
+    employee: user?._id,
     hs_worked: 0,
     task: '',
     project: '',
     timesheetDate: ''
   });
 
+  const onChange = (e) => {
+    setProjectSelected({ ...projectSelected, [e.target.name]: e.target.value });
+  };
+
   useEffect(() => {
     dispatch(getTimeSheet());
+    dispatch(getProjects());
   }, []);
 
   const listTimeSheet = useSelector((state) => state.timeSheet.list);
 
   const filteredListTimeSheet = listTimeSheet.filter(
-    (timeSheet) => timeSheet.employee?._id == employeeId
+    (timeSheet) => timeSheet.employee?._id == user?._id
   );
 
+  const listProjects = useSelector((state) => state.projects.list);
+  const listProjectEmployee = listProjects.filter((project) => {
+    return project.employees.find((employee) => employee.id == user._id);
+  });
+
+  // const newList = filteredListTimeSheet.map((item) => {
+  //   return {
+  //     _id: item._id,
+  //     employee: item.employee ? item.employee.first_name : '',
+  //     hs_worked: item.hs_worked,
+  //     task: item.task ? item.task.description : '',
+  //     project: item.project ? item.project.project_name : '',
+  //     timesheetDate: moment(item.timesheetDate).format('DD-MM-YYYY'),
+  //     timesheetDay: moment(item.timesheetDate).format('dddd')
+  //   };
+  // });
   const newList = filteredListTimeSheet.map((item) => {
     return {
-      _id: item._id,
-      employee: item.employee ? item.employee.first_name : '',
       hs_worked: item.hs_worked,
-      task: item.task ? item.task.description : '',
-      project: item.project ? item.project.project_name : '',
-      timesheetDate: item.timesheetDate.slice(0, 10)
+      timesheetDate: moment(item.timesheetDate).format('DD-MM-YYYY'),
+      timesheetDay: moment(item.timesheetDate).format('dddd'),
+      project: item.project.project_name
     };
   });
+
+  console.log('newList', newList);
 
   const deleteItem = () => {
     setShowModal(true);
@@ -56,7 +81,7 @@ const TimeSheet = () => {
   const handleEdit = (timeSheet) => {
     setPreviousTimeSheet({
       _id: timeSheet._id,
-      employee: employeeId,
+      employee: user?._id,
       hs_worked: timeSheet.hs_worked,
       task: timeSheet.task,
       project: timeSheet.project,
@@ -64,18 +89,24 @@ const TimeSheet = () => {
     });
     setShowForm(true);
   };
-
+  console.log('projectSelected', projectSelected);
   return (
     <>
       {isLoading ? (
         <Loader show={true} />
       ) : (
         <section className={styles.container}>
-          <Table
-            title={`${newList[0] ? newList[0].employee : ''}'s Time-Sheet`}
+          <h2>Projects</h2>
+          <select className={styles.input} onChange={onChange}>
+            {listProjectEmployee.map((item) => (
+              <option key={item._id} value={item._id}>
+                {item.first_name || item.project_name || item.description}
+              </option>
+            ))}
+          </select>
+          <TimeSheetHs
+            title={`${user?.first_name}'s Time-Sheet`}
             data={newList}
-            headersColumns={['ID', 'Employee', 'Hours Worked', 'Project', 'Task', 'Date']}
-            headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
             deleteItem={deleteItem}
             editItem={handleEdit}
           />

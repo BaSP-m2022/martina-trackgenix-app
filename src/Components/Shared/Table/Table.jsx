@@ -35,8 +35,8 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem }) =
                 key={index}
                 data={item}
                 headers={headers}
-                deleteItem={() => deleteItem(item._id)}
-                editItem={() => editItem(item)}
+                deleteItem={deleteItem && (() => deleteItem(item._id))}
+                editItem={editItem && (() => editItem(item))}
               />
             );
           })}

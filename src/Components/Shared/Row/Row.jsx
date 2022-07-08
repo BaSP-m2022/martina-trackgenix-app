@@ -8,16 +8,20 @@ const Row = ({ data, headers, deleteItem, editItem }) => {
       {headers.map((header, index) => {
         return <td key={index}>{data[header]}</td>;
       })}
-      <td>
-        <Button onClick={editItem} width={'55px'}>
-          &#9998;
-        </Button>
-      </td>
-      <td>
-        <Button onClick={deleteItem} width={'55px'}>
-          X
-        </Button>
-      </td>
+      {editItem && (
+        <td>
+          <Button onClick={editItem} width={'55px'}>
+            &#9998;
+          </Button>
+        </td>
+      )}
+      {editItem && (
+        <td>
+          <Button onClick={deleteItem} width={'55px'}>
+            X
+          </Button>
+        </td>
+      )}
     </tr>
   );
 };
