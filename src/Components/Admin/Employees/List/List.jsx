@@ -1,22 +1,9 @@
 import React from 'react';
 import Table from 'Components/Shared/Table/Table';
-import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { deleteEmployee } from 'redux/employees/thunks';
+import { useSelector } from 'react-redux/es/exports';
 
-const List = ({ setShowForm, setPreviewsEmployee }) => {
+const List = () => {
   const employees = useSelector((state) => state.employees.list);
-  const dispatch = useDispatch();
-
-  const handleDelete = async (_id) => {
-    if (confirm('Are you sure you want to remove the Employee?')) {
-      dispatch(deleteEmployee(_id));
-    }
-  };
-
-  const handleEdit = (employee) => {
-    setPreviewsEmployee(employee);
-    setShowForm(true);
-  };
 
   return (
     <Table
@@ -24,8 +11,6 @@ const List = ({ setShowForm, setPreviewsEmployee }) => {
       data={employees}
       headersColumns={['ID', 'Fist Name', 'Last Name', 'Phone', 'Email']}
       headers={['_id', 'first_name', 'last_name', 'phone', 'email']}
-      deleteItem={handleDelete}
-      editItem={handleEdit}
     />
   );
 };
