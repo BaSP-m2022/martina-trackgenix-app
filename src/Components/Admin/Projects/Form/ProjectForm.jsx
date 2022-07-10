@@ -6,8 +6,8 @@ import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useDispatch } from 'react-redux';
 import { addProject, editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import joi from 'joi';
+// import { joiResolver } from '@hookform/resolvers/joi';
+// import joi from 'joi';
 import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
 
 const ProjectForm = ({
@@ -25,14 +25,20 @@ const ProjectForm = ({
   const dispatch = useDispatch();
 
   const [showSecondModal, setShowSecondModal] = useState(false);
+  const [newEmployeeList, setNewEmployeeList] = useState([]);
 
-  const schema = joi.object({
-    projectName: joi.string().required().min(3).max(30),
-    client: joi.string().required().min(3).max(30),
-    startDate: joi.date().required().max('now'),
-    finishDate: joi.date().required().min('now'),
-    active: joi.boolean().required()
-  });
+  const sendNewEmployeeList = (list) => {
+    setNewEmployeeList(list);
+  };
+
+  // const schema = joi.object({
+  //   projectName: joi.string().required().min(3).max(30),
+  //   client: joi.string().required().min(3).max(30),
+  //   startDate: joi.date().required().max('now'),
+  //   finishDate: joi.date().required().min('now'),
+  //   active: joi.boolean(),
+  //   employees: joi.array()
+  // });
 
   const {
     handleSubmit,
@@ -41,23 +47,32 @@ const ProjectForm = ({
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema),
+    // resolver: joiResolver(schema),
     defaultValues: {
       projectName: previousProject.project_name,
       client: previousProject.client,
       startDate: previousProject.start_date,
       finishDate: previousProject.finish_date,
       active: previousProject.active.toString()
-      // employee: previousProject.employees[0].id,
-      // role: previousProject.employees[0].role,
-      // rate: previousProject.employees[0].rate
+      // employees: newEmployeeList
     }
   });
 
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
-        const project = await dispatch(addProject(data));
+        const project = await dispatch(
+          addProject(newEmployeeList, {
+            project_name: data.projectName,
+            client: data.client,
+            start_date: data.startDate,
+            finish_date: data.finishDate,
+            active: (data.active = true),
+            employees: (data.employees = newEmployeeList)
+          })
+        );
+        console.log(project);
+        console.log('data', data, 'employee list', newEmployeeList);
         if (project.error) {
           setTitleModal(project.message);
           setShowModal(true);
@@ -159,27 +174,27 @@ const ProjectForm = ({
               ''
             )}
           </div>
-        </form>
-        {/* <table>
-          <thead>
-            <tr>
-              {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
-                return <th key={index}>{headersColumns}</th>;
+          <table>
+            <thead>
+              <tr>
+                {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
+                  return <th key={index}>{headersColumns}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {newEmployeeList.map((employee) => {
+                return (
+                  <tr key={employee.id}>
+                    <td>{employee.name}</td>
+                    <td>{employee.role}</td>
+                    <td>{employee.rate}</td>
+                  </tr>
+                );
               })}
-            </tr>
-          </thead>
-          <tbody>
-            {newEmployeeList.map((employee) => {
-              return (
-                <tr key={employee.id}>
-                  <td>{employee.name}</td>
-                  <td>{employee.role}</td>
-                  <td>{employee.rate}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table> */}
+            </tbody>
+          </table>
+        </form>
         <div>
           <Button onClick={() => setShowSecondModal(true)}>Add employees</Button>
         </div>
@@ -193,6 +208,7 @@ const ProjectForm = ({
         showSecondModal={showSecondModal}
         setShowSecondModal={setShowSecondModal}
         previousProject={previousProject}
+        sendNewEmployeeList={sendNewEmployeeList}
       />
     </div>
   );

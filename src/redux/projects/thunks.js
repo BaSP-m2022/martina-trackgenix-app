@@ -27,7 +27,7 @@ export const getProjects = () => {
   };
 };
 
-export const addProject = (project) => {
+export const addProject = (list, project) => {
   return async (dispatch) => {
     dispatch(addProjectPending());
     try {
@@ -42,13 +42,7 @@ export const addProject = (project) => {
           start_date: project.startDate,
           finish_date: project.finishDate,
           active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          employees: list
         })
       });
       const res = await response.json();

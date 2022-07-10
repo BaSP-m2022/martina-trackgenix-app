@@ -7,18 +7,17 @@ import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
 
-const EmployeeForm = ({ showSecondModal, setShowSecondModal, previousProject }) => {
+const EmployeeForm = ({
+  showSecondModal,
+  setShowSecondModal,
+  previousProject,
+  sendNewEmployeeList
+}) => {
   if (!showSecondModal) {
     return null;
   }
   const [listEmployees, setListEmployees] = useState([]);
-  const [selectState, setSelectState] = useState([
-    {
-      name: '',
-      role: '',
-      rate: ''
-    }
-  ]);
+  const [selectState, setSelectState] = useState([{}]);
   const [newEmployeeList, setNewEmployeeList] = useState([]);
 
   const schema = joi.object({
@@ -76,14 +75,15 @@ const EmployeeForm = ({ showSecondModal, setShowSecondModal, previousProject }) 
   const handleAdd = (data) => {
     const newList = [...newEmployeeList, { name: data.employee, role: data.role, rate: data.rate }];
     setNewEmployeeList(newList);
-    console.log('newlist', newList);
+    setSelectState(selectState);
   };
 
   const onSubmit = () => {
     newEmployeeList.find((employee) => employee.role === 'PM')
       ? setShowSecondModal(false)
       : alert('Please select a Project Manager');
-    console.log(selectState);
+    console.log('neweEmployeeList', newEmployeeList);
+    sendNewEmployeeList(newEmployeeList);
   };
 
   return (
@@ -100,7 +100,7 @@ const EmployeeForm = ({ showSecondModal, setShowSecondModal, previousProject }) 
               register={register}
               error={errors.employee?.message}
               onChange={(e) => {
-                setSelectState(e.target.value);
+                setSelectState({ name: e.target.value });
               }}
             />
           </div>
@@ -113,7 +113,7 @@ const EmployeeForm = ({ showSecondModal, setShowSecondModal, previousProject }) 
               register={register}
               error={errors.role?.message}
               onChange={(e) => {
-                setSelectState(e.target.value);
+                setSelectState({ role: e.target.value });
               }}
             />
           </div>
@@ -125,7 +125,7 @@ const EmployeeForm = ({ showSecondModal, setShowSecondModal, previousProject }) 
               register={register}
               error={errors.rate?.message}
               onChange={(e) => {
-                setSelectState(e.target.value);
+                setSelectState({ rate: e.target.value });
               }}
             />
           </div>
