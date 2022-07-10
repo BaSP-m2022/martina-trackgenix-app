@@ -65,14 +65,19 @@ const TimeSheet = () => {
   const newList = filteredListTimeSheet.map((item) => {
     return {
       hs_worked: item.hs_worked,
-      timesheetDate: moment(item.timesheetDate).format('DD-MM-YYYY'),
+      timesheetDate: item.timesheetDate,
       timesheetDay: moment(item.timesheetDate).format('dddd'),
       project: item.project.project_name
     };
   });
+  // console.log(newList);
+  // const hardCodeDate = newList.map((item) => {
+  //   if (item.timesheetDay == 'Monday') {
+  //     return item.timesheetDate.slice(0, 10);
+  //   }
+  // });
 
-  console.log('newList', newList);
-
+  // console.log('fecha', hardCodeDate);
   const deleteItem = () => {
     setShowModal(true);
     setChildrenModal('You cannot delete a time-sheet');
@@ -89,7 +94,7 @@ const TimeSheet = () => {
     });
     setShowForm(true);
   };
-  console.log('projectSelected', projectSelected);
+
   return (
     <>
       {isLoading ? (
@@ -100,7 +105,7 @@ const TimeSheet = () => {
           <select className={styles.input} onChange={onChange}>
             {listProjectEmployee.map((item) => (
               <option key={item._id} value={item._id}>
-                {item.first_name || item.project_name || item.description}
+                {item.project_name}
               </option>
             ))}
           </select>

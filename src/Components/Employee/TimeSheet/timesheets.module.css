@@ -59,3 +59,11 @@ tr td {
   border-radius: 5px;
   box-shadow: 2px 2px 6px #00000090;
 }
+.inputD {
+  padding: 5px;
+  border: #373867 solid 2px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px #00000090;
+  margin-top: 25px;
+  margin-right: 10px;
+}
