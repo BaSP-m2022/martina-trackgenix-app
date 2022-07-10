@@ -31,9 +31,6 @@ const ProjectForm = ({
     client: joi.string().required().min(3).max(30),
     startDate: joi.date().required().max('now'),
     finishDate: joi.date().required().min('now'),
-    // employee: joi.string().required().length(24).alphanum(),
-    // rate: joi.number().required().min(1).max(999),
-    // role: joi.string().required().valid('DEV', 'PM', 'QA', 'TL'),
     active: joi.boolean().required()
   });
 
@@ -163,6 +160,26 @@ const ProjectForm = ({
             )}
           </div>
         </form>
+        {/* <table>
+          <thead>
+            <tr>
+              {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
+                return <th key={index}>{headersColumns}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {newEmployeeList.map((employee) => {
+              return (
+                <tr key={employee.id}>
+                  <td>{employee.name}</td>
+                  <td>{employee.role}</td>
+                  <td>{employee.rate}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table> */}
         <div>
           <Button onClick={() => setShowSecondModal(true)}>Add employees</Button>
         </div>
@@ -172,7 +189,11 @@ const ProjectForm = ({
           <Button onClick={closeForm}>Close</Button>
         </div>
       </div>
-      <EmployeeAdd showSecondModal={showSecondModal} setShowSecondModal={setShowSecondModal} />
+      <EmployeeAdd
+        showSecondModal={showSecondModal}
+        setShowSecondModal={setShowSecondModal}
+        previousProject={previousProject}
+      />
     </div>
   );
 };
