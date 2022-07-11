@@ -37,11 +37,11 @@ export const addProject = (list, project) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          active: true,
           employees: list
         })
       });
@@ -77,8 +77,6 @@ export const deleteProject = (_id) => {
 
 export const editProject = (project, id) => {
   return async (dispatch) => {
-    console.log('data en thunk: ', project);
-    console.log('id en thunk', id);
     dispatch(editProjectPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {

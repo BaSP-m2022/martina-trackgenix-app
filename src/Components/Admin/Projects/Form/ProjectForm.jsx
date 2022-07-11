@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useDispatch } from 'react-redux';
 import { addProject, editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
-// import { joiResolver } from '@hookform/resolvers/joi';
-// import joi from 'joi';
+import { joiResolver } from '@hookform/resolvers/joi';
+import joi from 'joi';
 import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
 
 const ProjectForm = ({
@@ -31,14 +30,12 @@ const ProjectForm = ({
     setNewEmployeeList(list);
   };
 
-  // const schema = joi.object({
-  //   projectName: joi.string().required().min(3).max(30),
-  //   client: joi.string().required().min(3).max(30),
-  //   startDate: joi.date().required().max('now'),
-  //   finishDate: joi.date().required().min('now'),
-  //   active: joi.boolean(),
-  //   employees: joi.array()
-  // });
+  const schema = joi.object({
+    project_name: joi.string().required().min(3).max(30),
+    client: joi.string().required().min(3).max(30),
+    start_date: joi.date().required().max('now'),
+    finish_date: joi.date().required().min('now')
+  });
 
   const {
     handleSubmit,
@@ -47,32 +44,19 @@ const ProjectForm = ({
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    // resolver: joiResolver(schema),
+    resolver: joiResolver(schema),
     defaultValues: {
-      projectName: previousProject.project_name,
+      project_name: previousProject.project_name,
       client: previousProject.client,
-      startDate: previousProject.start_date,
-      finishDate: previousProject.finish_date,
-      active: previousProject.active.toString()
-      // employees: newEmployeeList
+      start_date: previousProject.start_date,
+      finish_date: previousProject.finish_date
     }
   });
 
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
-        const project = await dispatch(
-          addProject(newEmployeeList, {
-            project_name: data.projectName,
-            client: data.client,
-            start_date: data.startDate,
-            finish_date: data.finishDate,
-            active: (data.active = true),
-            employees: (data.employees = newEmployeeList)
-          })
-        );
-        console.log(project);
-        console.log('data', data, 'employee list', newEmployeeList);
+        const project = await dispatch(addProject(newEmployeeList, data));
         if (project.error) {
           setTitleModal(project.message);
           setShowModal(true);
@@ -128,10 +112,10 @@ const ProjectForm = ({
           <div className={styles.containerInput}>
             <Input
               type={'text'}
-              name={'projectName'}
+              name={'project_name'}
               label={'Project Name'}
               register={register}
-              error={errors.projectName?.message}
+              error={errors.project_name?.message}
             />
           </div>
           <div className={styles.containerInput}>
@@ -146,38 +130,25 @@ const ProjectForm = ({
           <div className={styles.containerInput}>
             <Input
               type={'date'}
-              name={'startDate'}
+              name={'start_date'}
               label={'Start Date'}
               register={register}
-              error={errors.startDate?.message}
+              error={errors.start_date?.message}
             />
           </div>
           <div className={styles.containerInput}>
             <Input
               type={'date'}
-              name={'finishDate'}
+              name={'finish_date'}
               label={'Finish Date'}
               register={register}
-              error={errors.finishDate?.message}
+              error={errors.finish_date?.message}
             />
-          </div>
-          <div className={styles.containerInput}>
-            {previousProject._id ? (
-              <RadioButton
-                name={'active'}
-                label={'Active'}
-                valueOptions={[true, false]}
-                register={register}
-                error={errors.active?.message}
-              />
-            ) : (
-              ''
-            )}
           </div>
           <table>
             <thead>
               <tr>
-                {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
+                {['ID', 'Role', 'Rate'].map((headersColumns, index) => {
                   return <th key={index}>{headersColumns}</th>;
                 })}
               </tr>
@@ -186,7 +157,7 @@ const ProjectForm = ({
               {newEmployeeList.map((employee) => {
                 return (
                   <tr key={employee.id}>
-                    <td>{employee.name}</td>
+                    <td>{employee.id}</td>
                     <td>{employee.role}</td>
                     <td>{employee.rate}</td>
                   </tr>
