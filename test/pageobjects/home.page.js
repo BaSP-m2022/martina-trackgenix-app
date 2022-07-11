@@ -1,31 +1,31 @@
 /* eslint-disable no-undef */
 class homePage {
   get headerHome() {
-    return $('#root > div > header');
+    return $('#root > div > div > header');
   }
   get titleHome() {
-    return $('.header_brand__2s1Vi');
+    return $('#root > div > div > header > div > div.header_brand__2s1Vi');
   }
   get socialRedHome() {
-    return $('#root > div > header > div > div:nth-child(2)');
+    return $('#root > div > div > header > div > div:nth-child(2)');
   }
   get facebookSocialRed() {
-    return $('#root > div > header > div > div:nth-child(2) > a:nth-child(1)');
+    return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(1)');
   }
   get imgFacebook() {
-    return $('div:nth-child(2) > a:nth-child(1) > img');
+    return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(1) > img');
   }
   get twitterSocialRed() {
-    return $('div:nth-child(2) > a:nth-child(2)');
+    return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(2)');
   }
   get imgTwitter() {
-    return $('div:nth-child(2) > a:nth-child(2) > img');
+    return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(2) > img');
   }
   get instagramSocialRed() {
-    return $('div:nth-child(2) > a:nth-child(3)');
+    return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(3)');
   }
   get imgInstagram() {
-    return $('div:nth-child(2) > a:nth-child(3) > img');
+    return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(3) > img');
   }
   get bodyHome() {
     return $('#root > div > section');

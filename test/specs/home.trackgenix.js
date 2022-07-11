@@ -30,7 +30,7 @@ describe('Home page testing', () => {
     await expect(HomePage.twitterSocialRed).toHaveAttribute('href', false);
     await expect(HomePage.instagramSocialRed).toHaveAttribute('href', false);
   });
-  it('Wait for bodyHome: container', async () => {
+  /*it('Wait for bodyHome: container', async () => {
     await expect(HomePage.bodyHome).toBeDisplayed();
     await expect(HomePage.containerHome).toBeDisplayed();
     await expect(HomePage.employeeBtn).toBeDisplayed();
@@ -70,5 +70,5 @@ describe('Home page testing', () => {
   it('I wait for the instagram page when I click on the icon', async () => {
     HomePage.clickInstagram();
     await browser.url('https://www.instagram.com/radium.rocket/');
-  });
+  }); */
 });
