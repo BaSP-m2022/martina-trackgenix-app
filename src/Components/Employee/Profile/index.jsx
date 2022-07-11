@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from 'Components/Employee/Profile/profile.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
+//import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useForm } from 'react-hook-form';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -147,7 +147,7 @@ const Profile = () => {
               error={errors.email?.message}
             />
           </div>
-          <div>
+          {/* <div>
             <Input
               type={'password'}
               name={'password'}
@@ -155,8 +155,8 @@ const Profile = () => {
               register={register}
               error={errors.password?.message}
             />
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <RadioButton
               name={'active'}
               label={'Active'}
@@ -164,11 +164,11 @@ const Profile = () => {
               register={register}
               error={errors.active?.message}
             />
-          </div>
+          </div> */}
         </form>
         <div className={styles.containerButtons}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => location.assign('/employee/home')}>Close</Button>
+          <Button onClick={() => location.assign('/employee/home')}>Cancel</Button>
           <Button onClick={() => reset()}>Reset Form</Button>
         </div>
       </div>
