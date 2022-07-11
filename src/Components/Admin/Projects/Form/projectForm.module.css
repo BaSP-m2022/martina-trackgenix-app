@@ -22,25 +22,23 @@
   font-weight: 500;
 }
 
-.containerForm {
+.containerForm, .containerFormEmployees {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50%;
-  height: 80%;
+  width: 40%;
   background-color: #f0f4f9;
   border-radius: 10px;
   overflow: auto;
 }
 
-.containerForm form{
+.containerForm form, .containerFormEmployees form{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   width: 95%;
-  height: 75%;
   gap: 20px;
 }
 
@@ -52,5 +50,31 @@
 .containerButtons {
   display: flex;
   width: 75%;
-  gap: 50px;
+  gap: 40px;
+  margin-bottom: 30px;
 }
+
+.tr:hover {
+  background-color: #aace9bb7;
+}
+
+.tr td {
+  text-align: center;
+  padding: 3px;
+}
+
+.containerTable {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin-top: 20px;
+}
+
+table {
+  margin: 20px 0px;
+}
+
+.containerFormEmployees {
+  width: 30%;
+}
+

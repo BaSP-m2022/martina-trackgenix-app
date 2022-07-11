@@ -56,14 +56,18 @@ const ProjectForm = ({
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
-        const project = await dispatch(addProject(newEmployeeList, data));
-        if (project.error) {
-          setTitleModal(project.message);
-          setShowModal(true);
+        if (newEmployeeList.length === 0) {
+          alert('Error: please add employees to your project');
         } else {
-          setTitleModal(project.message);
-          setShowModal(true);
-          closeForm();
+          const project = await dispatch(addProject(newEmployeeList, data));
+          if (project.error) {
+            setTitleModal(project.message);
+            setShowModal(true);
+          } else {
+            setTitleModal(project.message);
+            setShowModal(true);
+            closeForm();
+          }
         }
       } catch (error) {
         console.error(error);
@@ -145,6 +149,13 @@ const ProjectForm = ({
               error={errors.finish_date?.message}
             />
           </div>
+        </form>
+        <div className={styles.containerTable}>
+          <div>
+            <Button width={'120px'} onClick={() => setShowSecondModal(true)}>
+              Add employees
+            </Button>
+          </div>
           <table>
             <thead>
               <tr>
@@ -156,18 +167,15 @@ const ProjectForm = ({
             <tbody>
               {newEmployeeList.map((employee) => {
                 return (
-                  <tr key={employee.id}>
-                    <td>{employee.id}</td>
-                    <td>{employee.role}</td>
-                    <td>{employee.rate}</td>
+                  <tr key={employee.id} className={styles.tr}>
+                    <td className={styles.td}>{employee.id}</td>
+                    <td className={styles.td}>{employee.role}</td>
+                    <td className={styles.td}>{employee.rate}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-        </form>
-        <div>
-          <Button onClick={() => setShowSecondModal(true)}>Add employees</Button>
         </div>
         <div className={styles.containerButtons}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
