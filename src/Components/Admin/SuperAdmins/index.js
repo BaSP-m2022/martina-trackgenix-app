@@ -55,7 +55,6 @@ const SuperAdmins = () => {
           </Modal>
         </section>
       )}
-      ;
     </>
   );
 };

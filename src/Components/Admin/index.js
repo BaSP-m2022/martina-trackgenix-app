@@ -5,7 +5,7 @@ import NavBar from 'Components/Shared/NavBar/NavBar';
 import Footer from 'Components/Shared/Footer';
 
 const Home = lazy(() => import('Components/Admin/Home/index'));
-const Admins = lazy(() => import('Components/Admin/Admins'));
+const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
 const SuperAdmins = lazy(() => import('Components/Admin/SuperAdmins'));
 const Employees = lazy(() => import('Components/Admin/Employees'));
 const Projects = lazy(() => import('Components/Admin/Projects'));

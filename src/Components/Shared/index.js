@@ -5,5 +5,6 @@ import Loader from 'Components/Shared/Loader/Loader';
 import Modal from 'Components/Shared/Modal/Modal';
 import Row from 'Components/Shared/Row/Row';
 import Table from 'Components/Shared/Table/Table';
+import Layout from 'Components/Shared/Layout';
 
-export { Button, Input, RadioButton, Loader, Modal, Row, Table };
+export { Button, Input, RadioButton, Loader, Modal, Row, Table, Layout };

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import styles from 'Components/Auth/SignUp/sign-up.module.css';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useForm } from 'react-hook-form';
-import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Input from 'Components/Shared/Field/Input';
+import Button from 'Components/Shared/Buttons/Buttons';
+import RadioButton from 'Components/Shared/Field/RadioButton';
+import joi from 'joi';
 import Modal from 'Components/Shared/Modal/Modal';
 import Loader from 'Components/Shared/Loader/Loader';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import styles from 'Components/Auth/SignUp/sign-up.module.css';
 
 const SignUp = () => {
   const [userInput] = useState('');
@@ -183,6 +183,12 @@ const SignUp = () => {
               <Button onClick={() => history.push('/home')}>Close</Button>
               <Button onClick={() => reset()}>Reset Form</Button>
             </div>
+          </div>
+          <div>
+            <img
+              className={styles.imgConteiner}
+              src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
+            />
           </div>
         </section>
       )}

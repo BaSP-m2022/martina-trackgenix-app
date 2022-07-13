@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import styles from 'Components/Admin/Admins/admins.module.css';
-import List from 'Components/Admin/Admins/List/List';
-import AdminForm from 'Components/Admin/Admins/Form/AdminForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
+import Table from 'Components/Shared/Table/Table';
+import AdminForm from 'Components/SuperAdmin/Admins/Form/AdminForm';
 import Modal from 'Components/Shared/Modal/Modal';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Loader from 'Components/Shared/Loader/Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins } from 'redux/admins/thunks';
+import styles from 'Components/SuperAdmin/Admins/admins.module.css';
 
 const Admins = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.admins.isLoading);
+  const admins = useSelector((state) => state.admins.list);
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -30,12 +31,15 @@ const Admins = () => {
     dispatch(getAdmins());
   }, []);
 
-  const openForm = () => {
-    setShowForm(true);
+  const handleDelete = async (_id) => {
+    if (confirm('Are you sure you want to remove the Admin?')) {
+      dispatch(deleteAdmin(_id));
+    }
   };
 
-  const handleClose = () => {
-    setShowModal(false);
+  const handleEdit = (admin) => {
+    setPreviousAdmin(admin);
+    setShowForm(true);
   };
 
   return (
@@ -52,9 +56,16 @@ const Admins = () => {
             previousAdmin={previousAdmin}
             setPreviousAdmin={setPreviousAdmin}
           />
-          <List setPreviousAdmin={setPreviousAdmin} setShowForm={setShowForm} />
-          <Button onClick={openForm}>Add New Admin</Button>
-          <Modal isOpen={showModal} handleClose={handleClose}>
+          <Table
+            title={'Administrators list'}
+            data={admins}
+            headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', '', '']}
+            headers={['firstName', 'lastName', 'phone', 'email']}
+            deleteItem={handleDelete}
+            editItem={handleEdit}
+          />
+          <Button onClick={() => setShowForm(true)}>Add New Admin</Button>
+          <Modal isOpen={showModal} handleClose={() => setShowForm(false)}>
             {childrenModal}
           </Modal>
         </section>

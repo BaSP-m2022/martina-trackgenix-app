@@ -62,7 +62,6 @@ const Projects = () => {
           </Modal>
         </section>
       )}
-      ;
     </>
   );
 };
