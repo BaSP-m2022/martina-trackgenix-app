@@ -18,9 +18,24 @@ const EmployeeForm = ({
     return null;
   }
 
+  const [listEmployeesStart, setListEmployeesStart] = useState([]);
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const data = await response.json();
+      setListEmployeesStart([...listEmployeesStart, ...data.data]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     dispatch(getEmployees());
   }, []);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, [1]);
 
   const listEmployees = useSelector((state) => state.employees.list);
 
@@ -32,7 +47,6 @@ const EmployeeForm = ({
     role: joi.string().required().valid('DEV', 'PM', 'QA', 'TL'),
     rate: joi.number().required().min(1).max(999)
   });
-  console.log(listEmployees);
   const {
     handleSubmit,
     register,
@@ -41,11 +55,6 @@ const EmployeeForm = ({
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(schema)
-    // defaultValues: {
-    //   // id: previousProject.employees[0].id,
-    //   // role: previousProject.employees[0].role,
-    //   // rate: previousProject.employees[0].rate
-    // }
   });
 
   const listRole = [
@@ -79,6 +88,16 @@ const EmployeeForm = ({
       setNewEmployeeList(newList);
       reset({ rate: '1' });
     }
+  };
+
+  const handleDelete = (index) => {
+    const newList = [...newEmployeeList];
+    const spliced = newList.splice(index, 1);
+    console.log('spliced', spliced);
+    console.log('listemployeesstart', listEmployeesStart);
+    const selectEmployee = listEmployeesStart.find((employee) => employee._id === spliced[0].id);
+    listEmployees.push(selectEmployee);
+    setNewEmployeeList(newList);
   };
 
   const onSubmit = () => {
@@ -142,12 +161,13 @@ const EmployeeForm = ({
               </tr>
             </thead>
             <tbody>
-              {newEmployeeList.map((employee) => {
+              {newEmployeeList.map((employee, index) => {
                 return (
                   <tr key={employee.id} className={styles.tr}>
                     <td className={styles.td}>{employee.id}</td>
                     <td className={styles.td}>{employee.role}</td>
                     <td className={styles.td}>{employee.rate}</td>
+                    <button onClick={() => handleDelete(index)}>x</button>
                   </tr>
                 );
               })}
