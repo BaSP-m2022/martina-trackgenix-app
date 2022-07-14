@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from 'Components/Admin/Employees/employees.module.css';
-import List from 'Components/Admin/Employees/List/List';
 import EmployeeForm from 'Components/Admin/Employees/Form/EmployeeForm';
 import Modal from 'Components/Shared/Modal/Modal';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Loader from 'Components/Shared/Loader/Loader';
+import Table from 'Components/Shared/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from 'redux/employees/thunks';
 
@@ -29,6 +29,11 @@ const Employees = () => {
     dispatch(getEmployees());
   }, []);
 
+  const listEmployees = useSelector((state) => state.employees.list);
+  const listActiveEmployees = listEmployees.filter((employee) => employee.active == true);
+  const listInactiveEmployees = listEmployees.filter((employee) => employee.active == false);
+  const employeesSorted = listActiveEmployees.concat(listInactiveEmployees);
+
   const handleClose = () => {
     setShowModal(false);
   };
@@ -47,7 +52,12 @@ const Employees = () => {
             previewEmployee={previewEmployee}
             setPreviewsEmployee={setPreviewEmployee}
           />
-          <List setPreviewsEmployee={setPreviewEmployee} setShowForm={setShowForm} />
+          <Table
+            title={'Employees'}
+            data={employeesSorted}
+            headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', 'Active']}
+            headers={['first_name', 'last_name', 'phone', 'email', 'active']}
+          />
           <Button onClick={() => setShowForm(true)}>Add New Employee</Button>
           <Modal isOpen={showModal} handleClose={handleClose}>
             {childrenModal}
