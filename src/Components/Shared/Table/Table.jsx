@@ -37,10 +37,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
                 headers={headers}
                 deleteItem={deleteItem && (() => deleteItem(item._id))}
                 editItem={editItem && (() => editItem(item))}
-<<<<<<< HEAD
-=======
                 viewMore={viewMore && (() => viewMore(item))}
->>>>>>> bdacc938f91ad9f08c7aa23e9ff2eb9bb1fe4c68
               />
             );
           })}

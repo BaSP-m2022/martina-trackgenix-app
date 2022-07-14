@@ -19,11 +19,7 @@ const Row = ({ data, headers, deleteItem, editItem, viewMore }) => {
           </Button>
         </td>
       )}
-<<<<<<< HEAD
-      {editItem && (
-=======
       {deleteItem && (
->>>>>>> bdacc938f91ad9f08c7aa23e9ff2eb9bb1fe4c68
         <td>
           <Button onClick={deleteItem} width={'55px'}>
             X
