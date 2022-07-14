@@ -31,14 +31,29 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
         <tbody>
           {pageItems.map((item, index) => {
             return (
-              <Row
-                key={index}
-                data={item}
-                headers={headers}
-                deleteItem={deleteItem && (() => deleteItem(item._id))}
-                editItem={editItem && (() => editItem(item))}
-                viewMore={viewMore && (() => viewMore(item))}
-              />
+              <>
+                {item.active === true ? (
+                  <Row
+                    key={index}
+                    data={item}
+                    headers={headers}
+                    deleteItem={deleteItem && (() => deleteItem(item._id))}
+                    editItem={editItem && (() => editItem(item))}
+                    viewMore={viewMore && (() => viewMore(item))}
+                    active
+                  />
+                ) : (
+                  <Row
+                    key={index}
+                    data={item}
+                    headers={headers}
+                    deleteItem={deleteItem && (() => deleteItem(item._id))}
+                    editItem={editItem && (() => editItem(item))}
+                    viewMore={viewMore && (() => viewMore(item))}
+                    inactive
+                  />
+                )}
+              </>
             );
           })}
         </tbody>
