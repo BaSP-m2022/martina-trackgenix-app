@@ -81,10 +81,8 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const editProject = (project, id) => {
+export const editProject = (project, employees, id) => {
   return async (dispatch) => {
-    console.log('data en thunk: ', project);
-    console.log('id en thunk', id);
     dispatch(editProjectPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
@@ -97,14 +95,8 @@ export const editProject = (project, id) => {
           client: project.client,
           start_date: project.startDate,
           finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          active: true,
+          employees
         })
       });
       const res = await response.json();

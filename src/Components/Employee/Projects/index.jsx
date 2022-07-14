@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Table from 'Components/Shared/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
-import Loader from 'Components/Shared/Loader/Loader';
-import Modal from 'Components/Shared/Modal/Modal';
+import { Table, Loader, Modal } from 'Components/Shared';
 import ProjectForm from 'Components/Employee/Projects/Form/ProjectForm';
 
 const Projects = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [childrenModal, setChildrenModal] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
   const [previousProject, setPreviousProject] = useState({
-    id: '',
+    _id: '',
     project_name: '',
     start_date: '',
     finish_date: '',
@@ -19,9 +17,9 @@ const Projects = () => {
     active: '',
     employees: [
       {
+        id: '',
         role: '',
-        rate: '0',
-        id: ''
+        rate: 0
       }
     ]
   });
@@ -29,20 +27,16 @@ const Projects = () => {
   const isLoading = useSelector((state) => state.projects.isLoading);
   const user = useSelector((state) => state.auth.user);
   const listProject = useSelector((state) => state.projects.list);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProjects());
   }, []);
 
-  console.log('user: ', user);
-  console.log('listProject: ', listProject);
-
   const listProjectEmployee = listProject.filter((project) => {
     return project.employees.find((employee) => employee.id == user._id);
   });
-
-  console.log('listProjectEmployee: ', listProjectEmployee);
 
   const projectData = listProjectEmployee.map((project) => {
     let role;
@@ -51,8 +45,6 @@ const Projects = () => {
         role = employee.role;
       }
     });
-
-    console.log('role: ', role);
 
     return {
       _id: project._id,
@@ -66,18 +58,14 @@ const Projects = () => {
     };
   });
 
-  console.log('projectData: ', projectData);
-
-  const handleEdit = (project) => {
-    console.log('project en handleEdit: ', project);
+  const viewMore = (project) => {
+    // console.log('project en handleEdit: ', project);
     if (project.role == 'PM') {
       setPreviousProject(project);
-      setShowModal(true);
-      setChildrenModal('You edit project');
       setShowForm(true);
     } else {
       setShowModal(true);
-      setChildrenModal('You cannot edit project');
+      setTitleModal('aqui veras tu timsheet cuando lucho termine');
     }
   };
 
@@ -88,22 +76,22 @@ const Projects = () => {
       ) : (
         <section>
           <Table
-            title={'My projects'}
+            title={`${user.first_name}'s Projects`}
             data={projectData}
             headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
             headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}
-            editItem={handleEdit}
+            viewMore={viewMore}
           />
           <ProjectForm
             showForm={showForm}
             setShowForm={setShowForm}
             previousProject={previousProject}
             setPreviousProject={setPreviousProject}
-            setTitleModal={childrenModal}
+            setTitleModal={setTitleModal}
             setShowModal={setShowModal}
           />
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-            {childrenModal}
+            {titleModal}
           </Modal>
         </section>
       )}

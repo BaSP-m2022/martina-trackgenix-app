@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
-import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { addProject, editProject } from 'redux/projects/thunks';
-import { getEmployees } from 'redux/employees/thunks';
+import React, { useState, useEffect } from 'react';
+import styles from 'Components/Employee/Projects/Form/projectForm.module.css';
+import { Table, Button, Input } from 'Components/Shared';
+import { useDispatch } from 'react-redux';
+import { editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
+import EmployeeAdd from 'Components/Employee/Projects/Form/EmployeeForm';
 
 const ProjectForm = ({
   showForm,
@@ -24,89 +22,74 @@ const ProjectForm = ({
 
   const dispatch = useDispatch();
 
+  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [members, setMembers] = useState([
+    {
+      id: '',
+      role: '',
+      rate: 0,
+      _id: ''
+    }
+  ]);
+
   useEffect(() => {
-    dispatch(getEmployees());
+    setMembers(previousProject.employees);
   }, []);
 
-  const listEmployees = useSelector((state) => state.employees.list);
-
-  const listRole = [
-    {
-      _id: 'DEV',
-      description: 'Developer'
-    },
-    {
-      _id: 'QA',
-      description: 'Quality Assurance'
-    },
-    {
-      _id: 'PM',
-      description: 'Project Manager'
-    },
-    {
-      _id: 'TL',
-      description: 'Team Leader'
-    }
-  ];
-
   const schema = joi.object({
-    projectName: joi.string().required().min(3).max(30),
+    project_name: joi.string().required().min(3).max(30),
     client: joi.string().required().min(3).max(30),
-    startDate: joi.date().required().max('now'),
-    finishDate: joi.date().required().min('now'),
-    employee: joi.string().required().length(24).alphanum(),
-    rate: joi.number().required().min(1).max(999),
-    role: joi.string().required().valid('DEV', 'PM', 'QA', 'TL')
+    start_date: joi.date().required().max('now'),
+    finish_date: joi.date().required().min('now')
   });
 
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(schema),
     defaultValues: {
-      projectName: previousProject.project_name,
+      project_name: previousProject.project_name,
       client: previousProject.client,
-      startDate: previousProject.start_date,
-      finishDate: previousProject.finish_date,
-      active: previousProject.active,
-      employee: previousProject.employees[0].id,
-      role: previousProject.employees[0].role,
-      rate: previousProject.employees[0].rate
+      start_date: previousProject.start_date,
+      finish_date: previousProject.finish_date
     }
   });
 
   const onSubmit = async (data) => {
-    if (!previousProject._id) {
-      try {
-        const project = await dispatch(addProject(data));
-        if (project.error) {
-          setTitleModal(project.message);
-          setShowModal(true);
-        } else {
-          setTitleModal(project.message);
-          setShowModal(true);
-          closeForm();
-        }
-      } catch (error) {
-        console.error(error);
+    const newMembers = members.map((member) => {
+      return {
+        id: member.id,
+        role: member.role,
+        rate: member.rate
+      };
+    });
+    try {
+      const project = await dispatch(editProject(data, newMembers, previousProject._id));
+      if (project.error) {
+        setTitleModal(project.message);
+        setShowModal(true);
+      } else {
+        setTitleModal(project.message);
+        setShowModal(true);
+        closeForm();
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteEmployee = (_id) => {
+    const memberDelete = members.find((member) => member._id == _id);
+    if (memberDelete.role == 'PM') {
+      setTitleModal('You cannot delete PM');
+      setShowModal(true);
     } else {
-      try {
-        const project = await dispatch(editProject(data, previousProject._id));
-        if (project.error) {
-          setTitleModal(project.message);
-          setShowModal(true);
-        } else {
-          setTitleModal(project.message);
-          setShowModal(true);
-          closeForm();
-        }
-      } catch (error) {
-        console.error(error);
+      if (confirm('Are you sure you want to remove this member?')) {
+        const newMembers = members.filter((member) => member._id !== _id);
+        setMembers(newMembers);
       }
     }
   };
@@ -118,7 +101,7 @@ const ProjectForm = ({
       client: '',
       start_date: '',
       finish_date: '',
-      active: '',
+      active: true,
       employees: [
         {
           id: '',
@@ -133,15 +116,19 @@ const ProjectForm = ({
   return (
     <div className={styles.container}>
       <div className={styles.containerForm}>
+        <div className={styles.btnX} onClick={closeForm}>
+          X
+        </div>
         <h2>Project Form</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.containerInput}>
             <Input
               type={'text'}
-              name={'projectName'}
+              name={'project_name'}
               label={'Project Name'}
               register={register}
-              error={errors.projectName?.message}
+              error={errors.project_name?.message}
+              disabled
             />
           </div>
           <div className={styles.containerInput}>
@@ -151,71 +138,52 @@ const ProjectForm = ({
               label={'Client'}
               register={register}
               error={errors.client?.message}
+              disabled
             />
           </div>
           <div className={styles.containerInput}>
             <Input
               type={'date'}
-              name={'startDate'}
+              name={'start_date'}
               label={'Start Date'}
               register={register}
-              error={errors.startDate?.message}
+              error={errors.start_date?.message}
+              disabled
             />
           </div>
           <div className={styles.containerInput}>
             <Input
               type={'date'}
-              name={'finishDate'}
+              name={'finish_date'}
               label={'Finish Date'}
               register={register}
-              error={errors.finishDate?.message}
+              error={errors.finish_date?.message}
+              disabled
             />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'select'}
-              name={'employee'}
-              label={'Select Employee ID'}
-              valueOptions={listEmployees}
-              register={register}
-              error={errors.employee?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'select'}
-              name={'role'}
-              label={'Select Employee ROLE'}
-              valueOptions={listRole}
-              register={register}
-              error={errors.role?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'number'}
-              name={'rate'}
-              label={'Select Employee RATE'}
-              register={register}
-              error={errors.rate?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <RadioButton
-              name={'active'}
-              label={'Active'}
-              valueOptions={[true, false]}
-              register={register}
-              error={errors.active?.message}
-            />
-          </div>
-          <div className={styles.containerButtons}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
           </div>
         </form>
+        <Table
+          title={`Employees`}
+          data={members}
+          headersColumns={['Id', 'Role', 'Rate', '']}
+          headers={['id', 'role', 'rate']}
+          deleteItem={deleteEmployee}
+        />
+        <div className={styles.containerButtons}>
+          <Button width={'120px'} height={'40px'} onClick={() => setShowFormAdd(true)}>
+            Add employees
+          </Button>
+          <Button width={'120px'} height={'40px'} onClick={handleSubmit(onSubmit)}>
+            Submit
+          </Button>
+        </div>
       </div>
+      <EmployeeAdd
+        showFormAdd={showFormAdd}
+        setShowFormAdd={setShowFormAdd}
+        members={members}
+        setMembers={setMembers}
+      />
     </div>
   );
 };
