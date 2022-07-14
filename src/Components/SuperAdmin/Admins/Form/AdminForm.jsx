@@ -19,13 +19,13 @@ const adminSchema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
-  password: Joi.string()
+  /* password: Joi.string()
     .min(8)
     .required()
     .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
     .messages({
       'string.pattern.base': 'Password must contain letters and numbers'
-    }),
+    }), */
   active: Joi.boolean().required().messages({
     'boolean.base': 'You must select an option'
   })
@@ -57,7 +57,7 @@ const AdminForm = ({
       lastName: previousAdmin.lastName,
       phone: previousAdmin.phone,
       email: previousAdmin.email,
-      password: previousAdmin.password,
+      /* password: previousAdmin.password, */
       active: previousAdmin.active
     }
   });
@@ -69,7 +69,7 @@ const AdminForm = ({
       lastName: '',
       phone: '',
       email: '',
-      password: '',
+      /* password: '', */
       active: false
     });
   };
@@ -135,13 +135,13 @@ const AdminForm = ({
           register={register}
           error={errors.email?.message}
         />
-        <Input
+        {/* <Input
           type={'password'}
           name={'password'}
           label={'Password'}
           register={register}
           error={errors.password?.message}
-        />
+        /> */}
         <RadioButton
           name="active"
           label={'Active'}

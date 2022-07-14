@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
+import { getAdmins, softDeleteAdmin } from 'redux/admins/thunks';
 import Table from 'Components/Shared/Table/Table';
 import AdminForm from 'Components/SuperAdmin/Admins/Form/AdminForm';
 import Modal from 'Components/Shared/Modal/Modal';
@@ -12,7 +12,7 @@ const Admins = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.admins.isLoading);
-  const admins = useSelector((state) => state.admins.list);
+  const listAdmins = useSelector((state) => state.admins.list);
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +33,7 @@ const Admins = () => {
 
   const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove the Admin?')) {
-      dispatch(deleteAdmin(_id));
+      dispatch(softDeleteAdmin(_id));
     }
   };
 
@@ -57,8 +57,8 @@ const Admins = () => {
             setPreviousAdmin={setPreviousAdmin}
           />
           <Table
-            title={'Administrators list'}
-            data={admins}
+            title={'Admins list'}
+            data={listAdmins}
             headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', '', '']}
             headers={['firstName', 'lastName', 'phone', 'email']}
             deleteItem={handleDelete}

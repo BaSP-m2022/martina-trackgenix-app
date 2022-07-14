@@ -5,6 +5,9 @@ import {
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
+  SOFT_DELETE_ADMINS_PENDING,
+  SOFT_DELETE_ADMINS_SUCCESS,
+  SOFT_DELETE_ADMINS_ERROR,
   ADD_ADMIN_PENDING,
   ADD_ADMIN_SUCCESS,
   ADD_ADMIN_ERROR,
@@ -37,6 +40,19 @@ export const deleteAdminSuccess = (adminId) => ({
 
 export const deleteAdminError = () => ({
   type: DELETE_ADMIN_ERROR
+});
+
+export const softDeleteAdminsPending = () => ({
+  type: SOFT_DELETE_ADMINS_PENDING
+});
+
+export const softDeleteAdminsSuccess = (adminId) => ({
+  type: SOFT_DELETE_ADMINS_SUCCESS,
+  payload: adminId
+});
+
+export const softDeleteAdminsError = () => ({
+  type: SOFT_DELETE_ADMINS_ERROR
 });
 
 export const addAdminPending = () => ({

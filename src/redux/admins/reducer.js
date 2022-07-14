@@ -5,6 +5,9 @@ import {
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
+  SOFT_DELETE_ADMINS_PENDING,
+  SOFT_DELETE_ADMINS_SUCCESS,
+  SOFT_DELETE_ADMINS_ERROR,
   ADD_ADMIN_PENDING,
   ADD_ADMIN_SUCCESS,
   ADD_ADMIN_ERROR,
@@ -50,6 +53,28 @@ export const adminsReducer = (state = initialState, action) => {
         isLoading: false
       };
     case DELETE_ADMIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: true
+      };
+    case SOFT_DELETE_ADMINS_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case SOFT_DELETE_ADMINS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: state.list.map((p) => {
+          if (p._id === action.payload._id) {
+            return action.payload;
+          }
+          return p;
+        })
+      };
+    case SOFT_DELETE_ADMINS_ERROR:
       return {
         ...state,
         isLoading: false,

@@ -5,6 +5,9 @@ import {
   deleteAdminPending,
   deleteAdminSuccess,
   deleteAdminError,
+  softDeleteAdminsPending,
+  softDeleteAdminsSuccess,
+  softDeleteAdminsError,
   addAdminPending,
   addAdminSuccess,
   addAdminError,
@@ -37,6 +40,30 @@ export const deleteAdmin = (_id) => {
       dispatch(deleteAdminSuccess(_id));
     } catch (error) {
       dispatch(deleteAdminError(error.toString()));
+    }
+  };
+};
+
+export const softDeleteAdmin = (id) => {
+  return async (dispatch) => {
+    dispatch(softDeleteAdminsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          active: false
+        })
+      });
+      const res = await response.json();
+      dispatch(softDeleteAdminsSuccess(res.data));
+      return { error: false, message: res.message };
+    } catch (error) {
+      dispatch(softDeleteAdminsError(error.toString()));
+      console.error(error);
+      return { error: true, message: error };
     }
   };
 };
