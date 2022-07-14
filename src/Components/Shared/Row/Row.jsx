@@ -2,11 +2,15 @@ import React from 'react';
 import styles from './row.module.css';
 import Button from '../Buttons/Buttons';
 
-const Row = ({ data, headers, deleteItem, editItem }) => {
+const Row = ({ data, headers, deleteItem, editItem, viewMore }) => {
   return (
     <tr className={styles.tr} key={data._id}>
       {headers.map((header, index) => {
-        return <td key={index}>{data[header]}</td>;
+        return (
+          <td key={index} onClick={viewMore}>
+            {data[header]}
+          </td>
+        );
       })}
       {editItem && (
         <td>
@@ -15,7 +19,11 @@ const Row = ({ data, headers, deleteItem, editItem }) => {
           </Button>
         </td>
       )}
+<<<<<<< HEAD
       {editItem && (
+=======
+      {deleteItem && (
+>>>>>>> bdacc938f91ad9f08c7aa23e9ff2eb9bb1fe4c68
         <td>
           <Button onClick={deleteItem} width={'55px'}>
             X

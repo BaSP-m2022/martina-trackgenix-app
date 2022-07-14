@@ -3,7 +3,7 @@ import styles from './table.module.css';
 import Row from '../Row/Row';
 import Button from '../Buttons/Buttons';
 
-const Table = ({ title, data, headersColumns, headers, deleteItem, editItem }) => {
+const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, viewMore }) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageItems = data.slice(10 * (indexPage - 1), 10 * indexPage);
   const nextPage = () => {
@@ -37,6 +37,10 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem }) =
                 headers={headers}
                 deleteItem={deleteItem && (() => deleteItem(item._id))}
                 editItem={editItem && (() => editItem(item))}
+<<<<<<< HEAD
+=======
+                viewMore={viewMore && (() => viewMore(item))}
+>>>>>>> bdacc938f91ad9f08c7aa23e9ff2eb9bb1fe4c68
               />
             );
           })}
