@@ -8,7 +8,7 @@ const Row = ({ data, headers, deleteItem, editItem, viewMore }) => {
       {headers.map((header, index) => {
         return (
           <td key={index} onClick={viewMore}>
-            {data[header]}
+            {data[header].toString()}
           </td>
         );
       })}

@@ -43,34 +43,38 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
           })}
         </tbody>
       </table>
-      <div className={styles.page}>
-        <p> Page {indexPage} </p>
-      </div>
-      <div className={styles.buttons}>
+      {data.length > 10 && (
         <div>
-          <Button
-            width={'100px'}
-            height={'40px'}
-            fontSize={'15px'}
-            margin={'2px'}
-            disabled={indexPage <= 1}
-            onClick={() => previousPage()}
-          >
-            Previous
-          </Button>
+          <div className={styles.page}>
+            <p> Page {indexPage} </p>
+          </div>
+          <div className={styles.buttons}>
+            <div>
+              <Button
+                width={'100px'}
+                height={'40px'}
+                fontSize={'15px'}
+                margin={'2px'}
+                disabled={indexPage <= 1}
+                onClick={() => previousPage()}
+              >
+                Previous
+              </Button>
+            </div>
+            <div>
+              <Button
+                width={'100px'}
+                height={'40px'}
+                fontSize={'15px'}
+                disabled={indexPage >= data.length / 10}
+                onClick={() => nextPage()}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </div>
-        <div>
-          <Button
-            width={'100px'}
-            height={'40px'}
-            fontSize={'15px'}
-            disabled={indexPage >= data.length / 10}
-            onClick={() => nextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
