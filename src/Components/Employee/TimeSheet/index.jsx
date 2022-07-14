@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from 'Components/Employee/TimeSheet/timesheets.module.css';
 // import Table from 'Components/Shared/Table/Table';
 import TimeSheetHs from './Table/Table';
-import Modal from 'Components/Shared/Modal/Modal';
+import { Modal, Button, Loader } from 'Components/Shared/';
 import Form from 'Components/Employee/TimeSheet/Form/Form';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
 import moment from 'moment';
@@ -18,7 +16,6 @@ const TimeSheet = () => {
 
   const user = useSelector((state) => state.auth?.user);
 
-  const [projectSelected, setProjectSelected] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -31,10 +28,6 @@ const TimeSheet = () => {
     timesheetDate: ''
   });
 
-  const onChange = (e) => {
-    setProjectSelected({ ...projectSelected, [e.target.name]: e.target.value });
-  };
-
   useEffect(() => {
     dispatch(getTimeSheet());
     dispatch(getProjects());
@@ -45,11 +38,6 @@ const TimeSheet = () => {
   const filteredListTimeSheet = listTimeSheet.filter(
     (timeSheet) => timeSheet.employee?._id == user?._id
   );
-
-  const listProjects = useSelector((state) => state.projects.list);
-  const listProjectEmployee = listProjects.filter((project) => {
-    return project.employees.find((employee) => employee.id == user._id);
-  });
 
   // const newList = filteredListTimeSheet.map((item) => {
   //   return {
@@ -70,14 +58,7 @@ const TimeSheet = () => {
       project: item.project.project_name
     };
   });
-  // console.log(newList);
-  // const hardCodeDate = newList.map((item) => {
-  //   if (item.timesheetDay == 'Monday') {
-  //     return item.timesheetDate.slice(0, 10);
-  //   }
-  // });
 
-  // console.log('fecha', hardCodeDate);
   const deleteItem = () => {
     setShowModal(true);
     setChildrenModal('You cannot delete a time-sheet');
@@ -101,19 +82,16 @@ const TimeSheet = () => {
         <Loader show={true} />
       ) : (
         <section className={styles.container}>
-          <h2>Projects</h2>
-          <select className={styles.input} onChange={onChange}>
-            {listProjectEmployee.map((item) => (
-              <option key={item._id} value={item._id}>
-                {item.project_name}
-              </option>
-            ))}
-          </select>
           <TimeSheetHs
             title={`${user?.first_name}'s Time-Sheet`}
             data={newList}
             deleteItem={deleteItem}
             editItem={handleEdit}
+            setChildrenModal={setChildrenModal}
+            setShowModal={setShowModal}
+            showModal={showModal}
+            childrenModal={childrenModal}
+            setShowForm={setShowForm}
           />
           <Form
             showForm={showForm}
