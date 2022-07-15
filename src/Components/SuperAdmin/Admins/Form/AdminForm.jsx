@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
+import { useDispatch } from 'react-redux/es/exports';
+import { addAdmin, editAdmin } from 'redux/admins/thunks';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
 import Input from 'Components/Shared/Field/Input';
 import RadioButton from 'Components/Shared/Field/RadioButton';
 import Button from 'Components/Shared/Buttons/Buttons';
-import { useDispatch } from 'react-redux/es/exports';
-import { addAdmin, editAdmin } from 'redux/admins/thunks';
-import { joiResolver } from '@hookform/resolvers/joi';
-import Joi from 'joi';
-import { useForm } from 'react-hook-form';
+import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
 
 const adminSchema = Joi.object({
   firstName: Joi.string().min(3).max(15).required(),
@@ -19,13 +19,6 @@ const adminSchema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
-  /* password: Joi.string()
-    .min(8)
-    .required()
-    .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
-    .messages({
-      'string.pattern.base': 'Password must contain letters and numbers'
-    }), */
   active: Joi.boolean().required().messages({
     'boolean.base': 'You must select an option'
   })
@@ -57,7 +50,6 @@ const AdminForm = ({
       lastName: previousAdmin.lastName,
       phone: previousAdmin.phone,
       email: previousAdmin.email,
-      /* password: previousAdmin.password, */
       active: previousAdmin.active
     }
   });
@@ -69,7 +61,6 @@ const AdminForm = ({
       lastName: '',
       phone: '',
       email: '',
-      /* password: '', */
       active: false
     });
   };
@@ -135,13 +126,6 @@ const AdminForm = ({
           register={register}
           error={errors.email?.message}
         />
-        {/* <Input
-          type={'password'}
-          name={'password'}
-          label={'Password'}
-          register={register}
-          error={errors.password?.message}
-        /> */}
         <RadioButton
           name="active"
           label={'Active'}
@@ -151,9 +135,9 @@ const AdminForm = ({
         />
       </form>
       <div className={styles.button}>
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-        <Button onClick={() => reset()}>Reset Form</Button>
         <Button onClick={closeForm}>Close</Button>
+        <Button onClick={() => reset()}>Reset Form</Button>
+        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ const Admins = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.admins.isLoading);
-  const listAdmins = useSelector((state) => state.admins.list);
 
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +25,11 @@ const Admins = () => {
     password: '',
     active: false
   });
+
+  const listAdmins = useSelector((state) => state.admins.list);
+  const listActiveAdmins = listAdmins.filter((admins) => admins.active == true);
+  const listInactiveAdmins = listAdmins.filter((admins) => admins.active == false);
+  const adminsSorted = listActiveAdmins.concat(listInactiveAdmins);
 
   useEffect(() => {
     dispatch(getAdmins());
@@ -58,14 +62,14 @@ const Admins = () => {
           />
           <Table
             title={'Admins list'}
-            data={listAdmins}
+            data={adminsSorted}
             headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', '', '']}
             headers={['firstName', 'lastName', 'phone', 'email']}
             deleteItem={handleDelete}
             editItem={handleEdit}
           />
           <Button onClick={() => setShowForm(true)}>Add New Admin</Button>
-          <Modal isOpen={showModal} handleClose={() => setShowForm(false)}>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>
         </section>

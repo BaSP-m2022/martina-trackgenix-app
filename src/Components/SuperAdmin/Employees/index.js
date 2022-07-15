@@ -9,7 +9,10 @@ const Employees = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.employees.isLoading);
-  const employees = useSelector((state) => state.employees.list);
+  const listEmployees = useSelector((state) => state.employees.list);
+  const listActiveEmployees = listEmployees.filter((employee) => employee.active == true);
+  const listInactiveEmployees = listEmployees.filter((employee) => employee.active == false);
+  const employeesSorted = listActiveEmployees.concat(listInactiveEmployees);
 
   useEffect(() => {
     dispatch(getEmployees());
@@ -23,7 +26,7 @@ const Employees = () => {
         <section className={styles.container}>
           <Table
             title={'Employees'}
-            data={employees}
+            data={employeesSorted}
             headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email']}
             headers={['first_name', 'last_name', 'phone', 'email']}
           />
