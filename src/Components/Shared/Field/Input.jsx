@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './input.module.css';
 
-const Input = ({ type, name, label, register, valueOptions, error }) => {
+const Input = ({ type, name, label, register, valueOptions, error, disabled }) => {
   return (
     <>
       {type === 'select' ? (
@@ -29,6 +29,7 @@ const Input = ({ type, name, label, register, valueOptions, error }) => {
             name={name}
             {...register(name)}
             className={error ? styles.errorRed : styles.input}
+            disabled={disabled && disabled}
           ></input>
           {error && <p className={styles.error}>{error}</p>}
         </div>
