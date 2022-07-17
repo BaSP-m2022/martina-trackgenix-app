@@ -75,7 +75,7 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const editProject = (project, id) => {
+export const editProject = (project, id, list) => {
   return async (dispatch) => {
     dispatch(editProjectPending());
     try {
@@ -85,18 +85,12 @@ export const editProject = (project, id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
+          start_date: project.start_date,
+          finish_date: project.finish_date,
           active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          employees: list
         })
       });
       const res = await response.json();

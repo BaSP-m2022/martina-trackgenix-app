@@ -53,6 +53,8 @@ const ProjectForm = ({
     }
   });
 
+  console.log('previousprojectProjectForm', previousProject);
+
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
@@ -74,14 +76,31 @@ const ProjectForm = ({
       }
     } else {
       try {
-        const project = await dispatch(editProject(data, previousProject._id));
-        if (project.error) {
-          setTitleModal(project.message);
-          setShowModal(true);
+        console.log('previousproject', previousProject);
+        console.log('newemployeelist', newEmployeeList);
+        if (newEmployeeList.length < 0) {
+          alert('Error: please add employees to the project');
         } else {
-          setTitleModal(project.message);
-          setShowModal(true);
-          closeForm();
+          const project = await dispatch(
+            editProject(
+              data,
+              previousProject._id,
+              newEmployeeList.map((employees) => {
+                return {
+                  id: employees.id,
+                  role: employees.role,
+                  rate: employees.rate
+                };
+              })
+            )
+          );
+          if (project.error) {
+            alert(project.message);
+          } else {
+            setTitleModal(project.message);
+            setShowModal(true);
+            closeForm();
+          }
         }
       } catch (error) {
         console.error(error);
@@ -96,12 +115,12 @@ const ProjectForm = ({
       client: '',
       start_date: '',
       finish_date: '',
-      active: true,
+      active: '',
       employees: [
         {
           id: '',
           role: '',
-          rate: 0
+          rate: ''
         }
       ]
     });
@@ -152,9 +171,26 @@ const ProjectForm = ({
         </form>
         <div className={styles.containerTable}>
           <div>
-            <Button width={'120px'} onClick={() => setShowSecondModal(true)}>
-              Add employees
-            </Button>
+            {!previousProject._id ? (
+              <Button width={'120px'} onClick={() => setShowSecondModal(true)}>
+                Add employees
+              </Button>
+            ) : (
+              <Button
+                width={'120px'}
+                onClick={() => {
+                  setShowSecondModal(true);
+                  if (previousProject.employees.length > newEmployeeList.length) {
+                    setNewEmployeeList(previousProject.employees);
+                    previousProject.employees = [];
+                  } else {
+                    setNewEmployeeList(newEmployeeList);
+                  }
+                }}
+              >
+                Edit employees
+              </Button>
+            )}
           </div>
           <table>
             <thead>
@@ -165,15 +201,25 @@ const ProjectForm = ({
               </tr>
             </thead>
             <tbody>
-              {newEmployeeList.map((employee) => {
-                return (
-                  <tr key={employee.id} className={styles.tr}>
-                    <td className={styles.td}>{employee.id}</td>
-                    <td className={styles.td}>{employee.role}</td>
-                    <td className={styles.td}>{employee.rate}</td>
-                  </tr>
-                );
-              })}
+              {previousProject.employees.length > newEmployeeList.length
+                ? previousProject.employees.map((employee) => {
+                    return (
+                      <tr key={employee.id} className={styles.tr}>
+                        <td className={styles.td}>{employee.id}</td>
+                        <td className={styles.td}>{employee.role}</td>
+                        <td className={styles.td}>{employee.rate}</td>
+                      </tr>
+                    );
+                  })
+                : newEmployeeList.map((employee) => {
+                    return (
+                      <tr key={employee.id} className={styles.tr}>
+                        <td className={styles.td}>{employee.id}</td>
+                        <td className={styles.td}>{employee.role}</td>
+                        <td className={styles.td}>{employee.rate}</td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
         </div>
@@ -188,6 +234,7 @@ const ProjectForm = ({
         setShowSecondModal={setShowSecondModal}
         previousProject={previousProject}
         sendNewEmployeeList={sendNewEmployeeList}
+        newEmployeeListReturn={newEmployeeList}
       />
     </div>
   );

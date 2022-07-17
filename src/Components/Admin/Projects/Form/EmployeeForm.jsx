@@ -11,8 +11,8 @@ import { getEmployees } from 'redux/employees/thunks';
 const EmployeeForm = ({
   showSecondModal,
   setShowSecondModal,
-  // previousProject,
-  sendNewEmployeeList
+  sendNewEmployeeList,
+  newEmployeeListReturn
 }) => {
   if (!showSecondModal) {
     return null;
@@ -31,11 +31,12 @@ const EmployeeForm = ({
 
   useEffect(() => {
     dispatch(getEmployees());
+    newEmployeeListReturn.length > 1 ? setNewEmployeeList(newEmployeeListReturn) : '';
   }, []);
 
   useEffect(() => {
     fetchEmployees();
-  }, [1]);
+  }, []);
 
   const listEmployees = useSelector((state) => state.employees.list);
 
@@ -50,7 +51,6 @@ const EmployeeForm = ({
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -78,30 +78,27 @@ const EmployeeForm = ({
 
   const handleAdd = (data) => {
     if (listEmployees.length === 0) {
-      alert('No more employees to add');
+      alert('error: No more employees to add or no employees in data base');
     } else {
       const newList = [...newEmployeeList, { id: data.id, role: data.role, rate: data.rate }];
-      listEmployees.splice(
-        listEmployees.indexOf(listEmployees.find((employee) => employee._id === data.id)),
-        1
-      );
-      setNewEmployeeList(newList);
-      reset({ rate: '1' });
+      if (newEmployeeList.find((employee) => employee.id === data.id)) {
+        alert("error: Can't add the same employee twice");
+      } else {
+        setNewEmployeeList(newList);
+      }
     }
   };
 
   const handleDelete = (index) => {
     const newList = [...newEmployeeList];
-    const spliced = newList.splice(index, 1);
-    console.log('spliced', spliced);
-    console.log('listemployeesstart', listEmployeesStart);
-    const selectEmployee = listEmployeesStart.find((employee) => employee._id === spliced[0].id);
-    listEmployees.push(selectEmployee);
+    newList.splice(index, 1);
     setNewEmployeeList(newList);
   };
 
   const onSubmit = () => {
-    if (newEmployeeList.find((employee) => employee.role === 'PM')) {
+    if (newEmployeeList.length <= 1) {
+      alert('error: Your project must have at least 2 employees');
+    } else if (newEmployeeList.find((employee) => employee.role === 'PM')) {
       setShowSecondModal(false);
       sendNewEmployeeList(newEmployeeList);
     } else {

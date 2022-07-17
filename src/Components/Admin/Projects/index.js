@@ -27,7 +27,7 @@ const Projects = () => {
     employees: [
       {
         role: '',
-        rate: '0',
+        rate: '',
         id: ''
       }
     ]
