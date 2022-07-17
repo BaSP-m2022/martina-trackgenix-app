@@ -76,7 +76,8 @@ const ProjectForm = ({
       }
     } else {
       try {
-        console.log('previousproject', previousProject);
+        newEmployeeList.length > 1 ? (previousProject.employees = []) : '';
+        console.log('previousproject', previousProject.employees);
         console.log('newemployeelist', newEmployeeList);
         if (newEmployeeList.length < 0) {
           alert('Error: please add employees to the project');
@@ -85,13 +86,22 @@ const ProjectForm = ({
             editProject(
               data,
               previousProject._id,
-              newEmployeeList.map((employees) => {
-                return {
-                  id: employees.id,
-                  role: employees.role,
-                  rate: employees.rate
-                };
-              })
+              previousProject.employees.length <= 1 ||
+                previousProject.employees.length < newEmployeeList.length
+                ? newEmployeeList.map((employees) => {
+                    return {
+                      id: employees.id,
+                      role: employees.role,
+                      rate: employees.rate
+                    };
+                  })
+                : previousProject.employees.map((employees) => {
+                    return {
+                      id: employees.id,
+                      role: employees.role,
+                      rate: employees.rate
+                    };
+                  })
             )
           );
           if (project.error) {
@@ -182,7 +192,6 @@ const ProjectForm = ({
                   setShowSecondModal(true);
                   if (previousProject.employees.length > newEmployeeList.length) {
                     setNewEmployeeList(previousProject.employees);
-                    previousProject.employees = [];
                   } else {
                     setNewEmployeeList(newEmployeeList);
                   }
@@ -201,8 +210,8 @@ const ProjectForm = ({
               </tr>
             </thead>
             <tbody>
-              {previousProject.employees.length > newEmployeeList.length
-                ? previousProject.employees.map((employee) => {
+              {newEmployeeList.length > 1
+                ? newEmployeeList.map((employee) => {
                     return (
                       <tr key={employee.id} className={styles.tr}>
                         <td className={styles.td}>{employee.id}</td>
@@ -211,7 +220,7 @@ const ProjectForm = ({
                       </tr>
                     );
                   })
-                : newEmployeeList.map((employee) => {
+                : previousProject.employees.map((employee) => {
                     return (
                       <tr key={employee.id} className={styles.tr}>
                         <td className={styles.td}>{employee.id}</td>
