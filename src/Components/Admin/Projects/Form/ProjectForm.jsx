@@ -53,8 +53,6 @@ const ProjectForm = ({
     }
   });
 
-  console.log('previousprojectProjectForm', previousProject);
-
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
@@ -77,8 +75,6 @@ const ProjectForm = ({
     } else {
       try {
         newEmployeeList.length > 1 ? (previousProject.employees = []) : '';
-        console.log('previousproject', previousProject.employees);
-        console.log('newemployeelist', newEmployeeList);
         if (newEmployeeList.length < 0) {
           alert('Error: please add employees to the project');
         } else {
@@ -86,8 +82,7 @@ const ProjectForm = ({
             editProject(
               data,
               previousProject._id,
-              previousProject.employees.length <= 1 ||
-                previousProject.employees.length < newEmployeeList.length
+              previousProject.employees.length <= 1 && newEmployeeList.length > 1
                 ? newEmployeeList.map((employees) => {
                     return {
                       id: employees.id,
@@ -190,10 +185,12 @@ const ProjectForm = ({
                 width={'120px'}
                 onClick={() => {
                   setShowSecondModal(true);
-                  if (previousProject.employees.length > newEmployeeList.length) {
-                    setNewEmployeeList(previousProject.employees);
-                  } else {
+                  console.log('previousprojectemp', previousProject.employees);
+                  console.log('newemployeelistemp', newEmployeeList);
+                  if (previousProject.employees.length <= 1 || newEmployeeList.length > 1) {
                     setNewEmployeeList(newEmployeeList);
+                  } else {
+                    setNewEmployeeList(previousProject.employees);
                   }
                 }}
               >

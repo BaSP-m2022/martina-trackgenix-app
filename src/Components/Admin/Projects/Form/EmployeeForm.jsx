@@ -18,24 +18,9 @@ const EmployeeForm = ({
     return null;
   }
 
-  const [listEmployeesStart, setListEmployeesStart] = useState([]);
-  const fetchEmployees = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setListEmployeesStart([...listEmployeesStart, ...data.data]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     dispatch(getEmployees());
     newEmployeeListReturn.length > 1 ? setNewEmployeeList(newEmployeeListReturn) : '';
-  }, []);
-
-  useEffect(() => {
-    fetchEmployees();
   }, []);
 
   const listEmployees = useSelector((state) => state.employees.list);
