@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from 'Components/Employee/Profile/profile.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
-//import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useForm } from 'react-hook-form';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -147,24 +146,6 @@ const Profile = () => {
               error={errors.email?.message}
             />
           </div>
-          {/* <div>
-            <Input
-              type={'password'}
-              name={'password'}
-              label={'Password'}
-              register={register}
-              error={errors.password?.message}
-            />
-          </div> */}
-          {/* <div>
-            <RadioButton
-              name={'active'}
-              label={'Active'}
-              valueOptions={[true, false]}
-              register={register}
-              error={errors.active?.message}
-            />
-          </div> */}
         </form>
         <div className={styles.containerButtons}>
           <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
