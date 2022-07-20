@@ -50,7 +50,6 @@ const Projects = () => {
         role = employee.role;
       }
     });
-
     return {
       _id: project._id,
       active: project.active,
@@ -64,14 +63,8 @@ const Projects = () => {
   });
 
   const viewMore = (project) => {
-    // console.log('project en handleEdit: ', project);
-    if (project.role == 'PM') {
-      setPreviousProject(project);
-      setShowForm(true);
-    } else {
-      setShowModal(true);
-      setTitleModal('aqui veras tu timsheet cuando lucho termine');
-    }
+    setPreviousProject(project);
+    setShowForm(true);
   };
   return (
     <>
@@ -80,7 +73,7 @@ const Projects = () => {
       ) : (
         <section className={styles.container}>
           <Table
-            title={`Welcome ${user.first_name} ${user.last_name}`}
+            title={`${user.first_name} ${user.last_name}'S PROJECTS`}
             data={projectData}
             headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
             headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}

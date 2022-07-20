@@ -31,8 +31,6 @@ const ProjectForm = ({
     }
   ]);
 
-  console.log('previousProject: ', previousProject);
-
   useEffect(() => {
     const newEmployees = previousProject.employees.map((employee) => {
       return {
@@ -80,7 +78,6 @@ const ProjectForm = ({
   };
 
   const deleteEmployee = (_id) => {
-    console.log('_id en delete: ', _id);
     const memberDelete = members.find((member) => member._id == _id);
     if (memberDelete.role == 'PM') {
       setTitleModal('You cannot delete PM');
@@ -111,6 +108,57 @@ const ProjectForm = ({
     });
     setShowForm(false);
   };
+
+  if (previousProject.role !== 'PM') {
+    return (
+      <div className={styles.container}>
+        <div className={styles.containerForm}>
+          <div className={styles.btnX} onClick={closeForm}>
+            X
+          </div>
+          <h2>Project Form</h2>
+          <form>
+            <div className={styles.containerInput}>
+              <Input
+                type={'text'}
+                name={'project_name'}
+                label={'Project Name'}
+                register={register}
+                disabled
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input type={'text'} name={'client'} label={'Client'} register={register} disabled />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'date'}
+                name={'start_date'}
+                label={'Start Date'}
+                register={register}
+                disabled
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'date'}
+                name={'finish_date'}
+                label={'Finish Date'}
+                register={register}
+                disabled
+              />
+            </div>
+          </form>
+          <Table
+            title={`Employees`}
+            data={members}
+            headersColumns={['Name', 'Role', 'Rate']}
+            headers={['name', 'role', 'rate']}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
