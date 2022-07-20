@@ -4,9 +4,7 @@ import { Table, Button, Input } from 'Components/Shared';
 import { useDispatch } from 'react-redux';
 import { editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import joi from 'joi';
-import EmployeeAdd from 'Components/Employee/Projects/Form/EmployeeForm';
+import EmployeeForm from 'Components/Employee/Projects/Form/EmployeeForm';
 
 const ProjectForm = ({
   showForm,
@@ -22,34 +20,34 @@ const ProjectForm = ({
 
   const dispatch = useDispatch();
 
-  const [showFormAdd, setShowFormAdd] = useState(false);
+  const [showEmployeeForm, setShowEmployeeForm] = useState(false);
   const [members, setMembers] = useState([
     {
       id: '',
+      name: '',
       role: '',
       rate: 0,
       _id: ''
     }
   ]);
 
+  console.log('previousProject: ', previousProject);
+
   useEffect(() => {
-    setMembers(previousProject.employees);
+    const newEmployees = previousProject.employees.map((employee) => {
+      return {
+        id: employee.id._id,
+        name: employee.id.first_name + ' ' + employee.id.last_name,
+        role: employee.role,
+        rate: employee.rate,
+        _id: employee._id
+      };
+    });
+    setMembers(newEmployees);
   }, []);
 
-  const schema = joi.object({
-    project_name: joi.string().required().min(3).max(30),
-    client: joi.string().required().min(3).max(30),
-    start_date: joi.date().required().max('now'),
-    finish_date: joi.date().required().min('now')
-  });
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors }
-  } = useForm({
+  const { handleSubmit, register } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema),
     defaultValues: {
       project_name: previousProject.project_name,
       client: previousProject.client,
@@ -82,6 +80,7 @@ const ProjectForm = ({
   };
 
   const deleteEmployee = (_id) => {
+    console.log('_id en delete: ', _id);
     const memberDelete = members.find((member) => member._id == _id);
     if (memberDelete.role == 'PM') {
       setTitleModal('You cannot delete PM');
@@ -127,19 +126,11 @@ const ProjectForm = ({
               name={'project_name'}
               label={'Project Name'}
               register={register}
-              error={errors.project_name?.message}
               disabled
             />
           </div>
           <div className={styles.containerInput}>
-            <Input
-              type={'text'}
-              name={'client'}
-              label={'Client'}
-              register={register}
-              error={errors.client?.message}
-              disabled
-            />
+            <Input type={'text'} name={'client'} label={'Client'} register={register} disabled />
           </div>
           <div className={styles.containerInput}>
             <Input
@@ -147,7 +138,6 @@ const ProjectForm = ({
               name={'start_date'}
               label={'Start Date'}
               register={register}
-              error={errors.start_date?.message}
               disabled
             />
           </div>
@@ -157,7 +147,6 @@ const ProjectForm = ({
               name={'finish_date'}
               label={'Finish Date'}
               register={register}
-              error={errors.finish_date?.message}
               disabled
             />
           </div>
@@ -165,12 +154,12 @@ const ProjectForm = ({
         <Table
           title={`Employees`}
           data={members}
-          headersColumns={['Id', 'Role', 'Rate', '']}
-          headers={['id', 'role', 'rate']}
+          headersColumns={['Name', 'Role', 'Rate', '']}
+          headers={['name', 'role', 'rate']}
           deleteItem={deleteEmployee}
         />
         <div className={styles.containerButtons}>
-          <Button width={'120px'} height={'40px'} onClick={() => setShowFormAdd(true)}>
+          <Button width={'120px'} height={'40px'} onClick={() => setShowEmployeeForm(true)}>
             Add employees
           </Button>
           <Button width={'120px'} height={'40px'} onClick={handleSubmit(onSubmit)}>
@@ -178,11 +167,13 @@ const ProjectForm = ({
           </Button>
         </div>
       </div>
-      <EmployeeAdd
-        showFormAdd={showFormAdd}
-        setShowFormAdd={setShowFormAdd}
+      <EmployeeForm
+        showEmployeeForm={showEmployeeForm}
+        setShowEmployeeForm={setShowEmployeeForm}
         members={members}
         setMembers={setMembers}
+        setShowModal={setShowModal}
+        setTitleModal={setTitleModal}
       />
     </div>
   );

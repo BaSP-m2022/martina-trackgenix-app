@@ -1,18 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
 import { Button, Input } from 'Components/Shared';
-import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from 'redux/employees/thunks';
+import { useSelector } from 'react-redux';
 
-const EmployeeForm = ({ showFormAdd, setShowFormAdd, members, setMembers }) => {
-  if (!showFormAdd) {
+const EmployeeForm = ({
+  showEmployeeForm,
+  setShowEmployeeForm,
+  members,
+  setMembers,
+  setShowModal,
+  setTitleModal
+}) => {
+  if (!showEmployeeForm) {
     return null;
   }
-
-  const dispatch = useDispatch();
 
   const schema = joi.object({
     id: joi.string().required().length(24).alphanum(),
@@ -28,10 +32,6 @@ const EmployeeForm = ({ showFormAdd, setShowFormAdd, members, setMembers }) => {
     mode: 'onChange',
     resolver: joiResolver(schema)
   });
-
-  useEffect(() => {
-    dispatch(getEmployees());
-  }, []);
 
   const listEmployees = useSelector((state) => state.employees.list);
 
@@ -51,9 +51,22 @@ const EmployeeForm = ({ showFormAdd, setShowFormAdd, members, setMembers }) => {
   ];
 
   const onSubmit = async (data) => {
-    const newList = [...members, data];
-    setMembers(newList);
-    setShowFormAdd(false);
+    if (members.find((member) => member.id == data.id)) {
+      setShowModal(true);
+      setTitleModal('This employee is already assigned to this project, please select another');
+    } else {
+      const employeeFound = listEmployees.find((employee) => employee._id == data.id);
+      setMembers([
+        ...members,
+        {
+          id: data.id,
+          name: employeeFound.first_name + ' ' + employeeFound.last_name,
+          role: data.role,
+          rate: data.rate
+        }
+      ]);
+      setShowEmployeeForm(false);
+    }
   };
 
   return (
@@ -92,7 +105,7 @@ const EmployeeForm = ({ showFormAdd, setShowFormAdd, members, setMembers }) => {
           </div>
           <div className={styles.containerButtons}>
             <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-            <Button onClick={() => setShowFormAdd(false)}>Close</Button>
+            <Button onClick={() => setShowEmployeeForm(false)}>Close</Button>
           </div>
         </form>
       </div>
