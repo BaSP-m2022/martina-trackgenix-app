@@ -17,7 +17,6 @@ const EmployeeForm = ({
   if (!showSecondModal) {
     return null;
   }
-
   useEffect(() => {
     dispatch(getEmployees());
     newEmployeeListReturn.length > 1 ? setNewEmployeeList(newEmployeeListReturn) : '';
@@ -65,8 +64,11 @@ const EmployeeForm = ({
     if (listEmployees.length === 0) {
       alert('error: No more employees to add or no employees in data base');
     } else {
-      const newList = [...newEmployeeList, { id: data.id, role: data.role, rate: data.rate }];
-      if (newEmployeeList.find((employee) => employee.id === data.id)) {
+      const newList = [
+        ...newEmployeeList,
+        { id: { _id: data.id }, role: data.role, rate: data.rate }
+      ];
+      if (newEmployeeList.find((employee) => employee.id._id === data.id)) {
         alert("error: Can't add the same employee twice");
       } else {
         setNewEmployeeList(newList);
@@ -137,22 +139,32 @@ const EmployeeForm = ({
           <table className={styles.table}>
             <thead>
               <tr>
-                {['Id', 'Role', 'Rate'].map((headersColumns, index) => {
+                {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
                   return <th key={index}>{headersColumns}</th>;
                 })}
               </tr>
             </thead>
             <tbody>
-              {newEmployeeList.map((employee, index) => {
-                return (
-                  <tr key={employee.id} className={styles.tr}>
-                    <td className={styles.td}>{employee.id}</td>
-                    <td className={styles.td}>{employee.role}</td>
-                    <td className={styles.td}>{employee.rate}</td>
-                    <button onClick={() => handleDelete(index)}>x</button>
-                  </tr>
+              {newEmployeeList.map((employees) => {
+                return listEmployees.find(
+                  (employee) => employees.id._id || employees.id === employee._id
                 );
-              })}
+              })[0] == undefined
+                ? ''
+                : newEmployeeList.map((employees, index) => {
+                    return (
+                      <tr key={employees.id} className={styles.tr}>
+                        <td>
+                          {listEmployees.find((item) => employees.id._id === item._id).first_name +
+                            ' ' +
+                            listEmployees.find((item) => employees.id._id === item._id).last_name}
+                        </td>
+                        <td className={styles.td}>{employees.role}</td>
+                        <td className={styles.td}>{employees.rate}</td>
+                        <button onClick={() => handleDelete(index)}>x</button>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
         </div>

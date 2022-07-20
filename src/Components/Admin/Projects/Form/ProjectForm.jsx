@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProject, editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
 import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
+import { getEmployees } from 'redux/employees/thunks';
+import { getProjects } from 'redux/projects/thunks';
 
 const ProjectForm = ({
   showForm,
@@ -20,6 +22,12 @@ const ProjectForm = ({
   if (!showForm) {
     return null;
   }
+
+  useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
+
+  const listEmployees = useSelector((state) => state.employees.list);
 
   const dispatch = useDispatch();
 
@@ -59,13 +67,25 @@ const ProjectForm = ({
         if (newEmployeeList.length === 0) {
           alert('Error: please add employees to your project');
         } else {
-          const project = await dispatch(addProject(newEmployeeList, data));
+          const project = await dispatch(
+            addProject(
+              newEmployeeList.map((employee) => {
+                return {
+                  id: employee.id._id,
+                  role: employee.role,
+                  rate: employee.rate
+                };
+              }),
+              data
+            )
+          );
           if (project.error) {
             setTitleModal(project.message);
             setShowModal(true);
           } else {
             setTitleModal(project.message);
             setShowModal(true);
+            dispatch(getProjects());
             closeForm();
           }
         }
@@ -82,17 +102,17 @@ const ProjectForm = ({
             editProject(
               data,
               previousProject._id,
-              previousProject.employees.length <= 1 && newEmployeeList.length > 1
+              previousProject.employees.length <= 1 || newEmployeeList.length > 1
                 ? newEmployeeList.map((employees) => {
                     return {
-                      id: employees.id,
+                      id: employees.id._id,
                       role: employees.role,
                       rate: employees.rate
                     };
                   })
                 : previousProject.employees.map((employees) => {
                     return {
-                      id: employees.id,
+                      id: employees.id._id,
                       role: employees.role,
                       rate: employees.rate
                     };
@@ -100,10 +120,11 @@ const ProjectForm = ({
             )
           );
           if (project.error) {
-            alert(project.message);
+            console.error(project.message);
           } else {
             setTitleModal(project.message);
             setShowModal(true);
+            dispatch(getProjects());
             closeForm();
           }
         }
@@ -131,7 +152,6 @@ const ProjectForm = ({
     });
     setShowForm(false);
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.containerForm}>
@@ -185,8 +205,6 @@ const ProjectForm = ({
                 width={'120px'}
                 onClick={() => {
                   setShowSecondModal(true);
-                  console.log('previousprojectemp', previousProject.employees);
-                  console.log('newemployeelistemp', newEmployeeList);
                   if (previousProject.employees.length <= 1 || newEmployeeList.length > 1) {
                     setNewEmployeeList(newEmployeeList);
                   } else {
@@ -201,31 +219,45 @@ const ProjectForm = ({
           <table>
             <thead>
               <tr>
-                {['ID', 'Role', 'Rate'].map((headersColumns, index) => {
+                {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
                   return <th key={index}>{headersColumns}</th>;
                 })}
               </tr>
             </thead>
             <tbody>
-              {newEmployeeList.length > 1
-                ? newEmployeeList.map((employee) => {
+              {newEmployeeList.length > 1 || previousProject.employees.length <= 1 ? (
+                newEmployeeList.map((employees) => {
+                  return listEmployees.find((employee) => employees.id._id === employee._id);
+                })[0] == undefined ? (
+                  <span>No employees yet</span>
+                ) : (
+                  newEmployeeList.map((employees) => {
                     return (
-                      <tr key={employee.id} className={styles.tr}>
-                        <td className={styles.td}>{employee.id}</td>
-                        <td className={styles.td}>{employee.role}</td>
-                        <td className={styles.td}>{employee.rate}</td>
+                      <tr key={employees.id} className={styles.tr}>
+                        <td>
+                          {listEmployees.find((item) => employees.id._id === item._id).first_name +
+                            ' ' +
+                            listEmployees.find((item) => employees.id._id === item._id).last_name}
+                        </td>
+                        <td className={styles.td}>{employees.role}</td>
+                        <td className={styles.td}>{employees.rate}</td>
                       </tr>
                     );
                   })
-                : previousProject.employees.map((employee) => {
-                    return (
-                      <tr key={employee.id} className={styles.tr}>
-                        <td className={styles.td}>{employee.id}</td>
-                        <td className={styles.td}>{employee.role}</td>
-                        <td className={styles.td}>{employee.rate}</td>
-                      </tr>
-                    );
-                  })}
+                )
+              ) : (
+                previousProject.employees.map((employees) => {
+                  return (
+                    <tr key={employees.id} className={styles.tr}>
+                      <td className={styles.td}>
+                        {employees.id.first_name + ' ' + employees.id.last_name}
+                      </td>
+                      <td className={styles.td}>{employees.role}</td>
+                      <td className={styles.td}>{employees.rate}</td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
