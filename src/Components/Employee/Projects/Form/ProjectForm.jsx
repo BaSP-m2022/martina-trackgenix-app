@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import EmployeeForm from 'Components/Employee/Projects/Form/EmployeeForm';
+import Tasks from 'Components/Employee/Projects/Tasks';
 
 const ProjectForm = ({
   showForm,
@@ -21,6 +22,8 @@ const ProjectForm = ({
   const dispatch = useDispatch();
 
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
+  const [showTaskList, setShowTaskList] = useState(false);
+
   const [members, setMembers] = useState([
     {
       id: '',
@@ -207,11 +210,14 @@ const ProjectForm = ({
           deleteItem={deleteEmployee}
         />
         <div className={styles.containerButtons}>
+          <Button width={'120px'} height={'40px'} onClick={handleSubmit(onSubmit)}>
+            Submit
+          </Button>
           <Button width={'120px'} height={'40px'} onClick={() => setShowEmployeeForm(true)}>
             Add employees
           </Button>
-          <Button width={'120px'} height={'40px'} onClick={handleSubmit(onSubmit)}>
-            Submit
+          <Button width={'120px'} height={'40px'} onClick={() => setShowTaskList(true)}>
+            Tasks
           </Button>
         </div>
       </div>
@@ -220,6 +226,12 @@ const ProjectForm = ({
         setShowEmployeeForm={setShowEmployeeForm}
         members={members}
         setMembers={setMembers}
+        setShowModal={setShowModal}
+        setTitleModal={setTitleModal}
+      />
+      <Tasks
+        showTaskList={showTaskList}
+        setShowTaskList={setShowTaskList}
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
       />
