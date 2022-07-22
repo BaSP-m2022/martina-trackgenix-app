@@ -12,6 +12,7 @@ import { editEmployee } from 'redux/employees/thunks';
 const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [childrenModal, setChildrenModal] = useState('');
+  const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
 
   const employeeFound = useSelector((state) => state.auth?.user);
@@ -48,16 +49,7 @@ const Profile = () => {
       .messages({
         'string.pattern.base': 'The email are invalid'
       })
-      .required(),
-    password: joi
-      .string()
-      .min(6)
       .required()
-      .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
-      .messages({
-        'string.pattern.base': 'Password must contain letters and numbers'
-      }),
-    active: joi.boolean().required()
   });
 
   const {
@@ -79,6 +71,7 @@ const Profile = () => {
       } else {
         setChildrenModal('Profile updated successfully');
         setShowModal(true);
+        setIsActive(false);
       }
     } catch (error) {
       console.error(error);
@@ -90,70 +83,138 @@ const Profile = () => {
       first_name: employeeFound?.first_name,
       last_name: employeeFound?.last_name,
       phone: employeeFound?.phone,
-      email: employeeFound?.email,
-      password: employeeFound?.password,
-      active: employeeFound?.active
+      email: employeeFound?.email
     });
   }, [employeeFound]);
 
+  const handleClose = () => {
+    setIsActive(false);
+    reset();
+  };
+
   return (
-    <section className={styles.container}>
-      <Modal
-        isOpen={showModal}
-        handleClose={() => setShowModal(false)}
-        className={styles.containerButtons}
-      >
-        {childrenModal}
-        <Button onClick={() => location.assign('/employee/home')}>Confirm</Button>
-        <Button onClick={() => setShowModal(false)}>Close</Button>
-      </Modal>
-      <div className={styles.containerForm}>
-        <h2>Profile</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <Input
-              type={'text'}
-              name={'first_name'}
-              label={'First Name'}
-              register={register}
-              error={errors.first_name?.message}
-            />
+    <>
+      {isActive === false ? (
+        <section className={styles.container}>
+          <Modal
+            isOpen={showModal}
+            handleClose={() => setShowModal(false)}
+            className={styles.containerButtons}
+          >
+            {childrenModal}
+            {/* <Button onClick={() => location.assign('/employee/home')}>Confirm</Button>
+            <Button onClick={() => setShowModal(false)}>Close</Button> */}
+          </Modal>
+          <div className={styles.containerForm}>
+            <h2>Profile</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'first_name'}
+                  label={'First Name'}
+                  register={register}
+                  error={errors.first_name?.message}
+                  disabled
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'last_name'}
+                  label={'Last Name'}
+                  register={register}
+                  error={errors.last_name?.message}
+                  disabled
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'phone'}
+                  label={'Phone'}
+                  register={register}
+                  error={errors.phone?.message}
+                  disabled
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'email'}
+                  label={'Email'}
+                  register={register}
+                  error={errors.email?.message}
+                  disabled
+                />
+              </div>
+            </form>
+            <div className={styles.containerButtons}>
+              <Button onClick={() => setIsActive(true)}>Edit Info</Button>
+              {/* <Button onClick={() => location.assign('/employee/home')}>Cancel</Button>
+          <Button onClick={() => reset()}>Reset Form</Button> */}
+            </div>
           </div>
-          <div>
-            <Input
-              type={'text'}
-              name={'last_name'}
-              label={'Last Name'}
-              register={register}
-              error={errors.last_name?.message}
-            />
+        </section>
+      ) : (
+        <section className={styles.container}>
+          {/* <Modal
+            isOpen={showModal}
+            handleClose={() => setShowModal(false)}
+            className={styles.containerButtons}
+          >
+            {childrenModal}
+            <Button onClick={() => location.assign('/employee/home')}>Confirm</Button>
+            <Button onClick={() => setShowModal(false)}>Close</Button>
+          </Modal> */}
+          <div className={styles.containerForm}>
+            <h2>Profile</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'first_name'}
+                  label={'First Name'}
+                  register={register}
+                  error={errors.first_name?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'last_name'}
+                  label={'Last Name'}
+                  register={register}
+                  error={errors.last_name?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'phone'}
+                  label={'Phone'}
+                  register={register}
+                  error={errors.phone?.message}
+                />
+              </div>
+              <div>
+                <Input
+                  type={'text'}
+                  name={'email'}
+                  label={'Email'}
+                  register={register}
+                  error={errors.email?.message}
+                />
+              </div>
+            </form>
+            <div className={styles.containerButtons}>
+              <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
+              <Button onClick={() => handleClose()}>Cancel</Button>
+            </div>
           </div>
-          <div>
-            <Input
-              type={'text'}
-              name={'phone'}
-              label={'Phone'}
-              register={register}
-              error={errors.phone?.message}
-            />
-          </div>
-          <div>
-            <Input
-              type={'text'}
-              name={'email'}
-              label={'Email'}
-              register={register}
-              error={errors.email?.message}
-            />
-          </div>
-        </form>
-        <div className={styles.containerButtons}>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => location.assign('/employee/home')}>Cancel</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
-        </div>
-      </div>
-    </section>
+        </section>
+      )}
+    </>
   );
 };
 
