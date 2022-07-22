@@ -1,24 +1,13 @@
-import { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import firebaseApp from 'helper/firebase/index';
+import { useSelector } from 'react-redux';
 
 function Home() {
-  const [currentAdmin, setCurrentAdmin] = useState();
-
-  useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged((admin) => {
-      setCurrentAdmin(admin);
-    });
-  }, []);
-
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
   return (
     <section className={styles.container}>
       <div className={styles.container}>
-        {currentAdmin && <h2>Welcome {currentAdmin.displayName}</h2>}
-        {/* I'm trying to show the logged admin name, the code works but
-         currentAdmin.displayName is null, however other data like email for
-         example can be shown (try currentAdmin.email). Maybe we need to add
-         admins names to firebase.*/}
+        {user && <h2>Welcome {user?.firstName + ' ' + user?.lastName}</h2>}
       </div>
     </section>
   );

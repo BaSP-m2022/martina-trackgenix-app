@@ -10,7 +10,6 @@ import joi from 'joi';
 import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
 import { getEmployees } from 'redux/employees/thunks';
 import { getProjects } from 'redux/projects/thunks';
-import bruuuuh from 'Components/Admin/Projects/Form/Success.mp3';
 
 const ProjectForm = ({
   showForm,
@@ -23,11 +22,6 @@ const ProjectForm = ({
   if (!showForm) {
     return null;
   }
-
-  const success = () => {
-    const audio = new Audio(bruuuuh);
-    audio.play();
-  };
 
   useEffect(() => {
     dispatch(getEmployees());
@@ -93,7 +87,6 @@ const ProjectForm = ({
             setShowModal(true);
             dispatch(getProjects());
             closeForm();
-            success();
           }
         }
       } catch (error) {
@@ -133,7 +126,6 @@ const ProjectForm = ({
             setShowModal(true);
             dispatch(getProjects());
             closeForm();
-            success();
           }
         }
       } catch (error) {
