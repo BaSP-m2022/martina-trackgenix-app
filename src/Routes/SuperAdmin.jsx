@@ -10,8 +10,8 @@ const Projects = lazy(() => import('Components/SuperAdmin/Projects'));
 
 const SuperadminRoutes = [
   { path: '/super-admin/admins', name: 'Admins' },
-  { path: '/super-admin/employees', name: 'Employees' },
-  { path: '/super-admin/projects', name: 'Projects' }
+  { path: '/super-admin/projects', name: 'Projects' },
+  { path: '/super-admin/employees', name: 'Employees' }
 ];
 
 const AdminRoutes = () => {
