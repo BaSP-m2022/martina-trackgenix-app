@@ -8,14 +8,14 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
   const dispatch = useDispatch();
 
   const listProjects = useSelector((state) => state.projects.list);
-  const listEmployees = useSelector((state) => state.employees.list);
 
-  const listActiveProjects = listProjects.filter((project) => project.active == true);
+  const sortedProjects = listProjects
+    .filter((project) => project.active == true)
+    .concat(listProjects.filter((project) => project.active == false));
 
-  const newListProject = listActiveProjects.map((item) => {
+  const newListProject = sortedProjects.map((item) => {
     return {
       ...item,
-      active: item.active == true ? 'Active' : 'Inactive',
       start_date: item.start_date.slice(0, 10),
       finish_date: item.finish_date.slice(0, 10)
     };
@@ -38,33 +38,27 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
 
   const viewEmployees = (project) => {
     setTitleModal(
-      project.employees.map((employee) => {
-        return listEmployees.find((emp) => employee.id === emp._id);
-      })[0] == undefined ? (
-        <span>No employees assigned to this project</span>
-      ) : (
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              {['First Name', 'Last Name', 'Role', 'Rate'].map((headersColumns, index) => {
-                return <th key={index}>{headersColumns}</th>;
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {project.employees.map((employee) => {
-              return (
-                <tr className={styles.tr} key={employee._id}>
-                  <td>{listEmployees.find((item) => employee.id === item._id).first_name}</td>
-                  <td>{listEmployees.find((item) => employee.id === item._id).last_name}</td>
-                  <td>{employee.role}</td>
-                  <td>{employee.rate}</td>
-                </tr>
-              );
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            {['First Name', 'Last Name', 'Role', 'Rate'].map((headersColumns, index) => {
+              return <th key={index}>{headersColumns}</th>;
             })}
-          </tbody>
-        </table>
-      )
+          </tr>
+        </thead>
+        <tbody>
+          {project.employees.map((employee) => {
+            return (
+              <tr className={styles.tr} key={employee.id._id}>
+                <td>{employee.id.first_name}</td>
+                <td>{employee.id.last_name}</td>
+                <td>{employee.role}</td>
+                <td>{employee.rate}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     );
     setShowModal(true);
   };
