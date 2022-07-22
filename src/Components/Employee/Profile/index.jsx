@@ -102,8 +102,6 @@ const Profile = () => {
             className={styles.containerButtons}
           >
             {childrenModal}
-            {/* <Button onClick={() => location.assign('/employee/home')}>Confirm</Button>
-            <Button onClick={() => setShowModal(false)}>Close</Button> */}
           </Modal>
           <div className={styles.containerForm}>
             <h2>Profile</h2>
@@ -151,22 +149,11 @@ const Profile = () => {
             </form>
             <div className={styles.containerButtons}>
               <Button onClick={() => setIsActive(true)}>Edit Info</Button>
-              {/* <Button onClick={() => location.assign('/employee/home')}>Cancel</Button>
-          <Button onClick={() => reset()}>Reset Form</Button> */}
             </div>
           </div>
         </section>
       ) : (
         <section className={styles.container}>
-          {/* <Modal
-            isOpen={showModal}
-            handleClose={() => setShowModal(false)}
-            className={styles.containerButtons}
-          >
-            {childrenModal}
-            <Button onClick={() => location.assign('/employee/home')}>Confirm</Button>
-            <Button onClick={() => setShowModal(false)}>Close</Button>
-          </Modal> */}
           <div className={styles.containerForm}>
             <h2>Profile</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
