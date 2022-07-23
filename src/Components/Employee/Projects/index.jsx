@@ -10,7 +10,7 @@ const Projects = () => {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  // const [childrenModal, setChildrenModal] = useState('');
+  const [childrenModal, setChildrenModal] = useState('');
 
   useEffect(() => {
     dispatch(getProjects());
@@ -36,15 +36,15 @@ const Projects = () => {
     };
   });
 
-  // const handleDelete = () => {
-  //   setShowModal(true);
-  //   setChildrenModal('You cannot delete project');
-  // };
+  const handleDelete = () => {
+    setShowModal(true);
+    setChildrenModal('You cannot delete project');
+  };
 
-  // const handleEdit = () => {
-  //   setShowModal(true);
-  //   setChildrenModal('You cannot edit project');
-  // };
+  const handleEdit = () => {
+    setShowModal(true);
+    setChildrenModal('You cannot edit project');
+  };
 
   return (
     <>
@@ -57,8 +57,12 @@ const Projects = () => {
             data={projectData}
             headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
             headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}
+            deleteItem={handleDelete}
+            editItem={handleEdit}
           />
-          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}></Modal>
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+            {childrenModal}
+          </Modal>
         </section>
       )}
       ;
