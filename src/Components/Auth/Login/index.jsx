@@ -57,8 +57,11 @@ const LogInForm = () => {
   const onSubmit = async (data) => {
     try {
       const user = await dispatch(login(data));
-      if (user.error) {
-        throw user.message;
+      if (user.type === 'LOGIN_ERROR') {
+        setChildrenModal('Invalid email or password');
+        setShowModal(true);
+        alert('Invalid email or password');
+        throw user.payload;
       }
       switch (user.payload.role) {
         case 'EMPLOYEE':
@@ -72,18 +75,14 @@ const LogInForm = () => {
       }
     } catch (error) {
       console.error(error);
-      setChildrenModal(error);
+      setChildrenModal('error');
       setShowModal(true);
     }
   };
 
   return (
     <section className={styles.container}>
-      <Modal
-        isOpen={showModal}
-        handleClose={() => setShowModal(false)}
-        className={styles.containerButtons}
-      >
+      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
         {childrenModal}
         <Button onClick={() => history.push('/employee/home')}>Login</Button>
       </Modal>
