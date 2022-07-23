@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
 import { getEmployees } from 'redux/employees/thunks';
-import { Table, Loader, Modal } from 'Components/Shared';
+import { Table, Loader, Modal, Button } from 'Components/Shared';
 import ProjectForm from 'Components/Employee/Projects/Form/ProjectForm';
 import styles from 'Components/Employee/Projects/projects.module.css';
+import Tasks from 'Components/Employee/Projects/Tasks';
 
 const Projects = () => {
   const [showForm, setShowForm] = useState(false);
+  const [showTaskList, setShowTaskList] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
   const [previousProject, setPreviousProject] = useState({
@@ -43,11 +45,13 @@ const Projects = () => {
     }
   });
 
+  let isPM = false;
   const projectData = listProjectEmployee.map((project) => {
     let role;
     project.employees.map((employee) => {
       if (employee.id._id == user._id) {
         role = employee.role;
+        role === 'PM' && (isPM = true);
       }
     });
     return {
@@ -86,6 +90,17 @@ const Projects = () => {
             setPreviousProject={setPreviousProject}
             setTitleModal={setTitleModal}
             setShowModal={setShowModal}
+          />
+          {isPM && (
+            <div className={styles.containerButtons}>
+              <Button onClick={() => setShowTaskList(true)}>ABM Tasks</Button>
+            </div>
+          )}
+          <Tasks
+            showTaskList={showTaskList}
+            setShowTaskList={setShowTaskList}
+            setShowModal={setShowModal}
+            setTitleModal={setTitleModal}
           />
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {titleModal}
