@@ -84,7 +84,7 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const softDelete = (id) => {
+export const softDelete = (id, status) => {
   return async (dispatch) => {
     dispatch(softDeleteProjectPending());
     try {
@@ -94,7 +94,7 @@ export const softDelete = (id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          active: false
+          active: status
         })
       });
       const res = await response.json();
