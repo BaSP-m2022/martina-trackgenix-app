@@ -27,7 +27,7 @@ export const getProjects = () => {
   };
 };
 
-export const addProject = (list, project) => {
+export const addProject = (project, employees) => {
   return async (dispatch) => {
     dispatch(addProjectPending());
     try {
@@ -42,7 +42,7 @@ export const addProject = (list, project) => {
           start_date: project.start_date,
           finish_date: project.finish_date,
           active: true,
-          employees: list
+          employees
         })
       });
       const res = await response.json();
@@ -75,7 +75,7 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const editProject = (project, id, list) => {
+export const editProject = (project, id, employees) => {
   return async (dispatch) => {
     dispatch(editProjectPending());
     try {
@@ -89,8 +89,7 @@ export const editProject = (project, id, list) => {
           client: project.client,
           start_date: project.start_date,
           finish_date: project.finish_date,
-          active: project.active,
-          employees: list
+          employees
         })
       });
       const res = await response.json();
