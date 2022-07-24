@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from 'Components/Employee/TimeSheet/timesheets.module.css';
-// import Table from 'Components/Shared/Table/Table';
 import Modal from 'Components/Shared/Modal/Modal';
 import Form from 'Components/Employee/TimeSheet/Form/Form';
 import Button from 'Components/Shared/Buttons/Buttons';
@@ -124,9 +123,9 @@ const TimeSheet = () => {
         const timesheetDate = format('dd/MM/yyyy', new Date(timesheet.timesheetDate));
         for (let i = 0; i < formatedWeek.length; i++) {
           if (timesheetDate === formatedWeek[i]) {
-            weekTimesheetsWorkedHours[i] = timesheet.hs_worked;
-            weekTimesheetsId[i] = timesheet._id;
-            weekTimesheetsTasks[i] = timesheet.task._id;
+            weekTimesheetsWorkedHours[i] = timesheet?.hs_worked;
+            weekTimesheetsId[i] = timesheet?._id;
+            weekTimesheetsTasks[i] = timesheet.task?._id;
           }
         }
       }
@@ -174,12 +173,6 @@ const TimeSheet = () => {
       endDate: formatedEnd
     });
   };
-
-  // const formatTimesheet = (timesheet) => {
-  //   return {
-  //     workedHours: timesheet?.workedHours
-  //   };
-  // };
 
   const formatDaysOfWeek = (days) => {
     const formatedWeek = days.map((date) => {
@@ -280,14 +273,6 @@ const TimeSheet = () => {
             <h2 className={styles.totalText}>Total: {totalHours}</h2>
           </>
         )}
-        {/* <Table
-            title={`${newList[0] ? newList[0].employee : ''}'s Time-Sheet`}
-            data={newList}
-            headersColumns={['ID', 'Employee', 'Hours Worked', 'Project', 'Task', 'Date']}
-            headers={['_id', 'employee', 'hs_worked', 'project', 'task', 'timesheetDate']}
-            deleteItem={deleteItem}
-            editItem={handleEdit}
-          />*/}
         <Form
           showForm={showForm}
           setShowForm={setShowForm}
@@ -296,7 +281,6 @@ const TimeSheet = () => {
           previousTimeSheet={previousTimeSheet}
           setPreviousTimeSheet={setPreviousTimeSheet}
         />
-        {/* <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button> */}
         <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
           {childrenModal}
         </Modal>
