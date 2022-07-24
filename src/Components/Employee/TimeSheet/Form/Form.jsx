@@ -184,12 +184,12 @@ const Form = ({
                 disabled
               ></Input>
             </div>
-            <div className={styles.button}>
-              <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-              <Button onClick={() => reset()}>Reset Form</Button>
-              <Button onClick={closeForm}>Close</Button>
-            </div>
           </form>
+          <div className={styles.button}>
+            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={() => reset()}>Reset Form</Button>
+            <Button onClick={closeForm}>Close</Button>
+          </div>
         </div>
       ) : (
         <div>
@@ -235,12 +235,12 @@ const Form = ({
                 disabled
               ></Input>
             </div>
-            <div className={styles.button}>
-              <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-              <Button onClick={() => reset()}>Reset Form</Button>
-              <Button onClick={closeForm}>Close</Button>
-            </div>
           </form>
+          <div className={styles.button}>
+            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={() => reset()}>Reset Form</Button>
+            <Button onClick={closeForm}>Close</Button>
+          </div>
         </div>
       )}
     </div>
