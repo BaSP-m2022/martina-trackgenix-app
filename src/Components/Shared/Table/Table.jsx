@@ -32,7 +32,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
           {pageItems.map((item, index) => {
             return (
               <>
-                {item.active === true ? (
+                {item.active === false ? (
                   <Row
                     key={index}
                     data={item}
@@ -40,7 +40,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
                     deleteItem={deleteItem && (() => deleteItem(item._id))}
                     editItem={editItem && (() => editItem(item))}
                     viewMore={viewMore && (() => viewMore(item))}
-                    active
+                    inactive
                   />
                 ) : (
                   <Row
@@ -50,7 +50,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
                     deleteItem={deleteItem && (() => deleteItem(item._id))}
                     editItem={editItem && (() => editItem(item))}
                     viewMore={viewMore && (() => viewMore(item))}
-                    inactive
+                    active
                   />
                 )}
               </>
