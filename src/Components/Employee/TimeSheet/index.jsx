@@ -63,38 +63,6 @@ const TimeSheet = () => {
     formatListData(listProjectEmployee || [], filteredListTimeSheet, daysOfWeek);
   }, [timesheetsList, week]);
 
-  console.log('filteredListTimeSheet', filteredListTimeSheet);
-  // console.log('employeeUser', user);
-  // const listTimeSheet = useSelector((state) => state.timeSheet.list);
-
-  // const newList = filteredListTimeSheet.map((item) => {
-  //   return {
-  //     _id: item._id,
-  //     employee: item.employee ? item.employee.first_name : '',
-  //     hs_worked: item.hs_worked,
-  //     task: item.task ? item.task.description : '',
-  //     project: item.project ? item.project.project_name : '',
-  //     timesheetDate: item.timesheetDate.slice(0, 10)
-  //   };
-  // });
-
-  // const deleteItem = () => {
-  //   setShowModal(true);
-  //   setChildrenModal('You cannot delete a time-sheet');
-  // };
-
-  // const handleEdit = (timeSheet) => {
-  //   setPreviousTimeSheet({
-  //     _id: timeSheet._id,
-  //     employee: employeeId,
-  //     hs_worked: timeSheet.hs_worked,
-  //     task: timeSheet.task,
-  //     project: timeSheet.project,
-  //     timesheetDate: timeSheet.timesheetDate
-  //   });
-  //   setShowForm(true);
-  // };
-
   const formatListData = (projects, filteredTimesheets, daysOfWeek) => {
     const formatedWeek = formatDaysOfWeek(daysOfWeek);
     let hoursForeachProject = [];
@@ -102,7 +70,6 @@ const TimeSheet = () => {
       const weekTimesheets = getWeekTimesheets(filteredTimesheets, project, formatedWeek);
       const totalHours = weekTotalHours(weekTimesheets.workedHours);
       hoursForeachProject.push(totalHours);
-      console.log('weektimeshet', weekTimesheets);
       return {
         id: project._id,
         projectName: project.project_name,
@@ -297,8 +264,6 @@ const TimeSheet = () => {
                             className={header.style ? styles.timesheetTd : styles.td}
                             onClick={() => {
                               if (header.style && isBefore(header.date, todayDate)) {
-                                console.log('row', row);
-                                console.log('header', header);
                                 editItem(row, header);
                               }
                             }}

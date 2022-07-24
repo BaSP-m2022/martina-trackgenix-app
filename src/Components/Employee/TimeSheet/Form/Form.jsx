@@ -9,6 +9,7 @@ import { getTasks } from 'redux/tasks/thunks';
 import styles from 'Components/Employee/TimeSheet/Form/form.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
+import moment from 'moment';
 
 const Form = ({
   showForm,
@@ -39,13 +40,6 @@ const Form = ({
   } = useForm({
     mode: 'onChange',
     resolver: joiResolver(schema)
-    // defaultValue: {
-    //   employee: previousTimeSheet?.employee,
-    //   project: previousTimeSheet?.project,
-    //   task: previousTimeSheet?.task,
-    //   hsWorked: previousTimeSheet?.hs_worked,
-    //   timesheetDate: previousTimeSheet?.timesheetDate
-    // }
   });
 
   useEffect(() => {
@@ -70,10 +64,7 @@ const Form = ({
     return projects.employees.find((employee) => employee.id._id == user._id);
   });
 
-  // console.log('previous', previousTimeSheet);
-
   const onSubmit = async (data) => {
-    console.log('in submit');
     const projectName = filteredProjects.map((item) => {
       if (item._id == data.project) {
         return item.project_name;
@@ -101,7 +92,7 @@ const Form = ({
         description: taskDescription
       },
       hs_worked: data.hsWorked,
-      timesheetDate: previousTimeSheet.timesheetDate
+      timesheetDate: moment(previousTimeSheet.timesheetDate)
     };
 
     if (!previousTimeSheet._id) {
