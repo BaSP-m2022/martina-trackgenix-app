@@ -224,11 +224,15 @@ const TimeSheet = () => {
       <section className={styles.container}>
         <h2>Worked Hours</h2>
         <div className={styles.topContainer}>
-          <Button onClick={() => prevWeek(startWeekDay, endWeekDay)}>{'<'}</Button>
+          <Button width={'80px'} height={'50px'} onClick={() => prevWeek(startWeekDay, endWeekDay)}>
+            {'<'}
+          </Button>
           <p className={styles.weekText}>
             {week?.startDate} - {week?.endDate}
           </p>
-          <Button onClick={() => nextWeek(startWeekDay, endWeekDay)}>{'>'}</Button>
+          <Button width={'80px'} height={'50px'} onClick={() => nextWeek(startWeekDay, endWeekDay)}>
+            {'>'}
+          </Button>
         </div>
         {isLoading ? (
           <Loader show={true} />

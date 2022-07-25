@@ -5,22 +5,25 @@
   flex-direction: column;
   align-items: center;
 }
+
 .topContainer {
-  flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #aaa;
+  border-radius: 10px;
   min-width: 75%;
-  max-height: 100px;
+  height: 50px;
   margin-bottom: 5px;
-  background-color: #BEBEBE;
+  background-color: #bebebe7a;
 }
 
 .table {
   width: 75%;
-  border: 0;
+  margin: 1rem;
   border-collapse: collapse;
+  border-radius: 0.5em;
+  overflow: hidden;
+  text-align: center;
   box-shadow: 0 2px 1px 1px rgba(0, 0, 0, 0.25);
 }
 
@@ -57,7 +60,7 @@
   text-align: center;
   padding: 5px;
   color: #373867;
-  background-color: #BEBEBE;
+  background-color: #bebebe;
 }
 
 .rows {
@@ -82,6 +85,7 @@
   word-break: break-word;
   margin: 10px;
   border: 1px solid #aaa;
+  border-radius: 0.5em;
   box-shadow: 0 1.5px 0.75px 0.75px rgba(0, 0, 0, 0.25);
 }
 
