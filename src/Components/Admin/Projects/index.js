@@ -8,7 +8,7 @@ import Loader from 'Components/Shared/Loader/Loader';
 import Button from 'Components/Shared/Buttons/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
-import { getEmployees } from 'redux/employees/thunks';
+// import { getEmployees } from 'redux/employees/thunks';
 
 const Projects = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Projects = () => {
 
   useEffect(() => {
     dispatch(getProjects());
-    dispatch(getEmployees());
+    // dispatch(getEmployees());
   }, []);
 
   return (

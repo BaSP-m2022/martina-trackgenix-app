@@ -49,19 +49,18 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
 
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to remove this Project?')) {
-      const responseProject = dispatch(changeStatus(id, false));
+      const responseProject = await dispatch(changeStatus(id, false));
       if (!responseProject.error) {
         setTitleModal('Project deleted successfully');
         setShowModal(true);
         dispatch(getProjects());
       }
-      console.log(projectData);
     }
   };
 
   const activateProject = async (id) => {
     if (confirm('Are you sure you want to activate this Project?')) {
-      const responseProject = dispatch(changeStatus(id, true));
+      const responseProject = await dispatch(changeStatus(id, true));
       if (!responseProject.error) {
         setTitleModal('Project activated successfully');
         setShowModal(true);
