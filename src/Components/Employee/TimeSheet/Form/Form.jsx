@@ -141,10 +141,10 @@ const Form = ({
   return (
     <div className={styles.container}>
       {previousTimeSheet._id != undefined ? (
-        <div>
+        <div className={styles.containerForm}>
+          <h2>Time-sheet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Time-sheet</h2>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'select'}
                 name={'project'}
@@ -155,7 +155,7 @@ const Form = ({
                 disabled
               ></Input>
             </div>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'select'}
                 name={'task'}
@@ -165,7 +165,7 @@ const Form = ({
                 error={errors.task?.message}
               ></Input>
             </div>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'number'}
                 name={'hsWorked'}
@@ -174,7 +174,7 @@ const Form = ({
                 error={errors.hsWorked?.message}
               ></Input>
             </div>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'date'}
                 name={'timesheetDate'}
@@ -192,10 +192,10 @@ const Form = ({
           </div>
         </div>
       ) : (
-        <div>
+        <div className={styles.containerForm}>
+          <h2>Time-sheet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Time-sheet</h2>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'select'}
                 name={'project'}
@@ -206,7 +206,7 @@ const Form = ({
                 disabled
               ></Input>
             </div>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'select'}
                 name={'task'}
@@ -216,7 +216,7 @@ const Form = ({
                 error={errors.task?.message}
               ></Input>
             </div>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'number'}
                 name={'hsWorked'}
@@ -225,7 +225,7 @@ const Form = ({
                 error={errors.hsWorked?.message}
               ></Input>
             </div>
-            <div>
+            <div className={styles.input}>
               <Input
                 type={'date'}
                 name={'timesheetDate'}
