@@ -4,20 +4,12 @@ import { useSelector } from 'react-redux';
 import { Layout, Loader } from 'Components/Shared';
 
 const Home = lazy(() => import('Components/Admin/Home'));
-const SuperAdmins = lazy(() => import('Components/Admin/SuperAdmins'));
-const Admins = lazy(() => import('Components/SuperAdmin/Admins'));
 const Employees = lazy(() => import('Components/Admin/Employees'));
-const Tasks = lazy(() => import('Components/Admin/Tasks'));
 const Projects = lazy(() => import('Components/Admin/Projects'));
-const TimeSheets = lazy(() => import('Components/Admin/TimeSheets'));
 
 const adminRoutes = [
-  { path: '/admin/admins', name: 'Admins' },
-  { path: '/admin/super-admins', name: 'Super-admins' },
-  { path: '/admin/employees', name: 'Employees' },
   { path: '/admin/projects', name: 'Projects' },
-  { path: '/admin/time-sheets', name: 'Time-sheets' },
-  { path: '/admin/tasks', name: 'Tasks' }
+  { path: '/admin/employees', name: 'Employees' }
 ];
 
 const AdminRoutes = () => {
@@ -28,12 +20,8 @@ const AdminRoutes = () => {
       <Suspense fallback={<Loader show={isLoading} />}>
         <Switch>
           <Route exact path={`${url}/home`} component={Home} />
-          <Route path={`${url}/super-admins`} component={SuperAdmins} />
-          <Route path={`${url}/admins`} component={Admins} />
-          <Route path={`${url}/employees`} component={Employees} />
           <Route path={`${url}/projects`} component={Projects} />
-          <Route path={`${url}/time-sheets`} component={TimeSheets} />
-          <Route path={`${url}/tasks`} component={Tasks} />
+          <Route path={`${url}/employees`} component={Employees} />
           <Redirect to={`${url}/home`} />
         </Switch>
       </Suspense>

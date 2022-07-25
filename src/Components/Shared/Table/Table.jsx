@@ -3,7 +3,16 @@ import styles from './table.module.css';
 import Row from '../Row/Row';
 import Button from '../Buttons/Buttons';
 
-const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, viewMore }) => {
+const Table = ({
+  title,
+  data,
+  headersColumns,
+  headers,
+  deleteItem,
+  editItem,
+  activateItem,
+  viewMore
+}) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageItems = data.slice(10 * (indexPage - 1), 10 * indexPage);
   const nextPage = () => {
@@ -32,14 +41,15 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
           {pageItems.map((item, index) => {
             return (
               <>
-                {item.active === true ? (
+                {item.active === false ? (
                   <Row
                     key={index}
                     data={item}
                     headers={headers}
-                    deleteItem={deleteItem && (() => deleteItem(item._id))}
+                    activateItem={activateItem && (() => activateItem(item._id))}
                     editItem={editItem && (() => editItem(item))}
                     viewMore={viewMore && (() => viewMore(item))}
+                    inactive
                   />
                 ) : (
                   <Row
@@ -49,7 +59,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
                     deleteItem={deleteItem && (() => deleteItem(item._id))}
                     editItem={editItem && (() => editItem(item))}
                     viewMore={viewMore && (() => viewMore(item))}
-                    inactive
+                    active
                   />
                 )}
               </>
@@ -57,34 +67,38 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
           })}
         </tbody>
       </table>
-      <div className={styles.page}>
-        <p> Page {indexPage} </p>
-      </div>
-      <div className={styles.buttons}>
+      {data.length > 10 && (
         <div>
-          <Button
-            width={'100px'}
-            height={'40px'}
-            fontSize={'15px'}
-            margin={'2px'}
-            disabled={indexPage <= 1}
-            onClick={() => previousPage()}
-          >
-            Previous
-          </Button>
+          <div className={styles.page}>
+            <p> Page {indexPage} </p>
+          </div>
+          <div className={styles.buttons}>
+            <div>
+              <Button
+                width={'100px'}
+                height={'40px'}
+                fontSize={'15px'}
+                margin={'2px'}
+                disabled={indexPage <= 1}
+                onClick={() => previousPage()}
+              >
+                Previous
+              </Button>
+            </div>
+            <div>
+              <Button
+                width={'100px'}
+                height={'40px'}
+                fontSize={'15px'}
+                disabled={indexPage >= data.length / 10}
+                onClick={() => nextPage()}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </div>
-        <div>
-          <Button
-            width={'100px'}
-            height={'40px'}
-            fontSize={'15px'}
-            disabled={indexPage >= data.length / 10}
-            onClick={() => nextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
