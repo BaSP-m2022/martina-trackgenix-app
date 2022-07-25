@@ -14,7 +14,14 @@ container {
     color: #373867;
     font-weight: 500;
   }
-  
+  .containerFormMain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .containerFormMain .imgConteiner {
+    margin-left: 100px;
+  }
   .containerForm {
     display: flex;
     flex-direction: column;

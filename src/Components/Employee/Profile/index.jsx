@@ -103,101 +103,113 @@ const Profile = () => {
           >
             {childrenModal}
           </Modal>
-          <div className={styles.containerForm}>
-            <h2>Profile</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'first_name'}
-                  label={'First Name'}
-                  register={register}
-                  error={errors.first_name?.message}
-                  disabled
-                />
+          <div className={styles.containerFormMain}>
+            <div className={styles.containerForm}>
+              <h2>Profile</h2>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'first_name'}
+                    label={'First Name'}
+                    register={register}
+                    error={errors.first_name?.message}
+                    disabled
+                  />
+                </div>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'last_name'}
+                    label={'Last Name'}
+                    register={register}
+                    error={errors.last_name?.message}
+                    disabled
+                  />
+                </div>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'phone'}
+                    label={'Phone'}
+                    register={register}
+                    error={errors.phone?.message}
+                    disabled
+                  />
+                </div>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'email'}
+                    label={'Email'}
+                    register={register}
+                    error={errors.email?.message}
+                    disabled
+                  />
+                </div>
+              </form>
+              <div className={styles.containerButtons}>
+                <Button onClick={() => setIsActive(true)}>Edit Info</Button>
               </div>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'last_name'}
-                  label={'Last Name'}
-                  register={register}
-                  error={errors.last_name?.message}
-                  disabled
-                />
-              </div>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'phone'}
-                  label={'Phone'}
-                  register={register}
-                  error={errors.phone?.message}
-                  disabled
-                />
-              </div>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'email'}
-                  label={'Email'}
-                  register={register}
-                  error={errors.email?.message}
-                  disabled
-                />
-              </div>
-            </form>
-            <div className={styles.containerButtons}>
-              <Button onClick={() => setIsActive(true)}>Edit Info</Button>
             </div>
+            <img
+              className={styles.imgConteiner}
+              src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
+            />
           </div>
         </section>
       ) : (
         <section className={styles.container}>
-          <div className={styles.containerForm}>
-            <h2>Profile</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'first_name'}
-                  label={'First Name'}
-                  register={register}
-                  error={errors.first_name?.message}
-                />
+          <div className={styles.containerFormMain}>
+            <div className={styles.containerForm}>
+              <h2>Profile</h2>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'first_name'}
+                    label={'First Name'}
+                    register={register}
+                    error={errors.first_name?.message}
+                  />
+                </div>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'last_name'}
+                    label={'Last Name'}
+                    register={register}
+                    error={errors.last_name?.message}
+                  />
+                </div>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'phone'}
+                    label={'Phone'}
+                    register={register}
+                    error={errors.phone?.message}
+                  />
+                </div>
+                <div>
+                  <Input
+                    type={'text'}
+                    name={'email'}
+                    label={'Email'}
+                    register={register}
+                    error={errors.email?.message}
+                  />
+                </div>
+              </form>
+              <div className={styles.containerButtons}>
+                <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
+                <Button onClick={() => handleClose()}>Cancel</Button>
               </div>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'last_name'}
-                  label={'Last Name'}
-                  register={register}
-                  error={errors.last_name?.message}
-                />
-              </div>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'phone'}
-                  label={'Phone'}
-                  register={register}
-                  error={errors.phone?.message}
-                />
-              </div>
-              <div>
-                <Input
-                  type={'text'}
-                  name={'email'}
-                  label={'Email'}
-                  register={register}
-                  error={errors.email?.message}
-                />
-              </div>
-            </form>
-            <div className={styles.containerButtons}>
-              <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-              <Button onClick={() => handleClose()}>Cancel</Button>
             </div>
+            <img
+              className={styles.imgConteiner}
+              src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
+            />
           </div>
         </section>
       )}
