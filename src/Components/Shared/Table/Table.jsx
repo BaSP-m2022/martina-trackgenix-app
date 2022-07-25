@@ -3,7 +3,16 @@ import styles from './table.module.css';
 import Row from '../Row/Row';
 import Button from '../Buttons/Buttons';
 
-const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, viewMore }) => {
+const Table = ({
+  title,
+  data,
+  headersColumns,
+  headers,
+  deleteItem,
+  editItem,
+  activateItem,
+  viewMore
+}) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageItems = data.slice(10 * (indexPage - 1), 10 * indexPage);
   const nextPage = () => {
@@ -37,7 +46,7 @@ const Table = ({ title, data, headersColumns, headers, deleteItem, editItem, vie
                     key={index}
                     data={item}
                     headers={headers}
-                    deleteItem={deleteItem && (() => deleteItem(item._id))}
+                    activateItem={activateItem && (() => activateItem(item._id))}
                     editItem={editItem && (() => editItem(item))}
                     viewMore={viewMore && (() => viewMore(item))}
                     inactive

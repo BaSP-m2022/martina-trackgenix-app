@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './row.module.css';
 import Button from '../Buttons/Buttons';
 
-const Row = ({ data, headers, deleteItem, editItem, viewMore, inactive }) => {
+const Row = ({ data, headers, deleteItem, editItem, activateItem, viewMore, inactive }) => {
   return (
     <>
       {inactive ? (
@@ -21,10 +21,10 @@ const Row = ({ data, headers, deleteItem, editItem, viewMore, inactive }) => {
               </Button>
             </td>
           )}
-          {deleteItem && (
+          {activateItem && (
             <td>
-              <Button onClick={deleteItem} width={'55px'}>
-                X
+              <Button onClick={activateItem} width={'55px'}>
+                &#10004;
               </Button>
             </td>
           )}
