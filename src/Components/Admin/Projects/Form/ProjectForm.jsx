@@ -42,8 +42,24 @@ const ProjectForm = ({
   };
 
   const schema = joi.object({
-    project_name: joi.string().required().min(3).max(30),
-    client: joi.string().required().min(3).max(30),
+    project_name: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z_ ]*$/)
+      .messages({
+        'string.pattern.base': 'Project Name must contain only letters'
+      })
+      .required(),
+    client: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z_ ]*$/)
+      .messages({
+        'string.pattern.base': 'Client must contain only letters'
+      })
+      .required(),
     start_date: joi.date().required().max('now'),
     finish_date: joi.date().required().min('now')
   });
