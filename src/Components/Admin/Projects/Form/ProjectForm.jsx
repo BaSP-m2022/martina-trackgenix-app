@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProject, editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
+import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
+import { getEmployees } from 'redux/employees/thunks';
+import { getProjects } from 'redux/projects/thunks';
+import Modal from 'Components/Shared/Modal/Modal';
 
 const ProjectForm = ({
   showForm,
@@ -21,50 +24,44 @@ const ProjectForm = ({
     return null;
   }
 
-  const dispatch = useDispatch();
-
-  const [listEmployees, setListEmployees] = useState([]);
-  const fetchEmployees = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setListEmployees([...listEmployees, ...data.data]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
-    fetchEmployees();
+    dispatch(getEmployees());
   }, []);
 
-  const listRole = [
-    {
-      _id: 'DEV',
-      description: 'Developer'
-    },
-    {
-      _id: 'QA',
-      description: 'Quality Assurance'
-    },
-    {
-      _id: 'PM',
-      description: 'Project Manager'
-    },
-    {
-      _id: 'TL',
-      description: 'Team Leader'
-    }
-  ];
+  const listEmployees = useSelector((state) => state.employees.list);
+
+  const dispatch = useDispatch();
+
+  const [showSecondModal, setShowSecondModal] = useState(false);
+  const [newEmployeeList, setNewEmployeeList] = useState([]);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [titleMessageModal, setTitleMessageModal] = useState('');
+
+  const sendNewEmployeeList = (list) => {
+    setNewEmployeeList(list);
+  };
 
   const schema = joi.object({
-    projectName: joi.string().required().min(3).max(30),
-    client: joi.string().required().min(3).max(30),
-    startDate: joi.date().required().max('now'),
-    finishDate: joi.date().required().min('now'),
-    employee: joi.string().required().length(24).alphanum(),
-    rate: joi.number().required().min(1).max(999),
-    role: joi.string().required().valid('DEV', 'PM', 'QA', 'TL'),
-    active: joi.boolean().required()
+    project_name: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z_ ]*$/)
+      .messages({
+        'string.pattern.base': 'Project Name must contain only letters'
+      })
+      .required(),
+    client: joi
+      .string()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z_ ]*$/)
+      .messages({
+        'string.pattern.base': 'Client must contain only letters'
+      })
+      .required(),
+    start_date: joi.date().required().max('now'),
+    finish_date: joi.date().required().min('now')
   });
 
   const {
@@ -76,14 +73,10 @@ const ProjectForm = ({
     mode: 'onChange',
     resolver: joiResolver(schema),
     defaultValues: {
-      projectName: previousProject.project_name,
+      project_name: previousProject.project_name,
       client: previousProject.client,
-      startDate: previousProject.start_date,
-      finishDate: previousProject.finish_date,
-      active: previousProject.active,
-      employee: previousProject.employees[0].id,
-      role: previousProject.employees[0].role,
-      rate: previousProject.employees[0].rate
+      start_date: previousProject.start_date,
+      finish_date: previousProject.finish_date
     }
   });
 
@@ -92,28 +85,71 @@ const ProjectForm = ({
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
-        const project = await dispatch(addProject(data));
-        if (project.error) {
-          setTitleModal(project.message);
-          setShowModal(true);
+        if (newEmployeeList.length === 0) {
+          setShowMessageModal(true);
+          setTitleMessageModal('error: please add employees to your project');
         } else {
-          setTitleModal(project.message);
-          setShowModal(true);
-          closeForm();
+          const project = await dispatch(
+            addProject(
+              data,
+              newEmployeeList.map((employee) => {
+                return {
+                  id: employee.id._id,
+                  role: employee.role,
+                  rate: employee.rate
+                };
+              })
+            )
+          );
+          if (project.error) {
+            setTitleModal(project.message);
+            setShowModal(true);
+          } else {
+            setTitleModal(project.message);
+            setShowModal(true);
+            dispatch(getProjects());
+            closeForm();
+          }
         }
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
-        const project = await dispatch(editProject(data, previousProject._id));
-        if (project.error) {
-          setTitleModal(project.message);
-          setShowModal(true);
+        newEmployeeList.length > 1 ? (previousProject.employees = []) : '';
+        if (previousProject.employees.length < 0) {
+          setShowMessageModal(true);
+          setTitleMessageModal('error: please add employees to the project');
         } else {
-          setTitleModal(project.message);
-          setShowModal(true);
-          closeForm();
+          const project = await dispatch(
+            editProject(
+              data,
+              previousProject._id,
+              previousProject.employees.length <= 1 || newEmployeeList.length > 1
+                ? newEmployeeList.map((employees) => {
+                    return {
+                      id: employees.id._id,
+                      role: employees.role,
+                      rate: employees.rate
+                    };
+                  })
+                : previousProject.employees.map((employees) => {
+                    return {
+                      id: employees.id._id,
+                      role: employees.role,
+                      rate: employees.rate
+                    };
+                  })
+            )
+          );
+          if (project.error) {
+            console.error(project.message);
+          } else {
+            setTitleModal(project.message);
+            setShowModal(true);
+            dispatch(getProjects());
+            closeForm();
+          }
         }
       } catch (error) {
         console.error(error);
@@ -133,7 +169,7 @@ const ProjectForm = ({
         {
           id: '',
           role: '',
-          rate: 0
+          rate: ''
         }
       ]
     });
@@ -142,90 +178,208 @@ const ProjectForm = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.containerForm}>
-        <h2>Project Form</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.containerInput}>
-            <Input
-              type={'text'}
-              name={'projectName'}
-              label={'Project Name'}
-              register={register}
-              error={errors.projectName?.message}
-            />
+      {previousProject._id && previousProject.active == false ? (
+        <div className={styles.containerForm}>
+          <h2>Project Form</h2>
+          <div>This project has been deactivated</div>
+          <form>
+            <div className={styles.containerInput}>
+              <Input
+                type={'text'}
+                name={'project_name'}
+                label={'Project Name'}
+                register={register}
+                error={errors.project_name?.message}
+                disabled
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'text'}
+                name={'client'}
+                label={'Client'}
+                register={register}
+                error={errors.client?.message}
+                disabled
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'date'}
+                name={'start_date'}
+                label={'Start Date'}
+                register={register}
+                error={errors.start_date?.message}
+                disabled
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'date'}
+                name={'finish_date'}
+                label={'Finish Date'}
+                register={register}
+                error={errors.finish_date?.message}
+                disabled
+              />
+            </div>
+          </form>
+          <div className={styles.containerTable}>
+            <table>
+              <thead>
+                <tr>
+                  {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
+                    return <th key={index}>{headersColumns}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {previousProject.employees.map((employees) => {
+                  return (
+                    <tr key={employees.id} className={styles.tr}>
+                      <td className={styles.td}>
+                        {employees.id.first_name + ' ' + employees.id.last_name}
+                      </td>
+                      <td className={styles.td}>{employees.role}</td>
+                      <td className={styles.td}>{employees.rate}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'text'}
-              name={'client'}
-              label={'Client'}
-              register={register}
-              error={errors.client?.message}
-            />
+          <div className={styles.containerButtons}>
+            <Button onClick={closeForm}>Close</Button>
           </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'date'}
-              name={'startDate'}
-              label={'Start Date'}
-              register={register}
-              error={errors.startDate?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'date'}
-              name={'finishDate'}
-              label={'Finish Date'}
-              register={register}
-              error={errors.finishDate?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'select'}
-              name={'employee'}
-              label={'Select Employee ID'}
-              valueOptions={listEmployees}
-              register={register}
-              error={errors.employee?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'select'}
-              name={'role'}
-              label={'Select Employee ROLE'}
-              valueOptions={listRole}
-              register={register}
-              error={errors.role?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <Input
-              type={'number'}
-              name={'rate'}
-              label={'Select Employee RATE'}
-              register={register}
-              error={errors.rate?.message}
-            />
-          </div>
-          <div className={styles.containerInput}>
-            <RadioButton
-              name={'active'}
-              label={'Active'}
-              valueOptions={[true, false]}
-              register={register}
-              error={errors.active?.message}
-            />
+        </div>
+      ) : (
+        <div className={styles.containerForm}>
+          <h2>Project Form</h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.containerInput}>
+              <Input
+                type={'text'}
+                name={'project_name'}
+                label={'Project Name'}
+                register={register}
+                error={errors.project_name?.message}
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'text'}
+                name={'client'}
+                label={'Client'}
+                register={register}
+                error={errors.client?.message}
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'date'}
+                name={'start_date'}
+                label={'Start Date'}
+                register={register}
+                error={errors.start_date?.message}
+              />
+            </div>
+            <div className={styles.containerInput}>
+              <Input
+                type={'date'}
+                name={'finish_date'}
+                label={'Finish Date'}
+                register={register}
+                error={errors.finish_date?.message}
+              />
+            </div>
+          </form>
+          <div className={styles.containerTable}>
+            <div>
+              {!previousProject._id ? (
+                <Button width={'120px'} onClick={() => setShowSecondModal(true)}>
+                  Add employees
+                </Button>
+              ) : (
+                <Button
+                  width={'120px'}
+                  onClick={() => {
+                    setShowSecondModal(true);
+                    if (previousProject.employees.length <= 1 || newEmployeeList.length > 1) {
+                      setNewEmployeeList(newEmployeeList);
+                    } else {
+                      setNewEmployeeList(previousProject.employees);
+                    }
+                  }}
+                >
+                  Edit employees
+                </Button>
+              )}
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  {['Name', 'Role', 'Rate'].map((headersColumns, index) => {
+                    return <th key={index}>{headersColumns}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {newEmployeeList.length > 1 || previousProject.employees.length <= 1 ? (
+                  newEmployeeList.map((employees) => {
+                    return listEmployees.find((employee) => employees.id._id === employee._id);
+                  })[0] == undefined ? (
+                    <span>No employees yet</span>
+                  ) : (
+                    newEmployeeList.map((employees) => {
+                      return (
+                        <tr key={employees.id} className={styles.tr}>
+                          <td>
+                            {listEmployees.find((item) => employees.id._id === item._id)
+                              .first_name +
+                              ' ' +
+                              listEmployees.find((item) => employees.id._id === item._id).last_name}
+                          </td>
+                          <td className={styles.td}>{employees.role}</td>
+                          <td className={styles.td}>{employees.rate}</td>
+                        </tr>
+                      );
+                    })
+                  )
+                ) : (
+                  previousProject.employees.map((employees) => {
+                    return (
+                      <tr key={employees.id} className={styles.tr}>
+                        <td className={styles.td}>
+                          {employees.id.first_name + ' ' + employees.id.last_name}
+                        </td>
+                        <td className={styles.td}>{employees.role}</td>
+                        <td className={styles.td}>{employees.rate}</td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
           </div>
           <div className={styles.containerButtons}>
             <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
             <Button onClick={() => reset()}>Reset Form</Button>
             <Button onClick={closeForm}>Close</Button>
           </div>
-        </form>
-      </div>
+        </div>
+      )}
+      <EmployeeAdd
+        showSecondModal={showSecondModal}
+        setShowSecondModal={setShowSecondModal}
+        previousProject={previousProject}
+        sendNewEmployeeList={sendNewEmployeeList}
+        newEmployeeListReturn={newEmployeeList}
+        setTitleMessageModal={setTitleMessageModal}
+        setShowMessageModal={setShowMessageModal}
+      />
+      <Modal isOpen={showMessageModal} handleClose={() => setShowMessageModal(false)}>
+        {titleMessageModal}
+      </Modal>
     </div>
   );
 };

@@ -30,7 +30,7 @@ export const getProjects = () => {
   };
 };
 
-export const addProject = (project) => {
+export const addProject = (project, employees) => {
   return async (dispatch) => {
     dispatch(addProjectPending());
     try {
@@ -40,18 +40,12 @@ export const addProject = (project) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          active: true,
+          employees
         })
       });
       const res = await response.json();
@@ -108,7 +102,7 @@ export const changeStatus = (id, status) => {
   };
 };
 
-export const editProject = (project, id) => {
+export const editProject = (project, id, employees) => {
   return async (dispatch) => {
     dispatch(editProjectPending());
     console.log('EDITED PROJECT:', project);
@@ -119,18 +113,11 @@ export const editProject = (project, id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          employees
         })
       });
       const res = await response.json();
