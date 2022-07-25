@@ -5,15 +5,12 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
 import Input from 'Components/Shared/Field/Input';
 import Button from 'Components/Shared/Buttons/Buttons';
-import Modal from 'Components/Shared/Modal/Modal';
 import styles from 'Components/Auth/Login/login.module.css';
 import { login } from 'redux/auth/thunks';
 import { useHistory } from 'react-router-dom';
 
 const LogInForm = () => {
   const [userInput] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -58,8 +55,6 @@ const LogInForm = () => {
     try {
       const user = await dispatch(login(data));
       if (user.type === 'LOGIN_ERROR') {
-        setChildrenModal('Invalid email or password');
-        setShowModal(true);
         alert('Invalid email or password');
         throw user.payload;
       }
@@ -75,17 +70,11 @@ const LogInForm = () => {
       }
     } catch (error) {
       console.error(error);
-      setChildrenModal('error');
-      setShowModal(true);
     }
   };
 
   return (
     <section className={styles.container}>
-      <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-        {childrenModal}
-        <Button onClick={() => history.push('/employee/home')}>Login</Button>
-      </Modal>
       <div className={styles.containerForm}>
         <h2>Login</h2>
         <form>
