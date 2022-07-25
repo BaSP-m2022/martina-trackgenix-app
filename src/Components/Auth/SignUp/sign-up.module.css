@@ -1,16 +1,14 @@
 .container {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
   align-items: center;
-  flex-direction: column;
-}
-
-.container h2 {
-  color: #373867;
-  text-shadow: 2px 2px 4px #00000070;
+  flex-direction: row-reverse;
+  padding: 60px;
 }
 
 .container label {
+  text-align: start;
   color: #373867;
   font-weight: 500;
 }
@@ -19,31 +17,49 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: left;
+  border-style: solid;
+  border-color: #373867;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 600;
+}
+
+.container h2 {
+  color: #373867;
+  font-size: 28px;
+  text-shadow: 2px 2px 4px #00000070;
+  margin-top: 0px;
 }
 
 .containerForm form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   flex-direction: column;
-  width: 95%;
-  height: 75%;
-  gap: 20px;
+  gap: 10px;
+  min-width: 320px;
+  margin-bottom: 25px;
 }
 
 .containerInput {
-  width: 44%;
-  margin: 0 5px;
+  text-align: left;
+}
+.activeNone {
+  display: none;
 }
 
 .containerButtons {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
-  width: 75%;
-  gap: 50px;
-  margin-bottom: 20px;
+  width: auto;
+  gap: 30px;
 }
 
+.containerButtons button {
+  width: auto;
+  height: 40px;
+}

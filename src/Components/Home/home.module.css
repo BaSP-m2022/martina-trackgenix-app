@@ -1,12 +1,23 @@
 .container {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   text-decoration: none;
+  padding: 30px;
 }
-.homeContainer {
+.container img {
+  width: 250px;
+}
+
+.container h2 {
+  color: #373867;
+  font-size: 32px;
+  text-shadow: 2px 2px 4px #00000070;
+  margin-top: 0px;
+}
+/* .homeContainer {
   align-self: center;
   text-decoration: none;
-}
+} */

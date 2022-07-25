@@ -168,7 +168,7 @@ const SignUp = () => {
                   error={errors.password?.message}
                 />
               </div>
-              <div>
+              <div className={styles.activeNone}>
                 <RadioButton
                   name={'active'}
                   label={'Active'}

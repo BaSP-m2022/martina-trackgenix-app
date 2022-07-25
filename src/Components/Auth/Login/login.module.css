@@ -1,13 +1,10 @@
 .container {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
   align-items: center;
-  flex-direction: column;
-}
-
-.container h2 {
-  color: #373867;
-  text-shadow: 2px 2px 4px #00000070;
+  flex-direction: row-reverse;
+  padding: 60px;
 }
 
 .container label {
@@ -18,29 +15,49 @@
 .containerForm {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 40px;
-  width: 60%;
+  justify-content: center;
+  align-items: left;
+  border-style: solid;
+  border-color: #373867;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 600;
+}
+
+.container h2 {
+  color: #373867;
+  font-size: 28px;
+  text-shadow: 2px 2px 4px #00000070;
+  margin-top: 0px;
 }
 
 .containerForm form {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: left;
   flex-direction: column;
-  width: 55%;
-  height: 75%;
-  gap: 20px;
+  gap: 10px;
+  min-width: 320px;
+  margin-bottom: 25px;
 }
 
-.divIm {
+.divIm label {
   display: flex;
+  text-align: left;
 }
 
 .containerButtons {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
-  width: 63%;
+  width: auto;
   gap: 30px;
-  margin-top: 50px;
-  margin-bottom: 20px;
 }
+
+.containerButtons button {
+  width: auto;
+  height: 40px;
+}
+
