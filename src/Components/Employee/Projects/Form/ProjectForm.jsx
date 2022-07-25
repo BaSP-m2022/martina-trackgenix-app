@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import EmployeeForm from 'Components/Employee/Projects/Form/EmployeeForm';
+import ViewTimeSheet from 'Components/Employee/Projects/TimeSheet';
 
 const ProjectForm = ({
   showForm,
@@ -21,6 +22,8 @@ const ProjectForm = ({
   const dispatch = useDispatch();
 
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
+  const [showTimesheet, setShowTimesheet] = useState(false);
+  const [previousEmployeeTS, setPreviousEmployeeTS] = useState('');
   const [members, setMembers] = useState([
     {
       id: '',
@@ -55,7 +58,7 @@ const ProjectForm = ({
   });
 
   const onSubmit = async (data) => {
-    const newMembers = members.map((member) => {
+    const newMembers = await members.map((member) => {
       return {
         id: member.id,
         role: member.role,
@@ -63,7 +66,7 @@ const ProjectForm = ({
       };
     });
     try {
-      const project = await dispatch(editProject(data, newMembers, previousProject._id));
+      const project = await dispatch(editProject(data, previousProject._id, newMembers));
       if (project.error) {
         setTitleModal(project.message);
         setShowModal(true);
@@ -88,6 +91,11 @@ const ProjectForm = ({
         setMembers(newMembers);
       }
     }
+  };
+
+  const viewMore = (employee) => {
+    setPreviousEmployeeTS(employee.id);
+    setShowTimesheet(true);
   };
 
   const closeForm = () => {
@@ -205,6 +213,7 @@ const ProjectForm = ({
           headersColumns={['Name', 'Role', 'Rate', '']}
           headers={['name', 'role', 'rate']}
           deleteItem={deleteEmployee}
+          viewMore={viewMore}
         />
         <div className={styles.containerButtons}>
           <Button width={'120px'} height={'40px'} onClick={handleSubmit(onSubmit)}>
@@ -222,6 +231,12 @@ const ProjectForm = ({
         setMembers={setMembers}
         setShowModal={setShowModal}
         setTitleModal={setTitleModal}
+      />
+      <ViewTimeSheet
+        showTimesheet={showTimesheet}
+        setShowTimesheet={setShowTimesheet}
+        previousEmployee={previousEmployeeTS}
+        previousProject={previousProject}
       />
     </div>
   );

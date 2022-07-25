@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'Components/Admin/Tasks/Form/form.module.css';
+import styles from 'Components/Employee/Projects/Tasks/Form/form.module.css';
 import { Input, Button } from 'Components/Shared';
 import { useDispatch } from 'react-redux';
 import { addTask, editTask } from 'redux/tasks/thunks';
