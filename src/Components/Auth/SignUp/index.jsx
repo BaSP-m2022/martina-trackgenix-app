@@ -4,12 +4,8 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
+import { Input, Button, RadioButton, Modal, Loader } from 'Components/Shared';
 import joi from 'joi';
-import Modal from 'Components/Shared/Modal/Modal';
-import Loader from 'Components/Shared/Loader/Loader';
 import styles from 'Components/Auth/SignUp/sign-up.module.css';
 
 const SignUp = () => {

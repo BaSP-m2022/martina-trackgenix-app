@@ -11,6 +11,10 @@ import styles from 'Components/SuperAdmin/Admins/admins.module.css';
 const Admins = () => {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getAdmins());
+  }, []);
+
   const isLoading = useSelector((state) => state.admins.isLoading);
 
   const [showForm, setShowForm] = useState(false);
@@ -22,7 +26,6 @@ const Admins = () => {
     lastName: '',
     phone: '',
     email: '',
-    password: '',
     active: false
   });
 
@@ -30,10 +33,6 @@ const Admins = () => {
   const listActiveAdmins = listAdmins.filter((admins) => admins.active == true);
   const listInactiveAdmins = listAdmins.filter((admins) => admins.active == false);
   const adminsSorted = listActiveAdmins.concat(listInactiveAdmins);
-
-  useEffect(() => {
-    dispatch(getAdmins());
-  }, []);
 
   const handleDelete = async (_id) => {
     if (confirm('Are you sure you want to remove the Admin?')) {

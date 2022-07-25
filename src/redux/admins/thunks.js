@@ -83,7 +83,7 @@ export const addAdmin = (admin) => {
           phone: admin.phone,
           email: admin.email,
           password: admin.password,
-          active: admin.active
+          active: true
         })
       });
       const res = await response.json();
@@ -115,9 +115,7 @@ export const editAdmin = (admin, _id) => {
           firstName: admin.firstName,
           lastName: admin.lastName,
           phone: admin.phone,
-          email: admin.email,
-          password: admin.password,
-          active: admin.active
+          email: admin.email
         })
       });
       const res = await response.json();
