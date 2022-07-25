@@ -5,9 +5,9 @@ import {
   DELETE_PROJECT_PENDING,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_ERROR,
-  SOFT_DELETE_PROJECT_PENDING,
-  SOFT_DELETE_PROJECT_SUCCESS,
-  SOFT_DELETE_PROJECT_ERROR,
+  CHANGE_STATUS_PENDING,
+  CHANGE_STATUS_SUCCESS,
+  CHANGE_STATUS_ERROR,
   ADD_PROJECT_PENDING,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_ERROR,
@@ -99,12 +99,12 @@ export const projectReducer = (state = initialState, action) => {
         isLoading: false,
         error: true
       };
-    case SOFT_DELETE_PROJECT_PENDING:
+    case CHANGE_STATUS_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    case SOFT_DELETE_PROJECT_SUCCESS:
+    case CHANGE_STATUS_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -115,7 +115,7 @@ export const projectReducer = (state = initialState, action) => {
           return p;
         })
       };
-    case SOFT_DELETE_PROJECT_ERROR:
+    case CHANGE_STATUS_ERROR:
       return {
         ...state,
         isLoading: false,

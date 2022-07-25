@@ -5,9 +5,9 @@ import {
   deleteProjectPending,
   deleteProjectSuccess,
   deleteProjectError,
-  softDeleteProjectPending,
-  softDeleteProjectSuccess,
-  softDeleteProjectError,
+  changeStatusPending,
+  changeStatusSuccess,
+  changeStatusError,
   addProjectPending,
   addProjectSuccess,
   addProjectError,
@@ -84,9 +84,9 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const softDelete = (id, status) => {
+export const changeStatus = (id, status) => {
   return async (dispatch) => {
-    dispatch(softDeleteProjectPending());
+    dispatch(changeStatusPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
         method: 'PUT',
@@ -98,10 +98,10 @@ export const softDelete = (id, status) => {
         })
       });
       const res = await response.json();
-      dispatch(softDeleteProjectSuccess(res.data));
+      dispatch(changeStatusSuccess(res.data));
       return { error: false, message: res.message };
     } catch (error) {
-      dispatch(softDeleteProjectError(error.toString()));
+      dispatch(changeStatusError(error.toString()));
       console.error(error);
       return { error: true, message: error };
     }

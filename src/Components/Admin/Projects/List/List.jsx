@@ -1,13 +1,12 @@
 import React from 'react';
 import Table from 'Components/Shared/Table/Table';
 import { useSelector, useDispatch } from 'react-redux';
-import { softDelete } from 'redux/projects/thunks';
+import { changeStatus, getProjects } from 'redux/projects/thunks';
 
 const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) => {
   const dispatch = useDispatch();
 
   const listProjects = useSelector((state) => state.projects.list);
-  console.log('Proyectos: ', listProjects);
 
   const sortedProjects = listProjects
     .filter((project) => project.active == true)
@@ -20,8 +19,6 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
       finish_date: item.finish_date.slice(0, 10)
     };
   });
-
-  console.log('Lista de proyectos:', listProjects);
 
   const projectData = newListProject.map((project) => {
     let employeesArray = [];
@@ -52,20 +49,23 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
 
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to remove this Project?')) {
-      const responseProject = dispatch(softDelete(id, false));
+      const responseProject = dispatch(changeStatus(id, false));
       if (!responseProject.error) {
         setTitleModal('Project deleted successfully');
         setShowModal(true);
+        dispatch(getProjects());
       }
+      console.log(projectData);
     }
   };
 
   const activateProject = async (id) => {
     if (confirm('Are you sure you want to activate this Project?')) {
-      const responseProject = dispatch(softDelete(id, true));
+      const responseProject = dispatch(changeStatus(id, true));
       if (!responseProject.error) {
         setTitleModal('Project activated successfully');
         setShowModal(true);
+        dispatch(getProjects());
       }
     }
   };
@@ -76,7 +76,6 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
   };
 
   const viewEmployees = (project) => {
-    console.log('vacio?', project);
     setTitleModal(
       <Table
         title={`${project.project_name}'s employees`}
@@ -85,29 +84,6 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
         headers={['first_name', 'last_name', 'role', 'rate']}
       />
     );
-    // setTitleModal(
-    //   <table className={styles.table}>
-    //     <thead>
-    //       <tr>
-    //         {['First Name', 'Last Name', 'Role', 'Rate'].map((headersColumns, index) => {
-    //           return <th key={index}>{headersColumns}</th>;
-    //         })}
-    //       </tr>
-    //     </thead>
-    //     <tbody>
-    //       {project.employees.map((employee) => {
-    //         return (
-    //           <tr className={styles.tr} key={employee.id._id}>
-    //             <td>{employee.id.first_name}</td>
-    //             <td>{employee.id.last_name}</td>
-    //             <td>{employee.role}</td>
-    //             <td>{employee.rate}</td>
-    //           </tr>
-    //         );
-    //       })}
-    //     </tbody>
-    //   </table>
-    // );
     setShowModal(true);
   };
 
