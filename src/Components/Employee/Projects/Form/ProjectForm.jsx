@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from 'Components/Employee/Projects/Form/projectForm.module.css';
 import { Table, Button, Input } from 'Components/Shared';
 import { useDispatch } from 'react-redux';
-import { editProject } from 'redux/projects/thunks';
+import { editProject, getProjects } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import EmployeeForm from 'Components/Employee/Projects/Form/EmployeeForm';
 import ViewTimeSheet from 'Components/Employee/Projects/TimeSheet';
@@ -73,6 +73,7 @@ const ProjectForm = ({
       } else {
         setTitleModal(project.message);
         setShowModal(true);
+        dispatch(getProjects());
         closeForm();
       }
     } catch (error) {

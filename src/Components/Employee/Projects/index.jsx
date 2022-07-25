@@ -8,9 +8,6 @@ import styles from 'Components/Employee/Projects/projects.module.css';
 import Tasks from 'Components/Employee/Projects/Tasks';
 
 const Projects = () => {
-  const isLoading = useSelector((state) => state.projects.isLoading);
-  const user = useSelector((state) => state.auth.user);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,13 +15,14 @@ const Projects = () => {
     dispatch(getEmployees());
   }, []);
 
+  const isLoading = useSelector((state) => state.projects.isLoading);
+  const user = useSelector((state) => state.auth.user);
   const listProject = useSelector((state) => state.projects.list);
 
   const [showForm, setShowForm] = useState(false);
   const [showTaskList, setShowTaskList] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
-  const [listProjectFormat, setListProjectFormat] = useState([{}]);
   const [previousProject, setPreviousProject] = useState({
     _id: '',
     project_name: '',
@@ -41,40 +39,38 @@ const Projects = () => {
     ]
   });
 
+  let isPM = false;
+
+  // typeof employee.id === 'object' ? employee.id._id == user._id : employee.id == user._id
+  //console.log('listProject: ', listProject);
+
   const listProjectEmployee = listProject.filter((project) => {
     if (project.active) {
       return project.employees.find((employee) => employee.id._id == user._id);
     }
   });
 
-  let isPM = false;
-
-  useEffect(() => {
-    formatData();
-  }, [listProject]);
-
-  const formatData = () => {
-    const projectData = listProjectEmployee.map((project) => {
-      let role;
-      project.employees.map((employee) => {
-        if (employee.id._id === user._id) {
-          role = employee.role;
-          role === 'PM' && (isPM = true);
-        }
-      });
-      return {
-        _id: project._id,
-        active: project.active,
-        start_date: project.start_date.slice(0, 10),
-        finish_date: project.finish_date.slice(0, 10),
-        project_name: project.project_name,
-        client: project.client,
-        employees: project.employees,
-        role
-      };
+  //console.log('listProjectEmployee: ', listProjectEmployee);
+  //  || employee.id === user._id
+  const projectData = listProjectEmployee.map((project) => {
+    let role;
+    project.employees.map((employee) => {
+      if (employee.id._id === user._id) {
+        role = employee.role;
+        role === 'PM' && (isPM = true);
+      }
     });
-    setListProjectFormat(projectData);
-  };
+    return {
+      _id: project._id,
+      active: project.active,
+      start_date: project.start_date.slice(0, 10),
+      finish_date: project.finish_date.slice(0, 10),
+      project_name: project.project_name,
+      client: project.client,
+      employees: project.employees,
+      role
+    };
+  });
 
   const viewMore = (project) => {
     setPreviousProject(project);
@@ -88,7 +84,7 @@ const Projects = () => {
         <section className={styles.container}>
           <Table
             title={`${user.first_name} ${user.last_name}'S PROJECTS`}
-            data={listProjectFormat}
+            data={projectData}
             headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
             headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}
             viewMore={viewMore}
