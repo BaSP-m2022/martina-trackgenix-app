@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from 'Components/Admin/Projects/projects.module.css';
 import List from 'Components/Admin/Projects/List/List';
 import ProjectForm from 'Components/Admin/Projects/Form/ProjectForm';
+import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
 import Modal from 'Components/Shared/Modal/Modal';
 import Loader from 'Components/Shared/Loader/Loader';
 import Button from 'Components/Shared/Buttons/Buttons';
@@ -26,7 +27,7 @@ const Projects = () => {
     employees: [
       {
         role: '',
-        rate: '0',
+        rate: '',
         id: ''
       }
     ]
@@ -56,6 +57,7 @@ const Projects = () => {
             previousProject={previousProject}
             setPreviousProject={setPreviousProject}
           />
+          <EmployeeAdd />
           <Button onClick={() => setShowForm(true)}>+ Add Project</Button>
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {titleModal}

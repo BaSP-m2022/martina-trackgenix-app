@@ -31,8 +31,8 @@ const List = ({ setShowForm, setPreviousProject, setShowModal, setTitleModal }) 
     <Table
       title={'Projects'}
       data={listProject}
-      headersColumns={['ID', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
-      headers={['_id', 'project_name', 'client', 'start_date', 'finish_date']}
+      headersColumns={['Project Name', 'Client', 'Start Date', 'Finish Date']}
+      headers={['project_name', 'client', 'start_date', 'finish_date']}
       deleteItem={handleDelete}
       editItem={handleEdit}
     />

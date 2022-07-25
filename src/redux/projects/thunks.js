@@ -27,7 +27,7 @@ export const getProjects = () => {
   };
 };
 
-export const addProject = (project) => {
+export const addProject = (project, employees) => {
   return async (dispatch) => {
     dispatch(addProjectPending());
     try {
@@ -37,18 +37,12 @@ export const addProject = (project) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          active: true,
+          employees
         })
       });
       const res = await response.json();
@@ -81,10 +75,8 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const editProject = (project, id) => {
+export const editProject = (project, id, employees) => {
   return async (dispatch) => {
-    console.log('data en thunk: ', project);
-    console.log('id en thunk', id);
     dispatch(editProjectPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
@@ -93,18 +85,11 @@ export const editProject = (project, id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          employees
         })
       });
       const res = await response.json();
