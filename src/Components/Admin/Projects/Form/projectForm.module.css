@@ -48,6 +48,7 @@
 }
 
 .containerButtons {
+  justify-content: center;
   display: flex;
   width: 75%;
   gap: 40px;

@@ -5,6 +5,9 @@ import {
   DELETE_PROJECT_PENDING,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_ERROR,
+  CHANGE_STATUS_PENDING,
+  CHANGE_STATUS_SUCCESS,
+  CHANGE_STATUS_ERROR,
   ADD_PROJECT_PENDING,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_ERROR,
@@ -41,6 +44,19 @@ export const deleteProjectSuccess = (projectId) => ({
 
 export const deleteProjectError = () => ({
   type: DELETE_PROJECT_ERROR
+});
+
+export const changeStatusPending = () => ({
+  type: CHANGE_STATUS_PENDING
+});
+
+export const changeStatusSuccess = (projectId) => ({
+  type: CHANGE_STATUS_SUCCESS,
+  payload: projectId
+});
+
+export const changeStatusError = () => ({
+  type: CHANGE_STATUS_ERROR
 });
 
 export const addProjectPending = () => ({
