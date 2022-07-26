@@ -149,14 +149,16 @@ const Profile = () => {
                 </div>
               </form>
               <div className={styles.containerButtons}>
-                <Button onClick={() => setIsActive(true)}>Edit Info</Button>
+                <Button width={'105px'} height={'35px'} onClick={() => setIsActive(true)}>
+                  Edit Info
+                </Button>
               </div>
             </div>
-            <img
-              className={styles.imgConteiner}
-              src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
-            />
           </div>
+          <img
+            className={styles.imgContainer}
+            src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
+          />
         </section>
       ) : (
         <section className={styles.container}>
@@ -202,15 +204,19 @@ const Profile = () => {
                 </div>
               </form>
               <div className={styles.containerButtons}>
-                <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-                <Button onClick={() => handleClose()}>Cancel</Button>
+                <Button width={'75px'} height={'35px'} onClick={handleSubmit(onSubmit)}>
+                  Confirm
+                </Button>
+                <Button width={'75px'} height={'35px'} onClick={() => handleClose()}>
+                  Cancel
+                </Button>
               </div>
             </div>
-            <img
-              className={styles.imgConteiner}
-              src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
-            />
           </div>
+          <img
+            className={styles.imgContainer}
+            src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
+          />
         </section>
       )}
     </>
