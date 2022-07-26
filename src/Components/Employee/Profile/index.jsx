@@ -47,7 +47,7 @@ const Profile = () => {
         /^[a-z0-9]+(?:\.[a-z0-9]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
       )
       .messages({
-        'string.pattern.base': 'The email are invalid'
+        'string.pattern.base': 'Invalid email'
       })
       .required()
   });
