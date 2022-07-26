@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import styles from 'Components/Auth/SignUp/sign-up.module.css';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
-import RadioButton from 'Components/Shared/Field/RadioButton';
 import { useForm } from 'react-hook-form';
-import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
-import Modal from 'Components/Shared/Modal/Modal';
-import Loader from 'Components/Shared/Loader/Loader';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Input, Button, RadioButton, Modal, Loader } from 'Components/Shared';
+import joi from 'joi';
+import styles from 'Components/Auth/SignUp/sign-up.module.css';
 
 const SignUp = () => {
   const [userInput] = useState('');

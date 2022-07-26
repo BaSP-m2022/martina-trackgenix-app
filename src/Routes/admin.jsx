@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Layout from 'Components/Shared/Layout';
+import { useSelector } from 'react-redux';
+import { Layout, Loader } from 'Components/Shared';
 
 const Home = lazy(() => import('Components/Admin/Home'));
 const Employees = lazy(() => import('Components/Admin/Employees'));
@@ -13,9 +14,10 @@ const adminRoutes = [
 
 const AdminRoutes = () => {
   const { url } = useRouteMatch();
+  const isLoading = useSelector((state) => state.auth.isLoading);
   return (
     <Layout routes={adminRoutes} logout>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader show={isLoading} />}>
         <Switch>
           <Route exact path={`${url}/home`} component={Home} />
           <Route path={`${url}/projects`} component={Projects} />
