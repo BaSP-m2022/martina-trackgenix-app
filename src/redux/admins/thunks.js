@@ -5,9 +5,9 @@ import {
   deleteAdminPending,
   deleteAdminSuccess,
   deleteAdminError,
-  softDeleteAdminsPending,
-  softDeleteAdminsSuccess,
-  softDeleteAdminsError,
+  changeStatusAdminsPending,
+  changeStatusAdminsSuccess,
+  changeStatusAdminsError,
   addAdminPending,
   addAdminSuccess,
   addAdminError,
@@ -44,9 +44,9 @@ export const deleteAdmin = (_id) => {
   };
 };
 
-export const softDeleteAdmin = (id) => {
+export const changeStatus = (id, status) => {
   return async (dispatch) => {
-    dispatch(softDeleteAdminsPending());
+    dispatch(changeStatusAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
         method: 'PUT',
@@ -54,14 +54,14 @@ export const softDeleteAdmin = (id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          active: false
+          active: status
         })
       });
       const res = await response.json();
-      dispatch(softDeleteAdminsSuccess(res.data));
+      dispatch(changeStatusAdminsSuccess(res.data));
       return { error: false, message: res.message };
     } catch (error) {
-      dispatch(softDeleteAdminsError(error.toString()));
+      dispatch(changeStatusAdminsError(error.toString()));
       console.error(error);
       return { error: true, message: error };
     }
@@ -115,7 +115,8 @@ export const editAdmin = (admin, _id) => {
           firstName: admin.firstName,
           lastName: admin.lastName,
           phone: admin.phone,
-          email: admin.email
+          email: admin.email,
+          active: true
         })
       });
       const res = await response.json();

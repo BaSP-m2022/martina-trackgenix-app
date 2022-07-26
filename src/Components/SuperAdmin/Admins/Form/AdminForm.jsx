@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Input from 'Components/Shared/Field/Input';
-import RadioButton from 'Components/Shared/Field/RadioButton';
 import Button from 'Components/Shared/Buttons/Buttons';
 import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
 
@@ -21,14 +20,11 @@ const adminSchema = Joi.object({
     .required(),
   password: Joi.string()
     .min(8)
-    .required()
+    .optional()
     .regex(/^(?=.*?\d)(?=.*?[a-zA-Z])[a-zA-Z\d]+$/)
     .messages({
       'string.pattern.base': 'Password must contain letters and numbers'
-    }),
-  active: Joi.boolean().required().messages({
-    'boolean.base': 'You must select an option'
-  })
+    })
 });
 const AdminForm = ({
   showForm,
@@ -56,8 +52,7 @@ const AdminForm = ({
       firstName: previousAdmin.firstName,
       lastName: previousAdmin.lastName,
       phone: previousAdmin.phone,
-      email: previousAdmin.email,
-      active: previousAdmin.active
+      email: previousAdmin.email
     }
   });
 
@@ -67,8 +62,7 @@ const AdminForm = ({
       firstName: '',
       lastName: '',
       phone: '',
-      email: '',
-      active: false
+      email: ''
     });
   };
 
@@ -133,25 +127,20 @@ const AdminForm = ({
           register={register}
           error={errors.email?.message}
         />
-        <Input
-          type={'password'}
-          name={'password'}
-          label={'Password'}
-          register={register}
-          error={errors.password?.message}
-        />
-        <RadioButton
-          name="active"
-          label={'Active'}
-          valueOptions={[true, false]}
-          register={register}
-          error={errors.active?.message}
-        />
+        {!previousAdmin._id && (
+          <Input
+            type={'password'}
+            name={'password'}
+            label={'Password'}
+            register={register}
+            error={errors.password?.message}
+          />
+        )}
       </form>
       <div className={styles.button}>
         <Button onClick={closeForm}>Close</Button>
         <Button onClick={() => reset()}>Reset Form</Button>
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
       </div>
     </div>
   );

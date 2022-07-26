@@ -180,12 +180,6 @@ const SignUp = () => {
               <Button onClick={() => reset()}>Reset Form</Button>
             </div>
           </div>
-          <div>
-            <img
-              className={styles.imgConteiner}
-              src={`${process.env.PUBLIC_URL}/assets/images/Tgenix.png`}
-            />
-          </div>
         </section>
       )}
     </>

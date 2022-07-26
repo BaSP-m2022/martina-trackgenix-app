@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins, softDeleteAdmin } from 'redux/admins/thunks';
+import { getAdmins, changeStatus } from 'redux/admins/thunks';
 import Table from 'Components/Shared/Table/Table';
 import AdminForm from 'Components/SuperAdmin/Admins/Form/AdminForm';
 import Modal from 'Components/Shared/Modal/Modal';
@@ -25,8 +25,8 @@ const Admins = () => {
     firstName: '',
     lastName: '',
     phone: '',
-    email: '',
-    active: false
+    email: ''
+    /* active: false */
   });
 
   const listAdmins = useSelector((state) => state.admins.list);
@@ -35,8 +35,14 @@ const Admins = () => {
   const adminsSorted = listActiveAdmins.concat(listInactiveAdmins);
 
   const handleDelete = async (_id) => {
-    if (confirm('Are you sure you want to remove the Admin?')) {
-      dispatch(softDeleteAdmin(_id));
+    if (confirm('Are you sure you want disable this Admin?')) {
+      dispatch(changeStatus(_id, false));
+    }
+  };
+
+  const handleActive = async (_id) => {
+    if (confirm('Are you sure you want activate this Admin?')) {
+      dispatch(changeStatus(_id, true));
     }
   };
 
@@ -65,6 +71,7 @@ const Admins = () => {
             headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', '', '']}
             headers={['firstName', 'lastName', 'phone', 'email']}
             deleteItem={handleDelete}
+            activateItem={handleActive}
             editItem={handleEdit}
           />
           <Button onClick={() => setShowForm(true)}>Add New Admin</Button>
