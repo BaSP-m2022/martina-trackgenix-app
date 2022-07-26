@@ -80,8 +80,6 @@ const ProjectForm = ({
     }
   });
 
-  console.log('Previous project on form:', previousProject);
-
   const onSubmit = async (data) => {
     if (!previousProject._id) {
       try {
