@@ -22,7 +22,7 @@ const Profile = () => {
       .string()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_ ]*$/)
+      .regex(/^[a-zA-Z_ ]*$/)
       .messages({
         'string.pattern.base': 'First Name must contain only letters'
       })
@@ -31,7 +31,7 @@ const Profile = () => {
       .string()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_ ]*$/)
+      .regex(/^[a-zA-Z_ ]*$/)
       .messages({
         'string.pattern.base': 'Last Name must contain only letters'
       })
