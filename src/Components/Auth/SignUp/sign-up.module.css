@@ -7,6 +7,11 @@
   padding: 60px;
 }
 
+.container h2 {
+  color: #373867;
+  text-shadow: 2px 2px 4px #00000070;
+}
+
 .container label {
   text-align: start;
   color: #373867;

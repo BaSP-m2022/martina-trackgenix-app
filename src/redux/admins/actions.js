@@ -5,6 +5,9 @@ import {
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_ERROR,
+  CHANGE_STATUS_ADMINS_PENDING,
+  CHANGE_STATUS_ADMINS_SUCCESS,
+  CHANGE_STATUS_ADMINS_ERROR,
   ADD_ADMIN_PENDING,
   ADD_ADMIN_SUCCESS,
   ADD_ADMIN_ERROR,
@@ -37,6 +40,19 @@ export const deleteAdminSuccess = (adminId) => ({
 
 export const deleteAdminError = () => ({
   type: DELETE_ADMIN_ERROR
+});
+
+export const changeStatusAdminsPending = () => ({
+  type: CHANGE_STATUS_ADMINS_PENDING
+});
+
+export const changeStatusAdminsSuccess = (adminId) => ({
+  type: CHANGE_STATUS_ADMINS_SUCCESS,
+  payload: adminId
+});
+
+export const changeStatusAdminsError = () => ({
+  type: CHANGE_STATUS_ADMINS_ERROR
 });
 
 export const addAdminPending = () => ({

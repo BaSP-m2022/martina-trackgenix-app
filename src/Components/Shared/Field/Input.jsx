@@ -11,10 +11,13 @@ const Input = ({ type, name, label, register, valueOptions, error, disabled }) =
             name={name}
             {...register(name)}
             className={error ? styles.errorRed : styles.input}
+            disabled={disabled && disabled}
           >
             {valueOptions.map((item) => (
               <option key={item._id} value={item._id}>
-                {item._id} - {item.first_name || item.project_name || item.description}
+                {item.first_name
+                  ? item.first_name + ' ' + item.last_name
+                  : item.project_name || item.description}
               </option>
             ))}
           </select>

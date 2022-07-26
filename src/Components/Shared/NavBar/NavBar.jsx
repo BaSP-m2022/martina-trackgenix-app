@@ -1,4 +1,4 @@
-import { Link, useHistory, withRouter } from 'react-router-dom';
+import { Link, useHistory, withRouter, useRouteMatch } from 'react-router-dom';
 import { Button } from '..';
 import styles from './navBar.module.css';
 import { useDispatch } from 'react-redux';
@@ -16,10 +16,10 @@ const NavBar = (props) => {
       history.push('/home');
     }
   };
-
+  const { url } = useRouteMatch();
   return (
     <nav className={styles.navbar}>
-      <Link to="/home" className={styles.homeContainer}>
+      <Link to={`${url}/home`} className={styles.homeContainer}>
         <img className={styles.logoGreen} src={logoGreen} />
         <p className={styles.appName}>TrackGenix</p>
       </Link>
