@@ -76,10 +76,10 @@ const Projects = () => {
   });
 
   const handleDelete = async (id) => {
-    if (confirm('Are you sure you want to remove this Project?')) {
+    if (confirm('Are you sure you want to disable this project?')) {
       const responseProject = await dispatch(changeStatus(id, false));
       if (!responseProject.error) {
-        setTitleModal('Project deleted successfully');
+        setTitleModal('Project disabled successfully');
         setShowModal(true);
         dispatch(getProjects());
       }
@@ -87,7 +87,7 @@ const Projects = () => {
   };
 
   const activateProject = async (id) => {
-    if (confirm('Are you sure you want to activate this Project?')) {
+    if (confirm('Are you sure you want activate this Project?')) {
       const responseProject = await dispatch(changeStatus(id, true));
       if (!responseProject.error) {
         setTitleModal('Project activated successfully');
