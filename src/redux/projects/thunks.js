@@ -37,10 +37,10 @@ export const addProject = (project, employees) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
+          start_date: project.start_date,
+          finish_date: project.finish_date,
           active: true,
           employees
         })
@@ -85,10 +85,10 @@ export const editProject = (project, id, employees) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
+          start_date: project.start_date,
+          finish_date: project.finish_date,
           employees
         })
       });

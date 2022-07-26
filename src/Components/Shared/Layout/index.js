@@ -23,7 +23,6 @@ const Layout = (props) => {
           <Footer props={routes} />
         </div>
       )}
-      ;
     </>
   );
 };
