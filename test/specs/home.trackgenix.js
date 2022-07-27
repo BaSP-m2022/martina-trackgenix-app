@@ -30,34 +30,28 @@ describe('Home page testing', () => {
     await expect(HomePage.twitterSocialRed).toHaveAttribute('href', false);
     await expect(HomePage.instagramSocialRed).toHaveAttribute('href', false);
   });
-  /*it('Wait for bodyHome: container', async () => {
-    await expect(HomePage.bodyHome).toBeDisplayed();
+  it('Wait for nav: logo, trackgenix, rutes', async () => {
+    await expect(HomePage.nav).toBeDisplayed();
+    //logo:
+    /* await expect(HomePage.nav).toHaveAttrContaining('src', '/static/media/logoGreen.e4507c32.png'); */
+    await expect(HomePage.navTitle).toHaveText('TrackGENIX');
+    await expect(HomePage.navRutes).toBeDisplayed();
+    await expect(HomePage.navFirstRute).toHaveText('Login');
+    await expect(HomePage.navSecondRute).toHaveText('Sign Up');
+  });
+  it('Nav btns to be clickable', async () => {
+    await expect(HomePage.navTitle).toBeClickable();
+    await expect(HomePage.navFirstRute).toBeClickable();
+    await expect(HomePage.navSecondRute).toBeClickable();
+  });
+  it('Wait for bodyHome: Wellcome', async () => {
     await expect(HomePage.containerHome).toBeDisplayed();
-    await expect(HomePage.employeeBtn).toBeDisplayed();
-    await expect(HomePage.superAdminBtn).toBeDisplayed();
-    await expect(HomePage.registerBtn).toBeDisplayed();
+    await expect(HomePage.wellcome).toBeDisplayed();
+    //logo:
+    /* await expect(HomePage.logoTrackgenix).toHaveAttrContaining('src', '/static/media/logoTrackgenix.22b0790b.png'); */
   });
-  it('Container btn to be clickable', async () => {
-    await expect(HomePage.employeeBtn).toBeClickable();
-    await expect(HomePage.superAdminBtn).toBeClickable();
-    await expect(HomePage.registerBtn).toBeClickable();
-  });
-  it('container btn must have your href', async () => {
-    await expect(HomePage.employeeBtn).toHaveAttribute('href', false);
-    await expect(HomePage.superAdminBtn).toHaveAttribute('href', false);
-    await expect(HomePage.registerBtn).toHaveAttribute('href', false);
-  });
-  it('Wait for title for each btn to container', async () => {
-    await expect(HomePage.employeeBtn).toHaveText('Employee');
-    await expect(HomePage.superAdminBtn).toHaveText('Super Admin');
-    await expect(HomePage.registerBtn).toHaveText('Register');
-  });
-  it('Wait for footer, in progress', async () => {
+  it('Wait for footer', async () => {
     await expect(HomePage.footer).toBeDisplayed();
-  });
-  it('Display the registration page after clicking register', async () => {
-    HomePage.clickRegister();
-    await browser.url('https://martina-trackgenix-app.vercel.app/employee/sign-up');
   });
   it('I wait for the facebook page when I click on the icon', async () => {
     HomePage.clickFacebook();
@@ -70,5 +64,5 @@ describe('Home page testing', () => {
   it('I wait for the instagram page when I click on the icon', async () => {
     HomePage.clickInstagram();
     await browser.url('https://www.instagram.com/radium.rocket/');
-  }); */
+  });
 });

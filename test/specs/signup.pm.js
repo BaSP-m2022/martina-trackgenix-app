@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-const HomePage = require('../pageobjects/home.page');
-const SignupEmployee = require('../pageobjects/signup.employee');
-
+/* const HomePage = require('../pageobjects/home.page');
+const SignupEmployee = require('../pageobjects/signup.employee'); */
+/*
 describe('Sign up testing', () => {
   beforeAll('open browser', () => {
     browser.url('https://martina-trackgenix-app.vercel.app/employee/sign-up');
@@ -134,4 +134,4 @@ describe('Sign up testing', () => {
     await SignupEmployee.clickDeleteEmployee();
     browser.acceptAlert();
   });
-});
+}); */

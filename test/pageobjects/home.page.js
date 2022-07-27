@@ -27,23 +27,32 @@ class homePage {
   get imgInstagram() {
     return $('#root > div > div > header > div > div:nth-child(2) > a:nth-child(3) > img');
   }
-  get bodyHome() {
-    return $('#root > div > section');
+  get nav() {
+    return $('#root > div > div > nav');
+  }
+  get navTitle() {
+    return $('#root > div > div > nav > a > p');
+  }
+  get navRutes() {
+    return $('#root > div > div > nav > ul');
+  }
+  get navFirstRute() {
+    return $('#root > div > div > nav > ul > li:nth-child(1) > a');
+  }
+  get navSecondRute() {
+    return $('#root > div > div > nav > ul > li:nth-child(2) > a');
   }
   get containerHome() {
     return $('#root > div > section > div');
   }
-  get employeeBtn() {
-    return $('#root > div > section > div > a:nth-child(2)');
+  get wellcome() {
+    return $('#root > div > section > div > h2');
   }
-  get superAdminBtn() {
-    return $('#root > div > section > div > a:nth-child(3)');
-  }
-  get registerBtn() {
-    return $('#root > div > section > div > a:nth-child(4)');
+  get logoTrackgenix() {
+    return $('#root > div > section > div > img');
   }
   get footer() {
-    return $('.footer_license__1FrkS');
+    return $('#root > div > footer');
   }
   async clickFacebook() {
     await this.facebookSocialRed.click();
