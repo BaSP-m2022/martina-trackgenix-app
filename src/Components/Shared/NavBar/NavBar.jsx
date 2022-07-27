@@ -23,20 +23,22 @@ const NavBar = (props) => {
         <img className={styles.logoGreen} src={logoGreen} />
         <p className={styles.appName}>TrackGenix</p>
       </Link>
-      <ul className={styles.rutes}>
-        {props.routes.map((route) => {
-          return (
-            <li key={route.name}>
-              <Link to={route.path}>{route.name}</Link>
-            </li>
-          );
-        })}
-      </ul>
-      {props.logout && (
-        <Button width={'100px'} height={'25px'} onClick={onClick}>
-          Log Out
-        </Button>
-      )}
+      <div className={styles.options}>
+        <ul className={styles.rutes}>
+          {props.routes.map((route) => {
+            return (
+              <li key={route.name}>
+                <Link to={route.path}>{route.name}</Link>
+              </li>
+            );
+          })}
+        </ul>
+        {props.logout && (
+          <Button width={'100px'} height={'25px'} onClick={onClick}>
+            Log Out
+          </Button>
+        )}
+      </div>
     </nav>
   );
 };

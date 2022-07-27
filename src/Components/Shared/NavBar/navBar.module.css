@@ -1,8 +1,9 @@
 .navbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    height: 70px;
+    height: 100%;
     width: 100%;
     background-color: #373867;
 }
@@ -15,7 +16,7 @@
     text-decoration: none;
 }
 .logoGreen {
-    height: 50%;
+    max-height: 50px;
     margin-right: 15px;
 }
 .appName {
@@ -24,10 +25,16 @@
     color: #AACE9B
 }
 
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .rutes {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 40px;
     list-style-type: none;
     height: 100%;
 }
@@ -45,10 +52,11 @@
     color: #619e48;
 }
 
+
 /* .rutes > li > a:active {
     border-bottom: 1px solid #fff;
 } */
-/* 
+/*
 @media screen and (min-width: 750px) {
     .navbar {
       padding: 0 20%;
