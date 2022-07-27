@@ -4,8 +4,6 @@ import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import { Layout, Loader } from 'Components/Shared';
 import Home from 'Components/Home/Home';
 
-// const Home = lazy(() => import('Components/Home'));
-
 const homeRoutes = [
   { path: '/auth/login', name: 'Login' },
   { path: '/auth/sign-up', name: 'Sign Up' }

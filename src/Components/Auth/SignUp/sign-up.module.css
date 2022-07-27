@@ -64,11 +64,15 @@
   text-shadow: 2px 2px 4px #00000070;
 }
 
-.anchor:hover{
+.anchor {
+  text-decoration: none;
+}
+
+.anchor:hover {
   color: #4346f3;
   font-weight: bold;
 }
 
-.anchor:active{
+.anchor:active {
   color: #ff0000;
 }

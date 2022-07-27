@@ -98,13 +98,12 @@ const LogInForm = () => {
           </div>
         </form>
         <div className={styles.containerButtons}>
-          {/* <Button onClick={() => history.push('/home')}>Close</Button> */}
           <Button onClick={handleSubmit(onSubmit)}>Login</Button>
         </div>
         <div className={styles.parLog}>
           <p>
             You do not have an account?
-            <a className={styles.anchor} onClick={() => history.push('/auth/sign-up')}>
+            <a className={styles.anchor} href="/auth/sign-up">
               {' '}
               Register now!
             </a>

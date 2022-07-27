@@ -166,13 +166,11 @@ const SignUp = () => {
               </div>
               <div className={styles.containerButtons}>
                 <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-                {/* <Button onClick={() => history.push('/home')}>Close</Button>
-                <Button onClick={() => reset()}>Reset Form</Button> */}
               </div>
               <div className={styles.parLog}>
                 <p>
                   Do you already have an account?
-                  <a className={styles.anchor} onClick={() => history.push('/auth/login')}>
+                  <a className={styles.anchor} href="/auth/login">
                     {' '}
                     Log in now!
                   </a>
