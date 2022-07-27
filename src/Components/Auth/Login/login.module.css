@@ -49,7 +49,7 @@
 
 .containerButtons {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   flex-wrap: wrap;
   width: auto;

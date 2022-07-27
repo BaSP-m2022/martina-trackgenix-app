@@ -1,10 +1,11 @@
 import { Link, withRouter } from 'react-router-dom';
 import styles from './footer.module.css';
+import logoGreen from 'Assets/Imgs/logoGreen.png';
 
 const Footer = ({ props }) => {
   return (
     <footer className={styles.container}>
-      <div className={styles.main}>
+      <div>
         <ul className={styles.rutes}>
           {props.map((route) => {
             return (
@@ -14,8 +15,11 @@ const Footer = ({ props }) => {
             );
           })}
         </ul>
+      </div>
+      <div className={styles.main}>
+        <img className={styles.logoGreen} src={logoGreen} />
         <div className={styles.appName}>
-          Track<span>GENIX</span>
+          Track<span>Genix</span>
         </div>
       </div>
       <div className={styles.license}>
