@@ -81,7 +81,6 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        // Update TASKS list
         list: state.list.map((a) => {
           if (a._id === action.payload._id) {
             return action.payload;
