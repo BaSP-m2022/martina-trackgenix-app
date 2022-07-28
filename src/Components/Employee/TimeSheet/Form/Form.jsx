@@ -7,8 +7,7 @@ import { addTimeSheet, editTimeSheet } from 'redux/timeSheets/thunks';
 import { getProjects } from 'redux/projects/thunks';
 import { getTasks } from 'redux/tasks/thunks';
 import styles from 'Components/Employee/TimeSheet/Form/form.module.css';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Input from 'Components/Shared/Field/Input';
+import { Input, Button } from 'Components/Shared';
 import moment from 'moment';
 
 const Form = ({
@@ -192,7 +191,7 @@ const Form = ({
             </div>
           </form>
           <div className={styles.button}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
           </div>
         </div>
       ) : (
@@ -244,7 +243,7 @@ const Form = ({
             </div>
           </form>
           <div className={styles.button}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
           </div>
         </div>
       )}

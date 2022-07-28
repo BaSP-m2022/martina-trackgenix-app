@@ -24,8 +24,8 @@ const SignUp = () => {
       .max(30)
       .messages({
         'string.pattern.base': 'First Name must contain only letters',
-        'string.min': 'The name is too short',
-        'string.max': 'The name is too long',
+        'string.min': 'First name is too short',
+        'string.max': 'First name is too long',
         'string.empty': 'This field is required'
       })
       .required(),
@@ -37,7 +37,7 @@ const SignUp = () => {
       .messages({
         'string.pattern.base': 'Last Name must contain only letters',
         'string.min': 'Last name is too short',
-        'string.max': 'The last name is too long',
+        'string.max': 'Last name is too long',
         'string.empty': 'This field is required'
       })
       .required(),
@@ -179,7 +179,7 @@ const SignUp = () => {
                 />
               </div>
               <div className={styles.containerButtons}>
-                <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+                <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
               </div>
               <div className={styles.parLog}>
                 <p>

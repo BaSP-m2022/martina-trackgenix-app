@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from 'Components/Employee/TimeSheet/timesheets.module.css';
-import Modal from 'Components/Shared/Modal/Modal';
+import { Loader, Button, Modal } from 'Components/Shared';
 import Form from 'Components/Employee/TimeSheet/Form/Form';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Loader from 'Components/Shared/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
 import {

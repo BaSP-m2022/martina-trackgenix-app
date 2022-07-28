@@ -97,7 +97,7 @@ const Projects = () => {
           />
           {isPM && (
             <div className={styles.containerButtons}>
-              <Button onClick={() => setShowTaskList(true)}>ABM Tasks</Button>
+              <Button onClick={() => setShowTaskList(true)}>View Tasks</Button>
             </div>
           )}
           <Tasks

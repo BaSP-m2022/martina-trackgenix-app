@@ -98,7 +98,7 @@ const FormTasks = ({
         </form>
         <div className={styles.containerButtons}>
           <Button onClick={handleSubmit(onSubmit)} width={'100px'} height={'30px'}>
-            Submit
+            Confirm
           </Button>
         </div>
       </div>

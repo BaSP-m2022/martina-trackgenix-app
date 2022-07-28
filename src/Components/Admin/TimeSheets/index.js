@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from 'Components/Admin/TimeSheets/time-sheets.module.css';
 import List from 'Components/Admin/TimeSheets/List/List.jsx';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Loader from 'Components/Shared/Loader/Loader';
-import Modal from 'Components/Shared/Modal/Modal';
+import { Loader, Button, Modal } from 'Components/Shared';
 import FormTimeSheet from 'Components/Admin/TimeSheets/Form/FormTimeSheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
@@ -50,7 +48,7 @@ const TimeSheets = () => {
             previousTimeSheet={previousTimeSheet}
             setPreviousTimeSheet={setPreviousTimeSheet}
           />
-          <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button>
+          <Button onClick={() => setShowForm(true)}>Add TimeSheet</Button>
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>
