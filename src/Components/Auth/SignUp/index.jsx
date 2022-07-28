@@ -24,8 +24,8 @@ const SignUp = () => {
       .max(30)
       .messages({
         'string.pattern.base': 'First Name must contain only letters',
-        'string.min': 'The name is too short',
-        'string.max': 'The name is too long',
+        'string.min': 'First name is too short',
+        'string.max': 'First name is too long',
         'string.empty': 'This field is required'
       })
       .required(),
@@ -37,7 +37,7 @@ const SignUp = () => {
       .messages({
         'string.pattern.base': 'Last Name must contain only letters',
         'string.min': 'Last name is too short',
-        'string.max': 'The last name is too long',
+        'string.max': 'Last name is too long',
         'string.empty': 'This field is required'
       })
       .required(),
@@ -66,6 +66,12 @@ const SignUp = () => {
         'string.empty': 'This field is required',
         'string.min': 'Password is too short'
       }),
+    rPassword: joi
+      .any()
+      .equal(joi.ref('password'))
+      .required()
+      .label('Confirm password')
+      .messages({ 'any.only': 'Password does not match' }),
     active: joi.boolean().required()
   });
 
@@ -163,8 +169,17 @@ const SignUp = () => {
                   error={errors.password?.message}
                 />
               </div>
+              <div className={styles.containerInput}>
+                <Input
+                  type={'password'}
+                  name={'rPassword'}
+                  label={'Repeat Password'}
+                  register={register}
+                  error={errors.rPassword?.message}
+                />
+              </div>
               <div className={styles.containerButtons}>
-                <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+                <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
               </div>
               <div className={styles.parLog}>
                 <p>

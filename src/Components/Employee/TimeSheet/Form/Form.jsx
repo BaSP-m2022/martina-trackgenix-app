@@ -7,8 +7,7 @@ import { addTimeSheet, editTimeSheet } from 'redux/timeSheets/thunks';
 import { getProjects } from 'redux/projects/thunks';
 import { getTasks } from 'redux/tasks/thunks';
 import styles from 'Components/Employee/TimeSheet/Form/form.module.css';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Input from 'Components/Shared/Field/Input';
+import { Input, Button } from 'Components/Shared';
 import moment from 'moment';
 
 const Form = ({
@@ -138,12 +137,16 @@ const Form = ({
       timesheetDate: ''
     });
     setShowForm(false);
+    reset();
   };
 
   return (
     <div className={styles.container}>
       {previousTimeSheet._id != undefined ? (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Time-sheet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.input}>
@@ -188,13 +191,14 @@ const Form = ({
             </div>
           </form>
           <div className={styles.button}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
           </div>
         </div>
       ) : (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Time-sheet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.input}>
@@ -239,9 +243,7 @@ const Form = ({
             </div>
           </form>
           <div className={styles.button}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './row.module.css';
-import Button from '../Buttons/Buttons';
+import { Button } from '..';
 
 const Row = ({ data, headers, deleteItem, editItem, activateItem, viewMore, inactive }) => {
   return (

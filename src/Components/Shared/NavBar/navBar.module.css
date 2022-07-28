@@ -1,27 +1,42 @@
 .navbar {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-around;
     align-items: center;
-    min-height: 100px;
+    height: 100%;
+    width: 100%;
     background-color: #373867;
 }
 
 .homeContainer {
-    align-self: center;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
     text-decoration: none;
 }
-
+.logoGreen {
+    max-height: 50px;
+    margin-right: 15px;
+}
 .appName {
     font-size: 2rem;
     font-weight: bold;
     color: #AACE9B
 }
 
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .rutes {
     display: flex;
-    flex-wrap: wrap;
     justify-content: flex-end;
+    align-items: center;
+    margin-right: 40px;
     list-style-type: none;
+    height: 100%;
 }
 
 .rutes > li > a {
@@ -37,12 +52,13 @@
     color: #619e48;
 }
 
-.rutes > li > a:active {
-    border-bottom: 1px solid #fff;
-}
 
+/* .rutes > li > a:active {
+    border-bottom: 1px solid #fff;
+} */
+/*
 @media screen and (min-width: 750px) {
     .navbar {
       padding: 0 20%;
     }
-  }
+  } */

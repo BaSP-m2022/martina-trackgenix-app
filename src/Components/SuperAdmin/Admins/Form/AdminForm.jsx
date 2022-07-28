@@ -4,8 +4,7 @@ import { addAdmin, editAdmin } from 'redux/admins/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
+import { Input, Button } from 'Components/Shared';
 import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
 
 const adminSchema = Joi.object({
@@ -57,7 +56,6 @@ const AdminForm = ({
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -112,6 +110,9 @@ const AdminForm = ({
   return (
     <div className={styles.container}>
       <div className={styles.containerForm}>
+        <div onClick={closeForm} className={styles.btnX}>
+          X
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           {!previousAdmin._id ? <h2>Add a new admin</h2> : <h2>Edit admin</h2>}
           <div className={styles.containerInput}>
@@ -164,8 +165,6 @@ const AdminForm = ({
         </form>
         <div className={styles.containerButtons}>
           <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-          <Button onClick={() => reset()}>Reset form</Button>
-          <Button onClick={closeForm}>Close</Button>
         </div>
       </div>
     </div>

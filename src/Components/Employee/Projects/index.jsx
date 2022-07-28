@@ -18,6 +18,7 @@ const Projects = () => {
   const isLoading = useSelector((state) => state.projects.isLoading);
   const user = useSelector((state) => state.auth.user);
   const listProject = useSelector((state) => state.projects.list);
+  const listEmployees = useSelector((state) => state.employees.list);
 
   const [showForm, setShowForm] = useState(false);
   const [showTaskList, setShowTaskList] = useState(false);
@@ -46,6 +47,8 @@ const Projects = () => {
       return project.employees.find((employee) => employee.id._id == user._id);
     }
   });
+
+  const employeeFound = listEmployees.find((item) => item?._id === user?._id);
 
   const projectData = listProjectEmployee.map((project) => {
     let role;
@@ -78,7 +81,7 @@ const Projects = () => {
       ) : (
         <section className={styles.container}>
           <Table
-            title={`${user.first_name} ${user.last_name}'S PROJECTS`}
+            title={`${employeeFound?.first_name} ${employeeFound?.last_name}'S PROJECTS`}
             data={projectData}
             headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
             headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}
@@ -94,7 +97,7 @@ const Projects = () => {
           />
           {isPM && (
             <div className={styles.containerButtons}>
-              <Button onClick={() => setShowTaskList(true)}>ABM Tasks</Button>
+              <Button onClick={() => setShowTaskList(true)}>View Tasks</Button>
             </div>
           )}
           <Tasks

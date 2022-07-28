@@ -53,7 +53,7 @@ const EmployeeForm = ({
   const onSubmit = async (data) => {
     if (members.find((member) => member.id == data.id)) {
       setShowModal(true);
-      setTitleModal('This employee is already assigned to this project, please select another');
+      setTitleModal('This employee is already assigned to this project, please select another one');
     } else {
       const employeeFound = listEmployees.find((employee) => employee._id == data.id);
       setMembers([
@@ -72,6 +72,9 @@ const EmployeeForm = ({
   return (
     <div className={styles.container}>
       <div className={styles.containerForm}>
+        <div onClick={() => setShowEmployeeForm(false)} className={styles.btnX}>
+          X
+        </div>
         <h2>Add employees</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.containerInput}>
@@ -104,8 +107,9 @@ const EmployeeForm = ({
             />
           </div>
           <div className={styles.containerButtons}>
-            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-            <Button onClick={() => setShowEmployeeForm(false)}>Close</Button>
+            <Button onClick={handleSubmit(onSubmit)} width={'100px'} height={'40px'}>
+              Confirm
+            </Button>
           </div>
         </form>
       </div>

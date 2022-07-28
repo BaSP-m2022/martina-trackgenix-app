@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const HomePage = require('../pageobjects/home.page');
 const Login = require('../pageobjects/login');
-const SuperAdmin = require('../pageobjects/super.admin');
+/* const SuperAdmin = require('../pageobjects/super.admin'); */
 
 describe('Test login Super Admin', () => {
   beforeAll('Open browser', () => {
@@ -31,10 +31,8 @@ describe('Test login Super Admin', () => {
     await expect(HomePage.twitterSocialRed).toHaveAttribute('href', false);
     await expect(HomePage.instagramSocialRed).toHaveAttribute('href', false);
   });
-  it('Wait for nav: logo, trackgenix, rutes', async () => {
+  /* it('Wait for nav: logo, trackgenix, rutes', async () => {
     await expect(HomePage.nav).toBeDisplayed();
-    //logo:
-    /* await expect(HomePage.nav).toHaveAttrContaining('src', '/static/media/logoGreen.e4507c32.png'); */
     await expect(HomePage.navTitle).toHaveText('TrackGENIX');
     await expect(HomePage.navRutes).toBeDisplayed();
     await expect(HomePage.navFirstRute).toHaveText('Login');
@@ -44,7 +42,9 @@ describe('Test login Super Admin', () => {
     await expect(HomePage.navTitle).toBeClickable();
     await expect(HomePage.navFirstRute).toBeClickable();
     await expect(HomePage.navSecondRute).toBeClickable();
-  });
+  }); */
+  //logo:
+  /* await expect(HomePage.nav).toHaveAttrContaining('src', '/static/media/logoGreen.e4507c32.png'); */
   it('Wait for bodyHome: title, input and btns', async () => {
     await expect(Login.form).toBeDisplayed();
     await expect(Login.formTitle).toHaveText('Login');
@@ -89,7 +89,7 @@ describe('Test login Super Admin', () => {
   it('the user successfully logged in', async () => {
     await Login.register('roberto@gmail.com', 'asdasd123');
   });
-  it('the nav should display the paths and tobe clickable', async () => {
+  /* it('the nav should display the paths and tobe clickable', async () => {
     await expect(HomePage.navTitle).toBeClickable();
     await expect(HomePage.navFirstRute).toBeClickable();
     await expect(HomePage.navSecondRute).toBeClickable();
@@ -102,7 +102,6 @@ describe('Test login Super Admin', () => {
     await expect(HomePage.navThirtRute).toHaveText('Employees');
     await expect(HomePage.btnLogOut).toHaveText('Log Out');
   });
-  //test home img
   it('go to the admins list', async () => {
     await HomePage.clickAdmins();
   });
@@ -121,5 +120,5 @@ describe('Test login Super Admin', () => {
     await expect(SuperAdmin.phoneColumn).toHaveText('Phone');
     await expect(SuperAdmin.emailColumn).toBeDisplayed;
     await expect(SuperAdmin.emailColumn).toHaveText('Email');
-  });
+  }); */
 });

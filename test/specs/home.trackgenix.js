@@ -30,10 +30,8 @@ describe('Home page testing', () => {
     await expect(HomePage.twitterSocialRed).toHaveAttribute('href', false);
     await expect(HomePage.instagramSocialRed).toHaveAttribute('href', false);
   });
-  it('Wait for nav: logo, trackgenix, rutes', async () => {
+  /* it('Wait for nav: logo, trackgenix, rutes', async () => {
     await expect(HomePage.nav).toBeDisplayed();
-    //logo:
-    /* await expect(HomePage.nav).toHaveAttrContaining('src', '/static/media/logoGreen.e4507c32.png'); */
     await expect(HomePage.navTitle).toHaveText('TrackGENIX');
     await expect(HomePage.navRutes).toBeDisplayed();
     await expect(HomePage.navFirstRute).toHaveText('Login');
@@ -43,7 +41,7 @@ describe('Home page testing', () => {
     await expect(HomePage.navTitle).toBeClickable();
     await expect(HomePage.navFirstRute).toBeClickable();
     await expect(HomePage.navSecondRute).toBeClickable();
-  });
+  }); */
   it('Wait for bodyHome: Wellcome', async () => {
     await expect(HomePage.containerHome).toBeDisplayed();
     await expect(HomePage.wellcome).toBeDisplayed();

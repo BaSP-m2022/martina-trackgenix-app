@@ -24,15 +24,7 @@
 }
 
 .button:hover .text {
-    font-weight: bolder;
-}
-
-.button:focus {
-  background: #3738671a;
-}
-
-.button:focus .text {
-  color: #37386766;
+  font-weight: bolder;
 }
 
 .button:active {
