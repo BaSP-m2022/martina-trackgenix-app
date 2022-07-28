@@ -27,7 +27,6 @@ const FormTasks = ({
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -80,21 +79,28 @@ const FormTasks = ({
   return (
     <div className={styles.container}>
       <div className={styles.containerForm}>
+        <div onClick={closeForm} className={styles.btnX}>
+          X
+        </div>
         <form>
           <div>
             <h2>Task Description</h2>
-            <Input
-              type={'text'}
-              label={'Description: '}
-              name={'description'}
-              register={register}
-              error={errors.description?.message}
-            />
+            <div className={styles.containerInput}>
+              <Input
+                type={'text'}
+                label={'Description: '}
+                name={'description'}
+                register={register}
+                error={errors.description?.message}
+              />
+            </div>
           </div>
         </form>
-        <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-        <Button onClick={() => reset()}>Reset Form</Button>
-        <Button onClick={closeForm}>Close</Button>
+        <div className={styles.containerButtons}>
+          <Button onClick={handleSubmit(onSubmit)} width={'100px'} height={'30px'}>
+            Confirm
+          </Button>
+        </div>
       </div>
     </div>
   );

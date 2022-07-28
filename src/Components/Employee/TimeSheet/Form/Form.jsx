@@ -137,12 +137,16 @@ const Form = ({
       timesheetDate: ''
     });
     setShowForm(false);
+    reset();
   };
 
   return (
     <div className={styles.container}>
       {previousTimeSheet._id != undefined ? (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Time-sheet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.input}>
@@ -188,12 +192,13 @@ const Form = ({
           </form>
           <div className={styles.button}>
             <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
           </div>
         </div>
       ) : (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Time-sheet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.input}>
@@ -239,8 +244,6 @@ const Form = ({
           </form>
           <div className={styles.button}>
             <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
           </div>
         </div>
       )}

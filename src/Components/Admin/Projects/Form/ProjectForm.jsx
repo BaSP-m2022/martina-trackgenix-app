@@ -170,12 +170,16 @@ const ProjectForm = ({
       ]
     });
     setShowForm(false);
+    reset();
   };
 
   return (
     <div className={styles.container}>
       {previousProject._id && previousProject.active == false ? (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Project Form</h2>
           <div>This project has been deactivated</div>
           <form>
@@ -244,12 +248,12 @@ const ProjectForm = ({
               </tbody>
             </table>
           </div>
-          <div className={styles.containerButtons}>
-            <Button onClick={closeForm}>Close</Button>
-          </div>
         </div>
       ) : (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Project Form</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.containerInput}>
@@ -359,8 +363,6 @@ const ProjectForm = ({
           </div>
           <div className={styles.containerButtons}>
             <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
           </div>
         </div>
       )}
