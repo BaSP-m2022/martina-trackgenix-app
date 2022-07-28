@@ -1,0 +1,58 @@
+.container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  background-color: #00000070;
+}
+
+.container h2 {
+  width: 100%;
+  text-align: center;
+  color: #373867;
+  text-shadow: 2px 2px 4px #00000070;
+}
+
+.container label {
+  color: #373867;
+  font-weight: 500;
+}
+
+.containerForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  background-color: #f0f4f9;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.containerForm form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  gap: 20px;
+}
+
+.containerInput {
+  width: 44%;
+  margin: 0 5px;
+}
+
+.containerButtons {
+  display: flex;
+  width: 75%;
+  gap: 40px;
+  margin: 30px 0;
+}
+

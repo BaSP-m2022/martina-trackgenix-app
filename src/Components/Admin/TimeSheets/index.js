@@ -56,7 +56,6 @@ const TimeSheets = () => {
           </Modal>
         </section>
       )}
-      ;
     </>
   );
 };

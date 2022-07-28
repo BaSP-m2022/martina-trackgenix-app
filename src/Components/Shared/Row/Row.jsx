@@ -2,23 +2,59 @@ import React from 'react';
 import styles from './row.module.css';
 import Button from '../Buttons/Buttons';
 
-const Row = ({ data, headers, deleteItem, editItem }) => {
+const Row = ({ data, headers, deleteItem, editItem, activateItem, viewMore, inactive }) => {
   return (
-    <tr className={styles.tr} key={data._id}>
-      {headers.map((header, index) => {
-        return <td key={index}>{data[header]}</td>;
-      })}
-      <td>
-        <Button onClick={editItem} width={'55px'}>
-          &#9998;
-        </Button>
-      </td>
-      <td>
-        <Button onClick={deleteItem} width={'55px'}>
-          X
-        </Button>
-      </td>
-    </tr>
+    <>
+      {inactive ? (
+        <tr className={styles.inactive} key={data._id}>
+          {headers.map((header, index) => {
+            return (
+              <td key={index} onClick={viewMore}>
+                {data[header]}
+              </td>
+            );
+          })}
+          {editItem && (
+            <td>
+              <Button onClick={editItem} width={'55px'}>
+                &#9998;
+              </Button>
+            </td>
+          )}
+          {activateItem && (
+            <td>
+              <Button onClick={activateItem} width={'55px'}>
+                &#10004;
+              </Button>
+            </td>
+          )}
+        </tr>
+      ) : (
+        <tr className={styles.tr} key={data._id}>
+          {headers.map((header, index) => {
+            return (
+              <td key={index} onClick={viewMore}>
+                {data[header]}
+              </td>
+            );
+          })}
+          {editItem && (
+            <td>
+              <Button onClick={editItem} width={'55px'}>
+                &#9998;
+              </Button>
+            </td>
+          )}
+          {deleteItem && (
+            <td>
+              <Button onClick={deleteItem} width={'55px'}>
+                X
+              </Button>
+            </td>
+          )}
+        </tr>
+      )}
+    </>
   );
 };
 

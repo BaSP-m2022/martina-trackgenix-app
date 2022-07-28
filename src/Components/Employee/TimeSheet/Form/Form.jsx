@@ -9,6 +9,7 @@ import { getTasks } from 'redux/tasks/thunks';
 import styles from 'Components/Employee/TimeSheet/Form/form.module.css';
 import Button from 'Components/Shared/Buttons/Buttons';
 import Input from 'Components/Shared/Field/Input';
+import moment from 'moment';
 
 const Form = ({
   showForm,
@@ -27,7 +28,9 @@ const Form = ({
   const schema = Joi.object({
     project: Joi.string().required().length(24).alphanum(),
     task: Joi.string().required().length(24).alphanum(),
-    hsWorked: Joi.number().required(),
+    hsWorked: Joi.number().required().max(24).messages({
+      'number.max': 'Charged hours cannot be greater than 24'
+    }),
     timesheetDate: Joi.date().required().greater('01-01-1930').less('now')
   });
 
@@ -38,15 +41,17 @@ const Form = ({
     formState: { errors }
   } = useForm({
     mode: 'onChange',
-    resolver: joiResolver(schema),
-    defaultValue: {
-      employee: previousTimeSheet.employee,
-      project: previousTimeSheet.project,
-      task: previousTimeSheet.task,
-      hsWorked: previousTimeSheet.hs_worked,
-      timesheetDate: previousTimeSheet.timesheetDate
-    }
+    resolver: joiResolver(schema)
   });
+
+  useEffect(() => {
+    reset({
+      project: previousTimeSheet.project,
+      task: previousTimeSheet?.task,
+      hsWorked: previousTimeSheet?.hs_worked,
+      timesheetDate: previousTimeSheet?.timesheetDate
+    });
+  }, [previousTimeSheet]);
 
   useEffect(() => {
     dispatch(getProjects());
@@ -55,10 +60,11 @@ const Form = ({
 
   const projects = useSelector((state) => state.projects.list);
   const tasks = useSelector((state) => state.tasks.list);
+  const user = useSelector((state) => state.auth.user);
 
-  const filteredProjects = projects.filter(
-    (projects) => projects.employees[0]?.id == previousTimeSheet.employee
-  );
+  const filteredProjects = projects.filter((projects) => {
+    return projects.employees.find((employee) => employee.id._id == user._id);
+  });
 
   const onSubmit = async (data) => {
     const projectName = filteredProjects.map((item) => {
@@ -77,10 +83,10 @@ const Form = ({
       _id: previousTimeSheet._id,
       employee: {
         _id: previousTimeSheet.employee,
-        first_name: 'Homero'
+        first_name: user?.first_name
       },
       project: {
-        _id: data.project,
+        _id: previousTimeSheet.project,
         project_name: projectName
       },
       task: {
@@ -88,7 +94,7 @@ const Form = ({
         description: taskDescription
       },
       hs_worked: data.hsWorked,
-      timesheetDate: data.timesheetDate.toISOString()
+      timesheetDate: moment(previousTimeSheet.timesheetDate)
     };
 
     if (!previousTimeSheet._id) {
@@ -136,54 +142,109 @@ const Form = ({
 
   return (
     <div className={styles.container}>
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      {previousTimeSheet._id != undefined ? (
+        <div className={styles.containerForm}>
           <h2>Time-sheet</h2>
-          <div>
-            <Input
-              type={'select'}
-              name={'project'}
-              register={register}
-              valueOptions={filteredProjects}
-              label={'Select a Project'}
-              error={errors.project?.message}
-            ></Input>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.input}>
+              <Input
+                type={'select'}
+                name={'project'}
+                register={register}
+                valueOptions={filteredProjects}
+                label={'Select a Project'}
+                error={errors.project?.message}
+                disabled
+              ></Input>
+            </div>
+            <div className={styles.input}>
+              <Input
+                type={'select'}
+                name={'task'}
+                register={register}
+                valueOptions={tasks}
+                label={'Select a Task'}
+                error={errors.task?.message}
+              ></Input>
+            </div>
+            <div className={styles.input}>
+              <Input
+                type={'number'}
+                name={'hsWorked'}
+                register={register}
+                label={'Worked Hours'}
+                error={errors.hsWorked?.message}
+              ></Input>
+            </div>
+            <div className={styles.input}>
+              <Input
+                type={'date'}
+                name={'timesheetDate'}
+                register={register}
+                label={'DATE'}
+                error={errors.timesheetDate?.message}
+                disabled
+              ></Input>
+            </div>
+          </form>
+          <div className={styles.button}>
+            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={() => reset()}>Reset Form</Button>
+            <Button onClick={closeForm}>Close</Button>
           </div>
-          <div>
-            <Input
-              type={'select'}
-              name={'task'}
-              register={register}
-              valueOptions={tasks}
-              label={'Select a Task'}
-              error={errors.task?.message}
-            ></Input>
-          </div>
-          <div>
-            <Input
-              type={'number'}
-              name={'hsWorked'}
-              register={register}
-              label={'Worked Hours'}
-              error={errors.hsWorked?.message}
-            ></Input>
-          </div>
-          <div>
-            <Input
-              type={'date'}
-              name={'timesheetDate'}
-              register={register}
-              label={'DATE'}
-              error={errors.timesheetDate?.message}
-            ></Input>
-          </div>
-        </form>
-        <div className={styles.button}>
-          <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-          <Button onClick={() => reset()}>Reset Form</Button>
-          <Button onClick={closeForm}>Close</Button>
         </div>
-      </div>
+      ) : (
+        <div className={styles.containerForm}>
+          <h2>Time-sheet</h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.input}>
+              <Input
+                type={'select'}
+                name={'project'}
+                register={register}
+                valueOptions={filteredProjects}
+                label={'Select a Project'}
+                error={errors.project?.message}
+                disabled
+              ></Input>
+            </div>
+            <div className={styles.input}>
+              <Input
+                type={'select'}
+                name={'task'}
+                register={register}
+                valueOptions={tasks}
+                label={'Select a Task'}
+                error={errors.task?.message}
+              ></Input>
+            </div>
+            <div className={styles.input}>
+              <Input
+                type={'number'}
+                name={'hsWorked'}
+                register={register}
+                label={'Worked Hours'}
+                error={errors.hsWorked?.message}
+              ></Input>
+            </div>
+            <div className={styles.input}>
+              <Input
+                type={'date'}
+                name={'timesheetDate'}
+                register={register}
+                label={'DATE'}
+                error={errors.timesheetDate?.message}
+                disabled
+              ></Input>
+            </div>
+          </form>
+          <div className={styles.button}>
+            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={() => reset()}>Reset Form</Button>
+            <Button onClick={closeForm}>Close</Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

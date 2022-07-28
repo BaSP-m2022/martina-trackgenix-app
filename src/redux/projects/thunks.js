@@ -5,6 +5,9 @@ import {
   deleteProjectPending,
   deleteProjectSuccess,
   deleteProjectError,
+  changeStatusPending,
+  changeStatusSuccess,
+  changeStatusError,
   addProjectPending,
   addProjectSuccess,
   addProjectError,
@@ -27,7 +30,7 @@ export const getProjects = () => {
   };
 };
 
-export const addProject = (project) => {
+export const addProject = (project, employees) => {
   return async (dispatch) => {
     dispatch(addProjectPending());
     try {
@@ -37,18 +40,12 @@ export const addProject = (project) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          active: true,
+          employees
         })
       });
       const res = await response.json();
@@ -81,11 +78,9 @@ export const deleteProject = (_id) => {
   };
 };
 
-export const editProject = (project, id) => {
+export const changeStatus = (id, status) => {
   return async (dispatch) => {
-    console.log('data en thunk: ', project);
-    console.log('id en thunk', id);
-    dispatch(editProjectPending());
+    dispatch(changeStatusPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
         method: 'PUT',
@@ -93,18 +88,36 @@ export const editProject = (project, id) => {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          project_name: project.projectName,
+          active: status
+        })
+      });
+      const res = await response.json();
+      dispatch(changeStatusSuccess(res.data));
+      return { error: false, message: res.message };
+    } catch (error) {
+      dispatch(changeStatusError(error.toString()));
+      console.error(error);
+      return { error: true, message: error };
+    }
+  };
+};
+
+export const editProject = (project, id, employees) => {
+  return async (dispatch) => {
+    dispatch(editProjectPending());
+    console.log('EDITED PROJECT:', project);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          project_name: project.project_name,
           client: project.client,
-          start_date: project.startDate,
-          finish_date: project.finishDate,
-          active: project.active,
-          employees: [
-            {
-              id: project.employee,
-              role: project.role,
-              rate: project.rate.toString()
-            }
-          ]
+          start_date: project.start_date,
+          finish_date: project.finish_date,
+          employees
         })
       });
       const res = await response.json();
