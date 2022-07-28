@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Modal from 'Components/Shared/Modal/Modal';
-import { editEmployee } from 'redux/employees/thunks';
+import { editEmployee, getEmployees } from 'redux/employees/thunks';
 
 const Profile = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +15,14 @@ const Profile = () => {
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
 
-  const employeeFound = useSelector((state) => state.auth?.user);
+  useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
+
+  const user = useSelector((state) => state.auth?.user);
+  const employeeList = useSelector((state) => state.employees.list);
+
+  const employeeFound = employeeList.find((item) => item?._id === user?._id);
 
   const schema = joi.object({
     first_name: joi
@@ -64,7 +71,7 @@ const Profile = () => {
 
   const onSubmit = async (data) => {
     try {
-      const employee = await dispatch(editEmployee(data, employeeFound._id));
+      const employee = await dispatch(editEmployee(data, user._id));
       if (employee.error) {
         setChildrenModal(employee.message);
         setShowModal(true);
