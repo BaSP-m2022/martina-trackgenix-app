@@ -3,6 +3,7 @@ import { Button } from '..';
 import styles from './navBar.module.css';
 import { useDispatch } from 'react-redux';
 import { logOut } from 'redux/auth/thunks';
+import logoGreen from 'Assets/Imgs/logoGreen.png';
 
 const NavBar = (props) => {
   const dispatch = useDispatch();
@@ -19,22 +20,25 @@ const NavBar = (props) => {
   return (
     <nav className={styles.navbar}>
       <Link to={`${url}/home`} className={styles.homeContainer}>
-        <p className={styles.appName}>TrackGENIX</p>
+        <img className={styles.logoGreen} src={logoGreen} />
+        <p className={styles.appName}>TrackGenix</p>
       </Link>
-      <ul className={styles.rutes}>
-        {props.routes.map((route) => {
-          return (
-            <li key={route.name}>
-              <Link to={route.path}>{route.name}</Link>
-            </li>
-          );
-        })}
-      </ul>
-      {props.logout && (
-        <Button width={'100px'} height={'25px'} onClick={onClick}>
-          Log Out
-        </Button>
-      )}
+      <div className={styles.options}>
+        <ul className={styles.rutes}>
+          {props.routes.map((route) => {
+            return (
+              <li key={route.name}>
+                <Link to={route.path}>{route.name}</Link>
+              </li>
+            );
+          })}
+        </ul>
+        {props.logout && (
+          <Button width={'100px'} height={'25px'} onClick={onClick}>
+            Log Out
+          </Button>
+        )}
+      </div>
     </nav>
   );
 };

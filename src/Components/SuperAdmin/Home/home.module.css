@@ -1,9 +1,36 @@
 .container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-decoration: none;
+  flex: 1;
+  display: flex;
+  flex-flow: wrap;
+  text-decoration: none;
+}
+.fondoHome {
+  position: absolute;
+  z-index: -1;
+  width: -webkit-fill-available;
+  margin-left: 50px;
+}
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  justify-content: center;
+  text-align: center;
+  margin-left: 150px;
+}
+.container h2 {
+  color: #373867;
+  font-size: 32px;
+  text-shadow: 2px 2px 4px #00000070;
+  margin-top: 0px;
+}
+.logoTrack {
+  width: 50%;
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .fondoHome {
+    display: none;
   }
-  
+}
