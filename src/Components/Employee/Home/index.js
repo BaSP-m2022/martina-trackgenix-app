@@ -9,7 +9,7 @@ function Home() {
     <section className={styles.container}>
       <img className={styles.fondoHome} src={fondoHome} />
       <div className={styles.wellcome}>
-        <h2>Wellcome</h2>
+        <h2>Welcome</h2>
         {user && <h2>{user?.first_name + ' ' + user?.last_name}</h2>}
         <img className={styles.logoTrack} src={logoTrack} />
       </div>
