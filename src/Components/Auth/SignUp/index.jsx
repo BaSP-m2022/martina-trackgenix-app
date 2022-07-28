@@ -72,7 +72,6 @@ const SignUp = () => {
   const {
     handleSubmit,
     register,
-    // reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
