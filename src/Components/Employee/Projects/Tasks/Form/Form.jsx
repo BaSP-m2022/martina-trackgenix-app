@@ -92,7 +92,7 @@ const FormTasks = ({
             />
           </div>
         </form>
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
         <Button onClick={() => reset()}>Reset Form</Button>
         <Button onClick={closeForm}>Close</Button>
       </div>

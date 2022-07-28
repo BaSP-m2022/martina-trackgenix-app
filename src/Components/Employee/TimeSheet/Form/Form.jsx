@@ -188,7 +188,7 @@ const Form = ({
             </div>
           </form>
           <div className={styles.button}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
             <Button onClick={() => reset()}>Reset Form</Button>
             <Button onClick={closeForm}>Close</Button>
           </div>
@@ -239,7 +239,7 @@ const Form = ({
             </div>
           </form>
           <div className={styles.button}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
             <Button onClick={() => reset()}>Reset Form</Button>
             <Button onClick={closeForm}>Close</Button>
           </div>

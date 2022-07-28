@@ -53,7 +53,7 @@ const EmployeeForm = ({
   const onSubmit = async (data) => {
     if (members.find((member) => member.id == data.id)) {
       setShowModal(true);
-      setTitleModal('This employee is already assigned to this project, please select another');
+      setTitleModal('This employee is already assigned to this project, please select another one');
     } else {
       const employeeFound = listEmployees.find((employee) => employee._id == data.id);
       setMembers([

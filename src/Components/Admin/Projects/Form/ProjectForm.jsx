@@ -85,7 +85,7 @@ const ProjectForm = ({
       try {
         if (newEmployeeList.length === 0) {
           setShowMessageModal(true);
-          setTitleMessageModal('error: please add employees to your project');
+          setTitleMessageModal('Error: Please add employees to your project');
         } else {
           const project = await dispatch(
             addProject(
@@ -117,7 +117,7 @@ const ProjectForm = ({
         newEmployeeList.length > 1 ? (previousProject.employees = []) : '';
         if (previousProject.employees.length < 0) {
           setShowMessageModal(true);
-          setTitleMessageModal('error: please add employees to the project');
+          setTitleMessageModal('Error: Please add employees to the project');
         } else {
           const project = await dispatch(
             editProject(
@@ -360,7 +360,7 @@ const ProjectForm = ({
             </table>
           </div>
           <div className={styles.containerButtons}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
             <Button onClick={() => reset()}>Reset Form</Button>
             <Button onClick={closeForm}>Close</Button>
           </div>

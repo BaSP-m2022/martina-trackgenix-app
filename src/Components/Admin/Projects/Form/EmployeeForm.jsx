@@ -65,7 +65,7 @@ const EmployeeForm = ({
   const handleAdd = (data) => {
     if (listEmployees.length === 0) {
       setShowMessageModal(true);
-      setTitleMessageModal('error: No more employees to add or no employees in data base');
+      setTitleMessageModal('Error: No more employees to add or no employees in data base');
     } else {
       const newList = [
         ...newEmployeeList,
@@ -73,7 +73,7 @@ const EmployeeForm = ({
       ];
       if (newEmployeeList.find((employee) => employee.id._id === data.id)) {
         setShowMessageModal(true);
-        setTitleMessageModal("error: Can't add the same employee twice");
+        setTitleMessageModal("Error: Can't add the same employee twice");
       } else {
         setNewEmployeeList(newList);
       }
@@ -89,13 +89,13 @@ const EmployeeForm = ({
   const onSubmit = () => {
     if (newEmployeeList.length <= 1) {
       setShowMessageModal(true);
-      setTitleMessageModal('error: Your project must have at least 2 employees');
+      setTitleMessageModal('Error: Your project must have at least 2 employees');
     } else if (newEmployeeList.find((employee) => employee.role === 'PM')) {
       setShowSecondModal(false);
       sendNewEmployeeList(newEmployeeList);
     } else {
       setShowMessageModal(true);
-      setTitleMessageModal("error: Your project doesn't have a Project Manager");
+      setTitleMessageModal("Error: Your project doesn't have a Project Manager");
     }
   };
 

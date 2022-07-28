@@ -50,7 +50,7 @@ const TimeSheets = () => {
             previousTimeSheet={previousTimeSheet}
             setPreviousTimeSheet={setPreviousTimeSheet}
           />
-          <Button onClick={() => setShowForm(true)}>Add a TimeSheets</Button>
+          <Button onClick={() => setShowForm(true)}>Add TimeSheet</Button>
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
             {childrenModal}
           </Modal>

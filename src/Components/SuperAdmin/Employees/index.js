@@ -27,7 +27,7 @@ const Employees = () => {
           <Table
             title={'Employees'}
             data={employeesSorted}
-            headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email']}
+            headersColumns={['First Name', 'Last Name', 'Phone', 'Email']}
             headers={['first_name', 'last_name', 'phone', 'email']}
           />
         </section>

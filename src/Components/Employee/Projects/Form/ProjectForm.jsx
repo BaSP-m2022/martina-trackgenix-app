@@ -84,7 +84,7 @@ const ProjectForm = ({
   const deleteEmployee = (_id) => {
     const memberDelete = members.find((member) => member._id == _id);
     if (memberDelete.role == 'PM') {
-      setTitleModal('You cannot delete PM');
+      setTitleModal('You cannot delete the PM');
       setShowModal(true);
     } else {
       if (confirm('Are you sure you want to remove this member?')) {
@@ -218,7 +218,7 @@ const ProjectForm = ({
         />
         <div className={styles.containerButtons}>
           <Button width={'120px'} height={'40px'} onClick={handleSubmit(onSubmit)}>
-            Submit
+            Confirm
           </Button>
           <Button width={'120px'} height={'40px'} onClick={() => setShowEmployeeForm(true)}>
             Add employees

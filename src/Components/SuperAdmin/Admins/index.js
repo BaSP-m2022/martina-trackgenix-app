@@ -72,7 +72,7 @@ const Admins = () => {
           <Table
             title={'Admins list'}
             data={adminsSorted}
-            headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', '', '']}
+            headersColumns={['First Name', 'Last Name', 'Phone', 'Email', '', '']}
             headers={['firstName', 'lastName', 'phone', 'email']}
             deleteItem={handleDelete}
             activateItem={handleActive}
