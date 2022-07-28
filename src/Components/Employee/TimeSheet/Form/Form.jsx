@@ -28,7 +28,9 @@ const Form = ({
   const schema = Joi.object({
     project: Joi.string().required().length(24).alphanum(),
     task: Joi.string().required().length(24).alphanum(),
-    hsWorked: Joi.number().required(),
+    hsWorked: Joi.number().required().max(24).messages({
+      'number.max': 'Charged hours cannot be greater than 24'
+    }),
     timesheetDate: Joi.date().required().greater('01-01-1930').less('now')
   });
 
