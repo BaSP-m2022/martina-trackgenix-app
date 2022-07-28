@@ -4,8 +4,7 @@ import { addAdmin, editAdmin } from 'redux/admins/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
+import { Input, Button } from 'Components/Shared';
 import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
 
 const adminSchema = Joi.object({

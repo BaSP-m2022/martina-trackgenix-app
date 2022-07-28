@@ -3,8 +3,7 @@ import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
+import { Input, Button } from 'Components/Shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from 'redux/employees/thunks';
 

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 import ListSuperAdmin from './ListSuperAdmins/ListSuperAdmins';
 import Form from './Form/SuperAdminForm';
-import Modal from '../../Shared/Modal/Modal';
-import Loader from '../../Shared/Loader/Loader';
-import Button from '../../Shared/Buttons/Buttons';
+import { Loader, Button, Modal } from 'Components/Shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSuperAdmins } from '../../../redux/superAdmins/thunks';
 

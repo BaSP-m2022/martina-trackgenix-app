@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins, changeStatus } from 'redux/admins/thunks';
-import Table from 'Components/Shared/Table/Table';
 import AdminForm from 'Components/SuperAdmin/Admins/Form/AdminForm';
-import Modal from 'Components/Shared/Modal/Modal';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Loader from 'Components/Shared/Loader/Loader';
 import styles from 'Components/SuperAdmin/Admins/admins.module.css';
+import { Loader, Button, Modal, Table } from 'Components/Shared';
 
 const Admins = () => {
   const dispatch = useDispatch();

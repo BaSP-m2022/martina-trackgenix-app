@@ -4,7 +4,7 @@ import styles from './layout.module.css';
 import Header from 'Components/Shared/Header';
 import NavBar from 'Components/Shared/NavBar/NavBar';
 import Footer from 'Components/Shared/Footer';
-import Loader from 'Components/Shared/Loader/Loader';
+import { Loader } from '..';
 
 const Layout = (props) => {
   const isLoading = useSelector((state) => state.auth.isLoading);

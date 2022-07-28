@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from 'Components/Employee/Profile/profile.module.css';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
+import { Input, Button, Modal } from 'Components/Shared';
 import { useForm } from 'react-hook-form';
 import joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
-import Modal from 'Components/Shared/Modal/Modal';
 import { editEmployee } from 'redux/employees/thunks';
 
 const Profile = () => {
