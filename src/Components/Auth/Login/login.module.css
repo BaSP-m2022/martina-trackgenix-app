@@ -19,14 +19,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
-  width: 60%;
+  margin: 40px;
+  width: 40%;
+  border-style: solid;
+  border-color: #373867;
+  border-radius: 10px;
 }
 
 .containerForm form {
   display: flex;
   flex-direction: column;
-  width: 55%;
+  width: 90%;
   height: 75%;
   gap: 20px;
 }
@@ -43,4 +46,25 @@
   gap: 30px;
   margin-top: 50px;
   margin-bottom: 20px;
+}
+
+.parLog {
+  display: flex;
+  flex: 1;
+  font-size: 13px;
+  color: #373867;
+  text-shadow: 2px 2px 4px #00000070;
+}
+
+.anchor {
+  text-decoration: none;
+}
+
+.anchor:hover {
+  color: #4346f3;
+  font-weight: bold;
+}
+
+.anchor:active {
+  color: #ff0000;
 }

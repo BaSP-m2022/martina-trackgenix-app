@@ -41,17 +41,12 @@ const Projects = () => {
 
   let isPM = false;
 
-  // typeof employee.id === 'object' ? employee.id._id == user._id : employee.id == user._id
-  //console.log('listProject: ', listProject);
-
   const listProjectEmployee = listProject.filter((project) => {
     if (project.active) {
       return project.employees.find((employee) => employee.id._id == user._id);
     }
   });
 
-  //console.log('listProjectEmployee: ', listProjectEmployee);
-  //  || employee.id === user._id
   const projectData = listProjectEmployee.map((project) => {
     let role;
     project.employees.map((employee) => {

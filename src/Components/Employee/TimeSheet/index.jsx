@@ -262,6 +262,9 @@ const TimeSheet = () => {
                             onClick={() => {
                               if (header.style && isBefore(header.date, todayDate)) {
                                 editItem(row, header);
+                              } else {
+                                setShowModal(true);
+                                setChildrenModal('This day is not available');
                               }
                             }}
                           >

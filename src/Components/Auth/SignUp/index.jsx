@@ -4,7 +4,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { Input, Button, RadioButton, Modal, Loader } from 'Components/Shared';
+import { Input, Button, Modal, Loader } from 'Components/Shared';
 import joi from 'joi';
 import styles from 'Components/Auth/SignUp/sign-up.module.css';
 
@@ -72,7 +72,6 @@ const SignUp = () => {
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -83,7 +82,7 @@ const SignUp = () => {
       phone: userInput.phone,
       email: userInput.email,
       password: userInput.password,
-      active: userInput.active
+      active: true
     }
   });
 
@@ -119,7 +118,7 @@ const SignUp = () => {
           <div className={styles.containerForm}>
             <h2>Sign-Up</h2>
             <form>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'first_name'}
@@ -128,7 +127,7 @@ const SignUp = () => {
                   error={errors.first_name?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'last_name'}
@@ -137,7 +136,7 @@ const SignUp = () => {
                   error={errors.last_name?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'phone'}
@@ -146,7 +145,7 @@ const SignUp = () => {
                   error={errors.phone?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'email'}
@@ -155,7 +154,7 @@ const SignUp = () => {
                   error={errors.email?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'password'}
                   name={'password'}
@@ -164,21 +163,19 @@ const SignUp = () => {
                   error={errors.password?.message}
                 />
               </div>
-              <div>
-                <RadioButton
-                  name={'active'}
-                  label={'Active'}
-                  valueOptions={[true, false]}
-                  register={register}
-                  error={errors.active?.message}
-                />
+              <div className={styles.containerButtons}>
+                <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+              </div>
+              <div className={styles.parLog}>
+                <p>
+                  Do you already have an account?
+                  <a className={styles.anchor} href="/auth/login">
+                    {' '}
+                    Log in now!
+                  </a>
+                </p>
               </div>
             </form>
-            <div className={styles.containerButtons}>
-              <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-              <Button onClick={() => history.push('/home')}>Close</Button>
-              <Button onClick={() => reset()}>Reset Form</Button>
-            </div>
           </div>
         </section>
       )}
