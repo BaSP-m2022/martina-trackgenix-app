@@ -26,7 +26,6 @@ const Admins = () => {
     lastName: '',
     phone: '',
     email: ''
-    /* active: false */
   });
 
   const listAdmins = useSelector((state) => state.admins.list);
@@ -47,8 +46,13 @@ const Admins = () => {
   };
 
   const handleEdit = (admin) => {
-    setPreviousAdmin(admin);
-    setShowForm(true);
+    if (admin.active == true) {
+      setPreviousAdmin(admin);
+      setShowForm(true);
+    } else {
+      setShowModal(true);
+      setChildrenModal('You have to activate this admin to edit it');
+    }
   };
 
   return (
