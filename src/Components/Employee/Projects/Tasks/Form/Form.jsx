@@ -27,7 +27,6 @@ const FormTasks = ({
   const {
     handleSubmit,
     register,
-    // reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
