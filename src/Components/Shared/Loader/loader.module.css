@@ -1,4 +1,15 @@
+.loaderShade {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #00000080;
+}
 .preloader{
+	background-color: #FFFFFF;
 	border-radius: 70px;
 	border: 6px solid #AACE9B;
 	position: absolute;
