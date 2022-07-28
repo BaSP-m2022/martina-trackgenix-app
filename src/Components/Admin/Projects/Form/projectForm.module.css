@@ -22,7 +22,8 @@
   font-weight: 500;
 }
 
-.containerForm, .containerFormEmployees {
+.containerForm,
+.containerFormEmployees {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,7 +34,8 @@
   overflow: auto;
 }
 
-.containerForm form, .containerFormEmployees form{
+.containerForm form,
+.containerFormEmployees form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -79,3 +81,14 @@ table {
   width: 30%;
 }
 
+.btnX {
+  align-self: end;
+  text-align: center;
+  font-weight: bolder;
+  border-radius: 5px;
+  color: #373867;
+  background-color: #f0f4f9;
+  border: none;
+  padding: 5px 7px;
+  cursor: pointer;
+}

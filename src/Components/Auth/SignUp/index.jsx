@@ -66,6 +66,12 @@ const SignUp = () => {
         'string.empty': 'This field is required',
         'string.min': 'Password is too short'
       }),
+    rPassword: joi
+      .any()
+      .equal(joi.ref('password'))
+      .required()
+      .label('Confirm password')
+      .messages({ 'any.only': 'Password does not match' }),
     active: joi.boolean().required()
   });
 
@@ -161,6 +167,15 @@ const SignUp = () => {
                   label={'Password'}
                   register={register}
                   error={errors.password?.message}
+                />
+              </div>
+              <div className={styles.containerInput}>
+                <Input
+                  type={'password'}
+                  name={'rPassword'}
+                  label={'Repeat Password'}
+                  register={register}
+                  error={errors.rPassword?.message}
                 />
               </div>
               <div className={styles.containerButtons}>
