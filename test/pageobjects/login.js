@@ -19,10 +19,13 @@ class login {
     return $('#root > div > section > div > form > div:nth-child(2) > div > label');
   }
   get btnLogin() {
-    return $('#root > div > section > div > div > button:nth-child(2)');
+    return $('#root > div > section > div > div.login_containerButtons__1blgz > button');
   }
-  get btnClose() {
-    return $('#root > div > section > div > div > button:nth-child(1)');
+  get registerNow() {
+    return $('#root > div > section > div > div.login_parLog__2lgDJ');
+  }
+  get btnRegister() {
+    return $('#root > div > section > div > div.login_parLog__2lgDJ > p > a');
   }
   get errorMsgEmail() {
     return $('#root > div > section > div > form > div:nth-child(1) > div > p');
@@ -40,7 +43,7 @@ class login {
     await this.setEmail(email);
     await this.setPassword(password);
     await this.btnLogin.click();
-    browser.pause(3000);
+    browser.pause(8000);
   }
 }
 

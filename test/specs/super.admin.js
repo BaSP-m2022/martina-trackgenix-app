@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 const HomePage = require('../pageobjects/home.page');
 const Login = require('../pageobjects/login');
-/* const SuperAdmin = require('../pageobjects/superAdmin'); */
+const SuperAdmin = require('../pageobjects/super.admin');
 
-describe('Test Super Admin', () => {
+describe('Test login Super Admin', () => {
   beforeAll('Open browser', () => {
     browser.url('https://martina-trackgenix-app.vercel.app/auth/login');
   }),
@@ -53,11 +53,11 @@ describe('Test Super Admin', () => {
     await expect(Login.secondInput).toBeDisplayed();
     await expect(Login.passwordInputTitle).toHaveText('Password');
   });
-  it('btnLogin and btnClose to be displayed and clickable', async () => {
+  it('btnLogin registerNow to be displayed and clickable', async () => {
     await expect(Login.btnLogin).toBeDisplayed();
     await expect(Login.btnLogin).toBeClickable();
-    await expect(Login.btnClose).toBeDisplayed();
-    await expect(Login.btnLogin).toBeClickable();
+    await expect(Login.registerNow).toBeDisplayed();
+    await expect(Login.btnRegister).toBeClickable();
   });
   it('Display error message when input is empty', async () => {
     await Login.register('', '');
@@ -81,5 +81,45 @@ describe('Test Super Admin', () => {
     await Login.register('luchito@gmail', '****////');
     await expect(Login.errorMsgEmail).toHaveText('The email is invalid');
     await expect(Login.errorMsgPassword).toHaveText('Password must contain letters and numbers');
+  });
+  it('display alert when password thats incorrect', async () => {
+    await Login.register('roberto@gmail.com', 'aaaaaaa111111');
+    browser.acceptAlert('Invalid email or password');
+  });
+  it('the user successfully logged in', async () => {
+    await Login.register('roberto@gmail.com', 'asdasd123');
+  });
+  it('the nav should display the paths and tobe clickable', async () => {
+    await expect(HomePage.navTitle).toBeClickable();
+    await expect(HomePage.navFirstRute).toBeClickable();
+    await expect(HomePage.navSecondRute).toBeClickable();
+    await expect(HomePage.navThirtRute).toBeClickable();
+    await expect(HomePage.btnLogOut).toBeClickable();
+  });
+  it('nav routes should be called: admins, projects, employee and logOut', async () => {
+    await expect(HomePage.navFirstRute).toHaveText('Admins');
+    await expect(HomePage.navSecondRute).toHaveText('Projects');
+    await expect(HomePage.navThirtRute).toHaveText('Employees');
+    await expect(HomePage.btnLogOut).toHaveText('Log Out');
+  });
+  //test home img
+  it('go to the admins list', async () => {
+    await HomePage.clickAdmins();
+  });
+  it('expect admin list', async () => {
+    await expect(SuperAdmin.listAdmin).toBeDisplayed;
+    await expect(SuperAdmin.listTitle).toHaveText('ADMINS LIST');
+    await expect(SuperAdmin.table).toBeDisplayed();
+    await expect(SuperAdmin.titleTable).toBeDisplayed();
+  });
+  it('Name for column list', async () => {
+    await expect(SuperAdmin.firstNameColumn).toBeDisplayed;
+    await expect(SuperAdmin.firstNameColumn).toHaveText('First Name');
+    await expect(SuperAdmin.lastNameColumn).toBeDisplayed;
+    await expect(SuperAdmin.lastNameColumn).toHaveText('Last Name');
+    await expect(SuperAdmin.phoneColumn).toBeDisplayed;
+    await expect(SuperAdmin.phoneColumn).toHaveText('Phone');
+    await expect(SuperAdmin.emailColumn).toBeDisplayed;
+    await expect(SuperAdmin.emailColumn).toHaveText('Email');
   });
 });

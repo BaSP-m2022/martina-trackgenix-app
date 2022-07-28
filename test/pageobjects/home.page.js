@@ -42,6 +42,12 @@ class homePage {
   get navSecondRute() {
     return $('#root > div > div > nav > ul > li:nth-child(2) > a');
   }
+  get navThirtRute() {
+    return $('#root > div > div > nav > ul > li:nth-child(3) > a');
+  }
+  get btnLogOut() {
+    return $('#root > div > div > nav > button');
+  }
   get containerHome() {
     return $('#root > div > section > div');
   }
@@ -76,6 +82,14 @@ class homePage {
   }
   async clickRegister() {
     await this.registerBtn.click();
+    browser.pause(3000);
+  }
+  async clickAdmins() {
+    await this.navFirstRute.click();
+    browser.pause(3000);
+  }
+  async clickProjects() {
+    await this.navSecondRute.click();
     browser.pause(3000);
   }
 }
