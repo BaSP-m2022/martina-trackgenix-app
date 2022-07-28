@@ -61,7 +61,7 @@ export const addEmployee = (employee) => {
       });
       const res = await response.json();
       if (res.error) {
-        throw res.msg;
+        throw res.message;
       }
       dispatch(addEmployeeSuccess(res.data));
       return {

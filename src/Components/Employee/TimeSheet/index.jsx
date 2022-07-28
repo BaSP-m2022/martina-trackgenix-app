@@ -221,77 +221,83 @@ const TimeSheet = () => {
 
   return (
     <>
-      <section className={styles.container}>
-        <h2>Worked Hours</h2>
-        <div className={styles.topContainer}>
-          <Button width={'80px'} height={'50px'} onClick={() => prevWeek(startWeekDay, endWeekDay)}>
-            {'<'}
-          </Button>
-          <p className={styles.weekText}>
-            {week?.startDate} - {week?.endDate}
-          </p>
-          <Button width={'80px'} height={'50px'} onClick={() => nextWeek(startWeekDay, endWeekDay)}>
-            {'>'}
-          </Button>
-        </div>
-        {isLoading ? (
-          <Loader show={true} />
-        ) : (
-          <>
-            <table className={styles.table}>
-              <thead>
-                <tr className={styles.headerRow}>
-                  {headers.map((header, index) => {
-                    return (
-                      <th key={index} className={styles.th}>
-                        {header.header}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {listData.map((row) => {
+      {isLoading ? (
+        <Loader show={true} />
+      ) : (
+        <section className={styles.container}>
+          <h2>Worked Hours</h2>
+          <div className={styles.topContainer}>
+            <Button
+              width={'80px'}
+              height={'50px'}
+              onClick={() => prevWeek(startWeekDay, endWeekDay)}
+            >
+              {'<'}
+            </Button>
+            <p className={styles.weekText}>
+              {week?.startDate} - {week?.endDate}
+            </p>
+            <Button
+              width={'80px'}
+              height={'50px'}
+              onClick={() => nextWeek(startWeekDay, endWeekDay)}
+            >
+              {'>'}
+            </Button>
+          </div>
+          <table className={styles.table}>
+            <thead>
+              <tr className={styles.headerRow}>
+                {headers.map((header, index) => {
                   return (
-                    <tr key={row.id} className={styles.rows}>
-                      {headers.map((header, index) => {
-                        return (
-                          <td
-                            key={index}
-                            className={header.style ? styles.timesheetTd : styles.td}
-                            onClick={() => {
-                              if (header.style && isBefore(header.date, todayDate)) {
-                                editItem(row, header);
-                              } else {
-                                setShowModal(true);
-                                setChildrenModal('This day is not available');
-                              }
-                            }}
-                          >
-                            {header.style ? row[header.key].workedHours : row[header.key]}
-                          </td>
-                        );
-                      })}
-                    </tr>
+                    <th key={index} className={styles.th}>
+                      {header.header}
+                    </th>
                   );
                 })}
-              </tbody>
-            </table>
-            <h2 className={styles.totalText}>Total: {totalHours}</h2>
-          </>
-        )}
-        <Form
-          showForm={showForm}
-          setShowForm={setShowForm}
-          setShowModal={setShowModal}
-          setChildrenModal={setChildrenModal}
-          previousTimeSheet={previousTimeSheet}
-          setPreviousTimeSheet={setPreviousTimeSheet}
-        />
-        <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-          {childrenModal}
-        </Modal>
-      </section>
+              </tr>
+            </thead>
+            <tbody>
+              {listData.map((row) => {
+                return (
+                  <tr key={row.id} className={styles.rows}>
+                    {headers.map((header, index) => {
+                      return (
+                        <td
+                          key={index}
+                          className={header.style ? styles.timesheetTd : styles.td}
+                          onClick={() => {
+                            if (header.style && isBefore(header.date, todayDate)) {
+                              editItem(row, header);
+                            } else {
+                              setShowModal(true);
+                              setChildrenModal('This day is not available');
+                            }
+                          }}
+                        >
+                          {header.style ? row[header.key].workedHours : row[header.key]}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <h2 className={styles.totalText}>Total: {totalHours}</h2>
+          <Form
+            showForm={showForm}
+            setShowForm={setShowForm}
+            setShowModal={setShowModal}
+            setChildrenModal={setChildrenModal}
+            previousTimeSheet={previousTimeSheet}
+            setPreviousTimeSheet={setPreviousTimeSheet}
+          />
+          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
+            {childrenModal}
+          </Modal>
+        </section>
+      )}
     </>
   );
 };
