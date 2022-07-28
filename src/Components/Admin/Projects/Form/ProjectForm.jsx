@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from 'Components/Admin/Projects/Form/projectForm.module.css';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
+import { Input, Button, Modal } from 'Components/Shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, editProject } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
@@ -10,7 +9,6 @@ import joi from 'joi';
 import EmployeeAdd from 'Components/Admin/Projects/Form/EmployeeForm';
 import { getEmployees } from 'redux/employees/thunks';
 import { getProjects } from 'redux/projects/thunks';
-import Modal from 'Components/Shared/Modal/Modal';
 
 const ProjectForm = ({
   showForm,
@@ -85,7 +83,7 @@ const ProjectForm = ({
       try {
         if (newEmployeeList.length === 0) {
           setShowMessageModal(true);
-          setTitleMessageModal('error: please add employees to your project');
+          setTitleMessageModal('Error: Please add employees to your project');
         } else {
           const project = await dispatch(
             addProject(
@@ -117,7 +115,7 @@ const ProjectForm = ({
         newEmployeeList.length > 1 ? (previousProject.employees = []) : '';
         if (previousProject.employees.length < 0) {
           setShowMessageModal(true);
-          setTitleMessageModal('error: please add employees to the project');
+          setTitleMessageModal('Error: Please add employees to the project');
         } else {
           const project = await dispatch(
             editProject(
@@ -172,12 +170,16 @@ const ProjectForm = ({
       ]
     });
     setShowForm(false);
+    reset();
   };
 
   return (
     <div className={styles.container}>
       {previousProject._id && previousProject.active == false ? (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Project Form</h2>
           <div>This project has been deactivated</div>
           <form>
@@ -246,12 +248,12 @@ const ProjectForm = ({
               </tbody>
             </table>
           </div>
-          <div className={styles.containerButtons}>
-            <Button onClick={closeForm}>Close</Button>
-          </div>
         </div>
       ) : (
         <div className={styles.containerForm}>
+          <div onClick={closeForm} className={styles.btnX}>
+            X
+          </div>
           <h2>Project Form</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.containerInput}>
@@ -360,9 +362,7 @@ const ProjectForm = ({
             </table>
           </div>
           <div className={styles.containerButtons}>
-            <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-            <Button onClick={() => reset()}>Reset Form</Button>
-            <Button onClick={closeForm}>Close</Button>
+            <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
           </div>
         </div>
       )}

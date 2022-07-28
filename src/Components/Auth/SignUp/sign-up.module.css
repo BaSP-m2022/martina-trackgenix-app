@@ -8,8 +8,12 @@
 }
 
 .container h2 {
+  display: flex;
+  justify-content: center;
   color: #373867;
+  font-size: 28px;
   text-shadow: 2px 2px 4px #00000070;
+  margin-top: 0px;
 }
 
 .container label {
@@ -50,9 +54,8 @@
 
 .containerInput {
   text-align: left;
-}
-.activeNone {
-  display: none;
+  width: 100%;
+  margin: 5px 5px;
 }
 
 .containerButtons {
@@ -67,4 +70,25 @@
 .containerButtons button {
   width: auto;
   height: 40px;
+}
+
+.parLog {
+  display: flex;
+  flex: 1;
+  font-size: 12px;
+  color: #373867;
+  text-shadow: 2px 2px 4px #00000070;
+}
+
+.anchor {
+  text-decoration: none;
+}
+
+.anchor:hover {
+  color: #4346f3;
+  font-weight: bold;
+}
+
+.anchor:active {
+  color: #ff0000;
 }

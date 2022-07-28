@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
-import Table from 'Components/Shared/Table/Table';
-import Loader from 'Components/Shared/Loader/Loader';
+import { Loader, Table } from 'Components/Shared';
 import styles from 'Components/SuperAdmin/Projects/projects.module.css';
 
 const Projects = () => {

@@ -56,12 +56,12 @@ export const addEmployee = (employee) => {
           phone: employee.phone,
           email: employee.email,
           password: employee.password,
-          active: employee.active
+          active: true
         })
       });
       const res = await response.json();
       if (res.error) {
-        throw res.msg;
+        throw res.message;
       }
       dispatch(addEmployeeSuccess(res.data));
       return {

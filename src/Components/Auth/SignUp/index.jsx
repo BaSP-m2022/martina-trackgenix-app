@@ -4,7 +4,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from 'redux/employees/thunks';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { Input, Button, RadioButton, Modal, Loader } from 'Components/Shared';
+import { Input, Button, Modal, Loader } from 'Components/Shared';
 import joi from 'joi';
 import styles from 'Components/Auth/SignUp/sign-up.module.css';
 
@@ -24,8 +24,8 @@ const SignUp = () => {
       .max(30)
       .messages({
         'string.pattern.base': 'First Name must contain only letters',
-        'string.min': 'The name is too short',
-        'string.max': 'The name is too long',
+        'string.min': 'First name is too short',
+        'string.max': 'First name is too long',
         'string.empty': 'This field is required'
       })
       .required(),
@@ -37,7 +37,7 @@ const SignUp = () => {
       .messages({
         'string.pattern.base': 'Last Name must contain only letters',
         'string.min': 'Last name is too short',
-        'string.max': 'The last name is too long',
+        'string.max': 'Last name is too long',
         'string.empty': 'This field is required'
       })
       .required(),
@@ -66,13 +66,18 @@ const SignUp = () => {
         'string.empty': 'This field is required',
         'string.min': 'Password is too short'
       }),
+    rPassword: joi
+      .any()
+      .equal(joi.ref('password'))
+      .required()
+      .label('Confirm password')
+      .messages({ 'any.only': 'Password does not match' }),
     active: joi.boolean().required()
   });
 
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -83,7 +88,7 @@ const SignUp = () => {
       phone: userInput.phone,
       email: userInput.email,
       password: userInput.password,
-      active: userInput.active
+      active: true
     }
   });
 
@@ -119,7 +124,7 @@ const SignUp = () => {
           <div className={styles.containerForm}>
             <h2>Sign-Up</h2>
             <form>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'first_name'}
@@ -128,7 +133,7 @@ const SignUp = () => {
                   error={errors.first_name?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'last_name'}
@@ -137,7 +142,7 @@ const SignUp = () => {
                   error={errors.last_name?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'phone'}
@@ -146,7 +151,7 @@ const SignUp = () => {
                   error={errors.phone?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'text'}
                   name={'email'}
@@ -155,7 +160,7 @@ const SignUp = () => {
                   error={errors.email?.message}
                 />
               </div>
-              <div>
+              <div className={styles.containerInput}>
                 <Input
                   type={'password'}
                   name={'password'}
@@ -164,21 +169,28 @@ const SignUp = () => {
                   error={errors.password?.message}
                 />
               </div>
-              <div className={styles.activeNone}>
-                <RadioButton
-                  name={'active'}
-                  label={'Active'}
-                  valueOptions={[true, false]}
+              <div className={styles.containerInput}>
+                <Input
+                  type={'password'}
+                  name={'rPassword'}
+                  label={'Repeat Password'}
                   register={register}
-                  error={errors.active?.message}
+                  error={errors.rPassword?.message}
                 />
               </div>
+              <div className={styles.containerButtons}>
+                <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
+              </div>
+              <div className={styles.parLog}>
+                <p>
+                  Do you already have an account?
+                  <a className={styles.anchor} href="/auth/login">
+                    {' '}
+                    Log in now!
+                  </a>
+                </p>
+              </div>
             </form>
-            <div className={styles.containerButtons}>
-              <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-              <Button onClick={() => history.push('/home')}>Close</Button>
-              <Button onClick={() => reset()}>Reset Form</Button>
-            </div>
           </div>
         </section>
       )}

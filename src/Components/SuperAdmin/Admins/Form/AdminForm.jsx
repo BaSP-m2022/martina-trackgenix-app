@@ -4,13 +4,26 @@ import { addAdmin, editAdmin } from 'redux/admins/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
+import { Input, Button } from 'Components/Shared';
 import styles from 'Components/SuperAdmin/Admins/Form/adminForm.module.css';
 
 const adminSchema = Joi.object({
-  firstName: Joi.string().min(3).max(15).required(),
-  lastName: Joi.string().min(3).max(15).required(),
+  firstName: Joi.string()
+    .min(3)
+    .max(15)
+    .regex(/^[a-zA-Z_ ]*$/)
+    .messages({
+      'string.pattern.base': "Admin's name must contain only letters"
+    })
+    .required(),
+  lastName: Joi.string()
+    .min(3)
+    .max(15)
+    .regex(/^[a-zA-Z_ ]*$/)
+    .messages({
+      'string.pattern.base': "Admin's last name must contain only letters"
+    })
+    .required(),
   phone: Joi.number().min(1000000000).max(9999999999).required().messages({
     'number.min': 'Phone number must be 10 digits long',
     'number.max': 'Phone number must be no more than 10 digits long'
@@ -43,7 +56,6 @@ const AdminForm = ({
   const {
     handleSubmit,
     register,
-    reset,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -97,50 +109,63 @@ const AdminForm = ({
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {!previousAdmin._id ? <h2>Add a new admin</h2> : <h2>Edit admin</h2>}
-        <Input
-          type={'text'}
-          name={'firstName'}
-          label={'First name'}
-          register={register}
-          error={errors.firstName?.message}
-        />
-        <Input
-          type={'text'}
-          name={'lastName'}
-          label={'Last Name'}
-          register={register}
-          error={errors.lastName?.message}
-        />
-        <Input
-          type={'text'}
-          name={'phone'}
-          label={'Phone'}
-          register={register}
-          error={errors.phone?.message}
-        />
-        <Input
-          type={'email'}
-          name={'email'}
-          label={'Email'}
-          register={register}
-          error={errors.email?.message}
-        />
-        {!previousAdmin._id && (
-          <Input
-            type={'password'}
-            name={'password'}
-            label={'Password'}
-            register={register}
-            error={errors.password?.message}
-          />
-        )}
-      </form>
-      <div className={styles.button}>
-        <Button onClick={closeForm}>Close</Button>
-        <Button onClick={() => reset()}>Reset Form</Button>
-        <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
+      <div className={styles.containerForm}>
+        <div onClick={closeForm} className={styles.btnX}>
+          X
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {!previousAdmin._id ? <h2>Add a new admin</h2> : <h2>Edit admin</h2>}
+          <div className={styles.containerInput}>
+            <Input
+              type={'text'}
+              name={'firstName'}
+              label={'First name'}
+              register={register}
+              error={errors.firstName?.message}
+            />
+          </div>
+          <div className={styles.containerInput}>
+            <Input
+              type={'text'}
+              name={'lastName'}
+              label={'Last Name'}
+              register={register}
+              error={errors.lastName?.message}
+            />
+          </div>
+          <div className={styles.containerInput}>
+            <Input
+              type={'text'}
+              name={'phone'}
+              label={'Phone'}
+              register={register}
+              error={errors.phone?.message}
+            />
+          </div>
+          <div className={styles.containerInput}>
+            <Input
+              type={'email'}
+              name={'email'}
+              label={'Email'}
+              register={register}
+              error={errors.email?.message}
+            />
+          </div>
+          {!previousAdmin._id && (
+            <div className={styles.containerInput}>
+              <Input
+                type={'password'}
+                name={'password'}
+                label={'Password'}
+                register={register}
+                error={errors.password?.message}
+              />
+            </div>
+          )}
+        </form>
+        <div className={styles.containerButtons}>
+          <Button onClick={handleSubmit(onSubmit)}>Confirm</Button>
+        </div>
       </div>
     </div>
   );

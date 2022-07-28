@@ -3,17 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
-import Input from 'Components/Shared/Field/Input';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Modal from 'Components/Shared/Modal/Modal';
+import { Input, Button } from 'Components/Shared';
 import styles from 'Components/Auth/Login/login.module.css';
 import { login } from 'redux/auth/thunks';
 import { useHistory } from 'react-router-dom';
 
 const LogInForm = () => {
   const [userInput] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [childrenModal, setChildrenModal] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -57,8 +53,9 @@ const LogInForm = () => {
   const onSubmit = async (data) => {
     try {
       const user = await dispatch(login(data));
-      if (user.error) {
-        throw user.message;
+      if (user.type === 'LOGIN_ERROR') {
+        alert('Invalid email or password');
+        throw user.payload;
       }
       switch (user.payload.role) {
         case 'EMPLOYEE':
@@ -72,21 +69,11 @@ const LogInForm = () => {
       }
     } catch (error) {
       console.error(error);
-      setChildrenModal(error);
-      setShowModal(true);
     }
   };
 
   return (
     <section className={styles.container}>
-      <Modal
-        isOpen={showModal}
-        handleClose={() => setShowModal(false)}
-        className={styles.containerButtons}
-      >
-        {childrenModal}
-        <Button onClick={() => history.push('/employee/home')}>Login</Button>
-      </Modal>
       <div className={styles.containerForm}>
         <h2>Login</h2>
         <form>
@@ -110,8 +97,16 @@ const LogInForm = () => {
           </div>
         </form>
         <div className={styles.containerButtons}>
-          <Button onClick={() => history.push('/home')}>Close</Button>
           <Button onClick={handleSubmit(onSubmit)}>Login</Button>
+        </div>
+        <div className={styles.parLog}>
+          <p>
+            You do not have an account?
+            <a className={styles.anchor} href="/auth/sign-up">
+              {' '}
+              Register now!
+            </a>
+          </p>
         </div>
       </div>
     </section>

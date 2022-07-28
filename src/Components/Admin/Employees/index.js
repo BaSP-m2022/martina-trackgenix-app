@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from 'Components/Admin/Employees/employees.module.css';
-import Loader from 'Components/Shared/Loader/Loader';
-import Table from 'Components/Shared/Table/Table';
+import { Loader, Table } from 'Components/Shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from 'redux/employees/thunks';
 
@@ -27,7 +26,7 @@ const Employees = () => {
           <Table
             title={'Employees'}
             data={employeesSorted}
-            headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email']}
+            headersColumns={['First Name', 'Last Name', 'Phone', 'Email']}
             headers={['first_name', 'last_name', 'phone', 'email']}
           />
         </section>

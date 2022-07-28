@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from 'Components/Employee/TimeSheet/timesheets.module.css';
-import { Loader, Button, Modal } from 'Components/Shared';
-import Form from 'Components/Employee/TimeSheet/Form/Form';
+import styles from 'Components/Employee/Projects/TimeSheet/timesheets.module.css';
+import { Button, Loader } from 'Components/Shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheet } from 'redux/timeSheets/thunks';
 import {
@@ -12,22 +11,20 @@ import {
   sub,
   eachDayOfInterval
 } from 'date-fns/esm/fp';
-import { isBefore } from 'date-fns';
-import { getProjects } from 'redux/projects/thunks';
 
-const TimeSheet = () => {
+const TimeSheet = ({ showTimesheet, setShowTimesheet, previousEmployee, previousProject }) => {
+  if (!showTimesheet) {
+    return null;
+  }
   const isLoading = useSelector((state) => state.timeSheet.isLoading);
-  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTimeSheet());
-    dispatch(getProjects());
     getCurrentWeek(todayDate);
   }, []);
 
   const timesheetsList = useSelector((state) => state.timeSheet.list);
-  const listProjects = useSelector((state) => state.projects.list);
 
   const todayDate = new Date();
   const [startWeekDay, setStartWeekDay] = useState();
@@ -36,40 +33,26 @@ const TimeSheet = () => {
   const [daysOfWeek, setDaysOfWeek] = useState([]);
   const [listData, setListData] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [childrenModal, setChildrenModal] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [previousTimeSheet, setPreviousTimeSheet] = useState({
-    _id: '',
-    employee: user._id,
-    hs_worked: 0,
-    task: '',
-    project: '',
-    timesheetDate: ''
-  });
 
   const filteredListTimeSheet = timesheetsList.filter(
-    (timeSheet) => timeSheet.employee?._id == user?._id
+    (timeSheet) =>
+      timeSheet.employee?._id === previousEmployee &&
+      timeSheet.project?._id === previousProject?._id
   );
 
-  const listProjectEmployee = listProjects.filter((projects) => {
-    return projects.employees.find((employee) => employee.id._id == user._id);
-  });
-
   useEffect(() => {
-    formatListData(listProjectEmployee || [], filteredListTimeSheet, daysOfWeek);
+    formatListData(previousProject, filteredListTimeSheet, daysOfWeek);
   }, [timesheetsList, week]);
 
-  const formatListData = (projects, filteredTimesheets, daysOfWeek) => {
+  const formatListData = (project, filteredTimesheets, daysOfWeek) => {
     const formatedWeek = formatDaysOfWeek(daysOfWeek);
     let hoursForeachProject = [];
-    const dataList = projects.map((project) => {
-      const weekTimesheets = getWeekTimesheets(filteredTimesheets, project, formatedWeek);
-      const totalHours = weekTotalHours(weekTimesheets.workedHours);
-      hoursForeachProject.push(totalHours);
-      return {
-        id: project._id,
-        projectName: project.project_name,
+    const weekTimesheets = getWeekTimesheets(filteredTimesheets, project, formatedWeek);
+    const totalHours = weekTotalHours(weekTimesheets.workedHours);
+    hoursForeachProject.push(totalHours);
+    let newData = [
+      {
+        id: project,
         monday: {
           workedHours: weekTimesheets.workedHours[0],
           id: weekTimesheets.timesheets[0],
@@ -106,9 +89,9 @@ const TimeSheet = () => {
           task: weekTimesheets.task[6]
         },
         totalHours: totalHours
-      };
-    });
-    setListData(dataList);
+      }
+    ];
+    setListData(newData);
     setTotalHours(weekTotalHours(hoursForeachProject));
   };
 
@@ -117,7 +100,7 @@ const TimeSheet = () => {
     let weekTimesheetsId = [null, null, null, null, null, null, null];
     let weekTimesheetsTasks = ['', '', '', '', '', '', ''];
     filteredTimesheets.forEach((timesheet) => {
-      if (timesheet.project?._id === project._id) {
+      if (timesheet.project?._id === project?._id) {
         const timesheetDate = format('dd/MM/yyyy', new Date(timesheet.timesheetDate));
         for (let i = 0; i < formatedWeek.length; i++) {
           if (timesheetDate === formatedWeek[i]) {
@@ -194,110 +177,70 @@ const TimeSheet = () => {
   };
 
   const headers = [
-    { header: 'Project Name', key: 'projectName', style: false },
     { header: 'Monday', key: 'monday', style: true, date: daysOfWeek[0] },
     { header: 'Tuesday', key: 'tuesday', style: true, date: daysOfWeek[1] },
     { header: 'Wednesday', key: 'wednesday', style: true, date: daysOfWeek[2] },
     { header: 'Thursday', key: 'thursday', style: true, date: daysOfWeek[3] },
     { header: 'Friday', key: 'friday', style: true, date: daysOfWeek[4] },
     { header: 'Saturday', key: 'saturday', style: true, date: daysOfWeek[5] },
-    { header: 'Sunday', key: 'sunday', style: true, date: daysOfWeek[6] },
-    { header: 'Total Hours', key: 'totalHours', style: false }
+    { header: 'Sunday', key: 'sunday', style: true, date: daysOfWeek[6] }
   ];
 
-  const editItem = (timeSheet, header) => {
-    setPreviousTimeSheet({
-      _id: timeSheet[header.key].id,
-      employee: user?._id,
-      hs_worked: timeSheet[header.key].workedHours,
-      task: timeSheet[header.key].task,
-      project: timeSheet.id,
-      timesheetDate: format('yyyy-MM-dd', header.date)
-    });
-    setShowForm(true);
-  };
-
   return (
-    <>
-      {isLoading ? (
-        <Loader show={true} />
-      ) : (
-        <section className={styles.container}>
-          <h2>Worked Hours</h2>
-          <div className={styles.topContainer}>
-            <Button
-              width={'80px'}
-              height={'50px'}
-              onClick={() => prevWeek(startWeekDay, endWeekDay)}
-            >
-              {'<'}
-            </Button>
-            <p className={styles.weekText}>
-              {week?.startDate} - {week?.endDate}
-            </p>
-            <Button
-              width={'80px'}
-              height={'50px'}
-              onClick={() => nextWeek(startWeekDay, endWeekDay)}
-            >
-              {'>'}
-            </Button>
-          </div>
-          <table className={styles.table}>
-            <thead>
-              <tr className={styles.headerRow}>
-                {headers.map((header, index) => {
+    <div className={styles.container}>
+      <div className={styles.containerForm}>
+        <div className={styles.btnX} onClick={() => setShowTimesheet(false)}>
+          X
+        </div>
+        <h2>Worked Hours</h2>
+        <div className={styles.topContainer}>
+          <Button width={'30px'} height={'50px'} onClick={() => prevWeek(startWeekDay, endWeekDay)}>
+            {'<'}
+          </Button>
+          <p className={styles.weekText}>
+            {week?.startDate} - {week?.endDate}
+          </p>
+          <Button width={'30px'} height={'50px'} onClick={() => nextWeek(startWeekDay, endWeekDay)}>
+            {'>'}
+          </Button>
+        </div>
+        {isLoading ? (
+          <Loader show={true} />
+        ) : (
+          <>
+            <table className={styles.table}>
+              <thead>
+                <tr className={styles.headerRow}>
+                  {headers.map((header, index) => {
+                    return (
+                      <th key={index} className={styles.th}>
+                        {header.header}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {listData.map((row) => {
                   return (
-                    <th key={index} className={styles.th}>
-                      {header.header}
-                    </th>
+                    <tr key={row.id} className={styles.rows}>
+                      {headers.map((header, index) => {
+                        return (
+                          <td key={index} className={header.style ? styles.timesheetTd : styles.td}>
+                            {header.style ? row[header.key].workedHours : row[header.key]}
+                          </td>
+                        );
+                      })}
+                    </tr>
                   );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {listData.map((row) => {
-                return (
-                  <tr key={row.id} className={styles.rows}>
-                    {headers.map((header, index) => {
-                      return (
-                        <td
-                          key={index}
-                          className={header.style ? styles.timesheetTd : styles.td}
-                          onClick={() => {
-                            if (header.style && isBefore(header.date, todayDate)) {
-                              editItem(row, header);
-                            } else {
-                              setShowModal(true);
-                              setChildrenModal('This day is not available');
-                            }
-                          }}
-                        >
-                          {header.style ? row[header.key].workedHours : row[header.key]}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <h2 className={styles.totalText}>Total: {totalHours}</h2>
-          <Form
-            showForm={showForm}
-            setShowForm={setShowForm}
-            setShowModal={setShowModal}
-            setChildrenModal={setChildrenModal}
-            previousTimeSheet={previousTimeSheet}
-            setPreviousTimeSheet={setPreviousTimeSheet}
-          />
-          <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-            {childrenModal}
-          </Modal>
-        </section>
-      )}
-    </>
+              </tbody>
+            </table>
+            <h2 className={styles.totalText}>Total: {totalHours}</h2>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
-
 export default TimeSheet;

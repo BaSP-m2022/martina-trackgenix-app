@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins, changeStatus } from 'redux/admins/thunks';
-import Table from 'Components/Shared/Table/Table';
 import AdminForm from 'Components/SuperAdmin/Admins/Form/AdminForm';
-import Modal from 'Components/Shared/Modal/Modal';
-import Button from 'Components/Shared/Buttons/Buttons';
-import Loader from 'Components/Shared/Loader/Loader';
 import styles from 'Components/SuperAdmin/Admins/admins.module.css';
+import { Loader, Button, Modal, Table } from 'Components/Shared';
 
 const Admins = () => {
   const dispatch = useDispatch();
@@ -26,7 +23,6 @@ const Admins = () => {
     lastName: '',
     phone: '',
     email: ''
-    /* active: false */
   });
 
   const listAdmins = useSelector((state) => state.admins.list);
@@ -47,8 +43,13 @@ const Admins = () => {
   };
 
   const handleEdit = (admin) => {
-    setPreviousAdmin(admin);
-    setShowForm(true);
+    if (admin.active == true) {
+      setPreviousAdmin(admin);
+      setShowForm(true);
+    } else {
+      setShowModal(true);
+      setChildrenModal('You have to activate this admin to edit it');
+    }
   };
 
   return (
@@ -68,7 +69,7 @@ const Admins = () => {
           <Table
             title={'Admins list'}
             data={adminsSorted}
-            headersColumns={['Fist Name', 'Last Name', 'Phone', 'Email', '', '']}
+            headersColumns={['First Name', 'Last Name', 'Phone', 'Email', '', '']}
             headers={['firstName', 'lastName', 'phone', 'email']}
             deleteItem={handleDelete}
             activateItem={handleActive}

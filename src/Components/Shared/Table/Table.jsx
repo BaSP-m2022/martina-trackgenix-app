@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './table.module.css';
-import Row from '../Row/Row';
-import Button from '../Buttons/Buttons';
+import { Row, Button } from '..';
 
 const Table = ({
   title,

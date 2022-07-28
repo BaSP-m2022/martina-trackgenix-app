@@ -1,71 +1,116 @@
 import React, { useEffect, useState } from 'react';
-import Table from 'Components/Shared/Table/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
-import Loader from 'Components/Shared/Loader/Loader';
-import Modal from 'Components/Shared/Modal/Modal';
+import { getEmployees } from 'redux/employees/thunks';
+import { Table, Loader, Modal, Button } from 'Components/Shared';
+import ProjectForm from 'Components/Employee/Projects/Form/ProjectForm';
+import styles from 'Components/Employee/Projects/projects.module.css';
+import Tasks from 'Components/Employee/Projects/Tasks';
 
 const Projects = () => {
-  const isLoading = useSelector((state) => state.projects.isLoading);
-
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
-  const [childrenModal, setChildrenModal] = useState('');
 
   useEffect(() => {
     dispatch(getProjects());
+    dispatch(getEmployees());
   }, []);
 
+  const isLoading = useSelector((state) => state.projects.isLoading);
+  const user = useSelector((state) => state.auth.user);
   const listProject = useSelector((state) => state.projects.list);
+  const listEmployees = useSelector((state) => state.employees.list);
 
-  const employeeId = '62c2527a5b940023727c397a';
+  const [showForm, setShowForm] = useState(false);
+  const [showTaskList, setShowTaskList] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
+  const [previousProject, setPreviousProject] = useState({
+    _id: '',
+    project_name: '',
+    start_date: '',
+    finish_date: '',
+    client: '',
+    active: '',
+    employees: [
+      {
+        id: '',
+        role: '',
+        rate: 0
+      }
+    ]
+  });
 
-  const listProjectEmployee = listProject.filter(
-    (project) => project.employees[0].id == employeeId
-  );
+  let isPM = false;
 
-  const projectData = listProjectEmployee.map((item) => {
+  const listProjectEmployee = listProject.filter((project) => {
+    if (project.active) {
+      return project.employees.find((employee) => employee.id._id == user._id);
+    }
+  });
+
+  const employeeFound = listEmployees.find((item) => item?._id === user?._id);
+
+  const projectData = listProjectEmployee.map((project) => {
+    let role;
+    project.employees.map((employee) => {
+      if (employee.id._id === user._id) {
+        role = employee.role;
+        role === 'PM' && (isPM = true);
+      }
+    });
     return {
-      _id: item._id,
-      active: item.active,
-      start_date: item.start_date.slice(0, 10),
-      finish_date: item.finish_date.slice(0, 10),
-      project_name: item.project_name,
-      client: item.client,
-      role: item.employees[0].role
+      _id: project._id,
+      active: project.active,
+      start_date: project.start_date.slice(0, 10),
+      finish_date: project.finish_date.slice(0, 10),
+      project_name: project.project_name,
+      client: project.client,
+      employees: project.employees,
+      role
     };
   });
 
-  const handleDelete = () => {
-    setShowModal(true);
-    setChildrenModal('You cannot delete project');
+  const viewMore = (project) => {
+    setPreviousProject(project);
+    setShowForm(true);
   };
-
-  const handleEdit = () => {
-    setShowModal(true);
-    setChildrenModal('You cannot edit project');
-  };
-
   return (
     <>
       {isLoading ? (
         <Loader show={true} />
       ) : (
-        <section>
+        <section className={styles.container}>
           <Table
-            title={'My projects'}
+            title={`${employeeFound?.first_name} ${employeeFound?.last_name}'S PROJECTS`}
             data={projectData}
-            headersColumns={['ID', 'Role', 'Project Name', 'Client', 'Start Date', 'Finish Date']}
-            headers={['_id', 'role', 'project_name', 'client', 'start_date', 'finish_date']}
-            deleteItem={handleDelete}
-            editItem={handleEdit}
+            headersColumns={['Project Name', 'Client', 'Role', 'Start Date', 'Finish Date']}
+            headers={['project_name', 'client', 'role', 'start_date', 'finish_date']}
+            viewMore={viewMore}
+          />
+          <ProjectForm
+            showForm={showForm}
+            setShowForm={setShowForm}
+            previousProject={previousProject}
+            setPreviousProject={setPreviousProject}
+            setTitleModal={setTitleModal}
+            setShowModal={setShowModal}
+          />
+          {isPM && (
+            <div className={styles.containerButtons}>
+              <Button onClick={() => setShowTaskList(true)}>View Tasks</Button>
+            </div>
+          )}
+          <Tasks
+            showTaskList={showTaskList}
+            setShowTaskList={setShowTaskList}
+            setShowModal={setShowModal}
+            setTitleModal={setTitleModal}
           />
           <Modal isOpen={showModal} handleClose={() => setShowModal(false)}>
-            {childrenModal}
+            {titleModal}
           </Modal>
         </section>
       )}
-      ;
     </>
   );
 };

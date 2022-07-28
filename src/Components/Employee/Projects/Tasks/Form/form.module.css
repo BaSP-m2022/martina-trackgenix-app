@@ -1,27 +1,15 @@
 .container {
   position: fixed;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  z-index: 0;
   left: 0;
   top: 0;
   overflow: auto;
-  background-color: #00000070;
-}
-
-.container h2 {
-  width: 100%;
-  text-align: center;
-  color: #373867;
-  text-shadow: 2px 2px 4px #00000070;
-}
-
-.container label {
-  color: #373867;
-  font-weight: 500;
+  background-color: #00000080;
 }
 
 .containerForm {
@@ -29,10 +17,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40%;
-  background-color: #f0f4f9;
+  background-color: #fff;
   border-radius: 10px;
-  overflow: auto;
+  gap: 15px;
 }
 
 .containerForm form {
@@ -40,21 +27,9 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  padding: 40px;
   width: 95%;
   gap: 20px;
-}
-
-.containerInput {
-  width: 44%;
-  margin: 0 5px;
-}
-
-.containerButtons {
-  display: flex;
-  justify-content: center;
-  width: 75%;
-  gap: 40px;
-  margin: 35px 0;
 }
 
 .btnX {
@@ -63,8 +38,21 @@
   font-weight: bolder;
   border-radius: 5px;
   color: #373867;
-  background-color: #f0f4f9;
+  background-color: #ffffff;
   border: none;
   padding: 5px 7px;
   cursor: pointer;
+}
+
+.containerButtons {
+  display: flex;
+  justify-content: center;
+  width: 75%;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.containerInput {
+  width: 44%;
+  margin: 20px 5px;
 }

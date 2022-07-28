@@ -1,0 +1,133 @@
+.container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  background-color: #00000070;
+}
+
+.containerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f4f9;
+  border-radius: 10px;
+  overflow: auto;
+  padding: 6px;
+}
+
+.btnX {
+  align-self: end;
+  text-align: center;
+  font-weight: 500;
+  border-radius: 5px;
+  color: #f0f4f9;
+  background-color: #373867;
+  border: none;
+  padding: 5px 7px;
+  cursor: pointer;
+}
+
+.topContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  min-width: 75%;
+  height: 50px;
+  margin-bottom: 5px;
+  background-color: #bebebe7a;
+}
+
+.table {
+  width: 75%;
+  margin: 1rem;
+  border-collapse: collapse;
+  border-radius: 0.5em;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.totalText {
+  align-self: flex-end;
+  margin-right: 10rem;
+}
+
+.weekText {
+  text-decoration: underline;
+  font-weight: bolder;
+}
+
+.modalText {
+  text-align: center;
+}
+
+.label {
+  display: block;
+  font-weight: bolder;
+  color: #373867;
+  margin: 20px;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 10px 10px 0 0;
+}
+
+.th {
+  width: 25%;
+  text-align: center;
+  padding: 5px;
+  color: #373867;
+  background-color: #BEBEBE;
+}
+
+.rows {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.td {
+  width: 25%;
+  max-width: 180px;
+  text-align: center;
+  word-break: break-word;
+  margin: 10px;
+  font-weight: bolder;
+}
+
+.timesheetTd {
+  width: 25%;
+  max-width: 180px;
+  text-align: center;
+  word-break: break-word;
+  margin: 10px;
+  border: 1px solid #aaa;
+  border-radius: 0.5em;
+  box-shadow: 0 1.5px 0.75px 0.75px rgba(0, 0, 0, 0.25);
+}
+
+.LinkReset {
+  text-decoration: none;
+}
+.rows:nth-child(odd) {
+  background-color: white;
+}
+
+.rows:nth-child(even) {
+  background-color: #aace9b33;
+}
+
+.timesheetTd:hover {
+  background-color: #aace9bb7;
+}
