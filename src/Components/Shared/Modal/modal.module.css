@@ -13,12 +13,15 @@
 }
 
 .billboard {
+  overflow: auto;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   border-radius: 5px;
   max-width: 50%;
+  border: solid #373867;
 }
 
 .btnX {
@@ -30,14 +33,15 @@
 }
 
 .content {
-  font-weight: 700;
+  font-weight: 400;
   font-size: 25px;
   color: #373867;
-  text-shadow: 2px 2px 4px #00000070;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 30px;
+  padding: 35px;
+  padding-bottom: 50px;
+}
+
+.content h2 {
+  font-size: 26px;
 }
 
 .content input {
