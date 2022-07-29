@@ -1,51 +1,50 @@
 .title {
-    color: #373867;
-    text-transform: uppercase;
+  color: #373867;
+  text-transform: uppercase;
 }
 
 .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 2%;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2%;
+}
 
-  .table {
-    margin: 1rem;
-    border-collapse: collapse;
-    border-radius: 1em;
-    overflow: hidden;
-    text-align: center;
-  }
+.table {
+  margin: 1rem;
+  border-collapse: collapse;
+  border-radius: 1em;
+  overflow: hidden;
+  text-align: center;
+}
 
-  .table td {
-    border: 2px solid #9A9BB0;
-  }
+.table td {
+  border: 2px solid #9a9bb0;
+}
 
-  .table thead {
-      background-color: #BEBEBE;
-  }
+.table thead {
+  background-color: #bebebe;
+}
 
-  .table th {
-    padding-top: 0.8%;
-    padding-bottom: 0.8%;
-    text-align: start;
-    background-color: #BEBEBE;
-    color: #373867;
-  }
+.table th {
+  padding-top: 0.8%;
+  padding-bottom: 0.8%;
+  text-align: start;
+  background-color: #bebebe;
+  color: #373867;
+}
 
-  .page p {
-    color: #373867;
-    font-weight: bold;
-  }
+.page p {
+  color: #373867;
+  font-weight: bold;
+}
 
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-  }
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  .buttons > div {
-    margin: 5px;
-  }
+.buttons > div {
+  margin: 5px;
+}
